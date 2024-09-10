@@ -1,0 +1,22 @@
+{% comment %} 786/92/313/ASKMPF {% endcomment %}
+
+{%- assign filter_by_title = settings.ymm_prd_types_widget_title | strip -%}
+
+{%- if filter_by_title == blank -%}
+    {%- assign filter_by_title = "Filter By" -%}
+{%- endif -%}
+
+<div id="ymmFilterSidebar" class="ymm_filter_sidebar" style="display: none;">
+  <div class="ymm_filter_header" style="display: none;">
+    <h4>{{ filter_by_title }}</h4>
+    <a href="javascript:void(0)" class="closebtn">  
+      <svg focusable="false" class="icon icon--close " viewBox="0 0 19 19" role="presentation">
+      	<path d="M9.1923882 8.39339828l7.7781745-7.7781746 1.4142136 1.41421357-7.7781746 7.77817459 7.7781746 7.77817456L16.9705627 19l-7.7781745-7.7781746L1.41421356 19 0 17.5857864l7.7781746-7.77817456L0 2.02943725 1.41421356.61522369 9.1923882 8.39339828z" fill="currentColor" fill-rule="evenodd"></path>
+      </svg>
+    </a>
+  </div>
+  
+  <ul class="ymm_prd_types">
+  {% comment %} DYNAMICALLY TYPES WRITTEN HERE {% endcomment %}
+  </ul>
+</div>

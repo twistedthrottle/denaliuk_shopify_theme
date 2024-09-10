@@ -1,0 +1,42 @@
+{% assign unique_id = block.id | slice: 0, 7 %}
+
+<ul class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordrion--collection-sidebar-menu c-accordion--{{unique_id}}"
+    id="c-accordion--{{unique_id}}"
+     {{ block.shopify_attributes }}>
+  {% assign menu = linklists[sidenav] %}
+  {% for link in menu.links %}
+    {% assign level_one_nested_link_count = 0 %}
+    {% if link.links != blank %}
+      {% assign level_one_nested_link_count = level_one_nested_link_count | plus: 1 %}
+      {% assign level_one_link_index = forloop.index %}
+      {% assign accordion_content_id = 'c-accordion__panel--' | append: unique_id | append: '-' | append: level_one_link_index %}
+      <li class="js-accordion-header c-accordion__header">
+        <a class="js-accordion-link c-accordion__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+        <button class="dropdown-arrow" aria-label="{{  link.title | escape }}" data-toggle="accordion" aria-expanded="false" aria-controls="{{ accordion_content_id }}" >
+          {% render 'snip-icons',
+             wrapper: '.c-accordion__header',
+             type: 'apollo',
+             icon: 'down-carrot',
+             classes: 'c-accordion__header--icon vib-center',
+             size: '6px',
+             fill: 'var(--text-color)',
+             hover: 'var(--text-color)' %}
+        </button>
+      </li>
+      <li class="c-accordion__panel {{ accordion_content_id }}" id="{{ accordion_content_id }}" data-parent="#c-accordion--{{ unique_id }}">
+        {% assign level_two_unique_id = unique_id | append: '-' | append: level_one_nested_link_count %}
+        <ul class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordion--mobile-nav__inner c-accordion--{{ level_two_unique_id }}" id="c-accordion--{{ level_two_unique_id }}">
+          {% for sub_link in link.links %}
+            <li>
+              <a class="js-accordion-link c-accordion__link" href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% else %}
+    <li>
+      <a class="js-accordion-link c-accordion__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
+</ul><!-- /.c-accordion.c-accordion--mobile-nav -->

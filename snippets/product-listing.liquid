@@ -1,0 +1,322 @@
+{%- if full_product -%}
+  {%- assign product_id = full_product.id -%}
+{%- else -%}
+  {%- assign product_id = product.id -%}
+{%- endif -%}
+
+{%- if full_product -%}
+  {%- assign real_product = full_product -%}
+{%- else -%}
+  {%- assign real_product = product -%}
+{%- endif -%}
+
+{%- if full_product -%}
+  {%- assign variable_product_metafields = full_product.metafields -%}
+{%- else -%}
+  {%- assign variable_product_metafields = product.metafields -%}
+{%- endif -%}
+
+{%- if full_product -%}
+  {%- assign variable_price_min = product.price -%}
+{%- else -%}
+  {%- assign variable_price_min = product.price_min -%}
+{%- endif -%}
+
+{%- if product.images -%}
+  {%- assign variable_images = product.images -%}
+{%- else -%}
+  {%- assign variable_images = full_product.images -%}
+{%- endif -%}
+{% if full_product %}
+  {% assign media_cursor = 0 %}
+  {% if product.featured_image == null %}
+    {% assign media_cursor = 1 %}
+  {% else %}
+    {% for media in variable_images %}
+      {% if media == product.featured_image.src %}{% assign media_cursor = forloop.index %}{% break %}{% endif %}
+    {% endfor %}
+  {% endif %}
+  {% assign prev_cursor = media_cursor | minus: 2 %}
+  {% assign second_media = variable_images[media_cursor] | default: variable_images[prev_cursor] %}
+{% else %}
+  {% assign second_media = variable_images[1] %}
+{% endif %}
+{%- if product.vendor -%}
+  {%- assign variable_vendor = product.vendor -%}
+{%- else -%}
+  {%- assign variable_vendor = full_product.vendor -%}
+{%- endif -%}
+
+{%- if product.featured_image -%}
+  {%- assign variable_featured_image = product.featured_image -%}
+{%- else -%}
+  {%- assign variable_featured_image = full_product.featured_image -%}
+{%- endif -%}
+
+<div class="product-index-inner">
+  {% if product.available %}
+    {% for col in product.collections %}
+      {% if col.handle == 'new' %}
+        <div class="new icn">{{ 'products.general.new' | t }}</div>
+      {% endif %}
+    {% endfor %}
+
+    {% assign product_tags = product.tags | downcase %}
+    {% if product.price < product.compare_at_price %}
+      <div class="sale-item sale-item--{{ settings.sale_items }} icn {% if product_tags contains "bundle" %}bundleicon{% endif %}">
+      {% case settings.sale_items %}
+        {% when 'percentage' %}
+          {% assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price %}
+          {% assign discount = discount | round | append: '%' %}
+        {% comment %}  {{ 'products.general.savings' | t: savings: discount }} {% endcomment %}
+        {% when 'amount' %}
+          {% assign discount = product.compare_at_price | minus: product.price | money %}
+          {{ 'products.general.savings' | t: savings: discount }}
+        {% when 'icon' %}
+        {% if product_tags contains "bundle" %}
+          {{ 'products.general.bundle' | t }}
+        {% else %}
+        {{ 'products.general.sale' | t }}
+        {% endif %}
+      {% endcase %}
+      </div><!-- /.sale-item -->
+    {% else %}
+      <div class="sale-item sale-item--{{ settings.sale_items }} icn {% if product_tags contains "bundle" %}bundleicon{% endif %} {% unless product.price < product.compare_at_price %}mlsalehide{% endunless %}">
+       {% case settings.sale_items %}
+        {% when 'percentage' %}
+          {% assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price %}
+          {% assign discount = discount | round | append: '%' %}
+        {% comment %}  {{ 'products.general.savings' | t: savings: discount }} {% endcomment %}
+        {% when 'amount' %}
+          {% assign discount = product.compare_at_price | minus: product.price | money %}
+          {{ 'products.general.savings' | t: savings: discount }}
+        {% when 'icon' %}
+        {% if product_tags contains "bundle" %}
+          {{ 'products.general.bundle' | t }}
+        {% elsif product.price < product.compare_at_price %}
+        {{ 'products.general.sale' | t }}
+        {% else %}
+        {% endif %}
+      {% endcase %}
+      </div><!-- /.sale-item -->
+    {% endif %}
+
+  {% if product.template_suffix == 'pre-order' %}
+  <div class="pre-order icn {{ settings.icon_style }}">{{ 'products.product.pre_order' | t }}</div>
+  {% endif %}
+
+  {% else %}
+    <div class="so icn">{{ 'products.general.sold' | t }}</div>
+  {% endif %}
+
+  <div class="prod-image">
+    <a href="{{ product.url }}" title="{{ real_product.title | escape }}">
+      <div class="reveal">
+        {%- if full_product.media.size < 1 -%}
+          <div class="box-ratio" style="padding-bottom: 100%;">
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- else -%}
+          {%- liquid
+
+            if settings.image_flip and full_product.images.size > 1
+              assign class = 'first-image'
+              assign second_image = full_product.media[1]
+            endif
+
+            case grid
+              when 2
+                assign width = '1000'
+              when 3
+                assign width = '800'
+              when 4
+                assign width = '600'
+              else
+                assign width = '500'
+            endcase
+
+          -%}
+         {% if eagerLoad == true %}
+            {% assign image_box_ratio = variable_featured_image.height | append: ".0" | times: 1 | divided_by: variable_featured_image.width | times: 100 | append: "%" %}
+            <div class="box-ratio {{ class }}" style="padding-bottom: {{ image_box_ratio }};">
+                <img src="{{ variable_featured_image | image_url: width: '600' }}" fetchpriority="high" loading="eager">
+            </div>
+            {% else %}
+          {% render 'basic-responsive-image',
+            type: variable_featured_image,
+            width: width,
+            loading: loading,
+            fetchpriority: fetchpriority
+          %}
+          {% endif %}
+
+        {% comment %}
+            {% if settings.image_flip and full_product.media.size > 1 and second_image.media_type == 'image' %}
+            <div class="hidden">
+               {% render 'basic-responsive-image',
+                 type: full_product.media[1],
+                 width: width,
+                 class: class
+               %}
+             </div>
+          {% elsif settings.image_flip and full_product.media.size > 1 and second_image.media_type != 'image' %}
+            <div class="hidden">
+               {% render 'basic-responsive-image',
+                type: full_product.media[1].preview_image,
+                width: width
+               %}
+             </div>
+          {% endif %}
+        {%- endif -%}
+       {% endcomment %}
+       
+        {% if settings.image_flip and variable_images.size > 1 and second_image.media_type == 'image' %}
+            <div class="hidden">
+               {% render 'basic-responsive-image',
+                 type: second_media,
+                 width: width,
+                 class: class
+               %}
+             </div>
+          {% elsif settings.image_flip and variable_images.size > 1 and second_image.media_type != 'image' %}
+            <div class="hidden">
+               {% render 'basic-responsive-image',
+                type: second_media,
+                width: width
+               %}
+             </div>
+          {% endif %}
+        {%- endif -%}
+      </div>
+    </a>
+  </div>
+  
+  {% if settings.quickview or settings.quick_ad %}
+    <div class="product__grid--buttons">
+      {% if settings.quickview %}
+        <button class="quick-view-{{ real_product.id }} product-listing__quickview-trigger js-modal-open js-quickview-trigger" type="button" name="button" data-wau-modal-target="quickview" data-product-url="/products/{{ real_product.handle }}?view=quick">
+          {% render 'snip-icons',
+             wrapper: '.product-listing__quickview-trigger',
+             type: 'vantage-theme',
+             icon: 'search',
+             size: '18px',
+             fill: 'var(--directional-color)',
+             hover: 'var(--directional-color)' %}
+        </button>
+      {% endif %}
+
+      {% if settings.quick_add and product.available %}
+        {% render 'product-grid-add', product: product %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+</div>
+
+<div class="product-info">
+  <div class="product-info-inner">
+    <h3 class="product-title h5">
+      <a href="{{ product.url }}">
+        {% render 'variable-product-title', product: product, full_product: full_product %}
+      </a>
+    </h3>
+    {% if settings.vendor %}
+      <p class="product-vendor">{{ variable_vendor }}</p>
+    {% endif %}
+
+    {%- if settings.show_rating and product.metafields.reviews.rating.value != blank -%}
+      <div class="product__section--rating-wrapper">
+        {% liquid
+          assign rating_decimal = 0
+          assign decimal = product.metafields.reviews.rating.value.rating | modulo: 1
+          if decimal >= 0.3 and decimal <= 0.7
+            assign rating_decimal = 0.5
+          elsif decimal > 0.7
+            assign rating_decimal = 1
+          endif
+        %}
+        <div class="product__section-rating" role="img" aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: product.metafields.reviews.rating.value, rating_max: product.metafields.reviews.rating.value.scale_max }}">
+          <span aria-hidden="true" class="product__section-rating-star color-icon" style="--rating: {{ product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"></span>
+        </div>
+        <p class="product__section-rating-text caption">
+          <span aria-hidden="true">{{ product.metafields.reviews.rating.value }} / {{ product.metafields.reviews.rating.value.scale_max }}</span>
+        </p>
+        <p class="product__section-rating-count caption">
+          <span aria-hidden="true">({{ product.metafields.reviews.rating_count }})</span>
+          <span class="visually-hidden">{{ product.metafields.reviews.rating_count }} {{ "accessibility.total_reviews" | t }}</span>
+        </p>
+      </div>
+    {%- endif -%}
+      
+    {% render 'product-price-listing', product: product %}
+
+    {% if product.variants.size > 1 %}
+     {% comment %}<div class="variants-recently-viewed-cart hidden">
+     <div
+      class="variants-recently-viewed-cart-swatch product__variants-swatches mt4 mb6 no-js-hidden"
+      data-url="{{ product.url }}">
+       {% for option in product.options_with_values %}
+         {% render "swatch",
+           option: option,
+           current_variant: product.variants[0],
+           product: product %}
+       {% endfor %}
+     </div>
+      <select class="variants-selectbox hidden">
+        {% for variant in product.variants %}
+          <option value="{{ variant.id }}" data-config='{{ variant | json }}' data-variant-title="{{ variant.title }}">{{ variant.title }}</option>
+        {% endfor %}
+      </select>
+    </div>{% endcomment %}
+    {% else %}
+      <input class="variants-selectbox hidden" value="{{ product.variants[0].id }}" />
+    {% endif %}
+    {% if product.variants.size > 1 %}
+    <a href="/products/{{ product.handle }}">
+      <button class="variants-recently-viewed-cart-atc-button hidden">Choose Options</button>
+    </a>
+    {% else %}
+    <button class="variants-recently-viewed-cart-atc-button hidden">Add To Cart</button>
+    {% endif %}
+    
+    <div class="clear"></div>
+
+    <div class="product_listing_options">
+    {%- liquid
+
+    if product.variants.size >= 1
+      if settings.show_colors and product.available
+        render 'show-colors', product: product
+      endif
+       if settings.show_sizes and product.available
+         render 'show-sizes', product: product
+        endif
+     endif
+
+    -%}
+    </div><!-- /.product_listing_options -->
+
+
+    <!-- Added by mlveda -->
+    {% if product.metafields.loox.num_reviews %}
+    <div style="margin-bottom:12px;margin-top:6px" class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"   
+    data-pattern="([count])">
+    </div>
+    {% else %}
+    <!-- <div style="margin-bottom:12px;margin-top:6px" class="loox-rating" data-id="{{ product.id }}" data-rating="{{ product.metafields.loox.avg_rating }}" data-raters="{{ product.metafields.loox.num_reviews }}"   
+    data-pattern="Write a Review ">
+    <span class="loox-rating-label">Be the first to <span style = "text-decoration:underline">write a review</span></span>
+    </div> -->
+    <div style="margin-bottom:12px;margin-top:6px" class="loox-rating" data-id="{{ product_id }}" data-rating="{{ real_product.metafields.loox.avg_rating }}" data-raters="{{ real_product.metafields.loox.num_reviews }}" data-pattern="([count])"></div>
+    {% endif %}
+    <!-- Added by mlveda -->
+    {% assign parent_collections = product.collections | map: "title" %}
+    {% if parent_collections contains 'Universal Products' %} 
+      <span class="ymm_fitment_type uni_ymm">Universal Fit Product</span>
+    {% endif %}
+    {% comment %}<a href="{{ product.url }}" title="{{ product.title }}" class="lgx-choose-options">Choose Options</a>{% endcomment %}
+    <!-- Added by mlveda -->
+    
+  </div>
+</div>

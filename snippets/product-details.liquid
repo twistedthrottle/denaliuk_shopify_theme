@@ -1,0 +1,75 @@
+{% comment %}
+snippets/product-details.liquid
+
+Render the product details, inclusing: variant, sku, Barcode, inventory, weight, type, vendor, collection.
+Accompanies product section.
+
+Accepts:
+- block: {Object} Section block Liquid (required)
+- product: {Object} Product Liquid object (required)
+
+Usage:
+{% render 'product-details', block: block, product: product %}
+
+{% endcomment %}
+
+{%- liquid
+
+  assign current_variant =  product.selected_or_first_available_variant
+
+-%}
+<ul class="view-more">
+  <!-- variant -->
+  {% comment %}{% if current_variant.title != 'Default Title' %}{% endcomment %}
+    <li class="detail-item js-variant-selected-container">
+       <strong>{{ 'products.product.variant' | t }}:</strong>
+       <span class="variant_selected js-variant-selected">{{ current_variant.title }}</span>
+     </li>
+  {% comment %}{% endif %}{% endcomment %}
+
+  <!-- sku -->
+  {% if block.settings.pf_show_sku %}
+    <li class="detail-item js-product-sku-container">
+       <strong>{{ 'customer.order.details.sku' | t }}:</strong>
+       <span class="variant_sku js-product-sku">{{ current_variant.sku }}</span>
+   </li>
+  {% endif %}
+
+  <!-- Barcode -->
+  {% if block.settings.pf_show_barcode %}
+        {% if current_variant.barcode !=null and current_variant.barcode != blank %}
+          <li class="detail-item"><strong>UPC :</strong> <span class="variant_barcode">{{ current_variant.barcode }}</span></li>
+        {% endif %}
+  {% endif %}
+                    
+  <!-- inventory -->
+  {% if block.settings.pf_show_product_inventory %}
+    <li class="detail-item js-variant-inventory-container">
+     <strong>{{ 'products.product.inventory' | t }}:</strong>
+     <span class="variant_inventory js-variant-inventory">{{ current_variant.inventory_quantity }}</span>
+   </li>
+  {% endif %}
+
+  <!-- weight -->
+  {% if block.settings.pf_show_product_weight %}
+    <li class="detail-item js-variant-weight-container">
+     <strong>{{ 'products.product.weight' | t }}:</strong>
+     <span class="variant_weight js-variant-weight">{{ current_variant.weight | weight_with_unit: current_variant.weight_unit }}</span>
+   </li>
+  {% endif %}
+
+  <!-- type -->
+  {% if block.settings.pf_show_product_type %}
+    <li class="detail-item"><strong>{{ 'products.product.product_type' | t }}:</strong> {{ product.type | link_to_type }}</li>
+  {% endif %}
+
+  <!-- vendor -->
+  {% if block.settings.pf_show_product_vendor %}
+    <li class="detail-item"><strong>{{ 'products.product.brand' | t }}:</strong> {{ product.vendor | link_to_vendor }}</li>
+  {% endif %}
+
+  <!-- collection -->
+  {% if block.settings.pf_show_product_collection and collection %}
+    <li class="detail-item"><strong>{{ 'products.product.collection' | t }}:</strong> {% capture url %}/collections/{{ collection.handle }}{% endcapture %}{{ collection.title | link_to: url }}</li>
+  {% endif %}
+</ul><!-- /.view-more -->

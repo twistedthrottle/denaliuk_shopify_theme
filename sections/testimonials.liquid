@@ -1,0 +1,279 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'pt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'pt0 pb0'
+  endif
+
+  assign is_carousel = false
+  assign enough_to_wrap = false
+
+  case section.blocks.size
+    when 1
+      assign grid_width = 'span-4 push-4 md-span-6 sm-span-12'
+    when 2
+      assign grid_width = 'span-4 md-span-6 sm-span-12'
+    else
+      assign grid_width = 'testimonial--item'
+      assign is_carousel = true
+      assign enough_to_wrap = true
+  endcase
+
+-%}
+
+{% style %}
+  section.testimonial__section-{{ section.id }} {
+    background: var(--{{ section.settings.color_scheme }}-background);
+  }
+  {% unless section.settings.color_scheme == 'none' %}
+    section.testimonial__section-{{ section.id }} .section-title:after {
+      border-color: var(--{{ section.settings.color_scheme }}-color) !important;
+    }
+    section.testimonial__section-{{ section.id }} h2,
+    section.testimonial__section-{{ section.id }} h3,
+    section.testimonial__section-{{ section.id }} p,
+    section.testimonial__section-{{ section.id }} .rte a {
+      color: var(--{{ section.settings.color_scheme }}-color) !important;
+    }
+  {% endunless %}
+  {% if section.blocks.size == 3 %}
+  @media screen and (min-width: 800px) {
+    .testimonial__section-container .flickity-page-dots {
+      display: none;
+    }
+  }
+  {% endif %}
+{% endstyle %}
+
+<section
+  class="global__section padding-top {{ section_padding }} testimonial__section-{{ section.id }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+  data-section-id="{{ section.id }}"
+  data-section-loaded="false"
+  data-section-type="carousel-section">
+
+  {% if is_carousel %}
+    {% capture slideshow_config %}{
+        "wrapAround": false,
+        "cellAlign": "left",
+        "dragThreshold":15,
+        "pauseAutoPlayOnHover":false,
+        "freeScroll": true,
+        "contain": true,
+        "prevNextButtons": false,
+        "pageDots": true
+    }{% endcapture %}
+  {% endif %}
+
+  <div class="row grid__wrapper testimonial__section-container{% if is_carousel %} section--carousel js-carousel{% endif %}"{% if is_carousel %} data-flickity-config='{{ slideshow_config }}'{% endif %}>
+    {% for block in section.blocks %}
+
+      {% liquid
+        assign has_title = false
+        assign has_text = false
+        assign has_credit = true
+        assign has_rating = false
+
+        if block.settings.title != blank
+          assign has_title = true
+        endif
+        if block.settings.text != blank
+          assign has_text = true
+        endif
+        if block.settings.credit != blank
+          assign has_text = true
+        endif
+        if block.settings.rating != 0
+          assign has_rating = true
+        endif
+
+      %}
+
+      {% capture star %}
+        {% render 'snip-icons',
+           wrapper: '.testimonial__content',
+           type: 'vantage-theme',
+           icon: 'star',
+           classes: 'testimonial__content--icon vib-center',
+           size: '18px',
+           fill: section.settings.rating_color,
+           hover: section.settings.rating_color %}
+      {% endcapture %}
+
+      <div class="testimonial__section-block b-{{ block.id }} {{ grid_width }} auto{% if section.blocks.size == 2 and forloop.first %} push-2{% endif %}{% cycle ' odd', ' even' %}{% if settings.animation != 'none' and is_carousel == false %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}" {{ block.shopify_attributes }}>
+        <div class="testimonial__block-content">
+          <div class="testimonial__content center">
+            {% if has_title %}
+              <h3>
+                {{ block.settings.title | escape }}
+              </h3>
+            {% endif %}
+            {% if has_text %}
+              <p class="rte">
+                {{ block.settings.text | escape }}
+              </p>
+            {% endif %}
+            {% if has_credit %}
+              <p class="rte">
+                <small><em>{{ block.settings.credit | escape }}</em></small>
+              </p>
+            {% endif %}
+            {% if has_rating %}
+              <div class="rating">
+                {% case block.settings.rating %}
+                  {% when 1 %}
+                    {{ star }}
+                  {% when 2 %}
+                    {{ star }}
+                    {{ star }}
+                  {% when 3 %}
+                    {{ star }}
+                    {{ star }}
+                    {{ star }}
+                  {% when 4 %}
+                    {{ star }}
+                    {{ star }}
+                    {{ star }}
+                    {{ star }}
+                  {% when 5 %}
+                    {{ star }}
+                    {{ star }}
+                    {{ star }}
+                    {{ star }}
+                    {{ star }}
+                {% endcase %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 6,
+  "blocks":
+  [
+    {
+      "type":"testimonial",
+      "name":"Testimonial",
+      "settings":[
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Short heading",
+          "default": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Add a customer testimonial or review"
+        },
+        {
+          "type": "text",
+          "id": "credit",
+          "label": "Credit",
+          "default": "A. customer, New York"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "settings":
+  [
+    {
+      "type":"color",
+      "id":"rating_color",
+      "label":"Rating star color",
+      "default": "#FFDF00"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "cs1",
+          "label": "1"
+        },
+        {
+          "value": "cs2",
+          "label": "2"
+        },
+        {
+          "value": "cs3",
+          "label": "3"
+        }
+      ],
+      "default": "cs2"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Testimonials",
+      "blocks":
+        [
+          {
+            "type": "testimonial"
+          },
+          {
+            "type": "testimonial"
+          },
+          {
+            "type": "testimonial"
+          }
+        ]
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

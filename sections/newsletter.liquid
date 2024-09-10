@@ -1,0 +1,186 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'pt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'pt0 pb0'
+  endif
+
+-%}
+
+  <section
+  class="global__section padding-top {{ section_padding }} global__section-{{ section.id }} newsletter gridlock-fluid{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+  data-section-loaded="false"
+  data-section-type="newsletter-section">
+    <div class="row grid__wrapper">
+      <header class="section-header span-12 auto">
+        {% if section.settings.heading != blank %}
+          <h2 class="section-title">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+      </header><!-- /.section-header -->
+      <div class="section-newsletter span-8 push-2 sm-span-12 auto">
+        {%- if section.settings.subheading != blank -%}
+          <div class="rte center">
+            {{ section.settings.subheading }}
+          </div>
+        {%- endif -%}
+        {% assign newsletter_form_id = 'section_newsletter_form' | append: section.id %}
+        {% form 'customer', id: newsletter_form_id %}
+          {{ form.errors | default_errors }}
+          {% if form.posted_successfully? %}
+            <p class="form--success note-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+          {% else %}
+            <div class="input-group password__input-group">
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <label class="visually-hidden" for="Email--{{ section.id }}">{{ 'general.newsletter_form.newsletter_email' | t }}</label>
+              <input type="email"
+                name="contact[email]"
+                id="Email--{{ section.id }}"
+                class="input-group__field newsletter__input"
+                {% if customer %}
+                value="{{ customer.email }}"
+                {% endif %}
+                placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}"
+                autocorrect="off"
+                autocapitalize="off">
+                <button type="submit" class="newsletter__submit">
+                  <span>{{ 'general.newsletter_form.submit' | t }}</span>
+                </button>
+            </div>
+          {% endif %}
+        {% endform %}
+      </div><!-- /.section-newsletter -->
+      {% if section.settings.show_social_icons %}
+      <div class="span-8 push-2 auto">
+        {% assign fill_color = 'var(--' | append: section.settings.color_scheme | append: '-color)' %}
+        {% render "social-icons", wrapper: '.newsletter', fill_color: fill_color, hover_color: fill_color %}
+      </div>
+      {% endif %}
+    </div><!-- /.row -->
+
+    <style>
+      .global__section-{{ section.id }}  {
+        background: var(--{{ section.settings.color_scheme }}-background);
+      }
+      {% unless section.settings.color_scheme == 'none' %}
+        .global__section-{{ section.id }} .section-title:after {
+          border-color: var(--{{ section.settings.color_scheme }}-color) !important;
+        }
+        .global__section-{{ section.id }} h2,
+        .global__section-{{ section.id }} .rte,
+        .global__section-{{ section.id }} .rte p,
+        .global__section-{{ section.id }} .rte a,
+        .global__section-{{ section.id }}.newsletter .newsletter__input,
+        .global__section-{{ section.id }}.newsletter .social-icons__wrapper a {
+          color: var(--{{ section.settings.color_scheme }}-color) !important;
+        }
+        .global__section-{{ section.id }}.newsletter .newsletter__input::-webkit-input-placeholder {
+          color: var(--{{ section.settings.color_scheme }}-color) !important;
+        }
+        .global__section-{{ section.id }}.newsletter .newsletter__input:-moz-placeholder {
+          color: var(--{{ section.settings.color_scheme }}-color) !important;
+        }
+        .global__section-{{ section.id }}.newsletter .newsletter__input::-moz-placeholder {
+          color: var(--{{ section.settings.color_scheme }}-color) !important;
+        }
+        .global__section-{{ section.id }}.newsletter .newsletter__input:-ms-input-placeholder { /* Internet Explorer 10+ */
+          color: var(--{{ section.settings.color_scheme }}-color) !important;
+        }
+      {% endunless %}
+    </style>
+  </section>
+
+
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings":
+  [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Subscribe to our newsletter"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Signup for our newsletter to stay up to date on sales and events.</p>"
+    },
+    {
+      "type": "paragraph",
+      "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "cs1",
+          "label": "1"
+        },
+        {
+          "value": "cs2",
+          "label": "2"
+        },
+        {
+          "value": "cs3",
+          "label": "3"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "Show social icons",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Newsletter"
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header"
+    ]
+  }
+}
+{% endschema %}

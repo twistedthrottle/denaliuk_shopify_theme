@@ -1,0 +1,186 @@
+{% schema %}
+{
+  "name": "Accordion Custom",
+  "settings": [
+        {
+          "type": "checkbox",
+          "id": "ac_no_bottom_margin",
+          "label": "No space after section",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "ac_section_heading",
+          "label": "Heading",
+          "default": "Accordion"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_1",
+          "label": "Item 1 Heading",
+          "default": "Item 1"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_1",
+          "label": "Item 1 Content",
+          "default": "<p>Description and content for Item 1.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_2",
+          "label": "Item 2 Heading",
+          "default": "Item 2"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_2",
+          "label": "Item 2 Content",
+          "default": "<p>Description and content for Item 2.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_3",
+          "label": "Item 3 Heading",
+          "default": "Item 3"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_3",
+          "label": "Item 3 Content",
+          "default": "<p>Description and content for Item 3.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_4",
+          "label": "Item 4 Heading",
+          "default": "Item 4"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_4",
+          "label": "Item 4 Content",
+          "default": "<p>Description and content for Item 4.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_5",
+          "label": "Item 5 Heading",
+          "default": "Item 5"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_5",
+          "label": "Item 5 Content",
+          "default": "<p>Description and content for Item 5.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_6",
+          "label": "Item 6 Heading",
+          "default": "Item 6"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_6",
+          "label": "Item 6 Content",
+          "default": "<p>Description and content for Item 6.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_7",
+          "label": "Item 7 Heading",
+          "default": "Item 7"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_7",
+          "label": "Item 7 Content",
+          "default": "<p>Description and content for Item 7.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_8",
+          "label": "Item 8 Heading",
+          "default": "Item 8"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_8",
+          "label": "Item 8 Content",
+          "default": "<p>Description and content for Item 8.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_9",
+          "label": "Item 9 Heading",
+          "default": "Item 9"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_9",
+          "label": "Item 9 Content",
+          "default": "<p>Description and content for Item 9.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ac_heading_10",
+          "label": "Item 10 Heading",
+          "default": "Item 10"
+        },
+        {
+          "type": "richtext",
+          "id": "ac_content_10",
+          "label": "Item 10 Content",
+          "default": "<p>Description and content for Item 10.</p>"
+        }
+      ],
+  "presets": [
+    {
+      "name": "Accordion Custom"
+    }
+  ]
+}
+{% endschema %}
+<style>
+  .rte-accordion label{
+      background: #bdbdbd;
+      color: #ffffff;
+  }
+  .rte-accordion .item-heading{
+     color: #ffffff;
+  }
+</style>
+<section
+  id="page-section-{{ section.id }}"
+  class="section-accordion-{{ section.id }}{% if section.settings.ac_no_bottom_margin %} nbm{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  {% if section.settings.ac_section_heading != blank %}
+    <div class="row">
+      <h2 class="section-title desktop-12 tablet-6 mobile-3">{{ section.settings.ac_section_heading | escape }}</h2>
+    </div>
+  {% endif %}
+
+  <div class="rte-accordion row" style="max-width: 900px;">
+    {% for n in (1..10) %}
+      {% assign heading = 'ac_heading_' | append: n %}
+      {% assign heading = section.settings[heading] | default: false %}
+
+      {% assign content = 'ac_content_' | append: n %}
+      {% assign content = section.settings[content] | default: false %}
+
+      {% if heading %}
+        <div class="item">
+          <input id="item-{{ n }}" type="checkbox" name="items">
+          <label for="item-{{ n }}"
+            ><span class="item-heading">{{ heading }}</span></label
+          >
+          <div class="item-content">
+            {{ content }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>

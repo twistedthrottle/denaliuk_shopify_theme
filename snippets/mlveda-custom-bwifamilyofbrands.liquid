@@ -1,0 +1,346 @@
+<!-- Shayne's Spoindoinkular Brand Drawer Spectacular v3.1415927 copyright MMXXIII --------------->
+<!-- updated 23.06.15 ---------------------------------------------------------------------------->
+<!-- this allows us to easily change links et al without combing through all the HTML each time -->
+<!-- README to use inject entire coding after [data-section-type="header"], PROBABLY-------------->
+  
+{% assign current-brand = "DENALIelectronics" %} <!--- this NEEDS to be changed to correct the UTM info --->
+<!---Twisted+Throttle---VisionXUSA---VisionXOffroad---Projecta+US---Ultima+US---DENALIelectronics---BigRedGear--->
+
+{% assign url-bwi = "https://www.brownwatson.com.au/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar" | split: "CURRENT-BRAND" %} 
+{% assign link-bwi = url-bwi | join: current-brand %} {% assign order-bwi = 0 %}
+{% assign name-bwi = "Brown & Watson" %} {% assign tag-bwi = "Proud Parents" %}
+{% assign img-bwi = "https://cdn.shopify.com/s/files/1/0660/5547/1335/files/BWI_Logo.png?v=1686241092"  %}
+
+{% assign url-vxoffroad = "https://visionxoffroad.com/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar"  | split: "CURRENT-BRAND" %}
+{% assign link-vxoffroad = url-vxoffroad | join: current-brand %} {% assign order-vxoffroad = 1 %}
+{% assign name-vxoffroad = "Vision X Offroad" %} {% assign tag-vxoffroad = "Automotive Offroad Lighting" %}
+{% assign img-vxoffroad = "https://cdn.shopify.com/s/files/1/0660/5547/1335/files/vision-x.png?v=1686241092" %}
+
+{% assign url-vxusa = "https://www.visionxusa.com/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar" | split: "CURRENT-BRAND" %}
+{% assign link-vxusa = url-vxusa | join: current-brand %} {% assign order-vxusa = 0 %}
+{% assign name-vxusa = "Vision X USA" %} {% assign tag-vxusa = "Global Lighting Systems" %}
+{% assign img-vxusa = "https://cdn.shopify.com/s/files/1/0660/5547/1335/files/Vision-X-Global-Round-Logo.png?v=1686173796" %}
+  
+{% assign url-denali = "https://denalielectronics.com/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar"  | split: "CURRENT-BRAND" %}
+{% assign link-denali = url-denali | join: current-brand %} {% assign order-denali = 2 %}
+{% assign name-denali = "Denali Electronics" %} {% assign tag-denali = "Motorcycle Electronics" %}
+{% assign img-denali = "https://cdn.shopify.com/s/files/1/0660/5547/1335/files/denali-logos.png?v=1686241092" %}
+
+{% assign url-twisted = "https://twistedthrottle.com/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar" | split: "CURRENT-BRAND" %}
+{% assign link-twisted = url-twisted | join: current-brand %} {% assign order-twisted = 3 %}
+{% assign name-twisted = "Twisted Throttle" %} {% assign tag-twisted = "Motorcycle Accessories" %}
+{% assign img-twisted = "https://cdn.shopify.com/s/files/1/0609/5909/7015/files/Twisted_Throttle_Logo_this_one.png?v=1686340964" %}
+
+{% assign url-projecta = "https://projecta.us/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar" | split: "CURRENT-BRAND" %}
+{% assign link-projecta = url-projecta | join: current-brand %} {% assign order-projecta = 4 %}
+{% assign name-projecta = "Projecta USA" %} {% assign tag-projecta = "Power Management" %}
+{% assign img-projecta = "https://cdn.shopify.com/s/files/1/0660/5547/1335/files/ProjectaTag-WhiteRGB.png?v=1686241092" %}
+
+{% assign url-ultima = "https://ultima.us/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar" | split: "CURRENT-BRAND" %}
+{% assign link-ultima = url-ultima | join: current-brand %} {% assign order-ultima = 5 %}
+{% assign name-ultima = "Ultima" %} {% assign tag-ultima = "Automotive Accessories" %}
+{% assign img-ultima = "https://cdn.shopify.com/s/files/1/0660/5547/1335/files/Ultima_Logo_-_White_08cbabdc-9fb9-4e88-abdb-e8844233f896.png?v=1686241092" %}
+
+{% assign url-bigred = "https://bigredgear.com/?utm_source=CURRENT-BRAND&utm_medium=Top+Branding+Bar" | split: "CURRENT-BRAND" %}
+{% assign link-bigred = url-bigred | join: current-brand %} {% assign order-bigred = 6 %}
+{% assign name-bigred = "Big Red Gear" %} {% assign tag-bigred = "Outback Offroad Lighting" %}
+{% assign img-bigred = "https://cdn.shopify.com/s/files/1/0609/5909/7015/files/bigredgear.png?v=1686842754" %}  
+  
+<!-- vv this just makes using the closing svg easier vv --> 
+{% assign path1 = "M10.185,1.417c-4.741,0-8.583,3.842-8.583,8.583c0,4.74,3.842,8.582,8.583,8.582S18.768,14.74,18.768,10C18.768,5.259,14.926,1.417,10.185,1.417 M10.185,17.68c-4.235,0-7.679-3.445-7.679-7.68c0-4.235,3.444-7.679,7.679-7.679S17.864,5.765,17.864,10C17.864,14.234,14.42,17.68,10.185,17.68 M10.824,10l2.842-2.844c0.178-0.176,0.178-0.46,0-0.637c-0.177-0.178-0.461-0.178-0.637,0l-2.844,2.841L7.341,6.52c-0.176-0.178-0.46-0.178-0.637,0c-0.178,0.176-0.178,0.461,0,0.637L9.546,10l-2.841,2.844c-0.178,0.176-0.178,0.461,0,0.637c0.178,0.178,0.459,0.178,0.637,0l2.844-2.841l2.844,2.841c0.178,0.178,0.459,0.178,0.637,0c0.178-0.176,0.178-0.461,0-0.637L10.824,10z" %}
+
+
+               
+<style>
+/* This styles the default closed-drawer button. Height in % makes it more responsive. */
+  .mlbwi-drawer-sv { 
+	background-color: #000; height: 4%; max-width: 1500px;
+	display: flex; align-content: center; align-items: center; justify-content: flex-start;
+	font-family: 'Helvetica', sans-serif !important; font-weight: 300 !important; font-size: 12px !important;
+	color: white !important; text-align: left !important; text-transform: uppercase !important;
+	padding: 0em 0em 0 0; 
+    /*commented by mlveda margin: 0 auto -1em auto; */
+   /*margin: 0 auto -1em 80px;*/
+  }
+  .page-width {
+    padding: 0 !important;
+  }
+  [data-section-type="header"] {
+    background-color: #000;
+  }
+  #SiteHeader {
+    padding-top: 8px !important; }
+/* This styles the open-drawer */
+  .open-sv {
+    height: auto; margin: auto !important; padding: 0 !important; background-color: #000 !important; display: flex; flex-wrap: wrap;  z-index: 9999 !important; }
+/* This class initially hides the brands drawer */
+  .mlbrands-sv {
+    /*display: none !important;*/ /*commented by mlveda width: 100%*//*width: 96%; margin-bottom: 1em*/    margin: 20px 0px;}
+/* This class hides the View All span */
+  .hide-sv {
+    display: none !important;}
+/* This class unhides and styles the open-drawer */
+  .unhide-sv {
+	display: flex !important; gap: 1em; flex-wrap: wrap; justify-content: space-between !important; align-content: center !important; align-items: center !important;}
+/* This styles the images */
+  a.mlbrand-logo-sv { transform: scale(.6) !important;font-size:20px !important;
+	min-height: 5em; min-width: 12em; height: auto; width: auto;background-size: contain;
+	background-repeat: no-repeat; background-position: center center; margin: 0 0 -0.5em 0; padding: 0; display: flex;}
+  
+/* this styles the containers for the img/txt pairs */
+  div.mlbrand-logo-sv {
+   /* max-width: 15em; width: auto; */text-align: center; display: flex; flex-flow: column wrap; justify-content: center; align-items: center; align-content: center;
+    margin: auto; padding: auto; 
+  }
+  div.mlbrand-logo-sv span, div.mlbrand-logo-sv span a {
+    color: #fff !important; max-width: 12em;
+    font-size: 10px !important; font-weight:300; line-height: 1.2em;
+  }
+/*  
+  div.brand-logo-sv:first-of-type {
+    margin: 0 !important; min-height: 8em !important; min-width: 14em !important;}
+  div.brand-logo-sv:first-of-type {
+    min-width: 12em !important; min-height: 7em ; }
+  div.brand-logo-sv:first-of-type a {
+    min-width: 12em !important; min-height: 7em ; }
+*/  
+  div.mlbrand-logo-sv:last-of-type {
+    margin: 0 !important;
+  }
+  div.mlbrand-logo-sv:hover, svg.mldrawer-closer-sv:hover, svg.mldrawer-closer2-vxo:hover {
+    transform: scale(.9); transition-duration: 0.2s;}
+  span.view-all-sv {
+    padding: 0.5em 0 0.5em 0.8em;}
+  span.view-all-sv:hover {
+    cursor: pointer;}
+  span.caret {  }
+  img#bwi-drawer-handle-sv { height: 3em; width: auto; padding: 0 0.4em 0 0.5em; margin: 0
+  }
+  #SiteHeader > div.mlbwi-drawer-sv.open-sv > div > div:nth-child(3) > a { max-width: 12em !important;
+  }
+/* SVG Icons - svgicons.sparkk.fr */
+  .drawer-closer-sv {
+    display: inline!important; position: absolute; top: 4em; right: 2em; width: 2.5em; height: 2.5em; margin: 0;}
+  .drawer-closer-sv path {
+    fill: white; stroke: white; stroke-width: 1;}
+  
+/* mobile-specific styles go below here */  
+@media (max-width: 1600px) {
+   .page-width {
+     padding: 0 1em !important; }
+   .bwi-drawer-sv {
+     padding: 0rem 0rem 0 0rem !important;  } 
+   .open-sv {
+     padding: 3px 1em !important;}
+   .brands-sv {
+     margin: 0 auto !important; }
+  .drawer-closer-sv {
+    overflow: visible !important; margin: 0 !important; padding: 0 !important; top: 4em; right: 2em; width: 2.0em; height: 2.0em; }
+  .drawer-closer-sv path {
+    transform: scale(1.1); } 
+  div.mlbrand-logo-sv {
+ /*   max-width: 12em; width: auto;*/ margin: 0.5em 0; padding: 0; gap: 0.5em;float:left; }
+  div.mlbrand-logo-sv span {
+    font-size: 9px !important;}
+  a.mlbrand-logo-sv {
+    margin: 0 !important; }
+/*  div.brand-logo-sv:first-of-type {
+    min-width: 12em !important; min-height: 7em ; }
+   div.brand-logo-sv:first-of-type a {
+    min-width: 12em !important; min-height: 7em ; }*/
+}
+@media (max-width: 1500px) {
+  .mlbrands-sv {
+    margin: 20px 3.5em 0 0 !important; gap: 0 1em !important;}
+}
+@media (max-width: 1000px) {
+  .mlbrands-sv { 
+    margin: 20px 3em 0 0 !important; }
+  a.mlbrand-logo-sv {
+	min-height: 4em; min-width: 10em; margin: 0 0 2px 0;}
+/*  div.brand-logo-sv:first-of-type {
+    min-width: 10em !important; min-height: 6em ; }
+  div.brand-logo-sv:first-of-type a {
+    min-width: 10em !important; min-height: 6em ; }*/
+}
+@media (max-width: 900px) {
+  .mlbrands-sv /*flex parent*/ { 
+    margin: 20px 5em !important; gap: 0 5em !important; }
+  div.mlbrand-logo-sv /*flex child*/ {
+    flex: 1 0 50%; /* flex -grow -shrink -basis   */ }
+  a.mlbrand-logo-sv {
+	min-height: 6em; min-width: 12em; margin: 0 0 2px 0;}
+/*  div.brand-logo-sv:first-of-type {
+    min-width: 12em !important; min-height: 6em ; }
+  div.brand-logo-sv:first-of-type a {
+    min-width: 12em !important; min-height: 6em ; transform: scale(1.5) }*/
+}
+@media (max-width: 800px) {
+  .mlbrands-sv /*flex parent*/ { 
+    margin: 20px 5em !important; gap: 0 5em !important; }
+  div.mlbrand-logo-sv /*flex child*/ {
+    flex: 1 0 50%; /* flex -grow -shrink -basis   */
+  }
+  a.mlbrand-logo-sv {
+	min-height: 6em; min-width: 12em; margin: 0 0 2px 0;}
+/*  div.brand-logo-sv:first-of-type {
+    display: none !important; min-width: 12em !important; min-height: 6em; text-align: center; transform: translate(100%, 0);}
+  div.brand-logo-sv:first-of-type a {
+    min-width: 12em !important; min-height: 6em ; transform: scale(1.3) }  */
+}
+@media (max-width: 620px) {
+div.mlbrand-logo-sv {
+width:50%;
+}
+}
+@media (max-width: 525px) {
+  .mlbrands-sv /*flex parent*/ { 
+      margin: 20px 3em !important; gap: 0 2em !important; }
+  div.mlbrand-logo-sv /*flex child*/ {
+      min-height: 3em; flex: 1 1 10%; /* flex -grow -shrink -basis */ }
+  a.mlbrand-logo-sv {
+      min-height: 8em; min-width: 12em; margin: 0 0 2px 0; }
+/*  div.brand-logo-sv:first-of-type {
+      display: none !important; min-width: 8em !important; min-height: 3em; }
+  div.brand-logo-sv:first-of-type a {
+      min-width: 8em !important; min-height: 3em ; transform: scale(1.3) }  */
+  div.mlbrand-logo-sv {
+width:100%;
+}
+}  
+</style>
+
+      
+
+<!--This script toggles classes onto targeted classes when a specified class is clicked. So when the class bwi-drawer is clicked, the stated classes are added to elements containing the other stated classes.-->
+<!-- <script>
+  $m(document).ready(function($) {
+    $m(".bwi-drawer-sv").click(function () {
+      $m(".bwi-drawer-sv").toggleClass('open-sv');
+      $m(".brands-sv").toggleClass('unhide-sv');
+      $m(".drawer-closer-sv").toggleClass('unhide-sv');
+      $m(".drawer-closer-sv").toggleClass('hide-sv');
+      $m(".drawer-closer2-sv").toggleClass('unhide-sv');
+      $m(".view-all-sv").toggleClass('hide-sv');
+      if($m(".bwi-drawer-sv").hasClass('open-sv')){
+      $m(".bwi-drawer-sv").css("float","unset");
+      }
+      else{
+       $m(".bwi-drawer-sv").css("float","left");
+      }
+    });
+  });
+</script> -->
+<div class="mlcustommain">       
+<div class="mlbwi-drawer-sv" onload="checkMargin()">   <!--This element is the whole container-->
+  <!--This element calls out the button, and is a span so that it can be hidden-->
+  <!-- <span class="mlview-all-sv">   
+   BWI FAMILY OF BRANDS <span class="caret">&#9660;</span>
+  </span> -->
+  
+  <div class="mlbrands-sv">
+    <!--the order for the BWI logo should REMAIN 0 unless otherwise requested-->
+    <div class="mlbrand-logo-sv" style="order: {{ order-bwi }}"">
+      <a class="mlbrand-logo-sv" alt="{{ name-bwi }}" href={{ link-bwi }} target="_blank" rel="noopener"
+	   style="background-image: url({{ img-bwi }})">
+        &nbsp; 
+        <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a>
+      <span><a href={{ link-bwi }} target="_blank" rel="noreferrer noopener">
+ <!-- {{ name-bwi }}<br> -->
+ <!--     {{ tag-bwi }} -->
+      <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a></span>
+    </div>
+    
+    <div class="mlbrand-logo-sv" style="order: {{ order-projecta }};"><!--the order allows us to change order without actually moving entire HTML elements-->
+      <a class="mlbrand-logo-sv" alt="{{ name-projecta }}" href={{ link-projecta }} target="_blank" rel="noopener"
+	   style="background-image: url({{ img-projecta }})">
+        &nbsp;
+        <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a>
+      <span><a href={{ link-projecta }} target="_blank" rel="noopener">
+      <!--{{ name-projecta }}<br>-->
+      {{ tag-projecta }}
+      <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a></span>
+    </div>
+    <div class="mlbrand-logo-sv" style="order: {{ order-ultima }};"><!--the order allows us to change order without actually moving entire HTML elements-->
+      <a class="mlbrand-logo-sv" alt="{{ name-ultima }}" href={{ link-ultima }} target="_blank" rel="noopener" style="background-image: url({{ img-ultima }})">
+        &nbsp; 
+        <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a>
+      <span><a href={{ link-ultima }} target="_blank" rel="noopener">
+      <!--{{ name-ultima }}<br>-->
+      {{ tag-ultima }}
+      <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a></span>
+    </div>
+
+    <div class="mlbrand-logo-sv" style="order: {{ order-vxoffroad }};"><!--the order allows us to change order without actually moving entire HTML elements-->
+      <a class="mlbrand-logo-sv" alt="{{ name-vxoffroad }}" href={{ link-vxoffroad }} target="_blank" rel="noopener"
+	   style="background-image: url({{ img-vxusa }})">
+        &nbsp; 
+        <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a>
+      <span><a href={{ link-vxoffroad }} target="_blank" rel="noopener">
+      <!--{{ name-vxoffroad }}<br>-->
+      {{ tag-vxoffroad }}
+      <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a></span>
+    </div>
+
+<!--<div class="brand-logo-sv" style="order: {{ order-vxusa }};">
+      <a class="brand-logo-sv" alt="{{ name-vxusa }}" href={{ link-vxusa }} target="_blank" rel="noopener"
+	   style="background-image: url({{ img-vxusa }})">
+        &nbsp; 
+      </a>
+      <span><a href={{ link-vxusa }} target="_blank" rel="noopener">
+      {{ name-vxusa }}<br>{{ tag-vxusa }}</a></span>
+    </div> -->
+	
+	<div class="mlbrand-logo-sv" style="order: {{ order-denali }};">
+      <a class="mlbrand-logo-sv" alt="{{ name-denali }}" href={{ link-denali }} target="_blank" rel="noopener"
+	   style="background-image: url({{ img-denali }})">
+        &nbsp; 
+        <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a>
+      <span><a href={{ link-denali }} target="_blank" rel="noopener">
+      <!--{{ name-denali }}<br>-->
+      {{ tag-denali }}
+      <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a></span>
+    </div>
+
+    <div class="mlbrand-logo-sv" style="order: {{ order-twisted }};"><!--the order allows us to change order without actually moving entire HTML elements-->
+      <a class="mlbrand-logo-sv" alt="{{ name-twisted }}" href={{ link-twisted }} target="_blank" rel="noopener" style="background-image: url({{ img-twisted }})">
+        &nbsp; 
+        <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a>
+      <span><a href={{ link-twisted }} target="_blank" rel="noopener">
+      <!--{{ name-twisted }}<br>-->
+      {{ tag-twisted }}
+      <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a></span>
+    </div>
+
+    <div class="mlbrand-logo-sv" style="order: {{ order-bigred }};"><!--the order allows us to change order without actually moving entire HTML elements-->
+      <a class="mlbrand-logo-sv" alt="{{ name-bigred }}" href={{ link-bigred }} target="_blank" rel="noopener" style="background-image: url({{ img-bigred }})">
+        &nbsp; 
+        <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a>
+      <span><a href={{ link-bigred }} target="_blank" rel="noopener">
+      <!--{{ name-bigred }}<br>-->
+      {{ tag-bigred }}
+      <span class="mlscreen-reader">{{ name-bwi }}</span>
+      </a></span>
+    </div>
+    
+    <!-- <svg class="mldrawer-closer-sv hide-sv" style="" viewBox="0 0 20 20"><path d="{{ path1 }}"></path></svg>     -->
+    
+  </div>
+</div>
+</div>
+<!------------------------------------------------------------->
+<!-- END OF Shayne's Spoindoinkular Brand Drawer Spectacular -->
+<!------------------------------------------------------------->

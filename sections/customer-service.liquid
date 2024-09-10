@@ -1,0 +1,187 @@
+{% comment %}
+sections/customer-service.liquid
+{% endcomment %}
+
+<div class="row">
+  <section id="customer-service"
+    class="customer-service desktop-12 tablet-6 mobile-3"
+    data-section-loaded="false"
+    data-section-type="customer-service"
+    data-section-id="{{ section.id }}">
+    <div class="item image">
+      {% if section.settings.image == blank %}
+      <div class="onboard">
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+      {% else %}
+        {% liquid
+          if section.index == 1
+            assign loading = 'eager'
+            assign fetch_priority = 'high'
+          endif
+         %}
+        {{ section.settings.image | image_url: width: 800 | image_tag: loading: loading, fetchpriority: fetch_priority }}
+      {% endif %}
+    </div>
+    <div class="item info">
+      {% if section.settings.title != blank %}
+        <h3>{{ section.settings.title | escape }}</h3>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="rte">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.button != blank and section.settings.link != blank %}
+        <a href="{{ section.settings.link }}" class="button">
+          {{ section.settings.button | escape }}
+        </a>
+      {% endif %}
+      {% if section.blocks.size > 0 %}
+        <div class="info-columns">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'info_column' %}
+                <div class="info-column">
+                  {% if block.settings.custom_icon != blank %}
+                    {% liquid
+                      assign loading = 'lazy'
+                      assign fetch_priority = 'auto'
+
+                      if section.index == 1
+                        assign loading = 'eager'
+                        assign fetch_priority = 'high'
+                      endif
+                     %}
+                    {{ block.settings.custom_icon | image_url: width: 24 | image_tag: loading: loading, fetchpriority: fetch_priority }}
+                  {% else %}
+                    {% if block.settings.default_icon == 'shipping_truck' %}
+                      {% render 'snip-icons',
+                         wrapper: '.info-column',
+                         type: 'apollo',
+                         icon: 'ship-truck',
+                         classes: 'vib-center',
+                         size: '22px',
+                         fill: 'var(--text-color)',
+                         hover: 'var(--text-color)' %}
+                    {% elsif block.settings.default_icon == 'clock' %}
+                      {% render 'snip-icons',
+                         wrapper: '.info-column',
+                         type: 'vantage-theme',
+                         icon: 'clock',
+                         classes: 'vib-center',
+                         size: '22px',
+                         fill: 'var(--text-color)',
+                         hover: 'var(--text-color)' %}
+                    {% elsif block.settings.default_icon == 'credit_card' %}
+                      {% render 'snip-icons',
+                         wrapper: '.info-column',
+                         type: 'vantage-theme',
+                         icon: 'credit-card',
+                         classes: 'vib-center',
+                         size: '22px',
+                         fill: 'var(--text-color)',
+                         hover: 'var(--text-color)' %}
+                    {% elsif block.settings.default_icon == 'secure_lock' %}
+                      {% render 'snip-icons',
+                         wrapper: '.info-column',
+                         type: 'vantage-theme',
+                         icon: 'lock',
+                         classes: 'vib-center',
+                         size: '22px',
+                         fill: 'var(--text-color)',
+                         hover: 'var(--text-color)' %}
+                    {% endif %}
+                  {% endif %}
+                  {% unless block.settings.header == blank %}
+                    <p>{{ block.settings.header }}</p>
+                  {% endunless %}
+                </div><!-- /.info-column -->
+            {% endcase %}
+          {% endfor %}
+        </div><!-- /.info-columns -->
+      {% endif %}
+    </div><!-- /.item.info -->
+  </section>
+</div><!-- /.row -->
+
+{% schema %}
+{
+  "name": "Customer service",
+  "max_blocks": 4,
+  "settings":
+  [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Customer Service"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Have questions about your order? Email our support team at or check out our Help Center.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Info column",
+      "type": "info_column",
+      "settings": [
+        {
+          "type": "select",
+          "id": "default_icon",
+          "label": "Default icon",
+          "options":
+          [
+            {
+              "value": "shipping_truck",
+              "label": "Shipping Truck"
+            },
+            {
+              "value": "credit_card",
+              "label": "Credit Card"
+            },
+            {
+              "value": "secure_lock",
+              "label": "Secure Lock"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            }
+          ],
+          "default": "shipping_truck",
+          "info": "Use a built in icon or upload an icon below."
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon",
+          "info": "Upload a 24px x 24px transparent .png icon."
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Header",
+          "default": "Free Worldwide Shipping"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

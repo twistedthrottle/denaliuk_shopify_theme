@@ -1,0 +1,353 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+  assign has_heading = false
+  assign has_subheading = false
+  assign has_link = false
+  assign has_button_text = false
+  assign has_button = false
+  assign has_caption = false
+
+  if section.settings.video_heading != blank
+    assign heading = section.settings.video_heading | escape
+    assign has_heading = true
+    assign has_caption = true
+  endif
+
+  if section.settings.video_subheading != blank
+    assign subheading = section.settings.video_subheading | escape
+    assign has_subheading = true
+    assign has_caption = true
+  endif
+
+  if section.settings.video_button_link != blank
+    assign link = section.settings.video_button_link
+    assign has_link = true
+  endif
+
+  if section.settings.video_button_text != blank
+    assign button_text = section.settings.video_button_text | escape
+    assign has_button_text = true
+  endif
+
+  if has_button_text and has_link
+    assign has_caption = true
+    assign has_button = true
+  endif
+
+  assign heading_size = section.settings.slide_heading_size
+  assign subheading_size = section.settings.subheading_size
+  assign text_color = section.settings.video_slide_text_color
+  assign button_color = section.settings.video_cta_background
+  assign button_text_color = section.settings.video_cta_color
+  assign caption_background = section.settings.video_caption_background
+
+  case section.settings.video_caption_alignment
+    when 'center'
+      assign align_text = 'a-center'
+    when 'left'
+      assign align_text = 'a-left'
+    when 'right'
+      assign align_text = 'a-right'
+  endcase
+
+-%}
+
+{% style %}
+#shopify-section-{{ section.id }} {
+  --h2-size:  {{ heading_size }}px;
+  --font-size:  {{ subheading_size }}px;
+  --text-color: {{ text_color }};
+  --section-background: {{ caption_background }};
+  --button-text: {{ button_text_color }};
+  --button-color: {{ button_color }};
+}
+@media screen and (max-width: 740px) {
+  #shopify-section-{{ section.id }} {
+    --h2-size:  calc({{ heading_size }}px - ({{ heading_size }}px * 0.15));
+    --font-size:  calc({{ subheading_size }}px - ({{ subheading_size }}px * 0.15));
+  }
+}
+
+.background--video__section .caption-{{ section.id }} {
+  top: {{ section.settings.video_range_vertical_position }}%;
+  left: {{ section.settings.video_range_horizontal_position }}%;
+  -webkit-transform: translate(-{{ section.settings.video_range_horizontal_position }}%, -{{ section.settings.video_range_vertical_position }}%);
+  -ms-transform: translate(-{{ section.settings.video_range_horizontal_position }}%, -{{ section.settings.video_range_vertical_position }}%);
+  -moz-transform: translate(-{{ section.settings.video_range_horizontal_position }}%, -{{ section.settings.video_range_vertical_position }}%);
+  -o-transform: translate(-{{ section.settings.video_range_horizontal_position }}%, -{{ section.settings.video_range_vertical_position }}%);
+}
+{% endstyle %}
+
+<div class="global__section {{ section_padding }}">
+  <section
+    class="global__section-{{ section.id }} background--video__section{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+    data-section-id="{{ section.id }}"
+    data-section-loaded="false"
+    data-section-type="background-video">
+      {% capture caption %}
+        <div class="caption caption-{{ section.id }} {{ align_text }}">
+          <div class="caption-inner">
+            {% if has_heading %}
+              <h2>
+                {{ heading }}
+              </h2>
+            {% endif %}
+            {% if has_subheading %}
+              <p>
+                {{ subheading }}
+              </p>
+            {% endif %}
+            {% if has_button %}
+              <div class="video--button_wrapper">
+                <a class="button" href="{{ link }}">
+                  {{ button_text }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endcapture %}
+      <div class="background-video background-video-{{ section.id }}" data-video-type="{{ section.settings.video_url.type }}" data-video-mute="{{ section.settings.video_audio }}">
+        {% if section.settings.video_url.type == 'youtube' %}
+
+          {%- liquid
+
+          if section.settings.video_audio == 'off'
+            assign video_url = "?controls=0&showinfo=0&autohide=1&autoplay=1&mute=1"
+          else
+            assign video_url = "?controls=0&showinfo=0&autohide=1&autoplay=1"
+          endif
+
+          -%}
+            <div class="item youtube" data-video-type="youtube">
+              <!-- src converted to data-src mlveda -->
+              <iframe allowfullscreen id="youtube-{{ section.id }}" title="{{ section.settings.description | escape }}" class="embed-player slide-media" frameborder="0" data-src="//www.youtube.com/embed/{{ section.settings.video_url.id }}{{ video_url }}"></iframe>
+            </div>
+        {% elsif section.settings.video_url.type == 'vimeo' %}
+          {% if section.settings.video_audio == 'off' %}
+            {% assign video_url = "?api=1&byline=0&portrait=0&title=0&sidedock=0&loop=1&autoplay=1&id=217885864?&showinfo=0&controls=0&muted=1" %}
+          {% else %}
+             {% assign video_url = "?api=1&byline=0&portrait=0&title=0&sidedock=0&loop=1&autoplay=1&id=217885864?&showinfo=0&controls=0" %}
+          {% endif %}
+          <div class="item vimeo" data-video-start="4" data-video-type="vimeo">
+                <!-- src converted to data-src mlveda -->
+              <iframe allowfullscreen title="{{ section.settings.description | escape }}" class="embed-player slide-media" frameborder="0" mozallowfullscreen data-src="//player.vimeo.com/video/{{ section.settings.video_url.id }}{{ video_url }}" webkitallowfullscreen></iframe>
+          </div>
+        {% else %}
+          <div class="item video" data-video-type="video">
+            <video
+              autoplay
+              class="slide-video slide-media"
+              loop
+              playsinline
+              {% if section.settings.video_audio == 'off' %}
+              muted
+              {% endif %}
+              preload="metadata">
+              <source src="{{ section.settings.video_url_mp4 }}" type="video/mp4"/>
+            </video>
+          </div>
+        {% endif %}
+        {% if has_caption %}
+          {{ caption }}
+        {% endif %}
+      </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "Background video",
+  "settings":
+  [
+    {
+      "id": "video_url",
+      "type": "video_url",
+      "label": "Video URL",
+      "accept":
+      [
+        "youtube",
+        "vimeo"
+      ],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    },
+    {
+      "type": "text",
+      "id": "video_url_mp4",
+      "label": "MP4 URL",
+      "info": "Use for MP4 URL only."
+    },
+    {
+      "type": "select",
+      "id": "video_audio",
+      "label": "Video audio",
+      "default": "off",
+      "options":
+      [
+        {
+          "value": "off",
+          "label": "Off"
+        },
+        {
+          "value": "on",
+          "label": "On"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "poster",
+      "label": "Placeholder Image for Video"
+    },
+    {
+      "type": "header",
+      "content": "Caption Text"
+    },
+    {
+      "type": "text",
+      "id": "video_heading",
+      "label": "Heading",
+      "default": "Video heading"
+    },
+    {
+      "type": "text",
+      "id": "video_subheading",
+      "label": "Subheading",
+      "default": "Video subheading"
+    },
+    {
+      "type": "url",
+      "id": "video_button_link",
+      "label": "Link",
+      "info": "Add a link to the button",
+      "default":"/"
+    },
+    {
+      "type": "text",
+      "id": "video_button_text",
+      "label": "Button text",
+      "default": "Button",
+      "info": "Visible only if a link is chosen"
+    },
+    {
+      "type": "header",
+      "content": "Caption appearance"
+    },
+    {
+      "type": "range",
+      "id": "video_range_horizontal_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Caption horizontal position",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "video_range_vertical_position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Caption vertical position",
+      "default": 50
+    },
+    {
+      "type": "text_alignment",
+      "id": "video_caption_alignment",
+      "label": "Caption text alignment",
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "slide_heading_size",
+      "min": 13,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 13,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "video_slide_text_color",
+      "label": "Heading and subheading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "video_cta_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "video_cta_background",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "video_caption_background",
+      "label": "Caption background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Background video"
+    }
+  ],
+  "disabled_on": {
+    "groups":
+    [
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,132 @@
+{% layout none %}
+
+{%- liquid
+
+  assign show_sku = settings.show_sku
+  assign show_vendor = settings.vendor
+  assign show_quantity = settings.show_quantity
+  assign show_payment_button = settings.show_payment_button
+  assign current_variant = product.selected_or_first_available_variant
+  assign thumbnail_position = 'bottom'
+  assign gallery_style = 'data-gallery-thumbnails'
+  assign gallery_full = false
+  assign click_to_enlarge = false
+  assign enable_video_looping = false
+
+  if product.template_suffix == 'pre-order'
+    assign button_text = 'products.product.pre_order' | t
+  else
+    assign button_text = 'products.product.add_to_cart' | t
+  endif
+
+
+-%}
+<template data-html="content">
+<div class="product-quickview__wrapper product-quick-view js-quickview-wrapper product-{{ product.id }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+data-payment-button="{{ show_payment_button }}"
+data-product-id="{{ product.id }}"
+data-sale-format="{{ settings.sale_items }}"
+data-section-id="{{ section.id }}"
+data-url="{{ product.url }}">
+
+  {% render 'product-json', product: product %}
+  {% capture product_gallery_config %}{
+    "thumbPosition": "bottom",
+    "thumbsShown": 3,
+    "clickToEnlarge": false,
+    "enableVideoLooping": false,
+    "mainSlider": {% if product.media.size <= 1 %}false{% else %}true{% endif %},
+    "thumbSlider": {% if product.media.size >= 4 %}true{% else %}false{% endif %},
+    "productId": {{ product.id | json }},
+    "isQuick": true
+  }{% endcapture %}
+
+
+  <div class="product-page grid__wrapper edge product-template" id="product-{{ product.id }}"
+    data-product-id="{{ product.id }}">
+
+    {% capture 'layout_images' %}
+    <div id="product-photos" {{ gallery_style }}
+      class="product-photos carousel-container product__section-images js-product-gallery{% if settings.animation != 'none' %} animate {{ settings.animation }} delay--1{% endif %}"
+      data-product-single-media-group data-gallery-config='{{ product_gallery_config }}'>
+
+        {% if product.featured_media %}
+          {% render 'product-image-gallery',
+            product: product,
+            gallery_style: gallery_style,
+            thumbnail_position: thumbnail_position,
+            click_to_enlarge: click_to_enlarge,
+            enable_video_looping: enable_video_looping
+            %}
+        {% else %}
+          {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+          {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+    {% endcapture %}
+
+    {% capture 'layout_form' %}
+
+     {% capture product_form_config %}
+      { "money_format": {{ shop.money_format | json }},
+        "enable_history": false,
+        "sold_out": {{ "products.product.sold_out" | t | json }},
+        "button": {{ button_text | json }},
+        "unavailable": {{ 'products.product.unavailable' | t | json }},
+        "only_left": {
+          "one": {{ 'products.product.only_left.one' | t | json }},
+          "other": {{ 'products.product.only_left.other' | t | json }}
+        },
+        "savings": {{ 'products.general.savings' | t | json }},
+        "quickview": true,
+        "featured_product": false,
+        "swatches": {{ settings.product_variants | json }}
+      }
+      {% endcapture %}
+
+      {% render 'product-form',
+        product: product,
+        type: section,
+        product_type: 'quickview',
+        product_form_config: product_form_config,
+        current_variant: current_variant %}
+
+      <!-- commented by mlveda <div class="product-single__store-availability-container" data-store-availability-container></div> -->
+
+    {% endcapture %}
+
+    {% capture 'layout_accordion' %}
+      <div class="accordion">
+          <div id="soc">
+            {% render 'social' with product %}
+          </div>
+      </div>
+    {% endcapture %}
+
+
+    <div class="span-6 auto">
+      {{ layout_images }}
+    </div>
+    <div class="product-bottom product__section-content span-6 auto{% if settings.animation != 'none' %} animate {{ settings.animation }} delay--2{% endif %}">
+      {{ layout_form }}
+      {{ layout_accordion }}
+    </div>
+  </div>
+  <style media="screen">
+    div#thumbnail-gallery li img {
+      cursor: pointer;
+    }
+    #product-{{ product.id }} .thumb-slider-slides {
+      transition: top 0.5s ease-in-out;
+    }
+  </style>
+</div>
+<script type="application/json" id="ModelJson-{{ section.id }}">
+  {{ product.media | where: 'media_type', 'model' | json }}
+</script>
+<script>
+{% if show_payment_button %}
+  Shopify.PaymentButton.init()
+{% endif %}
+</script>
+</template>

@@ -1,0 +1,222 @@
+{% schema %}
+{
+      "name": "Text Columns with Images",
+      "settings": [
+        {
+          "type": "text",
+          "id": "txt_title",
+          "label": "Heading",
+          "default": "Text columns with images"
+        },
+        {
+          "type": "select",
+          "id": "txt_align_text",
+          "label": "Text alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Centered"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "txt_no_bottom_margin",
+          "label": "No space after section",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Column One"
+        },
+        {
+          "type": "image_picker",
+          "id": "txt_image_1",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "txt_link_1",
+          "label": "Link",
+          "info": "Optional"
+        },
+         {
+          "type": "text",
+          "id": "txt_title_text_1",
+          "label": "Heading",
+          "default": "Our collections"
+         },
+        {
+          "type": "richtext",
+          "id": "txt_text_1",
+          "label": "Text",
+          "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Column Two"
+        },
+        {
+          "type": "image_picker",
+          "id": "txt_image_2",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "txt_link_2",
+          "label": "Link",
+          "info": "Optional"
+        },
+         {
+          "type": "text",
+          "id": "txt_title_text_2",
+          "label": "Heading",
+          "default": "Our collections"
+         },
+        {
+          "type": "richtext",
+          "id": "txt_text_2",
+          "label": "Text",
+          "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Column Three"
+        },
+        {
+          "type": "image_picker",
+          "id": "txt_image_3",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "txt_link_3",
+          "label": "Link",
+          "info": "Optional"
+        },
+         {
+          "type": "text",
+          "id": "txt_title_text_3",
+          "label": "Heading",
+          "default": "Our collections"
+         },
+        {
+          "type": "richtext",
+          "id": "txt_text_3",
+          "label": "Text",
+          "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Column Four"
+        },
+        {
+          "type": "image_picker",
+          "id": "txt_image_4",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "txt_link_4",
+          "label": "Link",
+          "info": "Optional"
+        },
+         {
+          "type": "text",
+          "id": "txt_title_text_4",
+          "label": "Heading",
+          "default": "Our collections"
+         },
+        {
+          "type": "richtext",
+          "id": "txt_text_4",
+          "label": "Text",
+          "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+        }
+      ],
+      "presets": [
+        {
+          "name": "Text Columns with Images"
+        }
+      ]
+    }
+{% endschema %}
+<section
+  id="page-section-{{ section.id }}"
+  class="section-text-columns-with-images-{{ section.id }}{% if section.settings.txt_no_bottom_margin %} nbm{% endif %}"
+  id="text-promo-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+>
+  {% if section.settings.txt_title != blank %}
+    <h2 class="section-title desktop-12 tablet-6 mobile-3">
+      {{ section.settings.txt_title | escape }}
+    </h2>
+  {% endif %}
+  <div class="clear"></div>
+
+  <div class="grid-inline row" style="text-align: center;">
+    {% for n in (1..4) %}
+      {% assign column_link = 'txt_link_' | append: n %}
+      {% assign column_link = section.settings[column_link] | default: false %}
+
+      {% assign column_image = 'txt_image_' | append: n %}
+      {% assign column_image = section.settings[column_image] | default: false %}
+
+      {% assign column_heading = 'txt_title_text_' | append: n %}
+      {% assign column_heading = section.settings[column_heading] | default: false %}
+
+      {% assign column_text = 'txt_text_' | append: n %}
+      {% assign column_text = section.settings[column_text] | default: false %}
+
+      {% unless column_heading == blank %}
+        <div class="section-text-promo desktop-3 tablet-3 mobile-3 text-promo-{{ n }}">
+          {% if column_link %}<a href="{{ column_link }}">{% endif %}
+          {% if column_image %}
+            {% include 'basic-responsive-image' | type: column_image %}
+            <noscript>
+              <img src="{{ column_image | img_url: '800x' }}" alt="{{ column_image.alt }}">
+            </noscript>
+          {% endif %}
+          {% if column_link %}</a>{% endif %}
+          <div class="section-text-promo-content">
+            {% if column_heading %}
+              <h3>{{ column_heading | escape }}</h3>
+            {% endif %}
+            {% if column_text %}
+              <p>{{ column_text }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endunless %}
+    {% endfor %}
+  </div>
+  <div class="clear"></div>
+
+  <style>
+    .section-text-columns-with-images-{{ section.id }} .section-text-promo-content {
+        text-align: {{ section.settings.txt_align_text }};
+      }
+      .reverse-order {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+        flex-direction: row-reverse;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+      }
+  </style>
+</section>

@@ -1,0 +1,13 @@
+{% capture banner %}{{ collection.handle }}.jpg{% endcapture %}
+
+{% assign collection_banner = banner | file_img_url: '800x' %}
+{% assign image_url = banner | file_img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+
+<div class="collection-banner">
+  <img class="lazyload"
+    src="{{ collection_banner }}"
+    data-srcset="{{ image_url }}"
+    data-widths="[180, 220, 300, 360, 460, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+    data-sizes="auto"
+    alt="{{ collection.title | escape }}">
+</div>

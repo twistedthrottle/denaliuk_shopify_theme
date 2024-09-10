@@ -1,0 +1,82 @@
+
+{%- liquid
+
+  assign collection_empty = false
+  if collection.products_count == 0
+    assign collection_empty = true
+  endif
+
+  assign has_image = false
+
+  if settings.collection_image == 'collection_image' and collection.image
+    assign collection_image = collection.image
+    assign has_image = true
+  else
+    if collection.products.first.featured_media.preview_image != blank
+      assign collection_image = collection.products.first.featured_media.preview_image
+      assign has_image = true
+    endif
+  endif
+
+  if collection_empty
+    assign collection_url = '#'
+  else
+    assign collection_url = collection.url
+  endif
+
+  assign overlay_button = false
+
+  if settings.collection_style == 'overlay_button'
+    assign overlay_button = true
+  endif
+
+  case col_per_row
+    when 'span-6'
+      assign md_render = 'calc(100vw / 2)'
+      assign lg_render = 'calc(1600px / 2)'
+      assign width = '1000'
+    when 'span-4'
+      assign md_render = 'calc(100vw / 3)'
+      assign lg_render = 'calc(1600px / 3)'
+      assign width = '700'
+    else
+      assign md_render = 'calc(100vw / 4)'
+      assign lg_render = 'calc(1600px / 4)'
+      assign width = '500'
+  endcase
+
+-%}
+
+
+<div class="collection-index {{ col_per_row }}{% if mobile_single %} sm-span-12{% else %} sm-span-6{% endif %} auto {% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ index }}{% endif %} collection__style--{{ settings.collection_style }}" data-alpha="{{ collection.title }}">
+  {%- if collection_empty -%}
+    {%- capture current -%}{% cycle 1, 2, 3, 4, 5, 6 %}{%- endcapture -%}
+    {%- assign placeholder = 'collection-' | append: current -%}
+      <div class="collection-image collection__image-ratio--{{ settings.collection_image_ratio }} onboard">
+        <div class="box-ratio" style="padding-bottom: 100%;">
+          {{ placeholder | placeholder_svg_tag }}
+        </div>
+      </div>
+  {%- else -%}
+    <div class="collection-image collection__image-ratio--{{ settings.collection_image_ratio }}">
+      <a href="{{ collection_url }}" title="{{ collection.title }}">
+        {% if has_image %}
+        {% render 'basic-responsive-image',
+          type: collection_image,
+          width: width,
+          sm_render: '300px',
+          md_render: md_render,
+          lg_render: lg_render,
+          loading: loading,
+          fetchpriority: fetchpriority
+        %}
+        {% endif %}
+      </a>
+    </div>
+  {%- endif -%}
+  <div class="product-info collection__title">
+    <a href="{{ collection_url }}" title="{{ collection.title }}"{% if overlay_button %} class="button"{% endif %}>
+      <span class="product-title">{{ collection.title }}</span>
+    </a>
+  </div>
+</div>

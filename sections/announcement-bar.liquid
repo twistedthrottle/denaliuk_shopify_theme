@@ -1,0 +1,174 @@
+{% comment %}
+sections/announcement-bar.liquid
+{% endcomment %}
+
+{% liquid
+
+  assign full_width_header = false
+  if section.settings.full_width_header
+    assign full_width_header = true
+  endif
+
+  assign hd_locale_selector = false
+  assign hd_country_selector = false
+
+  if section.settings.show_country_selector and localization.available_countries.size > 1
+    assign hd_country_selector = true
+  endif
+
+  if section.settings.show_locale_selector and localization.available_languages.size > 1
+    assign hd_locale_selector = true
+  endif
+
+  assign top_bar_links = false
+  assign show_announcement =  false
+
+  if section.settings.announcement_text != blank
+    assign show_announcement =  true
+  endif
+
+  if section.settings.top_bar_links != blank
+    assign top_bar_links = true
+  endif
+
+
+  if top_bar_links == false
+    if hd_locale_selector == true or hd_country_selector == true
+      assign announcement_span = 'span-6 push-3 auto'
+      assign localization_links_span = 'span-3 auto'
+    elsif hd_locale_selector == false and hd_country_selector == false
+      assign announcement_span = 'span-12 auto'
+    endif
+  elsif top_bar_links == true
+    assign top_bar_links_span = 'span-4 auto'
+    assign announcement_span = 'span-4 auto'
+    assign localization_links_span  = 'span-4 auto'
+  endif
+
+%}
+
+{%- capture topbar_classes -%}
+  header__topbar-container
+  js-top-bar
+  full-width-{{ full_width_header }}
+  top-bar--{{ section.id }}
+  has-announcement--{{ show_announcement }}
+{%- endcapture -%}
+
+<div id="top-bar" class="grid__wrapper {{ topbar_classes | strip | strip_newlines }}" data-section-type="announcement-bar" data-section-id="{{ section.id }}">
+
+  {% capture topbar_links %}
+    <ul class="header__topbar-links top-bar-links {{ top_bar_links_span }}">
+      {% for link in linklists[section.settings.top_bar_links].links %}
+        <li class="header__topbar-link"><a {% if link.active %}class="active"{% endif %} href="{{ link.url }}">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endcapture %}
+
+  {% capture announcement_text %}
+    <div class="header__topbar-announcement-text announcement-text {{ announcement_span }} sm-span-12">
+      {% if show_announcement %}
+      <div class="rte">
+        {{ section.settings.announcement_text }}
+      </div><!-- /.rte -->
+      {% endif %}
+    </div>
+  {% endcapture %}
+
+  {% capture top_shop_links %}
+    <div class="header__topbar__shopping-cart-links top-bar-shop-links {{ localization_links_span }}">
+      {% render 'shopping-cart-links', is_mobile: false, cart: cart, hd_country_selector: hd_country_selector, hd_locale_selector: hd_locale_selector, show_cart_links: cart_top %}
+    </div>
+  {% endcapture %}
+
+  {% if top_bar_links == true %}
+    {{ topbar_links }}
+    {{ announcement_text }}
+  {% elsif top_bar_links == false %}
+    {{ announcement_text }}
+  {% endif %}
+  {{ top_shop_links }}
+</div><!-- /#top-bar -->
+<style>
+
+  {% if section.settings.bottom_border %}
+    #top-bar:after {
+      content: "";
+      width: 100%;
+      height: 1px;
+      background: var(--announcement-bar-text-color);
+      opacity: 0.1;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  {% endif %}
+
+
+  @media (max-width:  740px) {
+    .has-announcement--false {
+      display: none !important;
+    }
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "class": "js-site-announcement-bar",
+  "settings":
+  [
+    {
+      "type": "checkbox",
+      "id": "full_width_header",
+      "label": "Enable full width"
+    },
+    {
+      "type":"checkbox",
+      "id":"bottom_border",
+      "label":"Bottom border",
+      "default":false
+    },
+    {
+      "type": "link_list",
+      "id": "top_bar_links",
+      "label": "Add additional links with a menu"
+    },
+    {
+      "type": "richtext",
+      "id": "announcement_text",
+      "label": "Text",
+      "default": "<p>Share a shop announcement or message</p>"
+    },
+    {
+      "type": "header",
+      "content": "Language Selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Show language selector",
+      "default": false
+    },
+    {
+       "type": "header",
+       "content": "Country/Region Selector",
+       "info": "To add a country/region, go to your [payment settings.](/admin/settings/payments)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Enable country/region selector",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_flag",
+      "label": "Show selected country flag",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

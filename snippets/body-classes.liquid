@@ -1,0 +1,52 @@
+{%- comment -%}
+body-classes.liquid
+
+snippet used to render theme features as classes on the body tag, removed liquid from stylesheet.
+
+theme feature classes (in order)
+
+- section titles
+- image ratio
+- grid text alignment
+- product variants (swatches)
+- color swatch style
+- ajax cart method
+- uppercase nav
+- button shape
+- rounding
+
+{%- endcomment -%}
+{%- liquid
+
+  assign rounding = false
+  if settings.section_rounding != 0
+    assign rounding = true
+  endif
+
+
+  assign body_classes = ''
+  assign base_class = 'theme-features__'
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'section-titles--' | append: settings.section_title_border
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'image-ratio--' | append: settings.image_ratio
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'grid-text-alignment--' | append: settings.grid_text_alignment
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'product-variants--' | append: settings.product_variants
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'color-swatch-style--' | append: settings.color_swatch_shape
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'ajax-cart-method--' | append: settings.cart_type
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'upcase-nav--' | append: settings.upcase_nav
+
+  assign body_classes = body_classes | append: ' ' | append: base_class | append: 'button-shape--' | append: settings.button_shape
+
+  if rounding == true
+    assign body_classes = body_classes | append: ' ' | append: base_class | append: 'rounding--true'
+  endif
+
+  echo body_classes | strip
+
+ -%}

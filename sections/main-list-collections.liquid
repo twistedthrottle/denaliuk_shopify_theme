@@ -1,0 +1,109 @@
+{%- liquid
+
+  assign mobile_single = section.settings.mobile_single
+
+-%}
+
+{% style %}
+  {% if section.settings.collections_per_row == 5 %}
+    @media screen and (min-width: 741px) {
+        .product-loop.grid__wrapper {
+          grid-template-columns: repeat(5, 1fr);
+        }
+    }
+  {% endif %}
+{% endstyle %}
+
+<section
+class="collection-list-template main__section"
+data-section-id="{{ section.id }}"
+data-section-loaded="false"
+data-section-type="collection-list-section">
+  <div class="row">
+    {% if section.settings.text != blank %}
+    <div class="collection__list--description grid__wrapper">
+       <div class="rte span-12 auto">
+         {{ section.settings.text }}
+       </div><!-- /.rte -->
+    </div><!-- /.collection-description -->
+    {% endif %}
+    <div id="main-list-collection-all" class="main-list-collection-all">
+      {%- liquid
+
+        case section.settings.collections_per_row
+          when 6
+            assign col_per_row = 'span-2'
+          when 5
+            assign col_per_row = 'span-fifth'
+          when 4
+            assign col_per_row = 'span-3'
+          when 3
+            assign col_per_row = 'span-4'
+          when 2
+            assign col_per_row = 'span-6'
+        endcase
+
+      -%}
+
+      {% paginate collections by 48 %}
+
+      {% if collections.size > 0 %}
+        <div class="product-loop grid__wrapper">
+          {% for collection in collections %}
+            {% liquid
+              assign loading = 'lazy'
+              assign fetch_priority = 'auto'
+              if section.index == 1 and forloop.index <= section.settings.collections_per_row
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+             %}
+            {% render 'collection-grid-item', collection: collection, col_per_row: col_per_row, index: forloop.index, mobile_single: mobile_single, loading: loading, fetchpriority: fetch_priority %}
+          {% endfor %}
+        </div><!-- /.product-loop -->
+      {% else %}
+        <p>{{ 'collections.general.no_matches' | t }}</p>
+      {% endif %}
+
+      <div class="clear"></div>
+      {% render 'pagination', paginate: paginate %}
+      {% endpaginate %}
+    </div><!-- /#collection-page-all -->
+  </div><!-- /.row -->
+</section><!-- /.collection-list-template -->
+
+
+
+{% schema %}
+{
+  "name": "All collections",
+  "settings":
+  [
+  {
+    "type":"paragraph",
+    "content":"Shows your stores collections in alphabetical order. Select specific collections by using a collection list section instead, [See our docs](https:\/\/www.weareunderground.com\/blogs\/vantage-support\/vantage-all-collections-page)"
+  },
+    {
+      "type": "range",
+      "id": "collections_per_row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Collections per row",
+      "default": 4
+    },
+    {
+      "type":"checkbox",
+      "id":"mobile_single",
+      "label":"Show 1 collection per row on mobile",
+      "default":true
+    },
+    {
+      "id": "text",
+      "type": "richtext",
+      "label": "Text",
+      "default": "<p>View all collections</p>"
+    }
+  ]
+}
+{% endschema %}

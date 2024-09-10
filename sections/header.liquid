@@ -1,0 +1,702 @@
+{% liquid
+  assign hd_locale_selector = false
+  assign hd_currency_selector = false
+
+  assign full_width_header = false
+  if section.settings.full_width_header
+    assign full_width_header = true
+  endif
+
+  assign inline_layout = false
+  assign block_layout = false
+  assign search_layout = false
+  assign mobile_style = false
+
+  assign logo_span = 'span-3 auto'
+  assign cart_span = 'span-3 auto'
+
+  if section.settings.header_layout == 'logo_left_menu_left' or section.settings.header_layout == 'logo_left_menu_center' or section.settings.header_layout == 'logo_center_menu_left'
+    assign inline_layout = true
+    assign menu_span = 'span-6 auto'
+    assign search_span = 'hide'
+  elsif section.settings.header_layout == 'logo_left_menu_below' or section.settings.header_layout == 'logo_center_menu_below'
+    assign block_layout = true
+  endif
+
+  assign mobile_logo = false
+  if section.settings.mobile_logo != blank
+    assign mobile_logo = true
+  endif
+
+  case section.settings.header_layout
+    when 'logo_left_menu_below'
+      assign search_span = 'span-6 auto'
+      assign menu_span = 'span-12 auto'
+    when 'logo_center_menu_left'
+      assign menu_span = 'span-5 auto'
+      assign logo_span = 'span-2 auto'
+      assign cart_span = 'span-5 auto'
+    when 'logo_left_menu_left'
+      assign menu_span = 'span-8 auto'
+      assign logo_span = 'span-1 auto'
+    when 'logo_center_menu_below'
+      assign logo_span = 'span-6 auto'
+      assign logo_order = '2'
+      assign search_span = 'span-3 auto'
+      assign search_order = '1'
+      assign menu_span = 'span-12 auto'
+  endcase
+%}
+
+<div
+  class="
+    header-section
+    header__wrapper
+    full-width-{{ full_width_header }}
+    block-layout-{{ block_layout }}
+    inline-layout-{{ inline_layout }}
+    cart-icon-{{ settings.cart_icon }}
+  "
+  data-section-id="{{ section.id }}"
+  data-section-type="header-section"
+>
+  <!-- Added by mlveda -->
+  <div id="top-bar" style="line-height:38px;">
+    {% render 'brand-drawer-sv' %}
+  </div>
+  <!-- Added by mlveda -->
+
+  {% capture nav_template %}
+    <ul id="main-nav" class="{{ menu_span }} nav header__main-nav header__nav__list {% if block_layout or search_layout %}js-theme-header stickynav{% endif %}">
+      {% for link in linklists[section.settings.main_nav].links %}
+        {% render 'navigation', link: link %}
+      {% endfor %}
+    </ul>
+  {% endcapture %}
+
+  {% capture shop_links_template %}
+    <div id="shopping-links" class="{{ cart_span }} auto header__shopping-cart-links">
+      {% render 'shopping-cart-links', cart: cart, is_mobile: false, hd_currency_selector: hd_currency_selector, hd_locale_selector: hd_locale_selector, show_cart_links: true %}
+    </div>
+  {% endcapture %}
+
+  {% capture logo_template %}
+    <div id="logo" class="{{ logo_span }} header__desktop-logo">
+      {% if mobile_logo %}
+        <a class="desktop-hide mldmobilelogo" href="{{ routes.root_url }}">
+          {{ section.settings.mobile_logo | image_url: width: 600 | class: 'v-align-middle' | image_tag: loading: 'eager', fetchpriority: 'high', alt: 'header-logo' }}
+        </a>
+      {% endif %}
+      {% if section.settings.logo != blank %}
+        {%- assign image_size = '600x' -%}
+        <a class="{% if mobile_logo %}device-hide{% endif %}"href="{{ routes.root_url }}">
+          {% comment %}loading: 'eager', fetchpriority: 'high' removed by mlveda{% endcomment %}
+          {{ section.settings.logo | image_url: width: 600 | class: 'v-align-middle' | image_tag: alt: 'header-logo' }}
+        </a>
+      {% else %}
+        <a class="v-align-middle {% if mobile_logo %}device-hide{% endif %}" href="{{ routes.root_url }}">
+          {{ shop.name }}
+        </a>
+      {% endif %}
+    </div>
+  {% endcapture %}
+
+  {% comment %}print added by mlveda {% endcomment %}
+
+  <!-- <button id="printButton">Print</button> -->
+
+  {% assign current_url = request.path %}
+
+  {% assign current_url = template.suffix %}
+  {% if current_url == 'installation-instructions' %}
+    {% comment %} {% if current_url contains 'outfitting-guide' %} -->{% endcomment %}
+    <style id="print-style">
+      @media print {
+        section {
+          break-after: page;
+        }
+        #article-pagination{
+          display:flex !important;
+        }
+        footer {
+          display: none !important;
+        }
+        .article__content {
+          align-item: center;
+        }
+       .global__section,.desktop-2, #logo, .article__footer, .share-icons, #main-nav, #mobile-header, .mobile-header,
+        .mlcustommain, #ymm_searchbox, #shopify-section-mailing-popup, .product-quickview__container,
+        #shopify-section-sections--16873666412728__footer, .tWrghb, .admin-bar,
+        #WebPixelsManagerSandboxContainer, .clear, #cart, #footer, #beacon-container,
+        #printButton, main.site-wrap ~ * {
+          display: none !important;
+        }
+        #printFooter {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          position: fixed;
+          bottom: 20px;
+          width: 100%;
+        }
+        #article-body, article, .gridlock .row {
+          width: 100% !important;
+        }
+      }
+    </style>
+
+  {% else %}
+    <style id="Normal-print-style">
+      @media print {
+        footer {
+          display: none !important;
+        }
+        .share-icons, #main-nav, #mobile-header, .mobile-header, .mlcustommain,
+        #ymm_searchbox, #shopify-section-mailing-popup, .product-quickview__container,
+        .tWrghb, .admin-bar, #WebPixelsManagerSandboxContainer, .clear, #cart, #footer,
+        #beacon-container, #printButton, main.site-wrap ~ * {
+          display: none !important;
+        }
+        #logo {
+          display: block;
+        }
+        #printFooter {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          position: fixed;
+          bottom: 20px;
+          width: 100%;
+        }
+        #article-body, article, .gridlock .row {
+          width: 100% !important;
+        }
+      }
+    </style>
+  {% endif %}
+
+  {% capture search_box_template %}
+    <div class="{{ search_span }}">
+
+    {%- if settings.predictive_search_enabled -%}
+    <predictive-search
+      data-routes="{{ routes.predictive_search_url | default: '/search/suggest' }}"
+      data-input-selector='input[name="q"]'
+      data-results-selector="#predictive-search"
+      >
+    {%- endif -%}
+    <form id="search-box" class="header__search-box-inline search-form" action="{{ routes.search_url }}" method="get">
+      <label class="visually-hidden" for="q">{{ 'sections.search.placeholder' | t }}</label>
+      <input
+        type="text"
+        name="q"
+        id="q"
+        class="search__input search-field"
+        placeholder="{{ 'sections.search.placeholder' | t }}"
+        value="{{ search.terms | escape }}"
+        {%- if settings.predictive_search_enabled -%}
+          role="combobox"
+          aria-expanded="false"
+          aria-owns="predictive-search-results-list"
+          aria-controls="predictive-search-results-list"
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
+          autocorrect="off"
+          autocomplete="on"
+          autocapitalize="off"
+          spellcheck="false"
+        {%- endif -%} />
+      <button type="submit">
+        {% render 'snip-icons',
+           wrapper: '.header__search-box-inline',
+           type: 'vantage-theme',
+           icon: 'search',
+           classes: 'header__search-box-inline--icon',
+           size: '14px',
+           fill: 'var(--header-text-color)',
+           hover: 'var(--header-text-color)' %}
+      </button>
+      <input name="options[prefix]" type="hidden" value="last">
+
+      {% if settings.search_show_products_only %}
+        <input type="hidden" name="type" value="product">
+      {% endif %}
+    </form>
+
+    {%- if settings.predictive_search_enabled -%}
+      <div id="predictive-search" class="predictive-search" tabindex="-1"></div>
+    {%- endif -%}
+
+    {%- if settings.predictive_search_enabled -%}
+    </predictive-search>
+    {%- endif -%}
+
+    </div>
+  {% endcapture %}
+
+  {% comment %}
+    {% capture mobile_trigger %}
+       <div class="mobile-menu__trigger {% unless mobile_style %}desktop-hide{% endunless %}{% if mobile_style %} header__main-nav{% endif %}">
+         <div class="slideout__trigger--open text-left">
+           <button class="slideout__trigger-mobile-menu js-slideout-open text-left" data-wau-slideout-target="mobile-navigation" data-slideout-direction="left" aria-label="Open navigation" tabindex="0" type="button" name="button">
+             {% render 'snip-icons',
+                 wrapper: '.mobile-menu__trigger',
+                 type: 'vantage-theme',
+                 icon: 'menu-bars',
+                 classes: 'mobile-menu__trigger--icon',
+                 size: '12px',
+                 fill: 'var(--header-text-color)',
+                 hover: 'var(--header-text-color)' %}
+           </button>
+         </div>
+       </div>
+    {% endcapture %}
+  {% endcomment %}
+
+  <div
+    id="mobile-header-logo"
+    class="header__mobile-container js-mobile-header stickynav {% unless mobile_style %} desktop-hide{% endunless %} mlmobilelogo"
+  >
+    {{ logo_template }}
+  </div>
+  <div
+    id="mobile-header"
+    class="header__mobile-container js-mobile-header stickynav {% unless mobile_style %} desktop-hide{% endunless %} mlmobilelink"
+  >
+    {% comment %}
+      {{ mobile_trigger }}
+      {{ logo_template }}
+    {% endcomment %}
+    <div id="shopping-links" class="header__shopping-cart-links">
+      {% render 'shopping-cart-links',
+        is_mobile: true,
+        cart: cart,
+        hd_currency_selector: false,
+        hd_locale_selector: false,
+        show_cart_links: true
+      %}
+    </div>
+    <!-- Added by mlveda -->
+    {% comment %}{% render 'announcement-bar-sv' %}{% endcomment %}
+    <!-- Added by mlveda -->
+  </div>
+  <!--
+    commented by mlveda <div id="mobile-header" class="header__mobile-container js-mobile-header stickynav {% unless mobile_style %} desktop-hide{% endunless %}">
+      {{ logo_template }}
+    </div>
+  -->
+  {% unless mobile_style %}
+    <!-- Added by mlveda -->
+    <div id="flex-header">
+      <!-- Added by mlveda -->
+      <div
+        id="header-wrapper"
+        class="header__main-wrapper device-hide{% if inline_layout %} js-theme-header stickynav grid__wrapper{% endif %}"
+      >
+        {% if block_layout %}
+          <div class="header__block-top-wrapper js-block-header grid__wrapper">
+            {{ logo_template }}
+            {{ search_box_template }}
+            {{ shop_links_template }}
+          </div>
+
+          {{ nav_template }}
+
+        {% elsif inline_layout %}
+          {{ logo_template }}
+          {{ nav_template }}
+          {{ shop_links_template }}
+
+          <!-- Added by mlveda -->
+          {% comment %}{% render 'announcement-bar-sv' %}{% endcomment %}
+          <!-- Added by mlveda -->
+        {% endif %}
+        <!-- Added by mlveda -->
+      </div>
+      <!-- Added by mlveda -->
+    </div>
+  {% endunless %}
+
+  <!-- Added by mlveda -->
+  {%- comment -%} YMM APP by CWS {%- endcomment -%}
+  {%- capture the_snippet_content -%}{%- render 'ymm-searchbox' -%}{%- endcapture -%}
+  {%- unless the_snippet_content contains 'Liquid error' -%}
+    {%- assign ymm_searchbox_use = 'yes' -%}
+    {%- assign searchbox_style = 'horizontal' -%}
+    <!-- eg. horizontal or vertical -->
+    {%- assign searchbox_title = 'Shop by Vehicle' -%}
+    {%- render 'ymm-searchbox',
+      ymm_searchbox_use: ymm_searchbox_use,
+      searchbox_style: searchbox_style,
+      searchbox_title: searchbox_title
+    -%}
+  {%- endunless -%}
+  <!-- Added by mlveda -->
+
+  {% if settings.cart_type == 'mini_cart' %}
+    <div
+      class="modal__container modal__container--mini_modal js-mini-cart"
+      data-wau-modal="mini-ajax-cart"
+      id="modal-ajax-cart"
+    >
+      <div class="modal__inner-wrapper">
+        {% render 'cart-mini' %}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <style media="screen">
+    {% case section.settings.header_layout %}
+      {% when 'logo_left_menu_center' %}
+        #main-nav { text-align: center; }
+      {% when 'logo_center_menu_left' %}
+        #main-nav { order: 0; text-align: left; }
+        #logo { order: 1; text-align: center; }
+        #shopping-links { order: 2; }
+      {% when 'logo_center_menu_below' %}
+        #logo { order: 2; text-align: center;}
+        #search-box { order: 1; }
+        #shopping-links { order: 2; }
+        #main-nav { text-align: center; }
+    {% endcase %}
+
+    {% if block_layout %}
+      li.header__shopping-cart-link.cart__link-search {
+          display: none;
+      }
+    {% endif %}
+
+      .header__main-nav li  a.dlink,
+      .header__main-nav li  a.alink  {
+        height: {{ section.settings.nav_height }}px;
+        line-height: {{ section.settings.nav_height }}px;
+      }
+      .header__nav__list-item.has_sub_menu a.header__nav__link.first-level:before {
+        line-height: calc({{ section.settings.nav_height }}px + 2px);
+      }
+      @media screen and ( min-width: 740px ) {
+        {%- if section.settings.logo -%}
+          .header__desktop-logo a {
+            display: inline-block;
+          }
+          .header__desktop-logo img {
+            max-width: {{ section.settings.logo_max_width }}px;
+            vertical-align: middle;
+          }
+        {%- else -%}
+          .header__desktop-logo {
+            width: {{ section.settings.logo_max_width }}px;
+          }
+          .header__desktop-logo a {
+            display: inline-block;
+          }
+        {%- endif -%}
+      }
+
+      {%- if section.settings.logo or section.settings.mobile_logo -%}
+        .header__mobile-container .header__mobile-logo {
+          line-height: 40px;
+        }
+      {%- endif -%}
+
+      {% if section.settings.header_layout == 'logo_left_menu_below' %}
+        .header__search-box-inline.search-form #predictive-search-results .product-index.span-2.md-span-4.sm-span-6.auto {
+          grid-column: auto / span 4;
+          width: 100%;
+        }
+        #header-wrapper #predictive-search-results {
+          transform: translateY(-71px);
+          {% unless section.settings.full_width_header %}
+          margin-left: 4%;
+          margin-right: 4%;
+          {% endunless %}
+          box-shadow: 0px 3px 3px -1px #999;
+          border: 0;
+        }
+      {% elsif section.settings.header_layout == 'logo_center_menu_below'  %}
+        #header-wrapper #predictive-search-results {
+          transform: translateY(-71px);
+          {% unless section.settings.full_width_header %}
+          margin-left: 4%;
+          margin-right: 4%;
+          {% endunless %}
+          box-shadow: 0px 3px 3px -1px #999;
+          border: 0;
+        }
+        .header__search-box-inline.search-form #predictive-search-results .product-index.span-2.md-span-4.sm-span-6.auto {
+          grid-column: auto / span 12;
+          width: 100%;
+          margin-bottom: 1rem;
+        }
+      {% endif %}
+
+      .empty-div { margin-top: 0 !important; }
+  </style>
+</div>
+<div class="clear js-clear-element"></div>
+{% schema %}
+{
+  "name": "Header",
+  "class": "js-site-header",
+  "settings":
+  [
+    {
+      "type": "header",
+      "content": "Desktop layout options"
+    },
+    {
+      "type": "select",
+      "id": "header_layout",
+      "label": "Header layout",
+      "options":
+      [
+        {
+          "value": "logo_left_menu_left",
+          "label": "Logo left, menu left"
+        },
+        {
+          "value": "logo_left_menu_center",
+          "label": "Logo left, menu center"
+        },
+        {
+          "value": "logo_center_menu_left",
+          "label": "Logo center, menu left"
+        },
+        {
+          "value": "logo_left_menu_below",
+          "label": "Logo left, menu below"
+        },
+        {
+          "value": "logo_center_menu_below",
+          "label": "Logo center, menu below"
+        }
+      ],
+      "default":"logo_left_menu_center"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_header",
+      "label": "Enable full width"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Desktop logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 100,
+      "max": 250,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop logo maximum width",
+      "default": 200
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_logo",
+      "label": "Mobile logo image",
+      "info": "Horizontal mobile logo recommended"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "main_nav",
+      "label": "Choose main menu",
+      "default": "main-menu",
+      "info": "It is best practice to select the same menu used in the Mobile Nav. [Learn More](https://developers.google.com/search/mobile-sites/mobile-first-indexing)"
+    },
+    {
+      "type": "range",
+      "id": "nav_height",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Navigation height",
+      "default": 50
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "collections_mega_menu",
+      "name": "Collections mega menu",
+      "settings":
+      [
+        {
+          "type": "text",
+          "id": "collection_item",
+          "label": "Menu item",
+          "info": "Enter menu item to apply a mega menu"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options":
+          [
+            {
+              "value": "vertical",
+              "label": "Vertical Images"
+            },
+            {
+              "value": "horizontal",
+              "label": "Horizontal Images"
+            },
+            {
+              "value": "square",
+              "label": "Square Images"
+            }
+          ],
+          "label": "Image Ratio"
+        },
+        {
+          "type": "collection",
+          "id": "collection_1",
+          "label": "Collection One"
+        },
+        {
+          "type": "collection",
+          "id": "collection_2",
+          "label": "Collection Two"
+        },
+        {
+          "type": "collection",
+          "id": "collection_3",
+          "label": "Collection Three"
+        },
+        {
+          "type": "collection",
+          "id": "collection_4",
+          "label": "Collection Four"
+        },
+        {
+          "type": "collection",
+          "id": "collection_5",
+          "label": "Collection Five"
+        },
+        {
+          "type": "collection",
+          "id": "collection_6",
+          "label": "Collection Six"
+        }
+      ]
+    },
+    {
+      "type": "linklist_columns",
+      "name": "Links in columns",
+      "settings":
+      [
+        {
+          "type": "text",
+          "id": "linklist_item",
+          "label": "Menu item",
+          "info": "Select a menu item that will show up to 6 link columns. Create menus in your [store navigation admin](/admin/menus)."
+        }
+      ]
+    },
+    {
+      "type": "linklist_with_images",
+      "name": "Links with images",
+      "settings":
+      [
+        {
+          "type": "text",
+          "id": "linklist_images_menu_item",
+          "label": "Menu item",
+          "info": "Select a menu item that will show up to 3 link columns and 3 images. Create menus in your [store navigation admin](/admin/menus)."
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "default": "square",
+          "options":
+          [
+            {
+              "value": "vertical",
+              "label": "Vertical Images"
+            },
+            {
+              "value": "horizontal",
+              "label": "Horizontal Images"
+            },
+            {
+              "value": "square",
+              "label": "Square Images"
+            }
+          ],
+          "label": "Image Ratio"
+        },
+        {
+          "type": "image_picker",
+          "id": "featured_image_1",
+          "label": "Select a featured image #1"
+        },
+        {
+          "type": "text",
+          "id": "featured_image_label_1",
+          "label": "Featured image label #1"
+        },
+        {
+          "id": "image_url_1",
+          "type": "url",
+          "label": "Image link #1"
+        },
+        {
+          "type": "image_picker",
+          "id": "featured_image_2",
+          "label": "Select a featured image #2"
+        },
+        {
+          "type": "text",
+          "id": "featured_image_label_2",
+          "label": "Featured image label #2"
+        },
+        {
+          "id": "image_url_2",
+          "type": "url",
+          "label": "Image link #2"
+        },
+        {
+          "type": "image_picker",
+          "id": "featured_image_3",
+          "label": "Select a featured image #3"
+        },
+        {
+          "type": "text",
+          "id": "featured_image_label_3",
+          "label": "Featured image label #3"
+        },
+        {
+          "id": "image_url_3",
+          "type": "url",
+          "label": "Image link #3"
+        }
+      ]
+    }
+  ],
+  "default":
+  {
+    "blocks":
+    [
+      {
+        "type": "collections_mega_menu"
+      },
+      {
+        "type": "linklist_columns"
+      },
+      {
+        "type": "linklist_with_images"
+      }
+    ]
+  }
+}
+{% endschema %}

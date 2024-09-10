@@ -1,0 +1,128 @@
+{% comment %}
+snippets/collection-topbar.liquid
+{% endcomment %}
+
+<div id="full-width-filter" class="grid__wrapper contained collection-topbar{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}">
+  {%- if show_accordion_links -%}
+    <ul class="collection__topbar-controls span-6 sm-span-12 auto" data-collection-accordion-links>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'menu' -%}
+          <li class="collection__topbar-controls--menu js-collection-slideout-link" data-accordion-context="{{ block.id }}">
+               <a href="/pages/product-result?ymm_action=add_vehicle" style="text-decoration:none;">
+            <!-- <button class="slideout__trigger-collection-sidebar button-as-link js-slideout-open"
+              data-wau-slideout-target="collection-sidebar"
+              data-slideout-direction="right"
+              aria-label="Open sidebar" tabindex="0" type="button" name="button"> -->
+              <button class="slideout__trigger-collection-sidebar button-as-link js-slideout-open"
+              tabindex="0" type="button" name="button">
+              {% render 'snip-icons',
+                wrapper: '.collection__topbar-search',
+                 type: 'apollo',
+                 icon: 'search',
+                 classes: 'collection__topbar-controls--search',
+                 size: '10px',
+                 fill: 'var(--text-color)',
+                 hover: 'var(--text-color)' %}
+              {{ block.settings.header }}
+            </button>
+               </a>
+          </li>
+        {%- endif -%}
+        {%- if block.type == 'sidebar_filter' -%}
+          {%- if collection.all_products_count < 1000 -%}
+            <li class="collection__topbar-controls--filter js-collection-slideout-link" data-accordion-context="{{ block.id }}">
+              <button class="slideout__trigger-collection-sidebar button-as-link js-slideout-open"
+                data-wau-slideout-target="collection-sidebar"
+                data-slideout-direction="right"
+                aria-label="Open sidebar" tabindex="0" type="button" name="button">
+                {% render 'snip-icons',
+                  wrapper: '.collection__topbar-filter',
+                   type: 'apollo',
+                   icon: 'filter',
+                   classes: 'collection__topbar-controls--filter',
+                   size: '10px',
+                   fill: 'var(--text-color)',
+                   hover: 'var(--text-color)' %}
+                {{ 'collections.filters.filter_button' | t }}
+              </button>
+            </li>
+          {%- endif -%}
+        {%- endif -%}
+        {%- if block.type == 'sort_by' -%}
+          <li class="collection__topbar-controls--sortby js-collection-slideout-link" data-accordion-context="{{ block.id }}">
+            <button class="slideout__trigger-collection-sidebar button-as-link js-slideout-open"
+              data-wau-slideout-target="collection-sidebar"
+              data-slideout-direction="right"
+              aria-label="Open sidebar" tabindex="0" type="button" name="button">
+              {% render 'snip-icons',
+                wrapper: '.collection__topbar-sort',
+                 type: 'vantage-theme',
+                 icon: 'sort',
+                 classes: 'collection__topbar-controls--sort',
+                 size: '8px',
+                 fill: 'var(--text-color)',
+                 hover: 'var(--text-color)' %}
+              {% comment %}{{ 'collections.filters.sort_by_placeholder' | t }}{% endcomment %}
+              Filter & Sort
+            </button>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if section.settings.show_layout_buttons -%}
+    <ul class="collection__topbar-controls grid-layout span-2 push-10 sm-span-4 auto a-right device-hide" data-collection-grid-layout>
+      <li class="collection__topbar-controls--grid grid-icon active js-collection-layout" data-grid-type="grid">
+        <button class="button-as-link" type="button" name="button">
+          {% render 'snip-icons',
+             wrapper: '.collection__topbar-controls--grid',
+             type: 'vantage-theme',
+             icon: 'grid',
+             classes: 'collection__topbar-controls--grid--icon',
+             size: '10px',
+             fill: 'var(--text-color)',
+             hover: 'var(--text-color)' %}
+        </button>
+      </li>
+      <li class="collection__topbar-controls--list list-icon js-collection-layout" data-grid-type="list">
+        <button class="button-as-link" type="button" name="button">
+          {% render 'snip-icons',
+             wrapper: '.collection__topbar-controls--list',
+             type: 'vantage-theme',
+             icon: 'list',
+             classes: 'collection__topbar-controls--list--icon',
+             size: '10px',
+             fill: 'var(--text-color)',
+             hover: 'var(--text-color)' %}
+        </button>
+      </li>
+    </ul>
+  {%- endif -%}
+
+  {% if filter_count > 0 %}
+    <div class="filtering__results span-12 auto js-filters-reset" data-collection-filter-results>
+      <ul class="current_tags">
+        {%- for filter in collection.filters -%}
+          {%- for value in filter.active_values -%}
+            <li class="current_filters--filter current_tag">
+              <a class="js-current-filter" href="{{ value.url_to_remove }}">
+                {{ value.label | escape }}
+              </a>
+            </li>
+          {%- endfor -%}
+          {% if filter.type == "price_range" %}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              <li class="current_filters--filter current_tag">
+                <a class="js-current-filter" href="{{ filter.url_to_remove }}">
+                  {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}-{%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
+                </a>
+              </li>
+            {%- endif -%}
+          {% endif %}
+        {%- endfor -%}
+        <li><a class="current_filters--clear js-current-filter clear-tags" href="{{ collection.url }}">{{ 'collections.filters.clear_all' | t }}</a></li>
+      </ul>
+    </div>
+  {% endif %}
+</div><!-- /#full-width-filter -->

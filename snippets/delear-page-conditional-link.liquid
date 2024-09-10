@@ -1,0 +1,14 @@
+  <style>
+    .isDisabledFile {
+      pointer-events:none !Important;
+  }
+  </style>
+{% if customer.tags contains "Dealer" %}
+    <script>
+      $m('.mlfile').removeClass('isDisabledFile');
+    </script>
+{% else %}
+  <script>
+     $m('.mlfile').addClass('isDisabledFile');
+  </script>
+{% endif %}

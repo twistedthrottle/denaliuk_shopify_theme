@@ -1,0 +1,28 @@
+{% comment %}
+snippets/spi-banner.liquid
+{% endcomment %}
+{%- liquid
+
+  assign form_id = 'product-form-installment'
+  assign unique_form_id = form_id | append: '--' | append: section.id
+  assign unique_form_class = form_id | append: ' ' | append: unique_form_id
+
+-%}
+{%- form 'product', product, id: unique_form_id, class: unique_form_class -%}
+  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+  <select style="display:none;" name="id">
+    {% for variant in product.variants %}
+      <option value="{{ variant.id }}" {% if variant == current_variant %}selected="selected"{% endif %}></option>
+    {% endfor %}
+  </select>
+  {{ form | payment_terms }}
+{%- endform -%}
+<style>
+  {{ unique_form_id | prepend: '#' }} {
+    padding: 0 !important;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    float: none !important;
+    border-bottom: none;
+  }
+</style>

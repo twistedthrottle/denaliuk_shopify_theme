@@ -1,0 +1,97 @@
+.parallax--section .parallax--panel {
+    height: var(--desktop-section-height);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    display: grid;
+  }
+  .parallax--section .parallax--panel .simple-parallax-initialized {
+    height: var(--desktop-section-height);
+    overflow: visible;
+  }
+  .parallax--section .parallax--panel_image {
+    grid-area: 1/-1;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+  .parallax--panel_image:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(var(--section-overlay-color),var(--section-overlay-opacity));
+    content: "";
+  }
+  .parallax--section .parallax--panel .onboard {
+    height: 100%;
+  }
+  .parallax--section .parallax--panel .box-ratio {
+    padding-bottom: 0 !important;
+    height: var(--desktop-section-height);
+  }
+  .parallax--section .parallax--panel .box-ratio img {
+    height: 100%;
+    object-fit: cover;
+  }
+  .parallax--section .parallax--panel_caption {
+    z-index: 1; 
+    grid-area: 1/-1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 20px;
+  }
+  .parallax--section .parallax--panel_caption h3,
+  .parallax--section .parallax--panel_caption p {
+    color: var(--text-color);
+    margin: 0;
+  }
+  .parallax--section .parallax--panel_caption h3 {
+    font-size: var(--h3-size);
+  }
+  .parallax--section .parallax--panel_caption p {
+    font-size: var(--font-size);
+  }
+  .parallax--section .parallax--panel_caption a.button,
+  .parallax--section .parallax--panel_caption a.button:hover {
+    color: var(--button-text);
+    background: var(--button-color);
+    font-size: var(--font-size-reset);
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+
+  .parallax--section .image__caption.top_left a.button,
+  .parallax--section .image__caption.middle_left a.button,
+  .parallax--section .image__caption.bottom_left a.button {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .parallax--section .image__caption.top_center a.button,
+  .parallax--section .image__caption.middle_center a.button,
+  .parallax--section .image__caption.bottom_center a.button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .parallax--section .image__caption.top_right a.button,
+  .parallax--section .image__caption.middle_right a.button,
+  .parallax--section .image__caption.bottom_right a.button {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  @media screen and (max-width: 740px) {
+    .parallax--section .parallax--panel .simple-parallax-initialized {
+      height: var(--mobile-section-height);
+    }
+    .parallax--section .parallax--panel,
+    .parallax--section .parallax--panel .box-ratio {
+      height: var(--mobile-section-height);
+    }
+  }

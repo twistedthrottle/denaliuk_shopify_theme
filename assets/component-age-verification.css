@@ -1,0 +1,57 @@
+.global-age-verification .site-logo a {
+  font-family: var(--heading-family);
+}
+.global-age-verification .site-logo img {
+  margin-left: auto;
+  margin-right: auto;
+}
+.global-age-verification .modal-prompt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.global-age-verification .modal-prompt a,
+.global-age-verification .modal-prompt h1,
+.global-age-verification .modal-prompt p {
+  color: var(--age-text-color);
+}
+.global-age-verification .modal-prompt a {
+  font-size: var(--font-size);
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  word-break: break-all;
+}
+.global-age-verification .form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20px 0 10px;
+  gap: 10px;
+}
+
+.global-age-verification .form select {
+  flex: 0 0 150px;
+}
+
+@media screen and (max-width: 740px) {
+  .global-age-verification .form {
+    flex-direction: column;
+  }
+  .global-age-verification .form select {
+    flex: 1 1 40px;
+  }
+}
+
+.global-age-verification button#submit_birthdate {
+  color: var(--button-text);
+  background:  var(--button-color);
+  margin-top: 10px;
+}
+.global-age-verification button#submit_birthdate:hover {
+  background-color: var(--button-hover);
+}

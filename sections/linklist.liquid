@@ -1,0 +1,118 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+  assign menu = linklists[section.settings.menu]
+
+-%}
+
+{% style %}
+  section.linklist__section.global__section-{{ section.id }} {
+    background: var(--{{ section.settings.color_scheme }}-background);
+  }
+  {% unless section.settings.color_scheme == 'none' %}
+    section.linklist__section.global__section-{{ section.id }} ul.linklist__section--menu a {
+      color: var(--{{ section.settings.color_scheme }}-color) !important;
+    }
+    section.linklist__section.global__section-{{ section.id }} ul.linklist__section--menu li a:after {
+      background: var(--{{ section.settings.color_scheme }}-color);
+    }
+  {% endunless %}
+{% endstyle %}
+
+<div class="global__section {{ section_padding }}">
+  <section
+    class="global__section-{{ section.id }} linklist__section{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+    data-section-id="{{ section.id }}"
+    data-section-loaded="false"
+    data-section-type="linklist-section">
+
+    <div class="row grid__wrapper">
+      <div class="linklist__content span-12 auto">
+        <ul class="linklist__section--menu">
+          {% for link in menu.links %}
+            <li>{{ link.title | link_to: link.url }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+{% schema %}
+{
+  "name": "Link list",
+  "settings":
+  [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Choose a menu",
+      "default": "main-menu",
+      "info": "Select a navigation menu. Only the first level links will be shown, submenus will not appear."
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "cs1",
+          "label": "1"
+        },
+        {
+          "value": "cs2",
+          "label": "2"
+        },
+        {
+          "value": "cs3",
+          "label": "3"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Link list"
+    }
+  ]
+}
+{% endschema %}

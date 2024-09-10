@@ -1,0 +1,125 @@
+{% style %}
+
+{%- liquid
+
+  assign main_font = settings.main_font
+  assign nav_font = settings.nav_font
+  assign heading_font = settings.heading_font
+  assign main_letter_spacing = settings.main_letter_spacing
+  assign nav_letter_spacing = settings.nav_letter_spacing
+  assign heading_letter_spacing = settings.heading_letter_spacing
+  assign button_spacing = '0.075'
+
+-%}
+
+  :root {
+    --main-family: {{ main_font.family }};
+    --main-weight: {{ main_font.weight }};
+    --main-style: {{ main_font.style }};
+    --main-spacing: {{ main_letter_spacing }}em;
+    --nav-family: {{ nav_font.family }};
+    --nav-weight: {{ nav_font.weight }};
+    --nav-style: {{ nav_font.style }};
+    --nav-spacing: {{ nav_letter_spacing }}em;
+    --heading-family: {{ heading_font.family }};
+    --heading-weight: {{ heading_font.weight }};
+    --heading-style: {{ heading_font.weight }};
+    --heading-spacing: {{ heading_letter_spacing }}em;
+    --button-spacing: {{ button_spacing }}em;
+
+    --font-size: {{ settings.font_size }}px;
+    --h1-size: {{ settings.h1_size }}px;
+    --h2-size: {{ settings.h2_size }}px;
+    --h3-size: {{ settings.h3_size }}px;
+    --nav-size: {{ settings.nav_size }}px;
+    --supersize-h3: calc({{ settings.h3_size }}px * 2);
+    --font-size-large: calc({{ settings.font_size }}px + 2);
+    --font-size-reset: {{ settings.font_size }}px;
+
+    --section-title-border: {{ settings.section_title_border }};
+    --heading-border-weight: {{ settings.heading_border_weight }}px;
+
+    --announcement-bar-background: {{ settings.announcement_bar_background }};
+    --announcement-bar-text-color: {{ settings.announcement_bar_text_color }};
+    --top-bar-links-active: {{ settings.top_bar_links_active }};
+    --top-bar-links-bg-active: {{ settings.top_bar_links_bg_active }};
+    --header-wrapper-background: {{ settings.header_wrapper_background }};
+    --logo-color: {{ settings.logo_color }};
+    --header-text-color: {{ settings.header_text_color }};
+    --navigation: {{ settings.navigation }};
+    --nav-color: {{ settings.nav_color }};
+    --background: {{ settings.background }};
+    --text-color: {{ settings.text_color }};
+    --dotted-color: {{ settings.dotted_color }};
+    --sale-color: {{ settings.sale_color }};
+    --button-color: {{ settings.button_color }};
+    --button-text: {{ settings.button_text }};
+    --button-hover: {{ settings.button_color | color_lighten: 10 }};
+    --secondary-button-color: {{ settings.secondary_button_color }};
+    --secondary-button-text: {{ settings.secondary_button_text }};
+    --secondary-button-hover: {{ settings.secondary_button_color | color_lighten: 10 }};
+    --directional-background: {{ settings.directional_background }};
+    --directional-color: {{ settings.directional_color }};
+    --directional-hover-background: {{ settings.directional_background | color_lighten: 10 }};
+    --swatch-width: 40px;
+    --swatch-height: 34px;
+    --swatch-tooltip-left: {{ '40px' | remove: 'px' | to_number | divided_by: 2 | minus: 50 | plus: 2 }}px;
+    --footer-background: {{ settings.footer_background }};
+    --footer-text-color: {{ settings.footer_text_color }};
+    --footer-border-color: {{ settings.footer_text_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    --cs1-color: {{ settings.cs1_color }};
+    --cs1-background: {{ settings.cs1_background }};
+    --cs2-color: {{ settings.cs2_color }};
+    --cs2-background: {{ settings.cs2_background }};
+    --cs3-color: {{ settings.cs3_color }};
+    --cs3-background: {{ settings.cs3_background }};
+    --keyboard-focus: {{ settings.keyboard_focus }};
+    --focus-border-style: {{ settings.focus_border_style }};
+    --focus-border-weight: {{ settings.focus_border_weight }}px;
+    --section-padding: {{ settings.index_padding }}px;
+    --grid-text-alignment: {{ settings.grid_text_alignment }};
+    --posted-color: {{ settings.text_color | color_lighten: 20 }};
+    --article-title-color: {{ settings.heading_color | color_lighten: 30 }};
+    --article-caption-color: {{ settings.font_color | color_darken: 30 }};
+    --close-color: {{ settings.footer_text_color | color_darken: 30 }};
+    --text-color-darken-30: {{ settings.text_color | color_darken: 30 }};
+    --thumbnail-outline-color: {{ settings.text_color | color_lighten: 40 }};
+    --select-arrow-bg: url({{ 'select-arrow.png' | asset_url }});
+    --free-shipping-bg: {{ settings.free_shipping_bg }};
+    --free-shipping-text: {{ settings.free_shipping_text }};
+    --color-filter-size: 26px;
+
+    --error-msg-dark: #e81000;
+    --error-msg-light: {{ '#e81000' | color_lighten: 50 }};
+    --success-msg-dark: #007f5f;
+    --success-msg-light: {{ '#007f5f' | color_lighten: 70 }};
+
+    --color-body-text: var(--text-color);
+    --color-body: var(--background);
+    --color-bg: var(--background);
+
+    --star-active: {{ settings.text_color | color_to_rgb }};
+    --star-inactive: {{ settings.text_color | color_lighten: 50 | color_to_rgb }};
+
+    --section-rounding: {{ settings.section_rounding }}px;
+    --section-background: transparent;
+    --section-overlay-color: 0, 0, 0;
+    --section-overlay-opacity: 0;
+    --section-button-size: {{ settings.font_size }}px;
+    --banner-title: {{ settings.banner_title }};
+
+    --pulse-color: rgba(255, 177, 66, 1);
+    --age-text-color: {{ settings.age_text_color }};
+    --age-bg-color: {{ settings.age_bg_color }};
+  }
+  @media (max-width: 740px) {
+    :root {
+      --font-size: calc({{ settings.font_size }}px - ({{ settings.font_size }}px * 0.15));
+      --nav-size: calc({{ settings.nav_size }}px - ({{ settings.nav_size }}px * 0.15));
+      --h1-size: calc({{ settings.h1_size }}px - ({{ settings.h1_size }}px * 0.15));
+      --h2-size: calc({{ settings.h2_size }}px - ({{ settings.h2_size }}px * 0.15));
+      --h3-size: calc({{ settings.h3_size }}px - ({{ settings.h3_size }}px * 0.15));
+      --supersize-h3: calc({{ settings.h3_size }}px * 1.5);
+    }
+  }
+{% endstyle %}

@@ -1,0 +1,156 @@
+<script>
+  (function($) {
+      $.fn.scriptLoader = function(options) {
+          var settings = $.extend({
+              lib: [],
+              count: 0,
+              scriptSrcLen: 0,
+              scriptLoaded: false,
+              cssLoaded: false,
+              scriptLoading: false,
+              isScriptLoaded : false
+          }, options);
+          var $this = this;
+  
+          function loadScriptCallback(count) {
+              if (settings.scriptSrcLen == count) {
+                   settings.isScriptLoaded = true;
+                  scriptLoaded();
+              }
+          }
+  
+          function scriptLoaded(count) {
+              settings.scriptLoaded = true;
+              $(document).find('script[type="text/customInlineScript"]').each(function() {
+                  new Function($(this).text())();
+              });
+              window.dispatchEvent(new Event('resize'));
+              window.dispatchEvent(new Event('load'));
+              // window.dispatchEvent(new Event('DOMContentLoaded'));
+          }
+  
+          function loadCss(href) {
+            if(href !== undefined){
+              if (settings.cssLoaded) return;
+              var s = document.createElement('link');
+              s.href = href;
+              s.type = 'text/css';
+              s.rel = 'stylesheet';
+              document.head.appendChild(s);
+          }
+          }
+          function loadScript(src) {
+              if (settings.scriptLoaded) return;
+              s = document.createElement("script");
+              s.src = src
+              document.head.appendChild(s);
+              ((s.readyState) && (s.readyState == "loaded" || s.readyState == "complete")) ? s.onreadystatechange = function() {
+                  settings.count++;
+                  loadScriptCallback(settings.count);
+              }: s.onload = function() {
+                  settings.count++;
+                  loadScriptCallback(settings.count);
+              };
+          }
+  
+          function init() {
+              if (settings.scriptLoading) return;
+              settings.scriptLoading = true;
+              $(document).ready(function() {
+                  $('body').removeClass('after-load')
+              })
+              $(document).find('script[type="text/customscript"]').each(function() {
+                  loadScript($(this).attr('src'));
+              });
+              $(document).find('link[type="text/customcss"]').each(function() {
+                 // loadCss($(this).attr('lazy-href'));
+                  loadCss($(this).attr('href'));
+              });
+              $(document).find('iframe').each(function() {
+                  if (typeof($(this).attr('data-src')) !== 'undefined') {
+                      $(this).attr('src', $(this).attr('data-src'))
+                  }
+              });
+  
+            if(!settings.isScriptLoaded){
+                  settings.isScriptLoaded = true;
+                  scriptLoaded();
+              }
+
+              setTimeout(function() {
+                  initdelay();
+              }, 1000);
+              settings.cssLoaded = true;
+          //  loadScript('https://cdn.shopify.com/s/files/1/0933/6732/files/mlveda-currencies-switcher.js');
+              // mlvedaLoadScript("https://www.powr.io/powr.js?powr-token=wdmrckexclusive.myshopify.com&external-type=shopify&shop=wdmrckexclusive.myshopify.com");
+              
+            mlvedaLoadScript("https:\/\/static.klaviyo.com\/onsite\/js\/klaviyo.js?company_id=Rwqv4G\u0026shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("https:\/\/analytics.getshogun.com\/collector.js?shop=denali-electronics.myshopify.com");
+              // mlvedaLoadScript("https:\/\/productoptions.w3apps.co\/js\/options.js?shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("https:\/\/cdn.verifypass.com\/seller\/launcher.js?shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("https:\/\/formbuilder.hulkapps.com\/skeletopapp.js?shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("https:\/\/www.bloglinkerapp.com\/js\/main-ASO2JMA4.js?shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("https:\/\/zubrcommerce.s3-us-west-2.amazonaws.com\/variable-products\/variable-loader.js?shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("\/\/dynamic.criteo.com\/js\/ld\/ld.js?a=98092\u0026shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("https:\/\/api.salesreps.io\/shopify.js?key=63aefeb08406845c563ed53e\u0026shop=denali-electronics.myshopify.com");
+              mlvedaLoadScript("https:\/\/loox.io\/widget\/rAPWKvqSrk\/loox.1678146462310.js?shop=denali-electronics.myshopify.com");
+            mlvedaLoadScript("https:\/\/assets1.adroll.com\/shopify\/latest\/j\/shopify_rolling_bootstrap_v2.js?adroll_adv_id=7WDX4P3Q6RGPBEAHTHYVGT\u0026adroll_pix_id=NM2XIANQQNDPVD6MBNBU7S\u0026shop=denali-electronics.myshopify.com");
+            mlvedaLoadScript("\/\/app.backinstock.org\/widget\/13592_1695405209.js?category=bis\u0026v=6\u0026shop=denali-electronics.myshopify.com");
+            mlvedaLoadScript("https:\/\/d3g420rgevyqxw.cloudfront.net\/cffPCLoader_min.js?shop=denali-electronics.myshopify.com");
+            mlvedaLoadScript("https:\/\/shopify-widget.route.com\/shopify.widget.js?shop=denali-electronics.myshopify.com");
+            mlvedaLoadScript("\/\/cdn.shopify.com\/proxy\/057bdb55cafe8587561fd14cbbb3861e346ed267cb3a0bcf73bfc087ca3d9b60\/static.cdn.printful.com\/static\/js\/external\/shopify-product-customizer.js?v=0.28\u0026shop=denali-electronics.myshopify.com\u0026sp-cache-control=cHVibGljLCBtYXgtYWdlPTkwMA");
+            mlvedaLoadScript("https:\/\/d3g420rgevyqxw.cloudfront.net\/cff.production.min.js?shop=denali-electronics.myshopify.com");
+            mlvedaLoadScript("https:\/\/d1o5e9vlirdalo.cloudfront.net\/vfLoader.js?pk=denalielectronics\u0026e=prod\u0026shop=denali-electronics.myshopify.com");
+            mlvedaLoadScript("");
+
+              // mlvedaLoadScript("https:\/\/analytics.getshogun.com\/collector.js?shop=denali-electronics.myshopify.com");
+            
+          }
+  
+          function initdelay() {
+              function inlineloadelay() {
+                  $(document).find('script[type="text/customInlinedelay"]').each(function() {
+                      try {
+                          new Function($(this).text());
+                      } catch (err) {
+                          console.warn($(this).text());
+                      }
+                  });
+                  window.dispatchEvent(new Event('resize'));
+                  window.dispatchEvent(new Event('load'));
+                  // window.dispatchEvent(new Event('DOMContentLoaded'));
+              }
+              inlineloadelay();
+          }
+          settings.scriptSrcLen = $(document).find('script[type="text/customscript"]').length;
+          document.addEventListener('DOMContentLoaded', function() {
+              setTimeout(function() {
+                  init()
+              }, 40e3);
+          })
+          window.addEventListener("mousemove", function() {
+              init();
+          })
+          window.addEventListener("touchstart", function() {
+              init();
+          })
+          if (window.attachEvent) {
+              window.attachEvent('onscroll', function() {
+                  init();
+              });
+          } else {
+              window.addEventListener('scroll', function() {
+                  init();
+              }, false);
+          }
+      };
+  }(jQuery));
+
+jQuery('body').scriptLoader();
+
+function mlvedaLoadScript(src){
+ var script = document.createElement('script');
+ script.src = src;
+ document.head.appendChild(script);
+}
+</script>

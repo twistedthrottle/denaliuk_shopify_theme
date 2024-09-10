@@ -1,0 +1,231 @@
+{% comment %} async added by mlveda {% endcomment %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{% comment %}  original code commented by mlveda and type added by mlveda 
+{{'https://productoptions.w3apps.co/js/options.js' | script_tag }}
+{% endcomment %}
+{{'https://productoptions.w3apps.co/js/options.js' | script_tag }}
+<script type="text/javascript">
+  
+ $( document ).ready(function() {
+  
+ setTimeout(function() { 
+  w3productOptionsJS($); 
+  }, 0);
+
+   
+    var productIDList = [];
+    var outofstock = false;
+    var currentAdditional = 0;
+    var priceDiv = $(".w3-custom-price"); // Add your price div class between the quotes
+    var comparePriceDiv = $(""); // Add your compare at price div class between the quotes
+    
+     $(priceDiv).addClass("po-original-price");
+
+    if (comparePriceDiv.length > 0){
+      $(comparePriceDiv).addClass("po-original-compare-price");
+    }
+
+
+ 
+    const targetNode = document.getElementsByClassName('po-original-price')[0];
+    if (targetNode){
+      console.log('target found');
+    const config = { attributes: true, childList: true, subtree: true };
+    const callback = function(mutationsList, observer) {
+        // Use traditional 'for loops' for IE 11
+        for(const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                //child changed
+              	setPrice();
+            }
+            else if (mutation.type === 'attributes') {
+                //attribute changed
+              setPrice();
+            }
+        }
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+    }else{
+      console.log('no target found');
+    }
+
+    
+    
+    
+    
+    $("body").on("productOptionsLoaded", function(e,container) {
+      console.log('options loaded');
+      var form = container.closest("form");
+      var cartBtn = form.find(".js-ajax-submit-w3"); //Swap this value out with your add to cart button class
+      $(cartBtn).click(function(e){
+        e.preventDefault();
+        inventoryCheck(form, productIDList, true);
+      })
+    });
+
+    $('body').on('productOptionsPriceChange', function(e, price, container, products) {
+      console.log('price changed');
+      //update prices
+      currentAdditional = price;
+      setPrice();
+      
+      var form = container.closest("form");
+      if(form.find(".js-ajax-submit-w3")[0].hasAttribute("disabled") && !form.find(".js-ajax-submit-w3").hasClass("options-disabled")) {
+        console.log('disabled');
+        return;
+      }
+      productIDList = products;
+      inventoryCheck(form, products, false);
+       
+      
+    });
+
+    
+    
+    function inventoryCheck(form, products, isSubmit){
+      console.log('check inventory');
+      var outofstockTitle = [];
+      var cartBtn = form.find(".js-ajax-submit-w3"); //Swap this value out with your add to cart button class
+      var spanStockMsg = form.find("#options-stock-msg");
+      var ajaxRequests = [];
+
+      outofstock = false;
+      spanStockMsg.css("padding", "10px 0px");
+      spanStockMsg.css("display", "block");
+      spanStockMsg.show();
+      cartBtn.hide();
+      spanStockMsg.text("Checking inventory...");
+
+      if(products == null) {
+        products = [];
+      }
+
+      $.each(products, function(i, product) {
+        var req = $.ajax({
+          method: "GET",
+          url: "/products/" + product.handle + ".js",
+          dataType: "json",
+          success: function (shopifyProduct) {
+            var variant = getVariant(product.variantID);
+            var productTitle = product.title;
+            if(!shopifyProduct.available || variant == null) {
+              outofstock = true;
+              outofstockTitle.push(productTitle);
+            }else if(variant != null) {
+              if(!variant.available) {
+                outofstock = true;
+                outofstockTitle.push(variant.title);
+              }
+            }
+            function getVariant(id) {
+              var returnVariant = null;
+              $.each(shopifyProduct.variants, function(i, variant) {
+                if(variant.id == id) {
+                  returnVariant = variant;
+                  return;
+                }
+              });
+              return returnVariant;
+            }
+          }
+        });
+        ajaxRequests.push(req);
+      });
+
+      $.when.apply($, ajaxRequests).then(function() {
+       
+        if(outofstock) {
+          cartBtn.show();
+
+          if (outofstockTitle.length == 1){
+            spanStockMsg.html("<strong>This product is out of stock:</strong><br><hr style='margin-bottom:5px;'>" + outofstockTitle + " <br><hr style='margin-bottom:5px;'>Press the Add to cart button to add any available products.");
+          } else {
+            spanStockMsg.html("<strong>These products are out of stock:</strong><br><hr style='margin-bottom:5px;'>" + outofstockTitle.join("<br> ") + " <hr style='margin-bottom:5px;'>Press the Add to cart button to add any available products.");
+          }
+        } else {
+          spanStockMsg.hide();
+          cartBtn.show();
+          
+        }
+        if (isSubmit){
+            form.submit();
+          }
+      });
+    }
+    
+    
+    function setPrice() {
+      var shopMoneyFormat = '{{ shop.money_format }}';
+      var defaultCurrrency = '{{ shop.currency }}';
+      var originalPrice = $(priceDiv).text();
+      if (!$(".po-price").length) {
+        var newPriceElement = $(".po-original-price").clone().addClass("po-price").removeClass("po-original-price");
+        console.log(newPriceElement)
+        $(".po-original-price").after(newPriceElement);
+      }
+      // originalPrice = Number(originalPrice.replace(/[^0-9\.]+/g, "")); // commented by MLVeda
+      originalPrice = Number(originalPrice.replace(/[^0-9]+/g, ""));
+      if ( originalPrice % 1 !== 0 || shopMoneyFormat.indexOf('no_decimal') !== -1 ) {
+        originalPrice *= 100;
+      }
+      // above code added by MLVeda
+      if (currentAdditional == null) {
+        currentAdditional = 0;
+      }
+      if (typeof(currentAdditional) == "undefined") {
+        currentAdditional = 0;
+      }
+      if (isNaN(currentAdditional)) {
+        currentAdditional = 0;
+      }
+      // var newPrice = (originalPrice + currentAdditional) * 100; // commented by MLVeda.
+      var newPrice = originalPrice + currentAdditional * 100; // added by MLVeda.
+      var formattedPrice = Shopify.formatMoney(newPrice, shopMoneyFormat);
+      $(".po-price").html(formattedPrice + ' Incl. VAT');
+      $(".pricing-info-total-price").html(formattedPrice);
+      
+      try {
+        if (typeof Currency != "undefined") {
+          if (typeof Currency.cookie != "undefined") {
+            if (Currency.cookie.read() != null) {
+              shopCurrency = Currency.cookie.read();
+            }
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      $(".po-price").show();
+      $(".po-original-price").hide();
+
+      /*---Compare At Price Update---*/
+      if (comparePriceDiv.length > 0 && Number(comparePriceDiv.text().replace(/[^0-9\.]+/g, "")) > Number(priceDiv.text().replace(/[^0-9\.]+/g, ""))){
+        var originalComparePrice = $(comparePriceDiv).text();
+        if (!$(".po-compare-price").length) {
+          var newComparePriceElement = $(".po-original-compare-price").clone().addClass("po-compare-price").removeClass("po-original-compare-price");
+          $(".po-original-compare-price").after(newComparePriceElement);
+        }
+        originalComparePrice = Number(originalComparePrice.replace(/[^0-9\.]+/g, ""));
+        var newComparePrice = (originalComparePrice + currentAdditional) * 100;
+        var formattedComparePrice = Shopify.formatMoney(newComparePrice, shopMoneyFormat);
+        $(".po-compare-price").html(formattedComparePrice);
+        $(".po-compare-price").show();
+        $(".po-original-compare-price").hide();
+      }
+      
+      //add main product title to bundle list as first item
+      // commented by mlveda var mainTitle = $('#product-description h1').text();
+      var mainTitle = $('.product-blocks__block--title h1').text();
+      var variantTitle = $(".variant_selected").text();
+      var p = $('.pricing-info-products').find(".parent-product");
+      if (p.length <= 0){
+        $('.pricing-info-products').prepend('<div class="pricing-info-product parent-product"><div class="pricing-info-product-title">' + mainTitle + ' - ' + variantTitle + '</div></div>');
+
+      }else{
+       $(p).html("<div class='pricing-info-product-title'>" + mainTitle + " - " + variantTitle + "</div>");
+      }
+    }
+    
+  });
+</script>

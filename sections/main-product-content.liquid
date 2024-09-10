@@ -1,0 +1,364 @@
+<section class="product-full__content main__section row" id="product-{{ product.id }}"
+    data-product-id="{{ product.id }}"
+    data-section-id="{{ section.id }}"
+    data-section-type="product-content-section"
+    data-section-loaded="false"
+    data-url="{{ product.url }}">
+
+      <div class="product-blocks {% if settings.animation != 'none' %} animate {{ settings.animation }} delay--2{% endif %} grid__wrapper">
+      {% for block in section.blocks %}
+        {% case block.type %}
+
+          {% when 'accordion_content' %}
+              {% if gallery_full %}
+                {% continue %}
+              {% endif %}
+              <div
+                class="span-8 push-2 sm-span-12 auto product-blocks__block product--full product-blocks__block product--full--{{ block.type }} {% if block.settings.show_as_accordion %}product-blocks__block product--full--accordion-item{% endif %}"
+                {{ block.shopify_attributes }}>
+                {%- liquid
+
+                  assign accordion_header = block.settings.accordion_heading
+                  assign accordion_content = blank
+
+                  assign accordion_page = block.settings.page
+                  if accordion_page == blank
+                   assign accordion_page = pages[block.settings.page]
+                  endif
+
+                  assign accordion_content = accordion_page.content
+
+                  if accordion_content == blank
+                   assign accordion_content = block.settings.richtext
+                  endif
+
+                -%}
+
+                {% capture accordion_heading_capture %}
+                  {{ block.settings.accordion_heading }}
+                {% endcapture %}
+                {% capture accordion_content_capture %}
+                  {{ accordion_content }}
+                {% endcapture %}
+                {%
+                  render 'accordion-item',
+                  accordion_heading_capture: accordion_heading_capture,
+                  accordion_content_capture: accordion_content_capture,
+                  default_open: block.settings.default_open_accordion,
+                  unique_id: block.id
+                %}
+            </div>
+
+          {% when 'description' %}
+            <div
+              class="span-8 push-2 sm-span-12 auto product-blocks__block product--full product-blocks__block product--full--{{ block.type }} {% if block.settings.show_as_accordion %}product-blocks__block product--full--accordion-item{% endif %}"
+              {{ block.shopify_attributes }}>
+
+              {% if block.settings.show_as_accordion %}
+                {% capture accordion_heading_capture %}
+                  {{ 'products.product.product_description' | t }}
+                {% endcapture %}
+                {% capture accordion_content_capture %}
+                  {{ product.description | split: '<!-- split -->' | first }}
+                {% endcapture %}
+                {%
+                  render 'accordion-item',
+                  accordion_heading_capture: accordion_heading_capture,
+                  accordion_content_capture: accordion_content_capture,
+                  default_open: block.settings.default_open_accordion,
+                  unique_id: block.id
+                %}
+              {% else %}
+                <div class="rte">
+                  {{ product.description | split: '<!-- split -->' | first }}
+                </div>
+              {% endif %}
+            </div>
+
+          {% when 'share' %}
+            <div
+              class="span-8 push-2 sm-span-12 auto product-blocks__block product--full product-blocks__block product--full--{{ block.type }}"
+              {{ block.shopify_attributes }}>
+              <div class="social--sharing__icons">
+                {% render 'social' with product %}
+              </div><!-- /#soc -->
+            </div>
+
+          {% when 'divider' %}
+            <div
+              class="span-8 push-2 sm-span-12 auto product-blocks__block product--full product-blocks__block product--full--{{ block.type }}"
+              {{ block.shopify_attributes }}>
+            </div>
+
+          {% when 'related_products' %}
+            <div
+              class="span-8 push-2 sm-span-12 auto grid__wrapper grid__wrapper-nest product-blocks__block product--full product-blocks__block product--full--{{ block.type }}"
+              {{ block.shopify_attributes }}>
+
+              {%- liquid
+
+                assign list = block.settings.product_list
+                assign hide = true
+                if list != blank
+                  assign hide = false
+                endif
+
+                assign count = list.count
+                if count == 4
+                  assign grid = 3
+                elsif count == 3
+                  assign grid = 4
+                elsif count == 1 or 2
+                  assign grid = 6
+                endif
+
+              -%}
+
+              {% unless hide == true %}
+                <h4 class="span-12 auto">{{ block.settings.title | escape }}</h4>
+                {% for related_product in list limit: 4 %}
+                  {% unless product.handle == related_product.handle %}
+                    <div class="product-index span-{{ grid }} sm-span-6 auto"
+                          data-product-id="{{ related_product.id }}"
+                          data-alpha="{{ related_product.title }}"
+                          data-price="{{ related_product.price }}">
+                          {% render 'product-listing', product: related_product %}
+                    </div>
+                  {% endunless %}
+                {% endfor %}
+
+              {% endunless %}
+            </div>
+
+          {% when 'rich_text' %}
+
+            {%- liquid
+              assign has_title = false
+              assign has_text = false
+
+              assign title = block.settings.title
+              assign text = block.settings.rich_text
+
+              if title != blank
+                assign has_title = true
+              endif
+              if text != blank
+                assign has_text = true
+              endif
+            -%}
+
+            <div
+              class="span-8 push-2 sm-span-12 auto product-blocks__block product--full product-blocks__block product--full--{{ block.type }}"
+              {{ block.shopify_attributes }}>
+
+              {% if has_title %}<h4>{{ title | escape }}</h4>{% endif %}
+              {% if has_text %}{{ text }}{% endif %}
+
+            </div>
+
+          {% when 'image' %}
+
+            {%- liquid
+
+              assign has_image = false
+              assign has_link = false
+              assign is_wide = false
+
+              if block.settings.image
+                assign has_image = true
+                assign image = block.settings.image
+              endif
+
+              if block.settings.link != blank
+                assign has_link = true
+                assign link = block.settings.link
+              endif
+
+              if block.settings.display_wide
+                assign is_wide = true
+              endif
+
+            -%}
+
+            <div
+              class="{% if is_wide %}span-12{% else %}span-8 push-2 sm-span-12{% endif %} auto product-blocks__block product--full product-blocks__block product--full--{{ block.type }}"
+              {{ block.shopify_attributes }}>
+
+              {% if has_link != blank %}<a href="{{ link }}">{% endif %}
+                {% if has_image %}
+                  {% render 'basic-responsive-image',
+                    type: block.settings.image,
+                    width: 2000
+                  %}
+                {% endif %}
+              {% if has_link != blank %}</a>{% endif %}
+
+            </div>
+
+          {% when '@app' %}
+            <div
+              class="span-8 push-2 sm-span-12 auto product-blocks__block product--full product-blocks__block product--full--{{ block.type }}"
+              {{ block.shopify_attributes }}>
+              {% render block %}
+            </div>
+          {% else %}
+            {% continue %}
+
+        {% endcase %}
+      {% endfor %}
+      </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Product content",
+  "settings":
+  [
+    {
+      "type": "paragraph",
+      "content": "Optionally add blocks to show full page width page content."
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "share",
+      "name": "Share",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "divider",
+      "name": "Divider",
+      "settings": []
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings":
+      [
+        {
+          "type": "checkbox",
+          "id": "show_as_accordion",
+          "label": "Show as an accordion item",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "default_open_accordion",
+          "label": "Have accordion item open",
+          "info": "Accordion item is open by default when the page loads",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "accordion_content",
+      "name": "Accordion content",
+      "limit": 5,
+      "settings":
+      [
+        {
+          "type": "text",
+          "id": "accordion_heading",
+          "label": "Accordion heading",
+          "default": "Accordion heading"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page content",
+          "info": "Add content from a page which will be shown on all product pages"
+        },
+        {
+          "type": "richtext",
+          "id": "richtext",
+          "label": "Richtext content",
+          "default": "<p>Enter the content to use inside the accordion panel selected.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "default_open_accordion",
+          "label": "Have accordion item open",
+          "info": "Accordion item is open by default when the page loads",
+          "default": false
+        }
+      ]
+    },
+    {
+     "type": "related_products",
+     "name": "Product list",
+     "limit": 1,
+     "settings":
+     [
+       {
+         "type": "text",
+         "id": "title",
+         "label": "Title",
+         "default": "More products"
+       },
+       {
+          "type": "product_list",
+          "id": "product_list",
+          "label": "Products",
+          "limit": 4
+        }
+      ]
+    },
+    {
+      "type":"image",
+      "name":"Image",
+      "settings":
+      [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "display_wide",
+          "label": "Display wide",
+          "default": false
+        }
+      ]
+    },
+    {
+     "type": "rich_text",
+     "name": "Rich text",
+     "limit": 2,
+     "settings":
+      [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default":"Heading"
+        },
+        {
+          "type": "richtext",
+          "id":"rich_text",
+          "label":"Text",
+          "default":"<p>Add rich text or metafield content"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "enabled_on": {
+    "templates":
+    [
+      "product"
+    ]
+  }
+}
+{% endschema %}

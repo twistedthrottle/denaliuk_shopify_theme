@@ -1,0 +1,366 @@
+{% comment %} Parallax images assets {% endcomment %}
+<link rel="preload" href="{{ 'section-parallax-images.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ 'section-parallax-images.css' | asset_url }}"></noscript>
+
+{%- liquid
+
+    assign section_padding = ''
+    if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+    elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'pt0 mt0'
+    elsif section.settings.section_padding == 'none'
+    assign section_padding = 'pt0 pb0 mt0'
+    endif
+
+  -%}
+
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      --h3-size:  {{ section.settings.heading_size }}px;
+      --font-size:  {{ section.settings.text_size }}px;
+      --desktop-section-height: {{ section.settings.section_height }}px;
+      --mobile-section-height: {{ section.settings.section_height_mobile }}px;
+    }
+    @media screen and (max-width: 740px) {
+      #shopify-section-{{ section.id }} {
+        --h3-size:  calc({{ section.settings.heading_size }}px - ({{ section.settings.heading_size }}px * 0.15));
+        --font-size:  calc({{ section.settings.text_size }}px - ({{ section.settings.text_size }}px * 0.15));
+      }
+    }
+    {% for block in section.blocks %}
+      .section-parallax-{{ section.id }} .panel-{{ forloop.index }} {
+        --text-color: {{ block.settings.text_color }};
+        --button-text: {{ block.settings.button_text_color }};
+        --button-color: {{ block.settings.button_color }};
+        --section-overlay-color: {{ block.settings.overlay_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+        --section-overlay-opacity: {{ block.settings.overlay_opacity | plus: 0 | divided_by: 100.0  }};
+      }
+    {% endfor %}
+  {% endstyle %}
+
+  <div class="global__section {{ section_padding }}">
+
+    <section
+      class="global__section-{{ section.id }} parallax--section section-parallax-{{ section.id }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+      data-section-id="{{ section.id }}"
+      data-section-type="parallax"
+      data-scale="1.3"
+      data-asset-url="{{ 'section-parallax-images.js' | asset_url }}"
+      data-section-loaded="false">
+
+      <div class="gridlock-fluid">
+        <div class="row">
+          <div class="row">
+
+            {% for block in section.blocks %}
+
+            {%- liquid
+
+              assign has_image = false
+              assign has_button = false
+              assign has_heading = true
+              assign has_subheading = false
+
+              assign heading = block.settings.heading | escape
+              assign subheading = block.settings.subheading
+              assign button_text = block.settings.button_text | escape
+              assign link = block.settings.link
+              assign caption_position = block.settings.caption_position
+
+              if block.settings.image != blank
+                assign has_image = true
+              endif
+
+              if heading == blank and subheading == blank and button_text == blank
+                assign hide_caption = true
+              endif
+
+              if heading != blank
+                assign has_heading = true
+              endif
+
+              if subheading != blank
+                assign has_subheading = true
+              endif
+
+              if button_text != blank and link != blank
+                assign has_button = true
+              endif
+
+              assign loading = 'lazy'
+              assign fetch_priority = 'auto'
+
+              if section.index == 1 and forloop.first
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+
+            -%}
+
+                <div class="parallax--panel panel-{{ forloop.index }}">
+                  <div class="parallax--panel_image">
+                    {%  if has_image %}
+                      {{ block.settings.image | image_url: width: 3000 | image_tag: loading: loading, fetchpriority: fetch_priority }}
+                    {% else %}
+                      {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                      {%- assign placeholder = 'lifestyle-' | append: current -%}
+                      <div class="onboard">
+                        {{ placeholder | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  {% unless hide_caption %}
+                    <div class="parallax--panel_caption image__caption {{ caption_position }}">
+                      {% if has_heading %}
+                        <h3>{{ heading }}</h3>
+                      {% endif %}
+                      {% if has_subheading %}
+                        {{ subheading }}
+                      {% endif %}
+                      {% if has_button %}
+                        <a class="button" href="{{ link }}">{{ button_text }}</a>
+                      {% endif %}
+                    </div>
+                  {% endunless %}
+                </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+
+  {% schema %}
+  {
+    "name": "Parallax images",
+    "max_blocks":5,
+    "settings":
+    [
+      {
+        "type":"header",
+        "content":"Desktop"
+      },
+      {
+        "type": "range",
+        "id": "section_height",
+        "min": 100,
+        "max": 1000,
+        "step": 50,
+        "unit": "px",
+        "label": "Section height",
+        "default": 850
+      },
+      {
+        "type": "range",
+        "id": "heading_size",
+        "min": 13,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "label": "Heading size",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "text_size",
+        "min": 13,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Text size",
+        "default": 17
+      },
+      {
+        "type":"header",
+        "content":"Mobile"
+      },
+      {
+        "type": "range",
+        "id": "section_height_mobile",
+        "min": 200,
+        "max": 600,
+        "step": 50,
+        "unit": "px",
+        "label": "Section height",
+        "default": 250
+      },
+      {
+        "type": "select",
+        "id": "section_padding",
+        "label": "Section spacing",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          },
+          {
+            "value": "both",
+            "label": "Both"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ],
+        "default": "none"
+      }
+    ],
+    "blocks":
+    [
+      {
+        "type": "image",
+        "name": "Image",
+        "settings":
+        [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "color",
+            "id": "overlay_color",
+            "label": "Overlay color",
+            "default": "#000000"
+          },
+          {
+            "type": "range",
+            "id": "overlay_opacity",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Overlay opacity",
+            "default": 0
+          },
+          {
+            "type": "header",
+            "content": "Overlay text"
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Parallax image with Text Overlay"
+          },
+          {
+            "type": "richtext",
+            "id": "subheading",
+            "label": "Text",
+            "default": "<p>Pair text with a large full width image to give focus to areas of your store.</p>"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button text",
+            "default": "View Product"
+          },
+          {
+            "type": "select",
+            "id": "caption_position",
+            "label": "Caption position",
+            "default": "middle_center",
+            "options": [
+              {
+                "value": "top_left",
+                "label": "Top left"
+              },
+              {
+                "value": "top_center",
+                "label": "Top center"
+              },
+              {
+                "value": "top_right",
+                "label": "Top right"
+              },
+              {
+                "value": "middle_left",
+                "label": "Middle left"
+              },
+              {
+                "value": "middle_center",
+                "label": "Middle center"
+              },
+              {
+                "value": "middle_right",
+                "label": "Middle right"
+              },
+              {
+                "value": "bottom_left",
+                "label": "Bottom left"
+              },
+              {
+                "value": "bottom_center",
+                "label": "Bottom center"
+              },
+              {
+                "value": "bottom_right",
+                "label": "Bottom right"
+              }
+            ]
+          },
+          {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text color",
+            "default": "#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "button_text_color",
+            "label": "Button text",
+            "default": "#fff"
+          },
+          {
+            "type": "color",
+            "id": "button_color",
+            "label": "Button color",
+            "default": "#000"
+          }
+        ]
+      }
+    ],
+    "presets":
+    [
+      {
+        "name": "Parallax images",
+        "blocks":
+        [
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          }
+        ]
+      }
+    ],
+    "templates":
+    [
+      "404",
+      "article",
+      "blog",
+      "cart",
+      "collection",
+      "list-collections",
+      "index",
+      "page",
+      "product",
+      "search",
+      "metaobject"
+    ]
+  }
+  {% endschema %}

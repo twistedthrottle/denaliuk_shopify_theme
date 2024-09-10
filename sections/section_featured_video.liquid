@@ -1,0 +1,85 @@
+{% schema %}
+{
+  "name": "Featured Video",
+  "settings": [
+        {
+          "type": "checkbox",
+          "id": "fv_display_wide",
+          "label": "Enable full width"
+        },
+        {
+          "type": "checkbox",
+          "id": "fv_no_bottom_margin",
+          "label": "No space after section",
+          "default": false
+        },
+        {
+          "type":"text",
+          "id":"fv_heading",
+          "label":"Heading",
+          "default":"Featured video"
+        },
+        {
+          "type": "video_url",
+          "id": "fv_video_url",
+          "label": "YouTube or Vimeo link",
+          "accept": ["youtube", "vimeo"]
+        }
+      ],
+  "presets": [{
+    "name": "Featured Video"
+  }]
+}
+{% endschema %}
+<section
+  id="page-section-{{ section.id }}"
+  class="section-featured-video-{{ section.id }}{% if section.settings.fv_no_bottom_margin %} nbm{% endif %}"
+  data-section-id="{{ section.id }}"
+>
+  {% if section.settings.fv_heading != blank %}
+    <div class="row">
+      <h2 class="section-title desktop-12 tablet-6 mobile-3">{{ section.settings.fv_heading | escape }}</h2>
+    </div>
+  {% endif %}
+
+  {% if section.settings.fv_display_wide == blank %}
+    <div class="row">
+      <div class="desktop-12 tablet-6 mobile-3">
+  {% endif %}
+
+  <div class="videoWrapper">
+    {% if section.settings.fv_video_url == blank %}
+      <iframe
+        src="//www.youtube.com/embed/_9VUPq3SxOc?rel=0&showinfo=0&vq=720"
+        width="850"
+        height="480"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    {% else %}
+      {% if section.settings.fv_video_url.type == 'youtube' %}
+        <iframe
+          src="//www.youtube.com/embed/{{ section.settings.fv_video_url.id }}?rel=0&showinfo=0&vq=720"
+          width="850"
+          height="480"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      {% endif %}
+      {% if section.settings.fv_video_url.type == 'vimeo' %}
+        <iframe
+          src="//player.vimeo.com/video/{{ section.settings.fv_video_url.id }}?byline=0&portrait=0&badge=0"
+          width="850"
+          height="480"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% if section.settings.fv_display_wide == blank %}
+    </div>
+    </div>
+  {% endif %}
+</section>

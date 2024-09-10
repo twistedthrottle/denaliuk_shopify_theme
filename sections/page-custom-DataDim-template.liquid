@@ -1,0 +1,580 @@
+<div id="page" data-section-id="{{ section.id }}">
+  <div class="page-sections">
+    {% for block in section.blocks %}
+      <div class="page-section" {{ block.shopify_attributes }}>
+        {% case block.type %}
+          {% when 'page_title' %}
+            <section id="page-section-{{ block.id }}" class="shopify-section page-title" style="text-align: {{ block.settings.pt_align }};" data-section-id="{{ block.id }}">
+              <div class="row">
+                <h1>{{ page.title }}</h1>
+              </div>
+            </section>
+          {% when 'page_content' %}
+            <section id="page-section-{{ block.id }}" class="shopify-section page-content" style="text-align: {{ block.settings.pc_align }}; max-width: {{ block.settings.pc_max_width}}px; margin: 0 auto;" data-section-id="{{ block.id }}">
+              <div class="rte">
+                {{ page.content }}
+              </div>
+            </section>
+          {% when 'image_text_overlay' %}
+          {% comment %}  
+            <section id="page-section-{{ block.id }}" class="section-image-with-text-overlay-{{ block.id }}{% if block.settings.io_no_bottom_margin %} nbm{% endif %} homepage-promo" data-section-id="{{ block.id }}">
+
+              {% if block.settings.io_full_width %}<div class="gridlock-fluid"><div class="row">{% endif %}
+              <div class="row no-fouc">
+                {% if block.settings.io_link != blank %}<a class="section-promo-link" href="{{ block.settings.io_link }}">{% endif %}
+                  <div class="section-promo centered contained desktop-12 tablet-6 mobile-3">
+                    {% if block.settings.io_image %}
+                      <!-- <div class="background-image lazyload"
+                      data-bgset="{% include 'bgset', image: block.settings.io_image %}"
+                      data-sizes="auto"></div> -->
+                      {{ block.settings.io_image | image_url: width: 3000 | image_tag: class: 'background-image', loading: loading, fetchpriority: fetch_priority }}
+                      <noscript>
+                        <div class="background-image" style="background-image: url({{ block.settings.io_image | img_url: '1024x' }});"></div>
+                      </noscript>
+                    {% else %}
+                      <div class="onboard">
+                        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                    {% endif %}
+                    <div class="gridlock-tt">
+                      <div class="caption">
+                      {% if block.settings.io_heading != blank %}
+                        <h3>{{ block.settings.io_heading }}</h3>
+                      {% endif %}
+                      {% if block.settings.io_hidden_text != blank %}
+                        <p>{{ block.settings.io_hidden_text }}</p>
+                      {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% if block.settings.io_link != blank %}</a>{% endif %}
+              </div>
+              {% if block.settings.io_full_width %}</div></div>{% endif %}
+
+              <div class="clear"></div>
+              <style>
+                .section-image-with-text-overlay-{{ block.id }} {
+                  padding: 0;
+                  margin: 0;
+                }
+                .section-image-with-text-overlay-{{ block.id }} .onboard .placeholder-svg {
+                  height: 400px;
+                }
+                .section-image-with-text-overlay-{{ block.id }} .background-image {
+                  background-size: cover;
+                  background-position: center center;
+                  height: {{ block.settings.io_image_height }}px;
+                }
+                .section-image-with-text-overlay-{{ block.id }} .section-promo {
+                  margin-bottom: 0;
+                }
+                .section-image-with-text-overlay-{{ block.id }} .section-promo:hover {
+                  opacity: 0.85;
+                }
+                .section-image-with-text-overlay-{{ block.id }} .caption h3 {
+                  color: {{ block.settings.io_heading_text_color }};
+                  font-size: {{ block.settings.io_heading_text_size }}px;
+                }
+                .section-image-with-text-overlay-{{ block.id }} .caption p {
+                  color: {{ block.settings.io_hidden_text_color }};
+                  font-size: {{ block.settings.io_hidden_text_size }}px;
+                }
+                .no-js .section-image-with-text-overlay-{{ block.id }} .background-image.lazyload {
+                  display: none;
+                }
+              </style>
+            </section>
+          {% endcomment %}
+            {%- liquid
+            
+            assign section_padding = ''
+            if block.settings.section_padding == 'top'
+            assign section_padding = 'pb0'
+            elsif block.settings.section_padding == 'bottom'
+            assign section_padding = 'mt0'
+            elsif block.settings.section_padding == 'none'
+            assign section_padding = 'mt0 pb0'
+            endif
+            
+            assign full_width = false
+            if block.settings.full_width == true
+            assign full_width = true
+            endif
+            
+            assign loading = 'lazy'
+            assign fetch_priority = 'auto'
+            
+            if section.index == 1
+            assign loading = 'eager'
+            assign fetch_priority = 'high'
+            endif
+            
+            -%}
+            
+            <div class="global__section {{ section_padding }}">
+            <section class="image__text-overlay section-{{ section.id }} {% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}{% if full_width %} section--full-width{% endif %}"
+            data-section-id="{{ section.id }}"
+            data-section-loaded="false"
+            data-section-type="image-text-overlay">
+            
+            {% if full_width %}<div class="gridlock-fluid"><div class="row">{% endif %}
+            <div class="row grid__wrapper{% if block.settings.full_width %} no_padding{% endif %}">
+            {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}
+            <div class="image__container contained span-12 auto">
+            {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 3000 | image_tag: class: 'background-image', loading: loading, fetchpriority: fetch_priority }}
+            {% else %}
+            <div class="onboard">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+            {% endif %}
+            <div class="caption center">
+            {% if block.settings.heading != blank %}
+            <h3 style="color:{{ block.settings.heading_color }};">{{ block.settings.heading }}</h3>
+            {% endif %}
+            {% if block.settings.hidden_text != blank %}
+            <p>{{ block.settings.hidden_text }}</p>
+            {% endif %}
+            {% if block.settings.link != blank %}
+            <a class="button" href="{{ block.settings.link }}">{{ block.settings.button_text }}</a>
+            {% endif %}
+            </div>
+            </div>
+            {% if block.settings.link != blank %}</a>{% endif %}
+            </div>
+            {% if full_width %}</div></div>{% endif %}
+            
+            <style>
+            .image__text-overlay.section-{{ section.id }} .image__container {
+            height: {{ block.settings.image_height }}px;
+            }
+            .image__text-overlay.section-{{ section.id }} .caption h3 {
+            color: {{ block.settings.text_color }};
+            font-size: {{ block.settings.heading_text_size }}px;
+            line-height: 1.5;
+            }
+            .image__text-overlay.section-{{ section.id }} .caption p {
+            color: {{ block.settings.text_color }};
+            font-size: {{ block.settings.hidden_text_size }}px;
+            line-height: 1.5;
+            }
+            .image__text-overlay.section-{{ section.id }} .caption a.button,
+            .image__text-overlay.section-{{ section.id }} .caption a.button:hover {
+            background: {{ block.settings.button_color }} !important;
+            color: {{ block.settings.button_text_color }} !important;
+            }
+            @media screen and ( max-width: 740px ) {
+            .image__text-overlay.section-{{ section.id }} .caption h3 {
+            font-size: calc({{ block.settings.heading_text_size }}px - ({{ section.settings.heading_text_size }}px * 0.15));
+            }
+            .image__text-overlay.section-{{ section.id }} .caption p {
+            font-size: calc({{ block.settings.hidden_text_size }}px - ({{ block.settings.hidden_text_size }}px * 0.15));
+            }
+            }
+            </style>
+            </section>
+            <div class="clear"></div></div>
+        
+          {% when 'image_carousel_with_text' %}
+            <section id="page-section-{{ block.id }}" class="mldwithtext section-image-carousel-with-text-{{ block.id }} no-fouc{% if block.settings.ic_no_bottom_margin %} nbm{% endif %}" data-block-id="{{ block.id }}" data-section-type="image-carousel">
+              {% if block.settings.ic_full_width %}<div class="gridlock-fluid"><div class="row">{% endif %}
+
+              {% case block.settings.ic_image_width %}
+                {% when '33%' %}
+                  {% assign image_size = '700x' %}
+                  {% assign image_width = 'desktop-4 tablet-2' %}
+                  {% assign image_offset = 'desktop-8 tablet-4' %}
+                  {% when '50%' %}
+                  {% assign image_size = '1000x' %}
+                  {% assign image_width = 'desktop-6 tablet-3' %}
+                  {% assign image_offset = 'desktop-6 tablet-3' %}
+                {% when '66%' %}
+                  {% assign image_size = '1400x' %}
+                  {% assign image_width = 'desktop-8 tablet-4' %}
+                  {% assign image_offset = 'desktop-4 tablet-2' %}
+              {% endcase %}
+
+
+                {% capture image_layout %}
+                  <div class="{{ image_width }} mobile-3 contained text-with-image">
+                    <div class="slider-container">
+                      <div class="carousel">
+                          {% if block.settings.ic_image_1 %}
+                            <div id="slick--{{ forloop.index0 }}" class="slide--{{ forloop.index0 }}" data-slick-index="{{ forloop.index0 }}">
+                                 {% if block.settings.ic_image_1_link %}<a href="{{ block.settings.ic_link }}">{% endif %}
+                                    {% include 'basic-responsive-image' | type: block.settings.ic_image_1 %}
+                                    <noscript>
+                                      <img src="{{ block.settings.ic_image_1 | img_url: '800x' }}" alt="{{ block.settings.ic_image_1.alt }}">
+                                    </noscript>
+                                  {% if block.settings.ic_image_1_link %}</a>{% endif %}
+                            </div>
+                          {% else %}
+                            <div class="onboard">
+                              {{ 'collection-3' | placeholder_svg_tag: 'placeholder-svg' }}
+                            </div>
+                          {% endif %}
+                          {% if block.settings.ic_image_2 %}
+                            <div id="slick--{{ forloop.index0 }}" class="slide--{{ forloop.index0 }}" data-slick-index="{{ forloop.index0 }}">
+                             {% if block.settings.ic_image_2_link %}<a href="{{ block.settings.ic_link }}">{% endif %}
+                                {% include 'basic-responsive-image' | type: block.settings.ic_image_2 %}
+                                <noscript>
+                                  <img src="{{ block.settings.ic_image_2 | img_url: '800x' }}" alt="{{ block.settings.ic_image_2.alt }}">
+                                </noscript>
+                              {% if block.settings.ic_image_2_link %}</a>{% endif %}
+                            </div>
+                          {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endcapture %}
+
+              <div class="row images-with-text">
+                <div class="mldimagewithtext {% unless block.settings.ic_full_width %}desktop-12 tablet-6 {% endunless %}image-with-text-wrapper {% if block.settings.ic_layout == 'right' %}reverse-order{% endif %}">
+                  {{ image_layout }}
+                  <div class="{{ image_offset }} mobile-3 contained text-with-image text_section{% if block.settings.ic_text_align == 'center' %} text-centered{% elsif block.settings.ic_text_align == 'right' %} text-right{% endif %}">
+                    {% if block.settings.ic_title != blank %}
+                      <h3>{{ block.settings.ic_title | escape }}</h3>
+                    {% endif %}
+                    {% if block.settings.ic_text != blank %}
+                      <div class="rte">{{ block.settings.ic_text }}</div>
+                    {% endif %}
+                    {% if block.settings.ic_button != blank and block.settings.ic_link != blank %}
+                      <a href="{{ block.settings.ic_link }}" class="button">
+                        {{ block.settings.ic_button | escape }}
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% if block.settings.ic_full_width %}</div></div>{% endif %}
+            </section>
+        {% endcase %}
+      </div>
+    {% endfor %} 
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Custom Page One",
+    "max_blocks": 40,
+    "blocks": [
+      {
+        "type": "page_title",
+        "name": "Page Title",
+        "settings": [
+          {
+            "type": "select",
+            "id": "pt_align",
+            "label": "Heading Alignment",
+            "default": "center",
+            "options": [
+              {
+                "value":"center",
+                "label":"Center"
+              },
+              {
+                "value":"left",
+                "label":"Left"
+              },
+              {
+                "value":"right",
+                "label":"Right"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "page_content",
+        "name": "Page Content",
+        "settings": [
+          {
+            "type": "select",
+            "id": "pc_align",
+            "label": "Content Alignment",
+            "default": "center",
+            "options": [
+              {
+                "value":"center",
+                "label":"Center"
+              },
+              {
+                "value":"left",
+                "label":"Left"
+              },
+              {
+                "value":"right",
+                "label":"Right"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "pc_max_width",
+            "min": 600,
+            "max": 1000,
+            "step": 100,
+            "unit": "px",
+            "label": "Content Width",
+            "default": 800
+          }
+        ]
+      },
+      {
+        "type": "image_text_overlay",
+        "name": "Image with Text Overlay",
+        "settings": [
+         {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Enable full width",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "image_height",
+        "min": 100,
+        "max": 600,
+        "step": 100,
+        "unit": "px",
+        "label": "Image height",
+        "default": 400
+      },
+      {
+        "type": "header",
+        "content": "Overlay text"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Image with Text Overlay"
+      },
+      {
+        "type": "textarea",
+        "id": "hidden_text",
+        "label": "Text",
+        "default": "Pair text with a large full width image to give focus to areas of your store."
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "View Product"
+      },
+      {
+        "type": "range",
+        "id": "heading_text_size",
+        "min": 12,
+        "max": 48,
+        "step": 1,
+        "unit": "px",
+        "label": "Heading size",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "hidden_text_size",
+        "min": 12,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "label": "Text size",
+        "default": 18
+      },
+      {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button color",
+        "default": "#000"
+      },
+      {
+        "type": "select",
+        "id": "section_padding",
+        "label": "Section spacing",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          },
+          {
+            "value": "both",
+            "label": "Both"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ],
+        "default": "both"
+      }
+        ]
+      },
+      {
+        "type": "image_carousel_with_text",
+        "name": "Image Carousel with Text",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "ic_full_width",
+            "label": "Enable full width",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "ic_no_bottom_margin",
+            "label": "No space after section",
+            "default": false
+          },
+          {
+            "type": "select",
+            "id": "ic_layout",
+            "label": "Layout",
+            "default": "left",
+            "options": [
+              {
+                "value": "left",
+                "label": "Image on left"
+              },
+              {
+                "value": "right",
+                "label": "Image on right"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "ic_image_width",
+            "label": "Image width",
+            "default": "50%",
+            "options": [
+              {
+                "value":"33%",
+                "label":"33%"
+              },
+              {
+                "value":"50%",
+                "label":"50%"
+              },
+              {
+                "value":"66%",
+                "label":"66%"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "ic_text_align",
+            "label": "Text alignment",
+            "default": "left",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "ic_title",
+            "label": "Heading",
+            "default": "Image carousel with text"
+          },
+          {
+            "type": "richtext",
+            "id": "ic_text",
+            "label": "Text",
+            "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+          },
+          {
+            "type": "text",
+            "id": "ic_button",
+            "label": "Button label"
+          },
+          {
+            "type": "url",
+            "id": "ic_link",
+            "label": "Button link"
+          },
+          {
+            "type": "header",
+            "content": "Image #1 Settings"
+          },
+          {
+            "type": "image_picker",
+            "id": "ic_image_1",
+            "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "ic_image_1_link",
+            "label": "Image Link",
+            "info": "Optional"
+          },
+          {
+            "type": "header",
+            "content": "Image #2 Settings"
+          },
+          {
+            "type": "image_picker",
+            "id": "ic_image_2",
+            "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "ic_image_2_link",
+            "label": "Image Link",
+            "info": "Optional"
+          }
+        ]
+      }
+    ],
+    "presets":
+    [
+      {
+        "name": "Custom Page One"
+      }
+    ]
+  }
+{% endschema %}

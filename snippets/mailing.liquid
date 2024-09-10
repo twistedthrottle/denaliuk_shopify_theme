@@ -1,0 +1,26 @@
+<div id="footer-signup">
+  {% form 'customer', id: 'newsletter_form' %}
+    {%- if form.errors -%}
+      <div class="note-error">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+    {% if form.posted_successfully? %}
+      <p class="note-success success">{{ 'general.password_page.thanks' | t }}</p>
+    {% else %}
+      <input type="hidden" name="contact[tags]" value="prospect, password page">
+      <label class="visually-hidden" for="email-address">{{ 'general.newsletter_form.newsletter_email' | t }}</label>
+      <input type="email" name="contact[email]" id="email-address" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}">
+      <button type="submit" aria-label="{{ 'general.newsletter_form.submit' | t }}">
+        {% render 'snip-icons',
+           wrapper: '.arrow-container',
+           type: 'vantage-theme',
+           icon: 'arrow-right',
+           classes: 'right-arrow arrow-container--icon',
+           size: '12px',
+           fill: 'var(--dotted-color)',
+           hover: 'var(--dotted-color)' %}
+      </button>
+    {% endif %}
+  {% endform %}
+</div>

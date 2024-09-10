@@ -1,0 +1,191 @@
+{% comment %}
+    Renders a swatch and size chart.
+
+    Accepts:
+    - option: {Object} Product Option Liquid object
+    - current_variant: {Object} Variant Liquid object
+    - product: {Object} Product Liquid object
+    - show_size_chart: {Boolean} For showing the size chart
+    - size_chart_label: {String} String for size chart label
+    - size_chart_page: {Object} Page object from input setting
+    - section_id: {String} Unique section ID so that popup are different
+
+
+    Usage:
+    {% render "swatch",
+      option: option,
+      current_variant: current_variant,
+      product: product,
+      show_size_chart: show_size_chart,
+      size_chart_label: size_chart_label,
+      size_chart_page: size_chart_page,
+      section_id: section_id
+     %}
+{% endcomment %}
+
+{%- liquid
+
+  assign option_name = option.name | downcase
+  assign color_swatch_options = "color, colour, cor, farbe, couleur" | split: ", "
+  assign current_option = "option" | append: option.position
+  assign other_options = "option1 option2 option3" | remove: current_option | strip | split: " "
+  assign size_swatches = "size, sizes" | split: ", "
+
+-%}
+
+<div
+  class="swatch clearfix js-variant-selector"
+  data-option-index="{{ option.position }}"
+  data-other-options='{{ other_options | json }}'
+>
+
+  <p class="option-label">
+    {{ option.name }} | {% for value in option.values %}{% if option.selected_value == value %}<span id="selected-option-{{ option.position }}" >{{ value }}</span>{% endif %}{% endfor %}
+  </p>
+
+  {% for value in option.values %}
+
+    {% comment %} css color added by mlveda{% endcomment %}
+    {%- liquid
+
+      assign image_url = value | handle | append: '.png' | file_url
+      assign css_color = value | split: ' ' | last | handle
+      assign available = false
+       if css_color == 'amber'
+          assign css_color = "#FFBF00"
+         assign image_url = blank
+       endif
+       if css_color == 'Selective Yellow'
+          assign css_color = "#ffed38"
+         assign image_url = blank
+       endif
+       if css_color == 'yellow'
+          assign css_color = "#ffed38"
+         assign image_url = blank
+       endif
+       if css_color == 'Black'
+          assign css_color = "#000000"
+         assign image_url = blank
+       endif
+       if css_color == 'Chrome'
+          assign css_color = "#e5e8e8"
+         assign image_url = blank
+       endif
+       if css_color == 'chrome'
+          assign css_color = "#e5e8e8"
+         assign image_url = blank
+       endif
+    -%}
+    <!-- Checking Availability -->
+    {%- liquid
+
+      assign available = false
+
+      for variant in product.variants
+
+        unless variant.available
+          continue
+        endunless
+
+        unless variant[current_option] == value
+          continue
+        endunless
+
+        unless variant[other_options[0]] == current_variant[other_options[0]]
+          continue
+        endunless
+
+        unless variant[other_options[1]] == current_variant[other_options[1]]
+          continue
+        endunless
+
+        assign available = true
+
+      endfor
+
+    -%}
+
+    <!-- Building Variant Image -->
+    {%- liquid
+
+      for variant in product.variants
+        unless variant[current_option] == value
+          continue
+        endunless
+
+        if variant.image
+          assign variant_image_url =  variant.image | image_url: width: 300
+        endif
+      endfor
+
+      assign checked = ""
+
+      if current_variant[current_option] == value
+        assign checked = 'checked="checked"'
+      endif
+
+    -%}
+
+    {% capture radio_button %}
+      <input
+        type="radio"
+        class="swatches__form--input"
+        id="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
+        name="{{ option_name }}"
+        form="product-form-{{ section.id }}"
+        value="{{ value | escape }}"
+        data-position="{{ option.position }}"
+        {{ checked }}
+       />
+    {% endcapture %}
+
+    {% capture regular_swatch %}
+      <div class="swatch-element {% unless available %}soldout{% endunless %}">
+        {{ radio_button }}
+
+        <label
+          class="swatches__form--label"
+          for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
+          tabindex="0"
+        >
+          {{ value }}
+        </label>
+      </div>
+    {% endcapture %}
+
+    {% capture color_swatch %}
+      <div class="swatch-element color {% unless available %}soldout{% endunless %}">
+
+        {{ radio_button }}
+
+        <!-- commented by mlveda <label
+          class="swatches__form--label"
+          for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
+          style="background-color: {{ css_color }};
+          {% unless css_color == '#e5e8e8' %}{% if settings.use_swatch_images %}background-image: url({% if settings.color_swatch_style == 'custom-image' %}{{ image_url }}{% elsif settings.color_swatch_style == 'variant-image' %}{{ variant_image_url }}{% endif %}); background-position: center center;{% endif %}{% endunless %}"
+          tabindex="0">
+        </label> -->
+        <label
+          class="swatches__form--label"
+          for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
+          style="background-color: {{ css_color }};
+          {% if css_color == '#FFBF00' and css_color == '#ffed38' and css_color == '#ffff00' and css_color == '##e5e8e8' and css_color == '#000000' %}{% if settings.use_swatch_images %}background-image: url({% if settings.color_swatch_style == 'custom-image' %}{{ image_url }}{% elsif settings.color_swatch_style == 'variant-image' %}{{ variant_image_url }}{% endif %}); background-position: center center;{% endif %}{% endif %}"
+          tabindex="0">
+        </label>
+      </div>
+    {% endcapture %}
+
+    {% if color_swatch_options contains option_name %}
+      {{ color_swatch }}
+    {% else %}
+      {{ regular_swatch }}
+    {% endif %}
+  {% endfor %}
+
+  {% unless template == 'product.quick' %}
+    {% if show_size_chart and size_swatches contains option_name %}
+      {% render 'size-chart', label: size_chart_label, page: size_chart_page, section_id: section_id %}
+    {% endif %}
+  {% endunless %}
+
+</div>

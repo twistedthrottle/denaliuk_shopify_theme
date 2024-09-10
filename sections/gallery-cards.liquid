@@ -1,0 +1,415 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+  assign desktop_height = section.settings.desktop_height
+  assign mobile_height = section.settings.mobile_height
+
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --desktop-section-height: {{ desktop_height }}px;
+    --mobile-section-height: {{ mobile_height }}px;
+  }
+  @media screen and ( max-width: 740px ) {
+    #shopify-section-{{ section.id }} .gallery--block_container:after {
+      content: 'flickity';
+      display: none; /* hide :after */
+    }
+  }
+  @media screen and ( min-width: 741px ) {
+    /* disable Flickity for large devices */
+    #shopify-section-{{ section.id }} .gallery--block_container:after {
+      content: '';
+    }
+  }
+{% endstyle %}
+
+<div class="global__section {{ section_padding }}">
+
+  <section
+    class="global__section-{{ section.id }} feat-images card-gallery section-gallery-{{ section.id }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %} flickity__section"
+    data-section-id="{{ section.id }}"
+    data-section-type="gallery-cards"
+    data-section-loaded="false">
+
+  {% capture slideshow_config %}{
+    "wrapAround":false,
+    "cellAlign": "center",
+    "dragThreshold":"15",
+    "contain": true,
+    "freeScroll": false,
+    "prevNextButtons": false,
+    "pageDots": true,
+    "watchCSS": true,
+    "cellSelector":".gallery--card_content"
+  }{% endcapture %}
+
+    <div class="row gallery__section_container">
+      <div class="gallery--block_container grid__wrapper" data-flickity='{{ slideshow_config }}'>
+        {% assign total = 0 %}
+        {% for block in section.blocks %}
+          {%- liquid
+
+            case block.settings.block_width
+              when '25'
+                assign block_width = 'span-3'
+                assign md_render = 'calc(100vw / 4)'
+                assign lg_render = 'calc(1600px / 4)'
+                assign width = '500'
+                assign total = total | plus: 25
+              when '33'
+                assign block_width = 'span-4'
+                assign md_render = 'calc(100vw / 3)'
+                assign lg_render = 'calc(1600px / 3)'
+                assign width = '800'
+                assign total = total | plus: 33
+              when '50'
+                assign block_width = 'span-6'
+                assign md_render = 'calc(100vw / 2)'
+                assign lg_render = 'calc(1600px / 2)'
+                assign width = '1000'
+                assign total = total | plus: 50
+              when '66'
+                assign block_width = 'span-8'
+                assign md_render = 'calc(100vw * 0.6667)'
+                assign lg_render = 'calc(1600px * 0.6667)'
+                assign width = '1200'
+                assign total = total | plus: 66
+              when '75'
+                assign block_width = 'span-9'
+                assign md_render = 'calc(100vw * 0.75)'
+                assign lg_render = 'calc(1600px * 0.75)'
+                assign width = '1400'
+                assign total = total | plus: 75
+              when '100'
+                assign block_width = 'span-12'
+                assign md_render = '100vw'
+                assign lg_render = '100vw'
+                assign width = '2000'
+                assign total = total | plus: 100
+            endcase
+
+            assign has_link = false
+            assign has_image = false
+            assign has_title = false
+            assign has_text = false
+            assign has_caption = false
+            assign has_button = false
+
+            if block.settings.link != blank
+              assign has_link = true
+            endif
+            if block.settings.image != blank
+              assign has_image = true
+            endif
+            if block.settings.title != blank
+              assign has_title = true
+              assign has_caption = true
+            endif
+            if block.settings.text != blank
+              assign has_text = true
+              assign has_caption = true
+            endif
+            if block.settings.button_text != blank and block.settings.link != blank
+              assign has_button = true
+              assign has_caption = true
+            endif
+
+            assign appearance = block.settings.block_appearance
+
+            assign loading = 'lazy'
+            assign fetch_priority = 'auto'
+            if section.index == 1 and total <= 100
+              assign loading = 'eager'
+              assign fetch_priority = 'high'
+            endif
+
+          -%}
+
+          <div class="gallery--card_content layout--{{ appearance }} {{ block_width }} auto" {{ block.shopify_attributes }} data-total="{{ total }}">
+            <div class="gallery--card_image">
+              {% if has_link != blank %}<a href="{{ block.settings.link }}">{% endif %}
+                {% if block.settings.image != blank %}
+                  {% render 'basic-responsive-image',
+                    type: block.settings.image,
+                    sm_render: '300px',
+                    md_render: md_render,
+                    lg_render: lg_render,
+                    width: width,
+                    loading: loading,
+                    fetchpriority: fetch_priority
+                  %}
+                {% else %}
+                  <div class="onboard">
+                   {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {% endif %}
+              {% if has_link %}</a>{% endif %}
+            </div>
+            {% if has_caption %}
+              <div class="gallery--card_caption align-{{ block.settings.text_align }} block-{{ block.id }}">
+                {% if has_title != blank %}
+                  <h3>{{ block.settings.title | escape }}</h3>
+                {% endif %}
+                {% if has_text != blank %}
+                  <p>{{ block.settings.text | escape }}</p>
+                {% endif %}
+                {% if has_button %}
+                  <a class="button" href="{{ block.settings.link }}">
+                    {{ block.settings.button_text | escape }}
+                  </a>
+                {% endif %}
+              </div>
+              {% style %}
+                .gallery--card_caption.block-{{ block.id }} {
+                  background: var(--{{ block.settings.color_scheme }}-background);
+                }
+                .gallery--card_caption.block-{{ block.id }} h3,
+                .gallery--card_caption.block-{{ block.id }} p {
+                  color: var(--{{ block.settings.color_scheme }}-color);
+                }
+              {% endstyle %}
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "Gallery cards",
+  "max_blocks": 16,
+  "settings":
+  [
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 400,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Row height (desktop)",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 350,
+      "max": 700,
+      "step": 50,
+      "unit": "px",
+      "label": "Row height (mobile)",
+      "default": 400
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings":
+      [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "block_width",
+          "label": "Block width",
+          "default": "33",
+          "options":
+          [
+            {
+              "value": "25",
+              "label": "25%"
+            },
+            {
+              "value": "33",
+              "label": "33%"
+            },
+            {
+              "value": "50",
+              "label": "50%"
+            },
+            {
+              "value": "66",
+              "label": "66%"
+            },
+            {
+              "value": "75",
+              "label": "75%"
+            },
+            {
+              "value": "100",
+              "label": "100%"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "block_appearance",
+          "label": "Block appearance",
+          "default": "image_above",
+          "options":
+          [
+            {
+              "value": "image_above",
+              "label": "Image above text"
+            },
+            {
+              "value": "image_left",
+              "label": "Image left, text right"
+            },
+            {
+              "value": "image_right",
+              "label": "Image right, text left"
+            },
+            {
+              "value": "image_float",
+              "label": "Image behind text"
+            }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Subheading",
+          "default": "Share a little information about this collection or product"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "View Product"
+        },
+        {
+          "type": "text_alignment",
+          "id": "text_align",
+          "label": "Text alignment",
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "cs1",
+              "label": "1"
+            },
+            {
+              "value": "cs2",
+              "label": "2"
+            },
+            {
+              "value": "cs3",
+              "label": "3"
+            }
+          ],
+          "default": "none"
+        }
+      ]
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Gallery cards",
+      "blocks":
+      [
+        {
+          "type": "image",
+          "settings":
+          {
+            "block_width": "25"
+          }
+        },
+        {
+          "type": "image",
+          "settings":
+          {
+            "block_width": "75",
+            "block_appearance":"image_left",
+            "text_align":"left"
+          }
+        },
+        {
+          "type": "image",
+          "settings":
+          {
+            "block_width": "50",
+            "block_appearance":"image_right",
+            "text_align":"left"
+          }
+        },
+        {
+          "type": "image",
+          "settings":
+          {
+            "block_width": "50",
+            "block_appearance":"image_right",
+            "text_align":"left"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

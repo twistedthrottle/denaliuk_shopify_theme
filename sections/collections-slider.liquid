@@ -1,0 +1,366 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+-%}
+
+<div class="global__section {{ section_padding }}"><section
+  class="featured-collections-slider slideshow-container featured__collection-{{ section.id }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %} section--full-width"
+  data-section-loaded="false"
+  data-section-id="{{ section.id }}"
+  id="{{ section.id }}"
+  data-section-type="collection-slider">
+  {% for block in section.blocks %}
+    <div
+      id="block-{{ block.id }}"
+      data-slide-index="{{ forloop.index }}"
+      class="slide collection-slide-wrapper slide-{{ forloop.index }}"
+      {{ block.shopify_attributes }}>
+
+      {%- liquid
+
+      assign collection = collections[block.settings.featured_collection]
+
+      assign loading = 'lazy'
+      assign fetch_priority = 'auto'
+      if section.index == 1 and forloop.first
+        assign loading = 'eager'
+        assign fetch_priority = 'high'
+      endif
+
+      -%}
+      <div class="collection-description">
+        <div class = "collection-text">
+          {% if collection != blank %}
+           <h2>{{ collection.title }}</h2>
+          {% else %}
+           <h2>Collection Title</h2>
+          {% endif %}
+        {% if block.settings.description_text != blank %}
+          <div class="rte">{{ block.settings.description_text }}</div>
+        {% else %}
+          <div class="rte">{{ collection.description }}</div>
+        {% endif %}
+        <div class="arrow-container">
+          <button data-arrow-prev style="background-color: transparent" data-parent="{{ section.id }}" aria-label="Previous arrow">
+            {% render 'snip-icons',
+               wrapper: '.arrow-container',
+               type: 'vantage-theme',
+               icon: 'arrow-left',
+               classes: 'left-arrow arrow-container--icon',
+               size: '12px',
+               fill: block.settings.paragraph_text_color,
+               hover: block.settings.paragraph_text_color %}
+            </button>
+            <button data-arrow-next style="background-color: transparent" data-parent="{{ section.id }}" aria-label="Next arrow">
+              {% render 'snip-icons',
+                 wrapper: '.arrow-container',
+                 type: 'vantage-theme',
+                 icon: 'arrow-left',
+                 classes: 'right-arrow arrow-container--icon',
+                 size: '12px',
+                 fill: block.settings.paragraph_text_color,
+                 hover: block.settings.paragraph_text_color %}
+            </button>
+        </div>
+      </div>
+      </div>
+      <div class="collection-image">
+        {% if collection != blank %}
+          {% if block.settings.collection_image != blank %}
+            {% render 'basic-responsive-image',
+              type: block.settings.collection_image,
+              width: 800,
+              loading: loading,
+              fetchpriority: fetch_priority
+            %}
+          {% elsif  collection.image != blank %}
+            {% render 'basic-responsive-image',
+              type: collection.image,
+              width: 800,
+              loading: loading,
+              fetchpriority: fetch_priority
+            %}
+          {% elsif collection.products.first and collection.products.first.media != empty %}
+            {% render 'basic-responsive-image',
+              type: collection.products.first.featured_media.preview_image,
+              width: 800,
+              loading: loading,
+              fetchpriority: fetch_priority
+            %}
+          {% endif %}
+        {% else %}
+          {{ 'collection-6' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+      <div class="product-wrapper">
+        <div class="collection-link">
+          <div class = "collection-link-text">
+          <a href="{{ collection.url }}">{{ 'products.general.explore_more' | t }} {{ collection.title }}
+            {% render 'snip-icons',
+               wrapper: '.arrow-container',
+               type: 'vantage-theme',
+               icon: 'arrow-right',
+               classes: 'right-arrow arrow-container--icon',
+               size: '12px',
+               fill: block.settings.link_color,
+               hover: block.settings.link_color %}
+          </a>
+        </div>
+        </div>
+        <div class="featured-product">
+          {%- liquid
+
+            unless block.settings.featured_product == blank
+              assign product = all_products[block.settings.featured_product]
+            else
+              assign product = block.settings.featured_product
+            endunless
+
+          -%}
+          {% if product != blank %}
+            <div class="featured-product_details rte">
+              <h3>{{ product.title }}</h3>
+              <a href="{{ product.url }}" class="shop-product">{{ 'products.general.shop_this' | t }}</a>
+            </div>
+            {% render 'basic-responsive-image',
+              type: product.featured_media,
+              width: 800,
+              loading: loading,
+              fetchpriority: fetch_priority
+            %}
+          {% else %}
+            <div class="featured-product_details rte">
+              <h3>Product Title</h3>
+              <a href="#" class="shop-product">{{ 'products.general.shop_this' | t }}</a>
+            </div>
+            {{ 'product-1' | placeholder_svg_tag }}
+          {% endif %}
+        </div>
+      </div>
+      <style>
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-description {
+          background-color: {{ block.settings.des_bg_color }};
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-link {
+          background-color: {{ block.settings.link_bg_color }};
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-link a {
+          color: {{ block.settings.link_color }};
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-link g#Footer---Light {
+          fill: {{ block.settings.link_color }};
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-text h2 {
+          color: {{ block.settings.header_text_color }};
+          font-size: {{ section.settings.header_font_size }}px;
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-text p {
+          color: {{ block.settings.paragraph_text_color }};
+          font-size: {{ section.settings.text_font_size }}px;
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-text a {
+          color: {{ block.settings.paragraph_text_color }};
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .collection-text g#Footer---Light {
+          fill: {{ block.settings.paragraph_text_color }};
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .featured-product:hover .featured-product_details {
+          background-color: {{ block.settings.product_title_bg | color_modify: 'alpha', 0.75 }};
+        }
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .featured-product h3,
+        .featured__collection-{{ section.id }} #block-{{ block.id }} .featured-product a {
+          color: {{ block.settings.product_title_color }};
+        }
+      </style>
+    </div>
+  {% endfor %}
+<style>
+  .featured__collection-{{ section.id }} {
+    position: relative;
+    height: 704px;
+  }
+  @media (max-width: 980px) {
+    .featured__collection-{{ section.id }} {
+      height: 1104px;
+    }
+  }
+  .featured__collection-{{ section.id }} .collection-image {
+    margin-bottom: 0;
+    background-color: #fbfbfb;
+  }
+  .featured__collection-{{ section.id }} svg.placeholder-svg {
+    height: 100%;
+    width: 100%;
+  }
+  .featured__collection-{{ section.id }} .product-wrapper {
+    background-color: white;
+  }
+</style>
+</section>
+<div class="clear"></div></div>
+{% schema %}
+{
+  "name": "Collections slider",
+  "settings":
+  [
+    {
+      "type": "range",
+      "id": "header_font_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Header font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text font size",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks":
+  [
+    {
+      "type": "featured_collection",
+      "name": "Collection",
+      "settings":
+      [
+        {
+          "type": "collection",
+          "id": "featured_collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "collection_image",
+          "label": "Custom collection image"
+        },
+        {
+          "type": "header",
+          "content": "Description area"
+        },
+        {
+          "type": "richtext",
+          "id": "description_text",
+          "label": "Description",
+          "default": "<p>Describe this featured collection.</p>"
+        },
+        {
+          "type": "color",
+          "id": "header_text_color",
+          "label": "Collection title color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "des_bg_color",
+          "label": "Background color",
+          "default": "#e5e5e5"
+        },
+        {
+          "type": "color",
+          "id": "paragraph_text_color",
+          "label": "Text color",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Product area"
+        },
+        {
+          "type": "product",
+          "id": "featured_product",
+          "label": "Featured product"
+        },
+        {
+          "type": "color",
+          "id": "product_title_color",
+          "label": "Title and link color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "product_title_bg",
+          "label": "Title and link background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "link_bg_color",
+          "label": "Link background color",
+          "default": "#454545"
+        },
+        {
+          "type": "color",
+          "id": "link_color",
+          "label": "Link text color",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Collections slider",
+      "blocks":
+      [
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

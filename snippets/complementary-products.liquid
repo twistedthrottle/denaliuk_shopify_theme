@@ -1,0 +1,112 @@
+{%- liquid
+  assign limit = block.settings.limit | plus: 0
+-%}
+{%- if recommendations.performed -%}
+  <div class="js-complementary-products"
+    data-base-url="{{ routes.product_recommendations_url }}"
+    data-product-id="{{ product.id }}"
+    data-section-id="{{ section.id }}"
+    data-intent="complementary"
+    data-limit="{{ block.settings.limit }}"
+    >
+    {%- if recommendations.performed and recommendations.products_count > 0 -%}
+      {% unless block.settings.show_as_accordion %}
+        <h4 class="span-12 auto">{{ block.settings.heading | escape }}</h4>
+      {% endunless %}
+
+      <div class="complementary__grid--loop">
+        {%- for product in recommendations.products limit: limit -%}
+
+          <div
+            class="product__complementary-item js-product-listing"
+            id="product-listing-{{ product.id }}"
+            data-product-id="{{ product.id }}"
+            data-alpha="{{ product.title }}"
+            data-price="{{ product.price }}"
+          >
+
+            <div class="js-product-image animated prod-image">
+              <div class="reveal">
+                {%- if product.media.size < 1 -%}
+                  <div class="box-ratio" style="padding-bottom: 100%;">
+                    {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                    {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {% else %}
+                  {%- assign preview_image = product.featured_media.preview_image -%}
+                  {% render 'basic-responsive-image',
+                    type: product.featured_media.preview_image,
+                    width: 500
+                   %}
+                {%- endif -%}
+              </div>
+            </div>
+
+            <div class="product-info">
+              <div class="product-info-inner">
+                <a href="{{ product.url }}">
+                  <span class="prod-title">{{ product.title | truncate: 50 }}</span>
+                </a>
+                {% render 'product-price-listing', product: product %}
+              </div>
+
+              {% if product.variants.size == 1 and product.available %}
+              {%- assign product_form_id = 'product-form-buttons-' | append: section.id -%}
+                {% form 'product', product,
+                   id: product_form_id,
+                   class: "product__form-buttons js-prod-form-submit relative",
+                   data-product-id: product.id %}
+
+                  {%- liquid
+
+                    if product.template_suffix == 'pre-order'
+                      assign call_to_action = 'products.product.pre_order' | t
+                      assign is_preorder = 'data-preorder'
+                    else
+                      assign call_to_action = 'products.product.add_to_cart' | t
+                      assign is_preorder = ''
+                    endif
+                    assign product_form_id = 'product-form-' | append: section.id
+
+                  -%}
+
+                  <input class="formVariantId" name="id" type="hidden" value="{{ product.selected_or_first_available_variant.id }}">
+                  <input class="formQty" type="hidden" name="quantity" value="1" />
+                  <div class="note note-success js-added-msg" style="display: none">
+                    <b>{{ 'products.product.added' | t }}</b>&nbsp;&nbsp;&nbsp;<a class="underline" href="{{ routes.cart_url }}">{{ 'products.product.view_cart' | t }}</a> {{ 'products.product.or' | t }} <a class="underline" href="{{ routes.all_products_collection_url }}">{{ 'products.product.continue' | t }}</a>.
+                  </div>
+                  <div class="note note-error js-error-msg" style="display: none">
+                    <b>{{ 'cart.general.cart_error' | t }}</b>&nbsp;&nbsp;&nbsp;{{ 'cart.general.update_qty_error' | t }}
+                  </div>
+
+                  <input id="addToCart" type="submit" name="button" class="button-as-link add clearfix AddtoCart js-ajax-submit " {{ is_preorder }} value="{{ call_to_action }}" />
+                {% endform %}
+
+              {% elsif product.variants.size > 1 and settings.quickview %}
+                <button class="button-as-link quick-view-{{ product.id }} js-modal-open js-quickview-trigger"
+                  type="button" name="button"
+                  data-wau-modal-target="quickview"
+                  data-product-url="/products/{{ product.handle }}?view=quick">
+                  {{ 'products.general.quick_view' | t }}
+                </button>
+              {% endif %}
+
+            </div>
+          </div>
+
+
+        {%- endfor -%}
+      </div>
+
+    {%- endif -%}
+  </div>
+{%- else  -%}
+  <div class="js-complementary-products"
+  data-base-url="{{ routes.product_recommendations_url }}"
+  data-product-id="{{ product.id }}"
+  data-section-id="{{ section.id }}"
+  data-intent="complementary"
+  data-limit="{{ block.settings.limit }}"
+  >
+  </div>
+{%- endif -%}

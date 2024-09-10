@@ -1,0 +1,977 @@
+{% comment %} YMM APP Searchbox - 786/ASK {% endcomment %}
+{{ 'ymm.css' | asset_url | stylesheet_tag }}
+ 
+{%- assign ymmbox_title_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.searchbox_title' -%}
+{%- assign search_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.search_button' -%}
+{%- assign reset_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.reset_button' %}
+{%- assign select_lbl_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.select_label' -%}
+{%- assign none_txt_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.none_txt' -%}
+
+{%- assign field_1_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_1' -%}
+{%- assign field_2_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_2' -%}
+{%- assign field_3_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_3' -%}
+{%- assign field_4_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_4' -%}
+
+{%- assign fitment_check_title_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.fitment_check_title' -%}
+{%- assign fitment_check_title = 'ymm_app.fitment_check_title' | t | strip | replace: fitment_check_title_err, 'ENTER VEHICLE TO CHECK FIT' | replace: '&#39;', "'" -%}
+ 
+{%- capture productTags -%}{{ product.tags | join:',' }}{%- endcapture -%}  
+
+{% comment %} Start of YMM Compatible Chart for Product Details Page by CWS - 786/92/313/ASKMPF. {% endcomment %}
+{% if template.name == "product" %}
+{% unless productTags contains "disable_ymm" %}
+  {%- assign field_1_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_1' -%}
+  {%- assign field_2_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_2' -%}
+  {%- assign field_3_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_3' -%}
+  {%- assign field_4_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.field_4' -%}
+  {%- assign ymm_comp_hdr_exact_fit_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.ymm_comp_hdr_exact_fit' -%}
+  {%- assign ymm_comp_hdr_uni_fit_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.ymm_comp_hdr_uni_fit' -%}
+  {%- assign uni_but_no_ymm_txt_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.uni_but_no_ymm_txt' -%}
+   
+  <link rel="stylesheet" href="{{ 'ymm-compatible.css' | asset_url }}">
+    
+  <script type="text/javascript">
+      var loader_img_src= '{{ "loader.png" | asset_url }}';
+      var ymm_product_id = "{{ product.id }}";
+      var comp_field_1 = "{{ 'ymm_app.field_1' | t | strip | replace: field_1_err, 'Type' | replace: '&#39;', "'" }}";
+      var comp_field_2 = "{{ 'ymm_app.field_2' | t | strip | replace: field_2_err, 'Year' | replace: '&#39;', "'" }}";
+      var comp_field_3 = "{{ 'ymm_app.field_3' | t | strip | replace: field_3_err, 'Make' | replace: '&#39;', "'" }}";
+      var comp_field_4 = "{{ 'ymm_app.field_4' | t | strip | replace: field_4_err, 'Model' | replace: '&#39;', "'" }}";
+      var ymm_comp_hdr_exact_fit = "{{ 'ymm_app.ymm_comp_hdr_exact_fit' | t | strip | replace: ymm_comp_hdr_exact_fit_err, '<b>This is a Vehicle Specific Item.</b> This item is confirmed to fit the vehicles above. This product may also fit other vehicles.' | replace: '&#39;', "'" }}";  
+      ymm_comp_hdr_exact_fit = ymm_comp_hdr_exact_fit.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+      var ymm_comp_hdr_uni_fit = "{{ 'ymm_app.ymm_comp_hdr_uni_fit' | t | strip | replace: ymm_comp_hdr_uni_fit_err, '<b>This is a Universal Fit Item.</b> It is designed to fit many vehicles. Universal products may require a vehicle-specific fit kit (sold separately) or other modifications for installation. Universal products are not guaranteed to fit every vehicle. Check the product description for installation requirements. This item is confirmed to fit the vehicles above.' | replace: '&#39;', "'" }}";  
+      ymm_comp_hdr_uni_fit = ymm_comp_hdr_uni_fit.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+      var uni_but_no_ymm_txt = "{{ 'ymm_app.uni_but_no_ymm_txt' | t | strip | replace: uni_but_no_ymm_txt_err, '<b>This is a Universal Fit Item.</b> It is designed to fit many vehicles. Universal products may require a vehicle-specific fit kit (sold separately) or other modifications for installation. Universal products are not guaranteed to fit every vehicle. Check the product description for installation requirements.' | replace: '&#39;', "'" }}";  
+      uni_but_no_ymm_txt = uni_but_no_ymm_txt.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+      var ymm_uni_prd_ids = "{{ shop.metafields.cws_ymm.uni_prd_ids | default: "-1" }}";
+      var ymm_uni_prd_ids_arr = ymm_uni_prd_ids.split(',');
+      var ymm_curr_prd_id = "{{ product.id }}";
+    
+      //As per client's need > what if no ymm search performed then how to determine 'note'? - 786
+      {% if productTags contains "disable_ymm" %}
+        var prd_fit_note_dis = "-1";
+      {% else %}
+         if(ymm_uni_prd_ids != "-1" && jQuery.inArray(ymm_curr_prd_id, ymm_uni_prd_ids_arr) != -1) {
+            var prd_fit_note_dis = "universal_fit";
+         } else {
+           var prd_fit_note_dis = "exact_fit"; 
+         }  
+      {% endif %}
+  </script>
+    
+  <script type="text/javascript" src="{{ 'ymm-compatible-list.js' | asset_url }}" async></script>
+{% endunless %}
+{% endif %}
+{% comment %} End of YMM Compatible Chart for Product Details Page by CWS - 786/92/313/ASKMPF. {% endcomment %} 
+
+{%- unless productTags contains "disable_ymm" -%}
+<div class="page-width container ymmm row">
+<div id="ymm_searchbox" class="ymm_searchbox clearfix {{ searchbox_style }}">
+  	<!-- YMM APP Searchbox -->
+    {%- if template.name != "product" -%}
+    	<h2 id="ymm_label">{{ 'ymm_app.searchbox_title' | t | replace: ymmbox_title_err, searchbox_title | replace: '&#39;', "'" }}</h2>	
+  	{%- else -%}
+  		<h2 id="ymm_label" style='display:none;'>{{ fitment_check_title }}</h2>
+    {%- endif -%}
+
+  	{%- comment -%} DO NOT EDIT BELOW LINES [ DYNAMIC FORM FIELDS ARE WRITTEN IN THIS PART ] {%- endcomment -%}
+  	<div class="formFields clearfix">
+      <ul class="dropdowns">
+      </ul>
+  	</div>
+  	{%- comment -%} ENDS HERE {%- endcomment -%}
+</div>
+{%- comment -%} Item Fits/Unfits Block {%- endcomment -%}
+{%- if template.name == "product" -%}
+	<div class="ymm_fitment_block row" style="display: none;">
+      <div class="ymm_fitment_inner">
+		<div class="item_fits"></div>
+		<div class="item_unfits"></div>
+      </div> 
+	</div>
+{%- endif -%}
+</div>
+{%- endunless -%}
+
+{% comment %} Common YMM Functions Defined below when product not contains this tag i.e. disable_ymm {% endcomment %}
+{% unless productTags contains "disable_ymm" -%}
+<script type="text/javascript">
+//YMM Functions
+function removeLastSign(myUrl)
+{
+    if(myUrl.substring(myUrl.length-1) == "~") {
+    myUrl = myUrl.substring(0,myUrl.length-1);
+    }
+    return myUrl;
+}
+  
+function disableSearch()
+{
+    $m("#ymm_search").prop('disabled',true);
+}
+  
+function enableSearch()
+{
+  	$m("#ymm_search").prop('disabled',false);
+}
+  
+function showLoader(current_field)
+{
+  if($m("li."+current_field).is(':not(:nth-last-child(2))')) {
+    var next_lbl = $m("li."+current_field).next().find(".ymm_label").html();
+    $m( "#ymm_searchbox .formFields ul.dropdowns li."+current_field).next("#ymm_searchbox .formFields ul.dropdowns li:not(.ymm_bttns)").remove();
+   	$m( "<li id='ymm_loader'><label class='ymm_label'>"+next_lbl+"</label><div class='ymm_loading'><img src='"+img_src+"' height='20px' width='20px'/></div></li>" ).insertAfter( "#ymm_searchbox .formFields ul.dropdowns li."+current_field);
+  }
+}
+  
+function hideLoader()
+{
+    $m('#ymm_loader').remove();
+}
+</script>
+{% endunless %}
+
+{% comment %} SEARCH FILTER YMM JS {% endcomment %}
+<script type="text/javascript">
+var shop_domain = '{{ shop.permanent_domain }}';
+var front_domain = '{{ shop.domain }}';
+if ( '{{ routes.root_url }}' !== '/' ) { // if condition is added by MLVeda.
+  front_domain += '{{ routes.root_url }}';
+}
+var img_src= '{{ "loader.gif" | asset_url }}';
+var data_url = 'https://www.ymmshopify.capacitywebservices.com/customized/ymm_denalielectronics/get_dropdowns_version4.php';
+var url = decodeURIComponent(window.location.href);
+var searchURL = 'https://'+front_domain+'/pages/product-result';
+var query_params = url.split("rq=");
+var search_bttn = "{{ 'ymm_app.search_button' | t | replace: search_err, 'SEARCH' | replace: '&#39;', "'" }}";
+var reset_bttn = "{{ 'ymm_app.reset_button' | t | strip | replace: reset_err, 'RESET' | replace: '&#39;', "'" }}";
+var select_lbl = "{{ 'ymm_app.select_label' | t | strip | replace: select_lbl_err, 'Select' | replace: '&#39;', "'" }}";
+var none_lbl = "{{ 'ymm_app.none_txt' | t | strip | replace: none_txt_err, 'None' | replace: '&#39;', "'" }}";
+
+var field_1 = "{{ 'ymm_app.field_1' | t | strip | replace: field_1_err, 'Type' | replace: '&#39;', "'" }}";
+var field_2 = "{{ 'ymm_app.field_2' | t | strip | replace: field_2_err, 'Year' | replace: '&#39;', "'" }}";
+var field_3 = "{{ 'ymm_app.field_3' | t | strip | replace: field_3_err, 'Make' | replace: '&#39;', "'" }}";
+var field_4 = "{{ 'ymm_app.field_4' | t | strip | replace: field_4_err, 'Model' | replace: '&#39;', "'" }}";
+
+var fitment_button = "{{ 'ymm_app.fitment_button' | t | strip | replace: '&#39;', "'" }}";
+
+//NEW added pooja
+var this_product_fits = "{{ 'ymm_app.this_product_fits' | t | strip | replace: '&#39;', "'" }}";
+var reset_fitment_button = "{{ 'ymm_app.reset_fitment_button' | t | strip | replace: '&#39;', "'" }}";
+  
+var universal_fit = "{{ 'ymm_app.universal_fit' | t | strip | replace: '&#39;', "'" }}";
+var exact_fit = "{{ 'ymm_app.exact_fit' | t | strip | replace: '&#39;', "'" }}";  
+    
+var template_name = "{{ template.name }}";
+var item_fit_icon = "{{ 'Exact-Fit.png' | asset_img_url: '20X' }}";
+var item_not_fit_icon = "{{ 'Does-Not-Fit.png' | asset_img_url: '20X' }}";
+var uni_item_fit_icon = "{{ 'Universal-Fit.png' | asset_img_url: '20X' }}";
+var view_icon = "{{ 'cws-garage-view.png' | asset_url }}";
+var delete_icon = "{{ 'cws-garage-delete.png' | asset_url }}";
+  
+if(template_name == "product") {
+search_bttn = fitment_button;
+}
+
+//Load Javascript Function
+window.ymmLoadScript = function(url, callback)  {
+	var script = document.createElement("script")
+	script.type = "text/javascript";
+
+  	if(script.readyState) { //IE
+   	script.onreadystatechange = function () {
+     	if (script.readyState == "loaded" || script.readyState == "complete" || script.readyState == "loading" || dom.readyState == "uninitialized") {
+        	script.onreadystatechange = null;
+        	callback();
+     	}
+    };
+  	} else { //Others
+    	script.onload = function () {
+      	callback();
+    	};
+  	}
+
+  	script.type = 'text/javascript';
+  	script.defer = true;
+  	script.src = url;
+  	var head = document.getElementsByTagName('head')[0];
+  	head.appendChild(script);
+};
+    
+function saveYMMCookie(name,value,days) 
+{
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+  
+function getYMMCookie(name) 
+{
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+  
+function deleteYMMCookie(name)
+{
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+  
+//Get First Dropdown onload
+function getDropdownsOnload()
+{
+   //786
+   //Empty fitment block is required if it's set - 786
+   $m(".ymm_fitment_block").hide();
+   $m(".ymm_fitment_block").find(".item_fits").html("");
+   $m(".ymm_fitment_block").find(".item_unfits").html("");
+   
+  //Show YMMbox if it's hidden.
+  $m(".ymm_searchbox").css("display","block");
+  $m("#ymm_label").css("display","block"); 
+  
+  $m.ajax({
+			type: "GET",
+    		dataType: 'jsonp',
+      		url: data_url,
+			data: "domain="+shop_domain+"&action=onload&load=all&version=updated",
+			success: function(res) { 	 
+                  if(res.html != null) {
+                    $m(".formFields ul.dropdowns").html(res.html);
+                    
+                    var $dropdowns = $m(res.html).find('.ymm-filter');
+         
+                    $dropdowns.find('option:first').each(function () {
+                      var curr_drop_id = $m(this).parent().attr("id");
+                      var curr_text = $m(this).text();
+                      $m("#"+curr_drop_id+" option:first").text(curr_text.replace('Select',select_lbl));
+                    });
+                     
+                    $m(".ymm-filter").find("option[value*='none']").html(none_lbl);  
+                    
+                    var li_element = $m(".formFields ul.dropdowns").find('li.ymm_bttns');
+					
+                    if (!li_element.length) {
+      					$m(".formFields ul.dropdowns").append('<li class="ymm_bttns"><div id="ymm_actions" class="button-action" align="center"><input type="button" name="submit" id="ymm_search" value="'+search_bttn+'" class="btn ymm_search" disabled="disabled" /><input type="button" name="reset" id="ymm_reset" value="'+reset_bttn+'" class="btn btn--secondary" /></div></li>');
+					} 
+
+                    $m('#ymm_label').html();
+                    $m('#ymm_searchbox .field_4').find('label').text(field_1);
+                    $m('#ymm_searchbox .field_1').find('label').text(field_2);
+                    $m('#ymm_searchbox .field_2').find('label').text(field_3);
+                    $m('#ymm_searchbox .field_3').find('label').text(field_4);
+                                    
+                    $m('.ymm-filter').find('option:first').each(function () {
+                        var curr_drop_id = $m(this).parent().attr("id");
+                        $m("#"+curr_drop_id+" option:first").text(select_lbl+' '+$m(this).parents('li').find('.ymm_label').text());    
+                    });    
+                  }
+
+                  //Call ymm compatible list module - 786-92-313-ASKMPF-ALLAH
+                  if($m(".ymm_comptbl_list").length > 0) {
+                    desktopCompatibleInit(prd_fit_note_dis);
+                  }
+			}	
+	});	
+}
+   
+//Reset YMM dropdowns.
+function resetDropdowns()
+{	
+    //Disable search
+    disableSearch();
+     
+    var c = 0;
+    $m(".formFields .dropdowns select[id^=dropdown]:visible").each(function(i, e) 
+    {
+          	c++;
+          	var dropdown_id = $m(this).attr("id");
+          	if(c == 1) {
+             	$m("#"+dropdown_id).val("-1");
+          	} else {
+             	$m("#"+dropdown_id).val("-1");
+             	$m("#"+dropdown_id).prop('disabled',true);
+          	}
+     });
+}
+
+//Product Fitments Function - 786
+function getYMMFitmentData(tags)
+{
+    //YMM Product Fitment Function.
+    var product_id = "{{ product.id }}";
+   	var ymm_fit_title = "{{ settings.ymm_fit_title | strip }}";
+    var ymm_uni_fit_title = "{{ settings.ymm_uni_fit_title | strip }}";
+
+    var ymm_fit_title = exact_fit;
+    var ymm_uni_fit_title = universal_fit;
+   
+    var ymm_unfit_title = "{{ settings.ymm_unfit_title | strip }}";
+    var ymm_fit_desc = "{{ settings.ymm_fit_desc | strip }}";
+    var ymm_unfit_desc = "{{ settings.ymm_unfit_desc | strip }}";
+    var ymm_unfit_desc = "{{ settings.ymm_unfit_desc | strip }}";
+    var product_id = "{{ product.id }}";
+    var ymm_reset_fitment_lbl = "{{ settings.ymm_reset_fitment | strip }}";
+    var ymm_view_fitments_lbl = "{{ settings.ymm_view_fitments | strip }}";   
+  	var get_ymm_vehicles = getYMMCookie("ymm_vehicles");
+    tags = tags.toString().replace(/,/g, "~");
+   	get_ymm_vehicles = $m.parseJSON(get_ymm_vehicles);
+
+    //Find ymm label for current searched value. - 786/ASK
+  //  var returnedData = $m.grep(get_ymm_vehicles, function(value) { return value.ymm_tag == tags; });
+    
+  //if(returnedData.length > 0){ 
+  	/*var ymm_values = returnedData[0].ymm_label;
+ 	ymm_values = ymm_values.toString();
+  	ymm_values = ymm_values.replace(/~/g," ");*/
+   
+   	$m.ajax({
+		type: "GET",
+    	dataType: 'jsonp',
+      	url: data_url,
+        async: false,
+		data: "domain="+shop_domain+"&product_id="+product_id+"&action=get_fitment_data&version=updated&tags="+encodeURIComponent(tags),
+		success: function(res) { 
+              //786
+              window.fit_type_for_comp_tbl = res.product_page_response.my_fit_type;
+        
+              //Hide YMMbox and show fitments data- 786.
+              $m(".ymm_searchbox").hide();
+           	  $m(".ymm_searchbox").find(".dropdowns").html("");
+              $m(".ymm_fitment_block").show();
+
+              //If Item Fits
+              if(res.product_page_response.status == "yes") {
+              	$m(".ymm_fitment_block").find(".item_unfits").html("");
+                
+                if(res.product_page_response.fit_type == "exact_fit") {
+                $m(".ymm_fitment_block").find(".item_fits").html('<div class="item_fits_cont"><div class="fit_title"><p><img src="'+item_fit_icon+'"/><span class="ymm_text">'+ymm_fit_title+'</span></p></div><div class="fit_desc">'+this_product_fits+': <span class="ymm_string" data-ymm-url="'+tags+'">'+res.searched_ymm+'</span></div><div class="reset_fitment_data"><input type="button" name="reset_ymm_fitment" id="reset_ymm_fitment" value="'+reset_fitment_button+'" /></div></div>');
+                } 
+                  
+                if(res.product_page_response.fit_type == "universal_fit") {
+                $m(".ymm_fitment_block").find(".item_fits").html('<div class="item_fits_cont"><div class="fit_title"><p><img src="'+uni_item_fit_icon+'"/><span class="ymm_text">'+ymm_uni_fit_title+'</span></p></div><div class="fit_desc">'+this_product_fits+': <span class="ymm_string" data-ymm-url="'+tags+'">'+res.searched_ymm+'</span></div><div class="reset_fitment_data"><input type="button" name="reset_ymm_fitment" id="reset_ymm_fitment" value="'+reset_fitment_button+'" /></div></div>');
+                }
+               } 
+                                                                    
+              //If Item Does Not Fits
+              if(res.product_page_response.status == "no"){
+              	$m(".ymm_fitment_block").find(".item_fits").html("");  
+              	$m(".ymm_fitment_block").find(".item_unfits").html('<div class="item_unfits_cont"><div class="unfit_desc"><div class="unfit-icon"><img src="'+item_not_fit_icon+'"/><span class="unfit_title">'+ymm_unfit_title+'</span></div><span class="ymm_text">'+ymm_unfit_desc+': <span class="ymm_string" data-ymm-url="'+tags+'">'+res.searched_ymm+'</span></span></div><div class="fitment_buttons"><input type="button" name="view_fitments" id="view_fitments" value="'+ymm_view_fitments_lbl+'" /><input type="button" name="reset_ymm_fitment" id="reset_ymm_fitment" value="'+ymm_reset_fitment_lbl+'" /></div></div>');
+              }
+
+              //Cart/Order Customization Work Starts Here [If item fit then only searched ymm data send to cart] - 786/92/313/ASKMPF
+              if($m('.ymm_form_inputs_cont').length == 0) {
+                $m("form[action^='/cart/add']").append("<div class='ymm_form_inputs_cont'>"+res.ymm_cart_info_html+"</div>"); //Add Form - 786
+              } else {
+                $m('div.ymm_form_inputs_cont').html(res.ymm_cart_info_html); //Update form - 786
+              }
+              //Ends Here - 786 
+
+              //Call ymm compatible list module - 786-92-313-ASKMPF-ALLAH
+              if($m(".ymm_comptbl_list").length > 0) {
+                desktopCompatibleInit(window.fit_type_for_comp_tbl);
+              }
+              //ends - 786
+          }
+   	  });
+  /*}else{ getDropdownsOnload(); }*/
+}
+  
+//YMM Garage Functions - 786
+//Get Vehicle Count.
+function getVehicleCount()
+{
+  var get_vehicles = getYMMCookie("ymm_vehicles");
+  var vehicle_count = 0;
+  if(get_vehicles != null && get_vehicles != "") {
+  vehicle_count = $m.parseJSON(get_vehicles).length;
+  }
+    
+  return vehicle_count;
+}
+  
+//Display garage
+function displayGarage(get_vehicles)
+{
+   	var ymm_label ="", ymm_tag = "", vehicle_html = "";
+  	var get_vehicles = getYMMCookie("ymm_vehicles");
+     
+    if(get_vehicles != null && get_vehicles != "") {
+       		var vehicles_object = JSON.parse(get_vehicles);
+          
+       		if(vehicles_object.length>0) {
+              
+  			$m(".ymm_garage_title").show();
+              
+            $m.each(vehicles_object, function(key, value){
+    			ymm_label = value.ymm_label.replace(/~/g, " ");
+				ymm_tag = value.ymm_tag;
+               
+               //Set vehcile html
+   			   vehicle_html += "<li><span class='ymm_lbl' data-ymm-lbl='"+value.ymm_label+"'>"+ymm_label+"</span><span class='ymm_link'><a id='selected_ymm_vehicle_link' data-ymm-tags='"+ymm_tag+"' title='View Vehicle'><img src='"+view_icon+"' /></a></span><span class='ymm_delete'><a href='javascript:void(0)' id='delete_ymm_vehicle' data-ymm-tags='"+ymm_tag+"' title='Remove Vehicle'><img src='"+delete_icon+"' /></a></span>";
+  			});
+         
+          	$m("ul.ymm_vehicles").html(vehicle_html);
+           } else {
+       		$m(".ymm_garage_title").hide();
+       		$m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles found.</li>");
+           }
+   } else {
+      $m(".ymm_garage_title").hide();
+      $m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles found.</li>");
+   }
+}
+  
+//Delete specific vehicle from Garage.
+function deleteVehicle(vehicle_tag)
+{
+  var get_ymm_vehicles = getYMMCookie("ymm_vehicles");
+  
+  //Check vehicle exists in garage then remove it and update garage value.
+  if(get_ymm_vehicles != null && get_ymm_vehicles != "") {
+    
+  	get_ymm_vehicles = $m.parseJSON(get_ymm_vehicles);
+  
+  	//Remove if exist
+  	var returnedData = $m.grep(get_ymm_vehicles, function(value) {
+     					return value.ymm_tag != vehicle_tag;
+		   			});
+     
+  	//Update garage value.  
+    if(returnedData.length>0) {
+  		saveYMMCookie("ymm_vehicles",JSON.stringify(returnedData),7);
+    } else {
+      	deleteYMMCookie("ymm_vehicles");
+    }
+    
+    //Display updated garage contents.
+    displayGarage(returnedData);
+   
+    //Update garage item count.
+  	// $m(".ymm-garage-container .ymm_counter").html("("+returnedData.length+")");
+    $m(".ymm-garage-container .ymm_counter").html(returnedData.length);
+    
+    return true;   
+  } else {
+    return false;
+  }
+}
+
+function ymmGarageInit()
+{
+  $m(document).ready(function() {
+    var cws_screen_width = $m(window).width();
+    var ymm_garage_html;
+    if ( Shopify?.routes?.root !== '/' ) { // if condition is added by MLVeda.
+      //commented by mlveda ymm_garage_html = '<div class="ymm-garage-container"><a href="javascript:void(0)" id="ymm_garage_link" class="ymm_garage_link"><span class="garage_txt">Vehicles</span><span class="ymm_counter"></span></a><div class="ymm-garage-contents" style="display:none;"><div class="ymm_garage_title" style="display:none;"><h4>Vehicle Search History</h4><span class="reset_ymm_garage"><a href="javascript:void(0);" id="reset_ymm_garage_link">Clear All Vehicles</a></span></div><ul class="ymm_vehicles"></ul><div class="ymm_garage_footer"><a id="add_ymm_vehicle" href="'+Shopify.routes.root+'pages/product-result?ymm_action=add_vehicle" class="mldcustomicn add_ymm_vehicle">Add a vehicle</a></div></div></div>';
+      ymm_garage_html = '<div class="ymm-garage-container"><a href="javascript:void(0)" id="ymm_garage_link" class="ymm_garage_link"><span class="garage_txt"></span><span class="ymm_counter"></span></a><div class="ymm-garage-contents" style="display:none;"><div class="ymm_garage_title" style="display:none;"><h4>Vehicle Search History</h4><span class="reset_ymm_garage"><a href="javascript:void(0);" id="reset_ymm_garage_link">Clear All Vehicles</a></span></div><ul class="ymm_vehicles"></ul><div class="ymm_garage_footer"><a id="add_ymm_vehicle" href="'+Shopify.routes.root+'pages/product-result?ymm_action=add_vehicle" class="mldcustomicn add_ymm_vehicle">Add a vehicle</a></div></div></div>';
+    } else {
+      //commented by mlveda ymm_garage_html = '<div class="ymm-garage-container"><a href="javascript:void(0)" id="ymm_garage_link" class="ymm_garage_link"><span class="garage_txt">Vehicles</span><span class="ymm_counter"></span></a><div class="ymm-garage-contents" style="display:none;"><div class="ymm_garage_title" style="display:none;"><h4>Vehicle Search History</h4><span class="reset_ymm_garage"><a href="javascript:void(0);" id="reset_ymm_garage_link">Clear All Vehicles</a></span></div><ul class="ymm_vehicles"></ul><div class="ymm_garage_footer"><a id="add_ymm_vehicle" href="/pages/product-result?ymm_action=add_vehicle" class="mldcustomicn add_ymm_vehicle">Add a vehicle</a></div></div></div>';
+      ymm_garage_html = '<div class="ymm-garage-container"><a href="javascript:void(0)" id="ymm_garage_link" class="ymm_garage_link"><span class="garage_txt"></span><span class="ymm_counter"></span></a><div class="ymm-garage-contents" style="display:none;"><div class="ymm_garage_title" style="display:none;"><h4>Vehicle Search History</h4><span class="reset_ymm_garage"><a href="javascript:void(0);" id="reset_ymm_garage_link">Clear All Vehicles</a></span></div><ul class="ymm_vehicles"></ul><div class="ymm_garage_footer"><a id="add_ymm_vehicle" href="/pages/product-result?ymm_action=add_vehicle" class="mldcustomicn add_ymm_vehicle">Add a vehicle</a></div></div></div>';
+    }
+    if(cws_screen_width >=981) {
+      //For desktop
+      $m("#ymm_garage_desktop").html(ymm_garage_html);
+    } else {
+      //For Mobile view
+      $m("#ymm_garage_mobile").html(ymm_garage_html);
+    }
+    
+ 	//Get vehicle count and display it. -786/ASK
+    var vehicle_count = getVehicleCount();
+    // $m(".ymm-garage-container .ymm_counter").html("("+vehicle_count+")");
+    $m(".ymm-garage-container .ymm_counter").html(vehicle_count);
+  
+    //On click of Garage dropdown. - 786/ASK.
+    $m("#ymm_garage_link").click(function(e) {
+     	e.preventDefault();
+     	
+     	var get_vehicles = getYMMCookie("ymm_vehicles");
+     	displayGarage(get_vehicles);
+        $m("div.ymm-garage-contents").toggleClass("active");
+        $m("div.ymm-garage-contents").toggle();
+        return false;
+    });
+
+    <!-- Added by mlveda -->
+      $m("body").click(function() {
+        if($m("div.ymm-garage-contents").hasClass("active")){
+          $m("div.ymm-garage-contents").removeClass("active");
+        }
+    });
+    <!-- Added by mlveda -->
+    
+    //Clear Garage History Function - 786/ASK.
+    $m("#reset_ymm_garage_link").click(function(e) {
+     e.preventDefault();
+     
+     //Reset all YMM cookies
+     deleteYMMCookie("ymm_vehicles");
+     deleteYMMCookie("ymm_values");
+     deleteYMMCookie("ymm_labels");
+     
+     //Update vehicle count to zero
+     // $m(".ymm-garage-container .ymm_counter").html("(0)");
+      $m(".ymm-garage-container .ymm_counter").html("0");
+     
+     //Remove pervious vehicles HTML set
+     $m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles found.</li>");
+     
+     //Hide reset history link itself when there are no vehicles in garage.
+     $m(".ymm_garage_title").hide();
+     
+     //Reset / get dropdowns.
+     if(template_name != "product") {
+  		resetDropdowns();
+     } else {
+     	getDropdownsOnload();
+     }
+   });
+  
+    //Delete paricular single vehicle from garage. - 786/ASK.
+    $m(document).on('click','#delete_ymm_vehicle',function(e) {
+     	e.preventDefault();
+     	var vehicle_tag = $m(this).attr("data-ymm-tags");
+     	var deleted_vehicle = deleteVehicle(vehicle_tag);
+     
+      	//Reset dropdowns.
+  	  	var current_ymm_vehicle = getYMMCookie("ymm_values");
+  	  	if(current_ymm_vehicle != null && current_ymm_vehicle == vehicle_tag) {
+    		deleteYMMCookie("ymm_values");
+          
+          	if(template_name != "product") {
+  				resetDropdowns();
+            } else {
+              getDropdownsOnload();
+            }
+ 	  	}
+   	});
+  
+  	//Go to selected vehicle. - 786/ASK
+  	$m(document).on('click','#selected_ymm_vehicle_link', function(e) {
+      e.preventDefault();
+      
+      //Get data. - 786/92/313/ASK
+      var ymm_tags = $m(this).attr("data-ymm-tags");
+      var ymm_title = $m(this).parent().siblings(".ymm_lbl").attr("data-ymm-lbl");
+       
+      //1. Update current YMM value cookie. So, Selected vehicle details reflected on website.
+      saveYMMCookie("ymm_values",ymm_tags,7);
+       
+      //2. Update current ymm label in cookie.
+      saveYMMCookie("ymm_labels",ymm_title,7);
+      
+      //3. Redirect to ymm result page.
+      window.location.href = searchURL+"?rq="+ymm_tags;
+  	});
+});
+} 
+
+
+function ymmInit()
+{
+ (function($){
+   
+    var tags;
+    let ymmSearchParams = new URLSearchParams(window.location.search);
+	var ymm_action = ymmSearchParams.get('ymm_action');
+  
+	if(ymm_action != null && ymm_action == "add_vehicle") {
+		tags = "";
+	} else {
+       var ymm_query = ymmSearchParams.get('rq');
+       
+       if(ymm_query != null) {
+         tags = ymm_query.split("~");
+       } else {
+        var query_params = getYMMCookie("ymm_values");
+	
+		if(query_params != null) {
+			tags = query_params.split("~");
+		} else {
+			tags = "";
+		}
+       }
+   }
+   
+    if(search_bttn == "") {
+      search_bttn = "Search";
+    } 
+  
+ 	if(reset_bttn == "") {
+      reset_bttn = "Reset";
+  	}
+  
+  	if(none_lbl == "") {
+      none_lbl = "None";
+  	}
+	 
+    //Get YMM dropdowns on load.
+    if(tags == ""){ //search is not performed yet.           
+   		getDropdownsOnload();
+   	}
+
+    /*setTimeout(function () {
+      $m('#ymm_searchbox .field_4').find('label').text(field_1);
+      $m('#ymm_searchbox .field_1').find('label').text(field_2);
+      $m('#ymm_searchbox .field_2').find('label').text(field_3);
+      $m('#ymm_searchbox .field_3').find('label').text(field_4);
+
+      $m('.ymm-filter').find('option:first').each(function () {
+          var curr_drop_id = $m(this).parent().attr("id");
+          $m("#"+curr_drop_id+" option:first").text(select_lbl+' '+$m(this).parents('li').find('.ymm_label').text());    
+      });
+    }, 4000);*/
+    
+   
+  	//Get Next Dropdowns on change in Sequencial order
+ 	$m(document).on('change','[id^=dropdown]',function() {
+       	var arr = $m(this).attr("id").split("-");
+  		var current_field = arr[1];
+     	var dropdown_val = $m(this).val();
+     	var field_val_Arr = [];
+      	var next_all = $m("li."+current_field).nextAll().find("select");
+      	next_all.prop("disabled", true);
+     	next_all.val("-1");
+       	
+       	$m("#ymm_searchbox .formFields .dropdowns select[id^=dropdown]:visible").each(function(i, e) 
+      	{
+           if(e.value != -1){
+       		var dropval = e.value;
+            field_val_Arr.push(dropval);
+           } 
+          
+            var first_field = $m('#ymm_searchbox .formFields .dropdowns > li:nth-child(1) select[id^=dropdown]').val();
+            var second_field = $m('#ymm_searchbox .formFields .dropdowns > li:nth-child(2) select[id^=dropdown]').val();
+            var third_field = $m('#ymm_searchbox .formFields .dropdowns > li:nth-child(3) select[id^=dropdown]').val();
+           	var fourth_field = $m('#ymm_searchbox .formFields .dropdowns > li:nth-child(4) select[id^=dropdown]').val();
+                
+           	if(first_field==-1 || second_field==-1 || third_field==-1 || fourth_field==-1) {
+               disableSearch();
+            } else {
+               enableSearch();
+            }
+        });
+      
+      	if(dropdown_val != "-1") {
+          
+           showLoader(current_field);
+          
+           $m.ajax({
+				type: "GET",
+    			dataType: 'jsonp',
+      			url: data_url,
+				data: "domain="+shop_domain+"&load=all&data_filter=updated&action=onchange&version=updated&ver_no=2&current_field="+current_field+"&prev_val="+encodeURIComponent(field_val_Arr)+"&current_val="+encodeURIComponent(dropdown_val),
+				success: function(res) {             
+                 
+                  if(res.html != "last_element~"){
+                
+                    	var returned_fieldname = res.html.split("~");
+                  	 	$m(".formFields ul.dropdowns ."+returned_fieldname[1]).remove();
+                   		$m(returned_fieldname[0]).insertAfter(".formFields ul.dropdowns ."+current_field);
+                   
+                    	var $dropdowns = $m(res.html).find('.ymm-filter');
+         
+                    	$dropdowns.find('option:first').each(function () {
+                      		var curr_drop_id = $m(this).parent().attr("id");
+                      		var curr_text = $m(this).text();
+                            var final_lbl = curr_text.replace('Select',select_lbl);
+                      		
+                      		$m("#"+curr_drop_id+" option:first").text(final_lbl);
+                    	});
+                     
+                    	$m(".ymm-filter").find("option[value*='none']").html(none_lbl);
+                    
+                 		var li_element = $m(".formFields ul.dropdowns").find('li.ymm_bttns');
+						
+                    	if (!li_element.length) {
+    					  $m(".formFields ul.dropdowns").append('<li class="ymm_bttns"><div id="ymm_actions" class="button-action" align="center"><input type="button" name="submit" id="ymm_search" value="'+search_bttn+'" class="btn ymm_search" disabled="disabled" /><input type="button" name="reset" id="ymm_reset" value="'+reset_bttn+'" class="btn btn--secondary" /></div></li>');
+						} 
+                    
+                          
+                            $m('#ymm_searchbox .field_4').find('label').text(field_1);
+                            $m('#ymm_searchbox .field_1').find('label').text(field_2);
+                            $m('#ymm_searchbox .field_2').find('label').text(field_3);
+                            $m('#ymm_searchbox .field_3').find('label').text(field_4);
+                      
+                            
+                          $m('.ymm-filter').find('option:first').each(function () {
+                              var curr_drop_id = $m(this).parent().attr("id");
+                              $m("#"+curr_drop_id+" option:first").text(select_lbl+' '+$m(this).parents('li').find('.ymm_label').text());    
+                          });
+                          
+                  } 
+                  
+                  hideLoader();
+				}	
+	 		});	
+        } 
+    });
+  
+  	//After Search Filter performs show selected dropdowns values.
+  	if(tags != "") {
+    	if(template_name != "product") {
+      		$m.ajax({
+			type: "GET",
+    		dataType: 'jsonp',
+      		url: data_url,
+			data: "domain="+shop_domain+"&load=all&subaction=show_all&action=getdropdowns&version=updated&tags="+encodeURIComponent(tags),
+			success: function(res) { 
+             
+              	$m(".formFields ul.dropdowns").html(res.html);
+              
+              	/*** To fix back browser issue - 786/ASK
+                [it's better to get selection dropdown labels instead of from cookie to set current ymm search label] 
+                ***/
+              	var sel_type = $m("#dropdown-field_4  option:selected").text();
+    			var sel_year = $m("#dropdown-field_1 option:selected").text();
+    			var sel_make = $m("#dropdown-field_2 option:selected").text();
+    			var sel_model = $m("#dropdown-field_3 option:selected").text();
+      			var ymm_labels = sel_type+" / "+sel_year+" / "+sel_make+" / "+sel_model;
+      
+              	//Set current searched YMM labels.-786/ASK
+    			$m("#ymm_title").hide().html(ymm_labels);
+              
+                 var $dropdowns = $m(res.html).find('.ymm-filter');
+         
+                 $dropdowns.find('option:first').each(function () {
+                      var curr_drop_id = $m(this).parent().attr("id");
+                      var curr_text = $m(this).text();
+                      $m("#"+curr_drop_id+" option:first").text(curr_text.replace('Select',select_lbl));
+                });
+                
+              	$m(".ymm-filter").find("option[value*='none']").html(none_lbl);
+              
+               	var li_element = $m(".formFields ul.dropdowns").find('li.ymm_bttns');
+				
+              	if (!li_element.length) {
+      				$m(".formFields ul.dropdowns").append('<li class="ymm_bttns"><div id="ymm_actions" class="button-action" align="center"><input type="button" name="submit" id="ymm_search" value="'+search_bttn+'" class="btn ymm_search" disabled="disabled" /><input type="button" name="reset" id="ymm_reset" value="'+reset_bttn+'" class="btn btn--secondary" /></div></li>');
+				} 
+
+                   $m('#ymm_searchbox .field_4').find('label').text(field_1);
+                    $m('#ymm_searchbox .field_1').find('label').text(field_2);
+                    $m('#ymm_searchbox .field_2').find('label').text(field_3);
+                    $m('#ymm_searchbox .field_3').find('label').text(field_4);
+              
+                    $m('.ymm-filter').find('option:first').each(function () {
+                        var curr_drop_id = $m(this).parent().attr("id");
+                        $m("#"+curr_drop_id+" option:first").text(select_lbl+' '+$m(this).parents('li').find('.ymm_label').text());    
+                    });
+             
+             	enableSearch();
+			}
+        });
+    	} else {
+      		getYMMFitmentData(tags);
+      	}
+       
+    }else{ 
+      $m('#ymm_searchbox .field_4').find('label').text(field_1);
+      $m('#ymm_searchbox .field_1').find('label').text(field_2);
+      $m('#ymm_searchbox .field_2').find('label').text(field_3);
+      $m('#ymm_searchbox .field_3').find('label').text(field_4);
+
+      $m('.ymm-filter').find('option:first').each(function () {
+          var curr_drop_id = $m(this).parent().attr("id");
+          $m("#"+curr_drop_id+" option:first").text(select_lbl+' '+$m(this).parents('li').find('.ymm_label').text());    
+      });
+    }
+  
+  	//On click of Search button build search filter URL
+  	$m(document).on('click','#ymm_search',function() 
+    {
+      var dropval = "";
+      var droptext = "";
+      var tagURL = "";
+      var loop_cnt = 0;
+      var append_tag = "";
+      var append_label = ""; 
+     
+      $m("#ymm_searchbox .formFields .dropdowns select[id^=dropdown]:visible").each(function(i, e) 
+      {
+       		droptext = $m.trim($m(this).find("option:selected").text());
+       		dropval = e.value;
+        	loop_cnt++;
+          
+        	if(dropval != "-1") {
+            	if(loop_cnt >= 1) {
+                     if(dropval != "") {
+                       if(dropval.indexOf("_none")== -1) {
+                         append_tag += dropval+"~";   
+                         append_label += droptext+"~";
+                       }
+                     }
+            	}
+          	}
+   		});
+          
+      	//Save YMM data inside cookie. - 786/ASKMPFN
+        append_tag = removeLastSign(append_tag);
+        append_label = removeLastSign(append_label);
+      
+        saveYMMCookie("ymm_values",append_tag,7);
+        saveYMMCookie("ymm_labels",append_label,7);
+      
+        //786
+        //Save YMM information inside YMM vehicles cookie (garage function) - 786/ASK.
+        var ymm_vehicles = [];
+      	var get_ymm_vehicles = getYMMCookie("ymm_vehicles");
+        
+   		if(get_ymm_vehicles != null && get_ymm_vehicles != "") {
+     		var returnedData = [];
+     		get_ymm_vehicles = $m.parseJSON(get_ymm_vehicles);
+         
+     		//Remove if exist
+     		returnedData = 	$m.grep(get_ymm_vehicles, function(value) {
+     		return value.ymm_tag != append_tag;
+		    });
+     
+     		//Then add
+    		returnedData.push({ymm_label: append_label,ymm_tag: append_tag});
+
+     		ymm_vehicles = returnedData;
+        } else {
+          	ymm_vehicles.push({ymm_label: append_label,ymm_tag: append_tag});
+        }
+      
+      	saveYMMCookie("ymm_vehicles",JSON.stringify(ymm_vehicles),7);
+      
+      	//If ymm search performs on product page then product fitment data needs to display else redirect to ymm result page.
+        if(template_name != "product") {
+          
+          	//Redirect to YMM custom result page.
+         	window.location.href = searchURL+"?rq="+append_tag;
+         
+        } else {
+          	//Hide YMMbox and show fitments data- 786.
+          	$m(".ymm_searchbox").hide();
+           	$m(".ymm_searchbox").find(".dropdowns").html("");
+           
+           	//Get vehicle count and display it. -786/ASK
+    		var vehicle_count = getVehicleCount();
+    		// $m(".ymm-garage-container .ymm_counter").html("("+vehicle_count+")");
+          $m(".ymm-garage-container .ymm_counter").html(vehicle_count);
+          	displayGarage(get_ymm_vehicles);
+
+            //786/92/313/ASKMPF - ALLAH
+            //If search button clicked on product page then show product fitments data. - 786
+            tags = append_tag.toString().replace(/~/g, ",");
+          
+          	//Update ymm query parameter value in URL without page reload.
+        	const ymm_new_url = new URL(window.location);
+			ymm_new_url.searchParams.set("rq", append_tag);
+			
+			//This will only happen in the theme editor
+			if(Shopify.designMode) {
+				window.location.href = ymm_new_url;
+			} else {
+				window.history.replaceState({}, '', ymm_new_url);
+			}
+            //Ends here - 786/ALLAH
+          
+           	//If search button clicked on product page then show product fitments data. - 786
+          	getYMMFitmentData(append_tag);
+         }
+        //786
+    });
+   
+    //On Click of view other fitments data - 786/92/313/ASM
+    $m(document).on('click','#view_fitments',function() 
+   	{      
+      /*** Updated - 786/ALLAH ***/
+      var ymm_curr_val = tags.toString().replace(/,/g, "~");
+  
+      if(ymm_curr_val == ""){
+        window.location.href = searchURL;
+      } else {
+      	window.location.href = searchURL+"?rq="+ymm_curr_val;
+      }
+      //Ends here - 786/92/ALLAH
+    });
+ 
+    //Reset function
+  	$m(document).on('click','#ymm_reset,#reset_ymm_fitment',function(e)  
+	{
+        var btn_id = $m(this).attr("id");
+      
+        //Get selected values.
+        if(btn_id == "ymm_reset") {
+        	var ymm_sel_vals = $m('select[id^=dropdown]').children('option:selected').map(function(i,e){ 
+          						if(e.value != -1) { 
+          						return e.value; 
+                                }
+                            }).get().toString();
+        	ymm_sel_vals = ymm_sel_vals.replace(/,/g, "~");
+        } else {
+        	var ymm_sel_vals = getYMMCookie("ymm_values");
+        }
+      
+	    //Delete selected value from garage if exits.      
+        var deleted_vehicle = deleteVehicle(ymm_sel_vals);
+    
+      	//Delete selected value from current cookie.
+      	deleteYMMCookie("ymm_values");
+        deleteYMMCookie("ymm_labels");
+    
+      	//Reset dropdowns.
+        if(btn_id == "ymm_reset") {
+  			resetDropdowns();
+        } else {
+            //786
+            getDropdownsOnload();
+        }
+    });
+   
+  })($m);  
+}
+  
+//Check jquery lib. is already included or not and if version is less then call jquery lib through our App.
+/*if ((typeof jQuery === "undefined") || (jQuery.fn.jquery.replace(/\.(\d)/g,".0$1").replace(/\.0(\d{2})/g,".$1") < "1.08.01")) { 
+   window.ymmLoadScript("//code.jquery.com/jquery-1.12.4.min.js", function (){
+     
+     jQuery.noConflict();
+        
+     ymmGarageInit();
+        
+     {% unless productTags contains "disable_ymm" %}
+     ymmInit();
+     {% endunless %}
+   });
+} else {*/
+  ymmGarageInit();
+  
+  {% unless productTags contains "disable_ymm" %}
+  ymmInit();
+  {% endunless %}
+//}
+</script>
+
+{% comment %} SEARCH FILTER YMM JS {% endcomment %}
+<script type="text/javascript">
+   $m(document).ready(function(){
+     $m('.ymm_searchbox.horizontal h2').on("click", function () {
+        if ($m(window).width() < 767) {
+            $m('.ymm_searchbox.horizontal .formFields').slideToggle();
+        }
+        $m('.ymm_searchbox.horizontal .formFields').toggleClass('toggled-on');
+    });
+
+    {% comment %} Show replacement part note for replacement parts products. - 786 {% endcomment %}
+    {% if template.name == "product" %}
+      {% assign replacement_part_txt_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.replacement_part_txt' %}
+      var replacement_part_txt = "{{ 'ymm_app.replacement_part_txt' | t | strip | replace: replacement_part_txt_err, '<b>This is a replacement part</b> for a product in our range. This item is not vehicle-specific or universal. Please read the product description for installation details.' | replace: '&#39;', "'" }}";  
+      replacement_part_txt = replacement_part_txt.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+      
+      $m("#replacement_part_note").html(replacement_part_txt);
+    {% endif %}
+  });
+</script>

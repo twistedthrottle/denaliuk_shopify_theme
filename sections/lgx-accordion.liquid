@@ -1,0 +1,265 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+-%}
+
+{% assign unique_id = section.id | slice: -7, 7 %}
+
+{% capture section_classes %}
+  section-accordion section-accordion--{{ section.id }} {% if settings.animation != 'none' %} animate {{ settings.animation }} {% endif %}
+{% endcapture %}
+
+{% capture accordion_classes %}
+  js-accordion c-accordion c-accordion--vantage c-accordion--default c-accordion--{{ template | handleize }} c-accordion--{{ unique_id }} row
+{% endcapture %}
+
+{%- if request.page_type == 'product' -%}
+  {%- assign page_custom_faqs = product.metafields.custom.faqs_custom -%}
+  {%- assign page_metafields_count = product.metafields.custom.faq.value.count -%}
+{%- elsif request.page_type == 'collection' -%}
+  {%- assign page_custom_faqs = collection.metafields.custom.faqs_custom -%}
+  {%- assign page_metafields_count = collection.metafields.custom.faq.value.count -%}
+{%- endif -%}
+
+{% assign custom_faqs_check = page_custom_faqs | metafield_tag %}
+{% if custom_faqs_check contains "<h3>" or page_metafields_count > 0 and current_page == 1 %}
+<div class="global__section {{ section_padding }}">
+  <section
+  id="section-accordion--{{ section.id }}"
+  class="{{- section_classes | strip -}}"
+  data-section-type="accordion"
+  data-section-loaded="false"
+  data-section-id="{{ section.id }}">
+
+    <div class="row grid__wrapper" style="max-width: 110ch;width:100%">
+        {% comment %}
+        This Liquid mess should work provided the metafield value set in Shopify admin for any given page:
+    
+        - Has questions formatted as H3s and H3s only.
+        - (optional) Has a single H2 tag at the very top that will be used as the FAQ section's title.
+           You MUST NOT use multiple H2 tags, unless you have have "<h6>split</h6>" somewhere to add extra text (see below)
+        - (optional) Has a single H6 tag separating the FAQs and extra text. This extra text serves as additional content that will be shown below the FAQs.
+          The H6 MUST say "split" in lowercase, with no leading or trailing spaces.
+          If you decide to use this split tag, you can add multiple H2s, provided they are below the split point. 
+
+        Done correctly, this section allows you to add any rich text element (excluding tables and images until Shopify adds rich text support for them)
+        that will be automatically wrapped in collapsible tags.
+        {% endcomment %}
+    
+        {%- # We remove the Shopify-generated metafield tag wrapper first, then separate [FAQs title + FAQs] from [Everything after the FAQs (if there's any)]. -%}
+        {%- # If the metafield is formatted correctly, faq_sections[0] represents the FAQ section's title and the FAQs only, and faq_sections[1] represents everything after the <h6> tag (if there's a splitting <h6> tag). -%}
+        {%- assign faq_sections = page_custom_faqs | metafield_tag | remove: '<div class="metafield-rich_text_field">' | remove: '</div>' | remove: 'split</h6>' | split: '<h6>' -%}
+    
+        {%- # Next, we separate the section's title and the FAQs. Done correctly, there's two scenarios: -%}
+        {%- # 1) An <h2> is found i.e. there's a title set in the metafield: faq_items[0] represents the title, and faq_items[1] represents all FAQs. -%}
+        {%- # 2) No <h2> is found i.e. there's no title set in the metafield: faq_items[0] represents all FAQs, and no faq_items[1] is generated -%}
+        {%- assign faq_items = faq_sections[0] | remove: '<h2>' | split: '</h2>' -%}
+
+        {%- # We then generate separate FAQ items based on <h3> tags -%}
+        {%- # To be safe, we use faq_items.last which is guaranteed to be the FAQs -%}
+        {%- assign faq_items_split = faq_items.last | split: '<h3>' -%}
+    
+        {% if faq_items[1] %}<h2 class="section-title span-12 auto">{{ faq_items[0] }}</h2>{% endif %}
+        <div
+          class="{{- accordion_classes | strip -}}{% if section.settings.reduced_width %} span-8 push-2{% else %} span-12{% endif %} md-span-12 sm-span-12 auto"
+          id="c-accordion--{{ unique_id }}"
+          {% if section.settings.allow_multiple %}
+          data-accordion-allow-multiple
+          {% endif %}>
+        {%- for faq_item in faq_items_split -%} {%- # Loop through each FAQ item -%}
+          {%- unless faq_item == blank -%}
+
+            {%- liquid
+
+              assign accordion_content_class = 'c-accordion__panel--'
+              assign accordion_content_id = accordion_content_class | append: unique_id | append: '-' | append: forloop.index
+
+              assign heading = faq_item | split: '</h3>' | first
+              assign content = faq_item | split: '</h3>' | last
+
+            -%}
+
+            {% if heading != blank %}
+              <h3>
+               <button
+                 class="mlaccordian js-accordion-header c-accordion__header"
+                 aria-expanded="false"
+                 aria-controls="{{ accordion_content_id }}"
+                 data-toggle="accordion">
+                 {{ heading }}
+                   <div class="c-accordion__header-icons">
+                     {% render 'snip-icons',
+                        wrapper: '.c-accordion__header-icons',
+                        type: 'apollo',
+                        icon: 'minus',
+                        classes: 'open c-accordion__header-icons--icon',
+                        size: '14px',
+                        fill: 'var(--text-color)',
+                        hover: 'var(--text-color)' %}
+                    {% render 'snip-icons',
+                       wrapper: '.c-accordion__header-icons',
+                       type: 'apollo',
+                       icon: 'plus',
+                       classes: 'closed c-accordion__header-icons--icon',
+                       size: '14px',
+                       fill: 'var(--text-color)',
+                       hover: 'var(--text-color)' %}
+                   </div>
+               </button>
+              </h3>
+                <div
+                 class="c-accordion__panel {{ accordion_content_id }} rte"
+                 id="{{ accordion_content_id }}"
+                 data-parent="#c-accordion--{{ unique_id }}">
+                 <div class="c-accordion__inner">
+                  {{ content }}
+                 </div>
+                </div>
+            {% endif %}
+
+          {%- endunless -%}
+        {%- endfor -%}
+    
+        {%- # Create a new metaobject definition for FAQs, then reference it as metafields for your products and collections -%}
+        {%- if request.page_type == 'product' -%}
+          {%- assign object = product.metafields.custom.faqs.value -%}
+        {%- elsif request.page_type == 'collection' -%}
+          {%- assign object = collection.metafields.custom.faqs.value -%}
+        {%- endif -%}
+    
+        {%- for faq in object -%}
+
+          {%- liquid
+  
+            assign accordion_content_class = 'c-accordion__panel--'
+            assign accordion_content_id = accordion_content_class | append: unique_id | append: '-' | append: forloop.index
+  
+            assign heading = faq.question.value
+            assign content = faq.answer | metafield_tag
+  
+          -%}
+  
+          {% if heading != blank %}
+            <h3>
+             <button
+               class="mlaccordian js-accordion-header c-accordion__header"
+               aria-expanded="false"
+               aria-controls="{{ accordion_content_id }}"
+               data-toggle="accordion">
+               {{ heading }}
+                 <div class="c-accordion__header-icons">
+                   {% render 'snip-icons',
+                      wrapper: '.c-accordion__header-icons',
+                      type: 'apollo',
+                      icon: 'minus',
+                      classes: 'open c-accordion__header-icons--icon',
+                      size: '14px',
+                      fill: 'var(--text-color)',
+                      hover: 'var(--text-color)' %}
+                  {% render 'snip-icons',
+                     wrapper: '.c-accordion__header-icons',
+                     type: 'apollo',
+                     icon: 'plus',
+                     classes: 'closed c-accordion__header-icons--icon',
+                     size: '14px',
+                     fill: 'var(--text-color)',
+                     hover: 'var(--text-color)' %}
+                 </div>
+             </button>
+            </h3>
+              <div
+               class="c-accordion__panel {{ accordion_content_id }} rte"
+               id="{{ accordion_content_id }}"
+               data-parent="#c-accordion--{{ unique_id }}">
+               <div class="c-accordion__inner">
+                {{ content }}
+               </div>
+              </div>
+          {% endif %}
+          
+        {%- endfor -%}
+      {%- if faq_sections[1] -%}
+        <div id="faq-text-2" class="rte">
+          {{ faq_sections[1] }}
+        </div>
+      {%- endif -%}
+      </div>
+    </div>
+  </section>
+</div>
+{% endif %}
+    
+{% schema %}
+{
+  "name": "[LOGEIX] Accordion",
+  "settings":
+  [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "paragraph",
+      "content": "Accordions are generated on individual collections/products by filling out the FAQs (Custom) metafields. Format questions as H3's and they'll be converted into accordion items."
+    },
+    {
+      "type": "checkbox",
+      "id": "allow_multiple",
+      "label": "Allow multiple accordions open at one time",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "reduced_width",
+      "label": "Reduce section width"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "[LOGEIX] Dynamic FAQs Accordion"
+    }
+  ],
+  "disabled_on": {
+    "groups":
+    [
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+<div id="page" data-section-id="{{ section.id }}">
+  <div class="page-sections">
+    {% for block in section.blocks %}
+      <div class="page-section" {{ block.shopify_attributes }}>
+        {% case block.type %}
+          {% when 'page_title' %}
+            <section id="page-section-{{ block.id }}" class="shopify-section page-title" style="text-align: {{ block.settings.pt_align }};" data-section-id="{{ block.id }}">
+              <div class="row">
+                <h1>{{ page.title }}</h1>
+              </div>
+            </section>
+          {% when 'page_content' %}
+            <section id="page-section-{{ block.id }}" class="shopify-section page-content" style="text-align: {{ block.settings.pc_align }}; max-width: {{ block.settings.pc_max_width}}px; margin: 0 auto;" data-section-id="{{ block.id }}">
+              <div class="rte">
+                {{ page.content }}
+              </div>
+            </section>
+        {% endcase %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Custom Page One",
+    "max_blocks": 40,
+    "blocks": [
+      {
+        "type": "page_title",
+        "name": "Page Title",
+        "settings": [
+          {
+            "type": "select",
+            "id": "pt_align",
+            "label": "Heading Alignment",
+            "default": "center",
+            "options": [
+              {
+                "value":"center",
+                "label":"Center"
+              },
+              {
+                "value":"left",
+                "label":"Left"
+              },
+              {
+                "value":"right",
+                "label":"Right"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "page_content",
+        "name": "Page Content",
+        "settings": [
+          {
+            "type": "select",
+            "id": "pc_align",
+            "label": "Content Alignment",
+            "default": "center",
+            "options": [
+              {
+                "value":"center",
+                "label":"Center"
+              },
+              {
+                "value":"left",
+                "label":"Left"
+              },
+              {
+                "value":"right",
+                "label":"Right"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "pc_max_width",
+            "min": 600,
+            "max": 1000,
+            "step": 100,
+            "unit": "px",
+            "label": "Content Width",
+            "default": 800
+          }
+        ]
+      }
+    ],
+    "default": {
+      "blocks": [
+        {
+          "type": "page_title"
+        },
+        {
+          "type": "page_content"
+        }
+      ]
+    }
+  }
+{% endschema %}
+

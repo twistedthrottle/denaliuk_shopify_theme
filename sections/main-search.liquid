@@ -1,0 +1,326 @@
+{%- liquid
+
+ assign show_filters = false
+
+ if section.settings.show_filters
+   assign show_filters = true
+ endif
+
+ assign filter_count = 0
+ for filter in search.filters
+   if filter.type == 'price_range'
+     if filter.min_value.value != nil or filter.max_value.value != nil
+       assign filter_count = 1
+     endif
+   endif
+
+   assign filter_count = filter_count | plus: filter.active_values.size
+ endfor
+  
+-%}
+
+<div class="main__section"
+data-section-id="{{ section.id }}"
+data-section-type="search-section">
+{% paginate search.results by 24 %}
+  <div id="searchResultsWrapper" class="row">
+    {%- liquid
+
+      assign has_products = false
+      assign has_articles = false
+      assign has_pages = false
+
+    -%}
+      <div id="page" class="desktop-12 tablet-6 mobile-3 main__section">
+        <h1>{{ 'sections.search.title' | t }}</h1>
+        <div id="search-bar" class="desktop-6 desktop-push-3 tablet-6 mobile-3 mlcustomsearch">
+          <form action="{{ routes.search_url }}" method="get">
+            <label class="visually-hidden" for="q">{{ 'sections.search.placeholder' | t }}</label>
+            <!-- commented by mlveda <div class="search-form">
+              <input
+                type="text"
+                name="q"
+                id="q"
+                class="search__input"
+                placeholder="{{ 'sections.search.placeholder' | t }}"/>
+              <button type="submit">
+                {% render 'snip-icons',
+                   wrapper: '.search__input',
+                   type: 'vantage-theme',
+                   icon: 'search',
+                   classes: 'search__input--icon vib-center',
+                   size: '14px',
+                   fill: 'var(--text-color)',
+                   hover: 'var(--text-color)' %}
+              </button>
+              {% if settings.search_show_products_only %}
+                <input type="hidden" name="type" value="product">
+              {% endif %}
+            </div> -->
+            {% if search.performed %}
+              {% if search.results_count == 0 %}
+                <p class="mlsearch">{{ 'sections.search.no_results_html' | t: terms: search.terms }}</p>
+              {% else %}
+                <p class="mlsearch">{{ 'sections.search.results_for_html' | t: terms: search.terms }}</p>
+              {% endif %}
+            {% endif %}
+          </form>
+        </div>
+      </div>
+
+      {% if search.performed %}
+        {% if show_filters %}
+          {%
+            render 'search-topbar',
+            filter_count: filter_count,
+            show_accordion_links: true
+          %}
+          <aside class="slideout slideout__drawer-right"
+            data-wau-slideout="collection-sidebar"
+            data-wau-accordions-closed
+            id="slideout-collection-sidebar">
+
+            <div class="slideout__trigger--close">
+              <button class="slideout__trigger-collection-sidebar js-slideout-close button-as-link"
+                data-slideout-direction="right" aria-label="Close sidebar" tabindex="0" type="button" name="button">
+                <div class="icn-close"></div>
+              </button>
+            </div>
+            {%
+              render 'search-sidebar'
+            %}
+          </aside>
+        {% endif %}
+
+        {%- liquid
+
+          for item in search.results
+            if item.object_type == 'product'
+            assign has_products = true
+            endif
+            if item.object_type == 'article'
+            assign has_articles = true
+            endif
+            if item.object_type == 'page'
+            assign has_pages = true
+            endif
+          endfor
+
+        -%}
+
+        {%- if search.results_count < 1 -%}
+          <div id="main-search-results"
+            class="search--empty desktop-12 tablet-6 mobile-3"
+            data-id="{{ section.id }}">
+            {%- if filter_count > 0 -%}
+              <span class="rte">{{ 'collections.filters.use_fewer_filters_html' | t: link: routes.search_url, class: "underline" }}</span>
+            {%- endif -%}
+          </div>
+        {%- else -%}
+           <div id="main-search-results"
+            class="search__grid desktop-12 tablet-6 mobile-3"
+            data-grid-type="grid"
+            data-id="{{ section.id }}">
+            {% if has_products %}
+              <div id="search-products" class="desktop-12 tablet-6 mobile-3">
+                <!--commented by mlveda <h2 class="section-title">{{ 'sections.search.products' | t }}</h2> -->
+                <div id="product-loop">
+                {% for item in search.results %}
+                  {% if item.object_type == 'product' %}
+                    {% liquid
+                      assign loading = 'lazy'
+                      assign fetch_priority = 'auto'
+                      if section.index == 1 and forloop.index <= 4
+                        assign loading = 'eager'
+                        assign fetch_priority = 'high'
+                      endif
+                     %}
+                    <div
+                      class="product-index desktop-3 tablet-2 mobile-half{% cycle ' first', '', '', ' last' %}{% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}"
+                      id="prod-{{ item.id }}"
+                      data-alpha="{{ item.title }}"
+                      data-price="{{ item.price }}">
+                      {% render 'product-listing', product: item, collection: collection, grid: 3, loading: loading, fetchpriority: fetch_priority %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+            {% if section.settings.show_articles and has_articles %}
+              <div id="search-articles" class="desktop-12 tablet-6 mobile-3">
+                <h2 class="section-title">{{ 'sections.search.articles' | t }}</h2>
+                {% for item in search.results %}
+                  {% if item.object_type == 'article' %}
+                  <div class="search-article desktop-3 tablet-2 mobile-half{% cycle ' first', '', '', ' last' %}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}">
+                    <!--'item' is an article All article object properties can be accessed. -->
+                    {% if item.image %}
+                      <div class="prod-image">
+                        <a href="{{ item.url }}" title="{{ item.title | escape }}">
+                          {% liquid
+                            assign loading = 'lazy'
+                            assign fetch_priority = 'auto'
+                            if section.index == 1 and has_products == false and forloop.index <= 4
+                              assign loading = 'eager'
+                              assign fetch_priority = 'high'
+                            endif
+                           %}
+                          {%- render 'basic-responsive-image',
+                            type: item.image,
+                            width: 600,
+                            loading: loading,
+                            fetchpriority: fetch_priority
+                          -%}
+                        </a>
+                      </div>
+                    {% endif %}
+                    <div class="product-info">
+                      <h4 class="page-info"><a href="{{ item.url }}">{{ item.title }}</a></h4>
+                      <p>{{ item.content | strip_html | truncate: 200 }}</p>
+                    </div>
+                  </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if section.settings.show_pages and has_pages %}
+              <div id="search-pages" class="desktop-12 tablet-6 mobile-3">
+                <h2 class="section-title">{{ 'sections.search.pages' | t }}</h2>
+                {% for item in search.results %}
+                  {% if item.object_type == 'page' %}
+                  <div class="search-page desktop-3 tablet-2 mobile-half{% cycle ' first', '', '', ' last' %}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}">
+                    <!--'item' is an page All page object properties can be accessed. -->
+                    {% if item.content contains '<img' %}
+                      <div class="prod-image">
+                        <a href="{{ item.url }}" title="{{ item.title | escape }}">
+                          {% assign page_images = item.content | split: 'src="' %}
+                          {% for page_image in page_images %}
+                            {% if forloop.index0 == 1 %}
+                              {% assign first_image_src = page_image | split: '"' | first %}
+                              {% if item.content contains "alt" %}
+                                {% assign first_image_alt = page_image | split: 'alt="' | last | split: '"' | first %}
+                              {% else %}
+                                {% assign first_image_alt = "" %}
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                          {% liquid
+                            assign loading = 'lazy'
+                            assign fetch_priority = 'auto'
+                            if section.index == 1 and has_products == false and has_articles == false and forloop.index <= 4
+                              assign loading = 'eager'
+                              assign fetch_priority = 'high'
+                            endif
+                           %}
+                          <img src="{{ first_image_src }}" {% if first_image_alt != blank %} alt="{{ first_image_alt }}" {% endif %} width="100%" loading="{{ loading }}" fetchpriority="{{ fetch_priority }}" />
+                        </a>
+                      </div>
+                    {% endif %}
+                    <div class="product-info">
+                      <h4 class="page-info"><a href="{{ item.url }}">{{ item.title }}</a></h4>
+                      <p>{{ item.content | strip_html | truncate: 200 }}</p>
+                    </div>
+                  </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+            <div class="clear"></div>
+            {% render 'pagination', paginate: paginate %}
+          </div>
+        {%- endif -%}
+      {% endif %}
+
+    <style>
+      @media screen and ( min-width: 981px ) {
+         .product-index.desktop-4:nth-child(3n+1) {
+             clear: left;
+         }
+
+         .product-index.desktop-3:nth-child(4n+1) {
+             clear: left;
+         }
+
+         .product-index.desktop-6:nth-child(2n+1) {
+             clear: left;
+         }
+      }
+      @media screen and ( min-width: 741px ) and ( max-width: 980px ) {
+         .product-index.tablet-2:nth-child(3n+1) {
+             clear: left;
+         }
+         .product-index.tablet-3:nth-child(2n+1) {
+             clear: left;
+         }
+      }
+      @media screen and ( max-width: 740px ) {
+         .product-index.mobile-half:nth-child(2n+1) {
+             clear: left;
+         }
+      }
+    </style>
+  </div><!-- /.row -->
+{% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name": "Search",
+  "max_blocks": 10,
+  "settings":
+  [
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show search filters",
+      "info": "Learn how to add storefront filters [here](https:\/\/help.shopify.com\/en\/manual\/online-store\/themes\/os20\/customize\/filters)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_layout_buttons",
+      "label": "Show grid/list layout options",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_articles",
+      "label": "Show relevant blog articles",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pages",
+      "label": "Show relevant pages",
+      "default": true
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "menu",
+      "name": "Sidebar slideout menu",
+      "settings":
+      [
+        {
+          "type": "link_list",
+          "id": "side_nav",
+          "label": "Menu",
+          "info": "This menu has limited support for dropdown items"
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Header",
+          "default": "Explore"
+        }
+      ]
+    },
+    {
+      "type": "sort_by",
+      "name": "Sidebar slideout sort by",
+      "limit": 1,
+      "settings":[]
+    }
+  ]
+}
+{% endschema %}

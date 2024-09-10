@@ -1,0 +1,548 @@
+<nav
+  class="mobile-menu"
+  role="navigation"
+  data-section-loaded="false"
+  data-section-id="{{ section.id }}"
+  data-section-type="mobile-navigation"
+>
+  <div class="slideout__trigger--close">
+    <button
+      class="slideout__trigger-mobile-menu js-slideout-close"
+      data-slideout-direction="left"
+      aria-label="Close navigation"
+      tabindex="0"
+      type="button"
+      name="button"
+    >
+      <div class="icn-close"></div>
+    </button>
+  </div>
+      <!-- Added by mlveda -->
+    <div class="mobile-menu__block mldswitcher" {{ block.shopify_attributes }}>
+      <a href="#swym-wishlist" class="swym-wishlist">
+        <!-- <i aria-hidden="true" focusable="false" role="presentation" class="icon icon-swym-wishlist"></i> -->
+        <!-- <lable class="mldrawerwishlistlabel">Wishlist</lable> -->
+        <i aria-hidden="true" focusable="false" role="presentation" class="mldrawerwishlist"></i>
+      </a>
+      {% render 'orbe', drawer: true %}
+    </div>
+    {% comment %}{% if shop.customer_accounts_enabled %}
+      {% if customer %}
+        <li class="header__shopping-cart-link cart__link-account mobile-menu__block">
+          <!--commented by mlveda <a href="{{ routes.account_url }}">{{ 'customer.account.title' | t }}</a> -->
+          <a href="{{ routes.account_url }}">
+            <lable class="mldraweraccountlabel">Account</lable>
+            <i aria-hidden="true" focusable="false" role="presentation" class="mldraweraccount"></i>
+          </a>
+        </li>
+        <!-- commented by mlveda <li class="header__shopping-cart-link cart__link-logout device-hide">
+          <a href="{{ routes.account_logout_url }}">{{ 'customer.account.logout' | t }}</a>
+        </li> -->
+      {% else %}
+        <li class="header__shopping-cart-link cart__link-login mobile-menu__block">
+          <!-- commented by mlveda <a href="{{ routes.account_login_url }}">{{ 'customer.account.title' | t }}</a> -->
+          <a href="{{ routes.account_login_url }}">
+            <lable class="mldraweraccountlabel">Account</lable>
+            <i aria-hidden="true" focusable="false" role="presentation" class="mldraweraccount"></i>
+          </a>
+        </li>
+      {% endif %}
+    {% endif %}{% endcomment %}
+    <!-- Added by mlveda -->
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'search_box' %}
+        <div class="mobile-menu__block mobile-menu__search mldmobilesearch" {{ block.shopify_attributes }}>
+          {%- if settings.predictive_search_enabled -%}
+            <predictive-search
+              data-routes="{{ routes.predictive_search_url | default: '/search/suggest' }}"
+              data-input-selector='input[name="q"]'
+              data-results-selector="#predictive-search"
+            >
+          {%- endif -%}
+          <form action="/search" method="get" name="searchForm">
+            <label for="q--{{ section.id }}">
+              <span class="visually-hidden">{{ 'sections.search.placeholder' | t }}</span>
+              <input
+                type="text"
+                name="q"
+                form-label="searchForm"
+                id="q--{{ section.id }}"
+                class="search__input"
+                placeholder="{{ 'sections.search.placeholder' | t }}"
+                value="{{ search.terms | escape }}"
+                {%- if settings.predictive_search_enabled -%}
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-owns="predictive-search-results-list"
+                  aria-controls="predictive-search-results-list"
+                  aria-haspopup="listbox"
+                  aria-autocomplete="list"
+                  autocorrect="off"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                {%- endif -%}
+              >
+              <i class="mldeawarsearch" aria-hidden="true"></i>
+            </label>
+
+            <input name="options[prefix]" type="hidden" value="last">
+            {% if settings.search_show_products_only %}
+              <input type="hidden" name="type" value="product">
+            {% endif %}
+
+            {%- if settings.predictive_search_enabled -%}
+              <div id="predictive-search" class="predictive-search" tabindex="-1"></div>
+            {%- endif -%}
+          </form>
+          {%- if settings.predictive_search_enabled -%}
+            </predictive-search>
+          {%- endif -%}
+        </div>
+      {% when 'navigation' %}
+        {% assign unique_id = block.id | slice: 0, 7 %}
+        {% assign mobile_menu_allow_multiple = false %}
+
+        <ul
+          class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordion--{{unique_id}}"
+          id="c-accordion--{{unique_id}}"
+          {% if mobile_menu_allow_multiple %}
+            data-accordion-allow-multiple
+          {% endif %}
+
+          data-accordion-family="mobile-navigation"
+
+          {{ block.shopify_attributes }}
+        >
+          {% assign menu = linklists[block.settings.main_nav] %}
+
+          {% for link in menu.links %}
+            {% assign level_one_nested_link_count = 0 %}
+
+            {% if link.links != blank %}
+              {% assign level_one_nested_link_count = level_one_nested_link_count | plus: 1 %}
+
+              {% assign level_one_link_index = forloop.index %}
+              {% assign accordion_content_id = 'c-accordion__panel--'
+                | append: unique_id
+                | append: '-'
+                | append: level_one_link_index
+              %}
+
+              <li class="js-accordion-header c-accordion__header">
+                <a class="js-accordion-link c-accordion__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+                <button
+                  class="dropdown-arrow"
+                  aria-label="{{  link.title | escape }}"
+                  data-toggle="accordion"
+                  aria-expanded="false"
+                  aria-controls="{{ accordion_content_id }}"
+                >
+                  {% render 'snip-icons',
+                    wrapper: '.c-accordion__header',
+                    type: 'apollo',
+                    icon: 'down-carrot',
+                    classes: 'c-accordion__header--icon vib-center',
+                    size: '6px',
+                    fill: section.settings.link_color,
+                    hover: section.settings.link_color
+                  %}
+                </button>
+              </li>
+
+              <li
+                class="c-accordion__panel {{ accordion_content_id }}"
+                id="{{ accordion_content_id }}"
+                data-parent="#c-accordion--{{ unique_id }}"
+              >
+                {% assign level_two_unique_id = unique_id | append: '-' | append: level_one_nested_link_count %}
+
+                <ul
+                  class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordion--mobile-nav__inner c-accordion--{{ level_two_unique_id }}"
+                  id="c-accordion--{{ level_two_unique_id }}"
+                >
+                  {% for sub_link in link.links %}
+                    {% if sub_link.links != blank %}
+                      {% assign level_two_link_index = forloop.index %}
+                      {% assign level_two_accordion_content_id = 'c-accordion__panel--'
+                        | append: unique_id
+                        | append: '-'
+                        | append: level_one_link_index
+                        | append: '-'
+                        | append: level_two_link_index
+                      %}
+
+                      <li class="js-accordion-header c-accordion__header">
+                        <a class="js-accordion-link c-accordion__link" href="{{ sub_link.url }}">
+                          {{- sub_link.title | escape -}}
+                        </a>
+                        <button
+                          class="dropdown-arrow"
+                          aria-label="{{  sub_link.title | escape }}"
+                          data-toggle="accordion"
+                          aria-expanded="false"
+                          aria-controls="{{ level_two_accordion_content_id }}"
+                        >
+                          {% render 'snip-icons',
+                            wrapper: '.c-accordion__header',
+                            type: 'apollo',
+                            icon: 'down-carrot',
+                            classes: 'c-accordion__header--icon vib-center',
+                            size: '6px',
+                            fill: section.settings.link_color,
+                            hover: section.settings.link_color
+                          %}
+                        </button>
+                      </li>
+
+                      <li
+                        class="c-accordion__panel {{ level_two_accordion_content_id }}"
+                        id="{{ level_two_accordion_content_id }}"
+                        data-parent="#c-accordion--{{ level_two_unique_id }}"
+                      >
+                        <ul>
+                          {% for sub_sub_link in sub_link.links %}
+                            <li>
+                              <a class="js-accordion-link c-accordion__link" href="{{ sub_sub_link.url }}">
+                                {{- sub_sub_link.title -}}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </li>
+                    {% else %}
+                      <li>
+                        <a class="js-accordion-link c-accordion__link" href="{{ sub_link.url }}">
+                          {{- sub_link.title | escape -}}
+                        </a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </li>
+            {% else %}
+              <li>
+                <a class="js-accordion-link c-accordion__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+          {% if shop.customer_accounts_enabled and block.settings.customer_account_links %}
+            {% if customer %}
+              <li class="mobile-menu__item">
+                <a href="{{ routes.account_url }}">
+                  {% render 'snip-icons',
+                    wrapper: '.mobile-menu__item',
+                    type: 'vantage-theme',
+                    icon: 'user',
+                    classes: 'mobile-menu__item--icon vib-center',
+                    size: '14px',
+                    fill: section.settings.link_color,
+                    hover: section.settings.link_color
+                  %}
+                  <span class="vib-center">&nbsp;&nbsp;{{ 'general.mobile_nav.account' | t }}</span> </a
+                >&nbsp;&nbsp;
+                <a href="{{ routes.account_logout_url }}">
+                  {% render 'snip-icons',
+                    wrapper: '.mobile-menu__item',
+                    type: 'vantage-theme',
+                    icon: 'user-logout',
+                    classes: 'mobile-menu__item--icon vib-center',
+                    size: '14px',
+                    fill: section.settings.link_color,
+                    hover: section.settings.link_color
+                  %}
+                  <span class="vib-center">&nbsp;&nbsp;{{ 'general.mobile_nav.logout' | t }}</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="mobile-menu__item">
+                <a href="{{ routes.account_login_url }}">
+                  {% render 'snip-icons',
+                    wrapper: '.mobile-menu__item',
+                    type: 'vantage-theme',
+                    icon: 'user',
+                    classes: 'mobile-menu__item--icon vib-center',
+                    size: '14px',
+                    fill: section.settings.link_color,
+                    hover: section.settings.link_color
+                  %}
+                  <span class="vib-center">&nbsp;&nbsp;{{ 'general.mobile_nav.login' | t }}</span>
+                </a>
+              </li>
+            {% endif %}
+          {% endif %}
+        </ul>
+        <!-- /.c-accordion.c-accordion--mobile-nav -->
+      {% when 'social_icons' %}
+        <div class="mobile-menu__block mobile-menu__social text-center" {{ block.shopify_attributes }}>
+          <div id="social">
+            {% render 'social-icons',
+              wrapper: '.mobile-menu__block',
+              fill_color: block.settings.icon_color,
+              hover_color: block.settings.icon_hover_color
+            %}
+          </div>
+        </div>
+      {% when 'featured_image' %}
+        <div
+          class="mobile-menu__block mobile-menu__featured-image{% if block.settings.full_featured_image %} mobile-menu__featured-image--full-width{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.featured_image_link %}<a href="{{ block.settings.featured_image_link }}">{% endif %}
+          {% render 'basic-responsive-image', type: block.settings.featured_image, width: 600 %}
+          {% if block.settings.featured_image_link %}</a>{% endif %}
+        </div>
+      {% when 'featured_text' %}
+        <div class="mobile-menu__block mobile-menu__featured-text text-center" {{ block.shopify_attributes }}>
+          <div class="rte">
+            {{ block.settings.featured_text }}
+          </div>
+        </div>
+      {% when 'cart_status' %}
+        {%- liquid
+          if settings.cart_icon == 'bag'
+            assign cart_icon = 'bag'
+          else
+            assign cart_icon = 'cart'
+          endif
+        -%}
+        {% comment %}<div class="mobile-menu__block mobile-menu__cart-status" {{ block.shopify_attributes }}>
+          <a class="mobile-menu__cart-icon" href="{{ routes.cart_url }}">
+            {{ 'cart.general.title' | t }}
+            (<span class="mobile-menu__cart-count js-cart-count">{{ cart.item_count }}</span>)
+            {% comment %}{% render 'snip-icons',
+              wrapper: '.mobile-menu__cart-icon',
+              type: 'vantage-theme',
+              icon: cart_icon,
+              classes: 'mobile-menu__cart-icon--icon',
+              size: '14px',
+              fill: section.settings.link_color,
+              hover: section.settings.link_color
+            %}{% endcomment %}
+          <i class="mldeawarshoppingcart" aria-hidden="true"></i>
+          </a>
+        </div>{% endcomment %}
+    {% endcase %}
+  {% endfor %}
+  <!-- Added by mvleda -->
+  <p style="font-weight:bold;padding: 16px;">BWI FAMILY OF BRANDS</p>
+  <a href="https://denalielectronics.com/pages/bwi-family-of-brands" style="position: relative;right: -15px;top: -22px;color: #0d00ff;">Learn about BWI automotive accessories brands.</a>
+  <!-- Added by mvleda -->
+  <style>
+    .mobile-menu {
+      background: {{ section.settings.background_color }};
+      height: 100vh;
+    }
+    .mobile-menu {
+      --background-color: {{ section.settings.background_color }};
+      --link-color: {{ section.settings.link_color }};
+      --border-color: {{ section.settings.border_color }};
+    }
+    .mobile-menu #predictive-search {
+      --ps-background-color: var(--background-color);
+      --ps-border-color: var(--border-color);
+      --ps-color: var(--link-color);
+    }
+    .slideout__drawer-left,
+    .mobile-menu__search input {
+      background: {{ section.settings.background_color }};
+    }
+    .mobile-menu .mobile-menu__item {
+      border-bottom: 1px solid {{ section.settings.border_color }};
+    }
+    .mobile-menu__search form input,
+    .mobile-menu__cart-icon,
+    .mobile-menu__accordion > .mobile-menu__item:first-child {
+      border-color: {{ section.settings.border_color }};
+      border-radius: 0 !important;
+    }
+    .mobile-menu .mobile-menu__item a,
+    .mobile-menu .accordion__submenu-2 a,
+    .mobile-menu .accordion__submenu-1 a,
+    .mobile-menu__cart-status a,
+    .mobile-menu .mobile-menu__item i,
+    .mobile-menu__search input,
+    .mobile-menu__search input:focus {
+      color: {{ section.settings.link_color }};
+    }
+    .mobile-menu__search ::-webkit-input-placeholder { /* WebKit browsers */
+      color: {{ section.settings.link_color }};
+    }
+    .mobile-menu__search :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color: {{ section.settings.link_color }};
+    }
+    .mobile-menu__search ::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: {{ section.settings.link_color }};
+    }
+    .mobile-menu__search :-ms-input-placeholder { /* Internet Explorer 10+ */
+      color: {{ section.settings.link_color }};
+    }
+    .mobile-menu .accordion__submenu-2 a,
+    .mobile-menu .accordion__submenu-1 a {
+     opacity: 0.9;
+    }
+    .mobile-menu .slideout__trigger-mobile-menu .icn-close:after,
+    .mobile-menu .slideout__trigger-mobile-menu .icn-close:before {
+      border-color: {{ section.settings.link_color }} !important;
+    }
+
+    /* inherit link color */
+    .c-accordion.c-accordion--mobile-nav .dropdown-arrow {
+      color: {{ section.settings.link_color }};
+      border-color: {{ section.settings.border_color }};
+    }
+    .c-accordion.c-accordion--mobile-nav:not(.c-accordion--mobile-nav__inner) > li:first-child,
+    .c-accordion.c-accordion--mobile-nav li:not(.c-accordion__panel) {
+      border-color: {{ section.settings.border_color }} !important;
+    }
+    .c-accordion.c-accordion--mobile-nav a {
+      color: {{ section.settings.link_color }};
+    }
+  </style>
+</nav>
+{% schema %}
+{
+  "name": "Mobile navigation",
+  "settings":
+  [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#dddddd"
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "search_box",
+      "name": "Search Box",
+      "settings":
+      [],
+      "limit": 1
+    },
+    {
+      "type": "navigation",
+      "name": "Navigation",
+      "settings":
+      [
+        {
+          "type": "link_list",
+          "id": "main_nav",
+          "label": "Choose main menu",
+          "default": "main-menu",
+          "info": "It is best practice to select the same menu used in the Header. [Learn More](https://developers.google.com/search/mobile-sites/mobile-first-indexing)"
+        },
+        {
+          "type": "checkbox",
+          "id": "customer_account_links",
+          "label": "Show customer account links",
+          "info": "Customer accounts must be enabled to see."
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "featured_image",
+      "name": "Featured Image",
+      "settings":
+      [
+        {
+          "type": "image_picker",
+          "id": "featured_image",
+          "label": "Choose featured image",
+          "info": "400px x 300px recommended"
+        },
+        {
+          "type": "url",
+          "id": "featured_image_link",
+          "label": "Featured image link"
+        },
+        {
+          "type": "checkbox",
+          "id": "full_featured_image",
+          "label": "Enable full-width image",
+          "default": false
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "social_icons",
+      "name": "Social Icons",
+      "settings":
+      [
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon color"
+        },
+        {
+          "type": "color",
+          "id": "icon_hover_color",
+          "label": "Icon hover color"
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "featured_text",
+      "name": "Featured Text",
+      "settings":
+      [
+        {
+          "type": "richtext",
+          "id": "featured_text",
+          "label": "Featured Text",
+          "default": "<p><b>Featured Text</b></p><p><em>A great place to share about a sale!</em></p>"
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "cart_status",
+      "name": "Cart Link",
+      "settings":
+      [],
+      "limit": 1
+    }
+  ],
+  "default":
+  {
+    "blocks":
+    [
+      {
+        "type": "featured_image"
+      },
+      {
+        "type": "cart_status"
+      },
+      {
+        "type": "navigation"
+      },
+      {
+        "type": "featured_text"
+      },
+      {
+        "type": "search_box"
+      },
+      {
+        "type": "social_icons"
+      }
+    ]
+  }
+}
+{% endschema %}

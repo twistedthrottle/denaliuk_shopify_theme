@@ -1,0 +1,50 @@
+{%- liquid
+  if settings.cart_type == 'drawer'
+    assign cart_type_class = 'ajax-cart__drawer-wrapper'
+    assign cart_class = 'js-slideout-close'
+    assign cart_data = 'data-slideout-direction="right" aria-controls="slideout-ajax-cart"'
+    assign footer_grid = 'span-12'
+  elsif settings.cart_type == 'modal_cart'
+    assign cart_type_class = 'ajax-cart__modal-wrapper'
+    assign cart_class = 'js-modal-close'
+    assign cart_data = 'aria-controls="modal-ajax-cart"'
+    assign footer_grid = 'push-6 span-6'
+  elsif settings.cart_type == 'mini_cart'
+    assign cart_type_class = 'ajax-cart__mini-modal-wrapper'
+    assign cart_class = 'js-mini-close'
+    assign cart_data = 'aria-controls="mini-ajax-cart"'
+    assign footer_grid = 'span-12'
+  endif
+-%}
+
+<section id="mini-cart" data-ajax-cart-mini class="mini-cart__container js-mini-cart-wrapper {{ cart_type_class }}">
+  <div class="loading-wrapper js-mini-cart-loader">
+    <div class="loading-ripple"><div></div><div></div></div>
+  </div>
+  <div class="ajax-cart__header-wrapper grid__wrapper edge pt5">
+    <div class="span-12 sm-span-12 auto a-right v-center">
+      <div class="slideout__trigger--close">
+        <button class="slideout__trigger-password {{ cart_class }}" {{ cart_data }} aria-label="Close cart" tabindex="0" type="button" name="button">
+          <div class="icn-close"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ajax-cart__form-wrapper cart-wrapper js-ajax-cart-content">
+
+  </div>
+  
+  {%- unless request.design_mode -%}
+  {%- if additional_checkout_buttons -%}
+    <div class="ajax-cart__footer-wrapper grid__wrapper edge">
+      <div class="{{ footer_grid }} sm-span-12 auto" id="dynamic">
+        <p class="sm-caps or-divider mt2 mb2 a-center"><span>{{ 'cart.general.or' | t }}</span></p>
+        <div class="ajax-cart__buttons-additional">
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+  {%- endunless -%}
+</section>

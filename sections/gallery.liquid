@@ -1,0 +1,579 @@
+{%- liquid
+
+assign section_padding = ''
+if section.settings.section_padding == 'top'
+assign section_padding = 'pb0'
+elsif section.settings.section_padding == 'bottom'
+assign section_padding = 'pt0'
+elsif section.settings.section_padding == 'none'
+assign section_padding = 'pt0 pb0'
+endif
+
+assign swipe_on_mobile = false
+
+if section.settings.swipe_on_mobile
+assign swipe_on_mobile = true
+endif
+
+assign is_fixed = false
+if section.settings.image_size == 'fixed'
+assign is_fixed = true
+endif
+
+assign image_height = section.settings.desktop_image_size
+assign mobile_image_height = section.settings.mobile_image_size
+
+
+
+
+-%}
+
+{% style %}
+#shopify-section-{{ section.id }} {
+  --h3-size:  {{ section.settings.promo_size }}px;
+  --font-size:  {{ section.settings.hidden_size }}px;
+}
+@media screen and (max-width: 740px) {
+  #shopify-section-{{ section.id }} {
+    --h3-size:  calc({{ section.settings.promo_size }}px - ({{ section.settings.promo_size }}px * 0.15));
+    --font-size:  calc({{ section.settings.hidden_size }}px - ({{ section.settings.hidden_size }}px * 0.15));
+  }
+}
+#shopify-section-{{ section.id }} .global__section-{{ section.id }}  {
+  background: var(--{{ section.settings.color_scheme }}-background);
+}
+{% if section.settings.images_touching %}
+  .global__section-{{ section.id }} .gallery__container {
+    grid-gap: 0;
+  }
+{% else %}
+  .global__section-{{ section.id }} .gallery__container {
+    grid-gap: 30px;
+  }
+{% endif %}
+{% if swipe_on_mobile %}
+  @media screen and ( max-width: 740px ) {
+    .global__section-{{ section.id }} .gallery__container:after {
+      content: 'flickity' !important;
+      display: none; /* hide :after */
+    }
+    .global__section-{{ section.id }} .gallery__container.flickity-enabled {
+      margin-bottom: 10px;
+    }
+    .global__section-{{ section.id }} .gallery__container.flickity-enabled .gallery-block {
+      width: 100%;
+    }
+  }
+  @media screen and ( min-width: 741px ) {
+    /* disable Flickity for large devices */
+    .global__section-{{ section.id }} .gallery__container.row:after {
+      content: '';
+    }
+  }
+{% else %}
+  @media screen and ( max-width: 740px ) {
+    .global__section-{{ section.id }} .gallery__container {
+      display: grid;
+    }
+    section.global__section-{{ section.id }}.animate.fadeInUp[data-section-loaded] .gallery-block {
+      transform: translateY(0) !important;
+    }
+  }
+{% endif %}
+
+{% for block in section.blocks %}
+  #gallery__block-{{ section.id }}-block-{{ forloop.index0 }} {
+    --section-overlay-color: {{ block.settings.overlay_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    --section-overlay-opacity: {{ block.settings.overlay_opacity | plus: 0 | divided_by: 100.0  }};
+    --text-color: {{ block.settings.text_color }};
+    --button-text: {{ block.settings.button_text_color }};
+    --button-color: {{ block.settings.button_color }};
+  }
+
+  {% if is_fixed %}
+    .global__section-{{ section.id }} .image__container,
+    .global__section-{{ section.id }} .image__container .promo-inner .onboard {
+      height: {{ image_height }}px;
+      overflow: hidden;
+    }
+    .global__section-{{ section.id }} .image__container .promo-inner .onboard svg {
+      height: 100%;
+      width: 100%;
+    }
+    .global__section-{{ section.id }} .image__container .box-ratio {
+      padding-bottom: {{ image_height }}px ! important;
+    }
+    .global__section-{{ section.id }} .image__container img {
+      height: {{ image_height }}px;
+      object-fit: cover;
+      object-position: center;
+    }
+    @media screen and (max-width: 740px) {
+      .global__section-{{ section.id }} .image__container,
+      .global__section-{{ section.id }} .image__container .promo-inner .onboard,
+      .global__section-{{ section.id }} .image__container img {
+        height: {{ mobile_image_height }}px;
+      }
+      .global__section-{{ section.id }} .image__container .box-ratio {
+        padding-bottom: {{ mobile_image_height }}px ! important;
+      }
+    }
+  {% endif %}
+  .global__section-{{ section.id }} .image__container.promo-{{ block.id }} .caption {
+    top: {{ block.settings.vertical_position }}%;
+    left: {{ block.settings.horizontal_position }}%;
+    -webkit-transform: translate(-{{ block.settings.horizontal_position }}%, -{{ block.settings.vertical_position }}%);
+    -ms-transform: translate(-{{ block.settings.horizontal_position }}%, -{{ block.settings.vertical_position }}%);
+    -moz-transform: translate(-{{ block.settings.horizontal_position }}%, -{{ block.settings.vertical_position }}%);
+    -o-transform: translate(-{{ block.settings.horizontal_position }}%, -{{ block.settings.vertical_position }}%);
+  }
+{% endfor %}
+{% endstyle %}
+
+
+<section class="global__section padding-top {{ section_padding }} global__section-{{ section.id }} {% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %} flickity__section"
+data-section-id="{{ section.id }}"
+data-section-loaded="false"
+data-section-type="image-gallery">
+
+{% capture slideshow_config %}{
+  "wrapAround":false,
+  "cellAlign": "center",
+  "dragThreshold":"15",
+  "contain": true,
+  "freeScroll": false,
+  "prevNextButtons": false,
+  "pageDots": true,
+  "watchCSS": true,
+  "cellSelector": ".gallery-block"
+}{% endcapture %}
+
+  {% if section.settings.full_width %}
+  <div class="gridlock-fluid">
+  <div class="row">
+  {% endif %}
+
+  <div class="row gallery__container{% if section.settings.full_width %} edge{% endif %}" data-flickity='{{ slideshow_config }}'>
+    {% for block in section.blocks %}
+        {%- liquid
+
+          case block.settings.image_width
+            when '25'
+              assign image_width = 'span-3'
+              assign md_render = 'calc(100vw / 4)'
+              assign lg_render = 'calc(1600px / 4)'
+              assign width = '500'
+            when '33'
+              assign image_width = 'span-4'
+              assign md_render = 'calc(100vw / 3)'
+              assign lg_render = 'calc(1600px / 3)'
+              assign width = '800'
+            when '50'
+              assign image_width = 'span-6'
+              assign md_render = 'calc(100vw / 2)'
+              assign lg_render = 'calc(1600px / 2)'
+              assign width = '1000'
+            when '66'
+              assign image_width = 'span-8'
+              assign md_render = 'calc(100vw * 0.6667)'
+              assign lg_render = 'calc(1600px * 0.6667)'
+              assign width = '1200'
+            when '75'
+              assign image_width = 'span-9'
+              assign md_render = 'calc(100vw * 0.75)'
+              assign lg_render = 'calc(1600px * 0.75)'
+              assign width = '1400'
+            when '100'
+              assign image_width = 'span-12'
+              assign md_render = '100vw'
+              assign lg_render = '100vw'
+              assign width = '2000'
+          endcase
+
+          assign loading = 'lazy'
+          assign fetch_priority = 'auto'
+          # 3 is the total number per row.
+          #if section.index == 1 and forloop.index <= 3
+           # assign loading = 'eager'
+          #  assign fetch_priority = 'high'
+          #endif
+           if section.settings.is_first
+               if forloop.index < 2
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+           endif
+        -%}
+         {% comment %}removed code by mlveda class {% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}{% endcomment %}
+      <div id="gallery__block-{{ section.id }}-block-{{ forloop.index0 }}" class="gallery-block {{ image_width }} auto sm-span-12{% comment %}{% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}{% endcomment %}" {{ block.shopify_attributes }}>
+        <div class="image__container promo-{{ block.id }}">
+          <div class="promo-inner">
+            {% if block.settings.link != blank and block.settings.button_text == blank %}<a href="{{ block.settings.link }}">{% endif %}
+              {% if block.settings.image != blank %}
+                {% comment %}
+                {% render 'basic-responsive-image',
+                  type: block.settings.image,
+                  sm_render: '300px',
+                  md_render: md_render,
+                  lg_render: lg_render,
+                  width: width,
+                  loading: loading,
+                  fetchpriority: fetch_priority
+                %}
+                {% endcomment %}
+                <!-- below code added by mlveda -->
+                {% if forloop.index < 2 and section.settings.is_first %}
+                    <img src="{{ block.settings.image | image_url: width: '600' }}" height="500" fetchpriority="high" loading="eager">
+                  {% else %}
+                {% render 'basic-responsive-image',
+                  type: block.settings.image,
+                  sm_render: '300px',
+                  md_render: md_render,
+                  lg_render: lg_render,
+                  width: width,
+                  loading: loading,
+                  fetchpriority: fetch_priority
+                %}
+                {% endif %}
+              {% else %}
+                <div class="onboard">
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {% endif %}
+              <div class="caption{% if block.settings.center_align %} centered{% endif %}">
+                {% if block.settings.title != blank %}
+                  <h3>{{ block.settings.title | escape }}</h3>
+                {% endif %}
+                {% if block.settings.caption_text != blank %}
+                  <div class="rte">
+                    {{ block.settings.caption_text }}
+                  </div>
+                {% endif %}
+                {% if block.settings.link != blank and block.settings.button_text != blank %}
+                <div class="gallery__btn-wrapper">
+                  <a href="{{ block.settings.link }}">{{ block.settings.button_text | escape }}</a>
+                </div>
+                {% endif %}
+              </div>
+            {% if block.settings.link != blank and block.settings.button_text == blank %}</a>{% endif %}
+          </div>
+        </div>
+
+      </div>
+    {% endfor %}
+
+    {% if section.blocks.size == 0 %}
+      {% render 'no-blocks' %}
+    {% endif %}
+  </div>
+
+
+{% if section.settings.full_width %}
+</div>
+</div>
+{% endif %}
+</section>
+
+
+{% schema %}
+{
+"name": "Image gallery",
+"max_blocks": 16,
+"settings":
+[
+  {
+      "type":"checkbox",
+      "id":"is_first",
+      "label":"Is first section on the page?",
+      "default": false
+  },
+  {
+    "type": "checkbox",
+    "id": "full_width",
+    "label": "Enable full width",
+    "default": false
+  },
+  {
+    "type": "checkbox",
+    "id": "swipe_on_mobile",
+    "label": "Swipe on mobile",
+    "default": false
+  },
+  {
+    "type": "select",
+    "id": "image_size",
+    "label": "Image height",
+    "default": "none",
+    "options":
+    [
+      {
+        "value": "none",
+        "label": "Natural"
+      },
+      {
+        "value": "fixed",
+        "label": "Fixed"
+      }
+    ]
+  },
+  {
+    "type": "range",
+    "id": "desktop_image_size",
+    "min": 200,
+    "max": 1000,
+    "step": 50,
+    "unit": "px",
+    "label": "Desktop fixed height",
+    "default": 400
+  },
+  {
+    "type": "range",
+    "id": "mobile_image_size",
+    "min": 200,
+    "max": 1000,
+    "step": 50,
+    "unit": "px",
+    "label": "Mobile fixed height",
+    "default": 400
+  },
+  {
+    "type": "range",
+    "id": "promo_size",
+    "min": 12,
+    "max": 48,
+    "step": 1,
+    "unit": "px",
+    "label": "Heading size",
+    "default": 32
+  },
+  {
+    "type": "range",
+    "id": "hidden_size",
+    "min": 12,
+    "max": 32,
+    "step": 1,
+    "unit": "px",
+    "label": "Subheading size",
+    "default": 18
+  },
+  {
+    "type":"checkbox",
+    "id":"images_touching",
+    "label":"Images touching",
+    "default": false
+  },
+  {
+    "type": "select",
+    "id": "color_scheme",
+    "label": "Color scheme",
+    "options": [
+      {
+        "value": "none",
+        "label": "None"
+      },
+      {
+        "value": "cs1",
+        "label": "1"
+      },
+      {
+        "value": "cs2",
+        "label": "2"
+      },
+      {
+        "value": "cs3",
+        "label": "3"
+      }
+    ],
+    "default": "none"
+  },
+  {
+    "type": "select",
+    "id": "section_padding",
+    "label": "Section spacing",
+    "options": [
+      {
+        "value": "top",
+        "label": "Top"
+      },
+      {
+        "value": "bottom",
+        "label": "Bottom"
+      },
+      {
+        "value": "both",
+        "label": "Both"
+      },
+      {
+        "value": "none",
+        "label": "None"
+      }
+    ],
+    "default": "both"
+  }
+],
+"blocks":
+[
+  {
+    "type": "image",
+    "name": "Image",
+    "settings":
+    [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "image_width",
+        "label": "Image width",
+        "default": "33",
+        "options":
+        [
+          {
+            "value": "25",
+            "label": "25%"
+          },
+          {
+            "value": "33",
+            "label": "33%"
+          },
+          {
+            "value": "50",
+            "label": "50%"
+          },
+          {
+            "value": "66",
+            "label": "66%"
+          },
+          {
+            "value": "75",
+            "label": "75%"
+          },
+          {
+            "value": "100",
+            "label": "100%"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay color",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Overlay opacity",
+        "default": 0
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+        "type": "header",
+        "content": "Image captions"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Image heading",
+        "default": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "caption_text",
+        "label": "Caption text",
+        "default": "<p>Subheading text</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "Button",
+        "info": "Visible only if a link is chosen"
+      },
+      {
+        "type": "header",
+        "content": "Image caption style"
+      },
+      {
+        "type": "range",
+        "id": "vertical_position",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Vertical position",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "horizontal_position",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Horizontal position",
+        "default": 50
+      },
+      {
+        "type": "checkbox",
+        "id": "center_align",
+        "label": "Center align text",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button color",
+        "default": "#000"
+      }
+    ]
+  }
+],
+"presets":
+[
+  {
+    "name": "Image gallery",
+    "blocks":
+    [
+      {
+        "type": "image"
+      },
+      {
+        "type": "image"
+      },
+      {
+        "type": "image"
+      }
+    ]
+  }
+],
+"disabled_on": {
+  "groups":[
+    "header",
+    "footer"
+  ]
+}
+}
+{% endschema %}

@@ -1,0 +1,13 @@
+<div class="row main__section">
+    <div id="error-page" class="desktop-6 desktop-push-3 tablet-6 mobile-3">
+    <h1 class="section-title">{{ 'general.404.title' | t }}</h1>
+    <p style="text-align: center; margin-top: 40px;">{{ 'general.404.subtext' | t }}</p><br />
+    <form action="{{ routes.search_url }}" method="get" accept-charset="utf-8">
+      <label class="visually-hidden" for="q">{{ 'sections.search.placeholder' | t }}</label>
+      <input type="text" name="q" placeholder="{{ 'sections.search.placeholder' | t }}" id="q" />
+      {% if settings.search_show_products_only %}
+        <input type="hidden" name="type" value="product">
+      {% endif %}
+    </form>
+  </div>
+</div><!-- /.row -->

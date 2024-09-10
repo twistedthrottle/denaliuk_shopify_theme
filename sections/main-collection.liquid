@@ -1,0 +1,491 @@
+{% comment %}
+sections/main-collection.liquid
+{% endcomment %}
+
+{%- liquid
+
+  assign products_per_page = section.settings.products_per_page
+  assign products_per_row = section.settings.products_per_row
+
+  assign show_sidebar = false
+  assign show_topbar = false
+  assign show_accordion_links = false
+  assign show_subcollections = false
+  assign sc_menu = section.settings.menu
+
+  if section.settings.show_layout_buttons or section.blocks.size > 0
+    assign show_topbar = true
+  endif
+
+  if section.settings.show_subcollections
+    assign show_subcollections = true
+  endif
+
+  assign current_collection = collection.url
+
+  if section.blocks.size > 0
+    for block in section.blocks
+        case block.type
+          when 'menu' or 'sidebar_filter' or 'image' or 'sort_by'
+            assign show_sidebar = true
+          when 'menu' or 'sidebar_filter' or 'sort_by'
+            assign show_accordion_links = true
+        endcase
+    endfor
+  endif
+
+  assign filter_count = 0
+  for filter in collection.filters
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign filter_count = 1
+      endif
+    endif
+
+    assign filter_count = filter_count | plus: filter.active_values.size
+  endfor
+
+  if section.settings.show_image and collection.image != blank
+    assign collection_image = true
+    assign desc_width = 'span-9'
+  else
+    assign collection_image = false
+    assign desc_width = 'span-12'
+  endif
+
+  case products_per_row
+    when 2
+      assign grid = 'span-6'
+    when 3
+      assign grid = 'span-4'
+    when 4
+      assign grid = 'span-3'
+  endcase
+
+-%}
+{% assign collection_desc = collection.description | remove: "[banner]" | split: '<!-- split -->' %}
+
+<section class="row" data-section-loaded="false" data-section-id="{{ section.id }}" data-section-type="collection-section">
+  <div class="collection-template main__section">
+  {% paginate collection.products by products_per_page %}
+
+    <div id="CollectionProductGrid">
+
+      {% if collection_desc[1] %}
+        {% if collection.description != blank and current_page == 1 %}
+          <div class="grid__wrapper">
+            <div class="collection-description span-12 auto{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}">
+              <div class="rte {{ desc_width }} sm-span-12 auto">
+                {{ collection_desc[0] }}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if show_subcollections %}
+        {% liquid
+          if section.index == 1
+            assign loading = 'eager'
+            assign fetch_priority = 'high'
+          endif
+         %}
+        {%
+          render 'subcollections',
+          collection: collection,
+          sc_menu: sc_menu,
+          loading: loading,
+          fetchpriority: fetch_priority
+        %}
+      {% endif %}
+
+      {% if show_topbar %}
+        {%
+          render 'collection-topbar',
+          section: section,
+          collection: collection,
+          filter_count: filter_count,
+          show_accordion_links: show_accordion_links
+        %}
+      {% endif %}
+
+      {% if show_sidebar %}
+        <aside class="slideout slideout__drawer-right"
+          data-wau-slideout="collection-sidebar"
+          data-wau-accordions-closed
+          id="slideout-collection-sidebar">
+
+          <div class="slideout__trigger--close">
+            <button class="slideout__trigger-collection-sidebar js-slideout-close button-as-link"
+              data-slideout-direction="right" aria-label="Close sidebar" tabindex="0" type="button" name="button">
+              <div class="icn-close"></div>
+            </button>
+          </div>
+          {%
+            render 'collection-sidebar'
+            collection: collection
+          %}
+        </aside>
+      {% endif %}
+
+      <div class="clear"></div><!-- /.clear -->
+
+      <!-- Added by mlveda -->
+       {%
+            render 'mlveda-custom-collection-sidebar'
+            collection: collection
+        %}
+      <!-- Added by mlveda -->
+      
+      {%- if collection.products.size >= 1 -%}
+        <div id="main-collection-product-grid"
+        class="product-loop grid__wrapper"
+        data-grid-type="grid"
+        data-id="{{ section.id }}">
+          
+        {% comment %}commented by mlveda b4b-product-variant app{% endcomment %}
+        {% comment %}
+          {% include 'variable-products-listing-collection-template' %}
+        {% endcomment %}
+          
+        {% for product in collection.products %}
+
+          {% if paginate.current_page == 1 %}
+            {% for block in section.blocks %}
+              {% if block.type == 'featured_image' %}
+                {% liquid
+
+                  assign has_image = false
+                  if block.settings.image
+                    assign has_image = true
+                    assign image = block.settings.image
+                  endif
+
+                  if collection.metafields.custom.image_position != blank
+                    assign position = collection.metafields.custom.image_position | plus: 0
+                  else
+                    assign position = block.settings.position
+                  endif
+                  assign title = block.settings.title
+                  assign text = block.settings.text 
+                  assign link = block.settings.link
+                  assign button_text = block.settings.button_text
+
+                  assign has_content = true
+                  if has_image == false and title == '' and text == '' and button_text == ''
+                    assign has_content = false
+                  endif
+
+                  assign overlay_color = block.settings.overlay_color | color_to_rgb | remove: 'rgb(' | remove: ')'
+                  assign overlay_opacity = block.settings.overlay_opacity | plus: 0 | divided_by: 100.0
+
+                %}
+                  {% if position == forloop.parentloop.index and has_content %}
+                    <div data-position="{{ position }}" data-content="{{ has_content }}" class="collection--loop_ad block-{{ block.id }} product-index {{ grid }} md-span-4 sm-span-6 auto {% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}" {{ block.shopify_attributes }} style="--overlay-color: {{ overlay_color }}; --overlay-opacity: {{ overlay_opacity }}">
+                      {% if has_image %}
+                        <div class="collection--loop_ad-image">
+                          {{ image | image_url: height: 800 | image_tag: loading: 'lazy' }}
+                        </div>
+                      {% endif %}
+                      <div class="collection--loop_ad-content {{ block.settings.text_position }}">
+                        {% if title != blank %}
+                        <p class="h3">{{ title | escape }}</h3>
+                        {% endif %}
+                        {% if text != blank %}
+                          {{ text }}
+                        {% endif %}
+                        {% if link and button_text != blank %}
+                          <a class="button collection--loop_ad-button" href="{{ link }}">
+                            {{ button_text | escape }}
+                          </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+          <div class="product-index {{ grid }} md-span-4 sm-span-6 auto {% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}" data-alpha="{{ product.title }}" data-price="{{ product.price }}" data-product-id="{{ product.id }}">
+            {% liquid
+              assign loading = 'lazy'
+              assign fetch_priority = 'auto'
+              if section.index == 1 and show_subcollections == false and forloop.index <= section.settings.products_per_row
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+             %}
+            {% if forloop.index < 2 %}
+              {% render 'product-listing',
+              product: product,
+              grid: section.settings.products_per_row, loading: loading, fetchpriority: fetch_priority, eagerLoad: true %}
+            {% else %}
+              {% render 'product-listing',
+              product: product,
+              grid: section.settings.products_per_row, loading: loading, fetchpriority: fetch_priority %}
+            {% endif %}
+          </div>
+
+        {% endfor %}
+
+          <div class="span-12 auto">
+          {% render 'pagination', paginate: paginate %}
+        </div>
+        </div><!-- /#main-collection-product-grid -->
+      {%- else -%}
+        <div id="main-collection-product-grid"
+        class="collection collection--empty grid__wrapper"
+        data-id="{{ section.id }}">
+          <span class="rte span-8 push-2 auto">{{ 'collections.filters.use_fewer_filters_html' | t: link: collection.url, class: "underline" }}</span>
+        </div><!-- /#main-collection-product-grid -->
+      {%- endif -%}
+
+      {% if section.settings.description_bottom and current_page == 1 %}
+      <div class="lower-collection-description grid__wrapper {% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}">
+        <div class="span-12 auto">
+          <div class="rte {{ desc_width }} sm-span-12 auto">
+            {{ collection_desc.last }}
+          </div><!-- /.rte -->
+        </div>
+      </div>
+      {% endif %}
+
+    </div><!-- /#CollectionProductGrid -->
+
+    <div class="clear"></div>
+    {% endpaginate %}
+
+  </div><!-- /.collection-template -->
+</section><!-- /.row -->
+
+{% for block in section.blocks %}
+{% if block.type == 'featured_image' %}
+  {% style %}
+    .collection--loop_ad.block-{{ block.id }} h3,
+    .collection--loop_ad.block-{{ block.id }} p {
+      color: {{ block.settings.text_color }};
+    }
+    .collection--loop_ad.block-{{ block.id }} {
+      background: {{ block.settings.background }};
+    }
+    .collection--loop_ad.block-{{ block.id }}:before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      content:"";
+      background: rgba(var(--overlay-color), var(--overlay-opacity));
+      pointer-events: none;
+      z-index: 1;
+    }
+  {% endstyle %}
+{% endif %}
+{% endfor %}
+
+{% schema %}
+{
+  "name": "Collection",
+  "max_blocks": 10,
+  "settings":
+  [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 2,
+      "max": 48,
+      "step": 1,
+      "label": "Products per page",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Products per row",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "description_bottom",
+      "label": "position description below products",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_layout_buttons",
+      "label": "Show grid/list layout options",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subcollections",
+      "label": "Show subcollections",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Choose a menu",
+      "default": "main-menu",
+      "info": "Select the menu you use for your stores header navigation"
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "menu",
+      "name": "Sidebar slideout menu",
+      "settings":
+      [
+        {
+          "type": "link_list",
+          "id": "side_nav",
+          "label": "Menu",
+          "info": "This menu has limited support for dropdown items"
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Header",
+          "default": "Explore"
+        }
+      ]
+    },
+    {
+      "type": "sidebar_filter",
+      "name": "Sidebar slideout filter",
+      "limit": 1,
+      "settings": [{
+        "type": "paragraph",
+        "content": "Learn how to add storefront filters [here](https:\/\/help.shopify.com\/en\/manual\/online-store\/themes\/os20\/customize\/filters)"
+      }]
+    },
+    {
+      "type": "sort_by",
+      "name": "Sidebar slideout sort by",
+      "limit": 1,
+      "settings":[]
+    },
+    {
+      "type": "image",
+      "name": "Sidebar slideout image",
+      "settings":
+      [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "featured_image",
+      "name": "Featured image",
+      "limit": 3,
+      "settings":
+      [
+        {
+          "type": "paragraph",
+          "content":"Insert a featured image at a selected position within your product grid. Position must be within the number of items on the first page of a collection."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "position",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "label": "Position",
+          "default": 4, 
+          "info": "For a unique position in specific collections create a collection metafield named: image_position, with type: integer, min: 1, max: 50 and enter a value in each collection admin page"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default":"Featured content"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default":"<p>Promote products or collections</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default":"Button"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "default":"/"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "default": "jc-center",
+          "options":
+          [
+            {
+              "value": "jc-start",
+              "label": "Top"
+            },
+            {
+              "value": "jc-center",
+              "label": "Center"
+            },
+            {
+              "value": "jc-end",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default":"#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Background",
+          "default":"#454545"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Overlay opacity",
+          "default": 0
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

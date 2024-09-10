@@ -1,0 +1,36 @@
+{% comment %}
+snippets/product-stock-levels.liquid
+{% endcomment %}
+{% if block.settings.threshold > 0 %}
+
+  {%- liquid
+
+    assign show_hidden_class = false
+    if current_variant.inventory_management and current_variant.inventory_quantity < block.settings.threshold and current_variant.inventory_quantity > 0
+      assign show_hidden_class = true
+    endif
+
+  -%}
+
+  {% capture variant_stock_levels_classes %}
+    variant-stock-levels js-variant-stock-levels variant-stock-levels--{{ section.id }} {% unless show_hidden_class %}visually-hidden{% endunless %}
+  {% endcapture %}
+
+  <div
+    id="variant-stock-levels--{{ section.id }}"
+    class="{{ variant_stock_levels_classes | strip }}"
+    data-stock-level-threshold="{{ block.settings.threshold }}"
+  >
+    <div class="variant-stock-levels__inner">
+      <div class="pulse__icon"></div>
+      <span class="js-variant-stock-levels__message">
+        {{ 'products.product.only_left' | t: count: current_variant.inventory_quantity }}
+      </span>
+    </div>
+    <style>
+      #variant-stock-levels--{{ section.id }} .pulse__icon {
+        --pulse-color: {{ block.settings.pulse_color | default:  '#ffb042' }};
+      }
+    </style>
+  </div><!-- /#variant-stock-levels -->
+{% endif %}

@@ -1,0 +1,75 @@
+{%- liquid
+
+  assign grid = 'span-3 auto sm-span-4'
+
+-%}
+
+<div class="grid__wrapper subcollection__grid">
+  {% unless current_tags %}
+  {% for link in sc_menu.links %}
+    {% if link.active and link.levels > 0 %}
+      {% for sub_link in link.links %}
+        {% if sub_link.type == 'collection_link' %}
+          {% unless sub_link.url contains collection.url %}
+            {% assign collection = sub_link.object %}
+            {% render 'collection-grid-item',
+              collection: collection,
+              col_per_row: grid,
+              index: forloop.index,
+              loading: loading,
+              fetchpriority: fetchpriority
+            %}
+          {% endunless %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% for sub_link in link.links %}
+      {% if sub_link.active and sub_link.levels > 0 and sub_link.child_active == false %}
+        {% for sub_sub_link in sub_link.links %}
+          {% if sub_sub_link.type == 'collection_link' %}
+            {% unless sub_sub_link.url contains collection.url %}
+              {% assign collection = sub_sub_link.object %}
+              {% render 'collection-grid-item',
+                collection: collection,
+                col_per_row: grid,
+                index: forloop.index,
+                loading: loading,
+                fetchpriority: fetchpriority
+              %}
+              {% endunless %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% for sub_sub_link in sub_link.links %}
+        {% if sub_sub_link.active and sub_sub_link.url == sub_link.url %}
+          {% if sub_sub_link.type == 'collection_link' %}
+            {% unless sub_sub_link.url contains collection.url %}
+              {% assign collection = sub_sub_link.object %}
+              {% render 'collection-grid-item',
+                collection: collection,
+                col_per_row: grid,
+                index: forloop.index,
+                loading: loading,
+                fetchpriority: fetchpriority
+              %}
+            {% endunless %}
+          {% endif %}
+        {% elsif sub_sub_link.active and sub_sub_link.levels > 0 %}
+          {% if sub_sub_link.type == 'collection_link' %}
+            {% unless sub_sub_link.url contains collection.url %}
+              {% assign collection = sub_sub_link.object %}
+              {% render 'collection-grid-item',
+                collection: collection,
+                col_per_row: grid,
+                index: forloop.index,
+                loading: loading,
+                fetchpriority: fetchpriority
+                %}
+              {% endunless %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  {% endfor %}
+  {% endunless %}
+</div>

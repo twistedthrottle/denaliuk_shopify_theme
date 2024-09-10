@@ -1,0 +1,206 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+  assign blog = blogs[section.settings.blog]
+
+  assign post_limit = section.settings.post_limit
+  assign posts_per_row = section.settings.posts_per_row
+
+-%}
+<div class="global__section {{ section_padding }}">
+  <section class="featured__blog-section-{{ section.id }} {% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+  data-section-id="{{ section.id }}"
+  data-section-loaded="false"
+  data-section-type="featured-blog">
+  <div class="row">
+    <div class="featured__blog-section grid__wrapper">
+      {% if section.settings.heading != blank %}
+        <h2 class="section-title span-12 auto">
+          <a href="{{ blog.url }}">{{ section.settings.heading | escape }}</a>
+        </h2>
+      {% endif %}
+
+      <ul class="blog__post-loop span-12 auto grid__wrapper grid__wrapper-nest edge">
+        {% if blog == blank %}
+          {% render 'onboard-article', posts_per_row: posts_per_row, loop: forloop.index, post_limit: post_limit %}
+        {% else %}
+          {% for article in blog.articles limit: post_limit %}
+            {% liquid
+              assign loading = 'lazy'
+              assign fetch_priority = 'auto'
+              if section.index == 1 and forloop.index <= section.settings.posts_per_row
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+             %}
+            {% render 'article-loop', article: article, posts_per_row: posts_per_row, loop: forloop.index, loading: loading, fetchpriority: fetch_priority %}
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</section>
+<div class="clear"></div>
+
+<style>
+  @media screen and (min-width: 741px) {
+    .featured__blog-section-{{ section.id }} .article-index {
+      text-align: {{ section.settings.text_align }};
+    }
+
+  }
+  @media (min-width: 980px) {
+    {% if section.settings.posts_per_row > 1 %}
+      .featured__blog-section-{{ section.id }} li.article-index .rte.excerpt {
+        padding-left: 0 !important;
+        margin-top: 24px;
+      }
+    {% else %}
+      .featured__blog-section-{{ section.id }} .article-index {
+        margin-bottom: 20px;
+      }
+      {% if section.settings.image_align == 'alternated' %}
+        .featured__blog-section-{{ section.id }} .article-index:nth-child(odd) div.article-image {
+          order: 2;
+        }
+      {% endif %}
+      {% if section.settings.image_align == 'right' %}
+        .featured__blog-section-{{ section.id }} .article-index div.article-image {
+          order: 2;
+        }
+      {% endif %}
+    {% endif %}
+  }
+</style></div>
+
+{% schema %}
+{
+  "name": "Featured blog",
+  "settings":
+  [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured blog"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Posts shown",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "posts_per_row",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Posts per row",
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "image_align",
+      "label": "Image alignment",
+      "default": "left",
+      "info": "When more than 1 post shown",
+      "options":
+      [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "alternated",
+          "label": "Alternated"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_align",
+      "label": "Text alignment",
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show published date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_above",
+      "label": "Show author/date above title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Featured blog",
+      "settings":
+      {
+        "blog": "News"
+      }
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

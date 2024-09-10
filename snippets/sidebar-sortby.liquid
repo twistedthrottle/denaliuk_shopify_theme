@@ -1,0 +1,74 @@
+{% comment %}
+snippets/sidebar-sortby.liquid
+
+Use the "defaultOpen" variable to determine if the sortby will be
+collapsed by default in the accordion.
+{% endcomment %}
+
+  {%- liquid
+
+    assign defaultOpen = false
+    assign accordion_content_id = accordion_content_class | append: block.id | append: '-' | append: forloop.index
+    assign total_active_values = total_active_values | plus: filter.active_values.size
+
+  -%}
+
+
+  {% capture accordion_heading_capture %}
+    {{ 'collections.filters.sort_by_placeholder' | t }}
+  {% endcapture %}
+
+  {% capture accordion_content_capture %}
+    <div class="collection__page-sort sidebar-filter" data-collection-sort-by>
+      <ul>
+        {% for option in collection.sort_options %}
+          {%- liquid
+
+            if option.value == collection.sort_by
+              assign status = 'current'
+            else
+              assign status = 'available'
+            endif
+          -%}
+          <li class="js-collection-side-filter {{ status }}" data-placeholder="{{ option.name }}" data-option-value="{{ option.value }}">
+            <input type="checkbox"
+                   name="sort_by"
+                   id="{{ option.name }}"
+                   value="{{ option.value | escape }}">
+            <label for="{{ option.name }}">{{ option.name }}</label>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endcapture %}
+
+  <li class="js-accordion-header c-accordion__header {% if defaultOpen %}js-accordion-is-open{% endif %}"
+        {% if defaultOpen %}
+          aria-expanded="true"
+        {% else %}
+          aria-expanded="false"
+        {% endif %}
+        aria-controls="{{ accordion_content_id }}" data-toggle="accordion"
+        data-accordion-context="{{ block.id }}"
+        {{ block.shopify_attributes }} >
+    <a class="js-accordion-link c-accordion__link" href="" rel="nofollow"><h4>{{ accordion_heading_capture }}</h4></a>
+    <button class="dropdown-arrow" aria-label="{{  link.title | escape }}" data-toggle="accordion" aria-expanded="false" aria-controls="{{ accordion_content_id }}" >
+      {% render 'snip-icons',
+         wrapper: '.c-accordion__header',
+         type: 'apollo',
+         icon: 'down-carrot',
+         classes: 'c-accordion__header--icon vib-center',
+         size: '6px',
+         fill: 'var(--text-color)',
+         hover: 'var(--text-color)' %}
+    </button>
+  </li>
+
+   <li class="c-accordion__panel {% if defaultOpen %}is-active{% endif %} {{ accordion_content_id }} c-accordion__panel--{{ block.type }}"
+     id="{{ accordion_content_id }}"
+     data-parent="#c-accordion--{{ unique_id }}"
+     data-accordion-context="{{ block.id }}">
+    <div class="c-accordion__inner">
+     {{ accordion_content_capture }}
+    </div>
+  </li>

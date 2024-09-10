@@ -1,0 +1,591 @@
+{% comment %} 786/92/313/ASKMPF {% endcomment %}
+
+{% comment %} Translation Error Handling {% endcomment %}
+{%- assign pg_title_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.product_pagetitle' -%}
+{%- assign no_results_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.no_results' -%}
+{%- assign products_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.products' -%}
+{%- assign product_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.product' -%}
+{%- assign sale_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.sale_lbl' -%}
+{%- assign soldout_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.soldout_lbl' -%}
+
+{%- assign product_pagetitle = 'ymm_app.product_pagetitle' | t | replace: pg_title_err, 'Products' | replace: '&#39;', "'" -%}
+
+{%- assign all_products = 'ymm_app.all_products' | t | replace: all_products_err, 'All Products' | replace: '&#39;', "'" -%}
+{%- assign default = 'ymm_app.default' | t | replace: '&#39;', "'" -%}
+{%- assign price_ascending = 'ymm_app.price_ascending' | t | replace: '&#39;', "'" -%}
+{%- assign price_descending = 'ymm_app.price_descending' | t | replace: '&#39;', "'" -%}
+{%- assign title_ascending = 'ymm_app.title_ascending' | t | replace: '&#39;', "'" -%}
+{%- assign title_descending = 'ymm_app.title_descending' | t | replace: '&#39;', "'" -%}
+{%- assign created_ascending = 'ymm_app.created_ascending' | t | replace: '&#39;', "'" -%}
+{%- assign created_descending = 'ymm_app.created_descending' | t | replace: '&#39;', "'" -%}
+
+{%- assign filter_by_title = 'ymm_app.filter_by_title' | t | replace: '&#39;', "'" -%}
+{%- assign sort_by_title = 'ymm_app.sort_by_title' | t | replace: '&#39;', "'" -%}
+
+
+{% comment %}{%- assign filter_by_title = settings.ymm_prd_types_widget_title | strip -%}
+
+{%- if filter_by_title == blank -%}
+    {%- assign filter_by_title = "Filter By" -%}
+{%- endif -%}
+      
+{%- assign sort_by_title = settings.ymm_sorting_widget_title | strip -%}
+
+{%- if sort_by_title == blank -%}
+    {%- assign sort_by_title = "Sort By" -%}
+{%- endif -%}{% endcomment %}
+
+<div id="ymm_main" class="page-width container row ymm-result-page">
+
+{% comment %} Sidebar {% endcomment %}
+<div id="collection-sidebar" class="ymm_sidebar" style="display: none;">
+  	
+  	{% comment %} Product Image/PDF Block {% endcomment %}
+    {% render "ymm_product_image_block" %}
+    
+  	{% comment %} Product Type Filter {% endcomment %}
+    <div class="ymm_types_cont">
+      	<h4>{{ filter_by_title }}</h4>
+   		
+      	<ul class="accordion-side-menu ymm_prd_types">
+    	{% comment %} DYNAMICALLY TYPES WRITTEN HERE {% endcomment %}
+  		</ul>
+    </div>
+  
+  	{% comment %} Sorting {% endcomment %}
+    <div class="ymm_sort_cont">
+      	<h4>{{ sort_by_title }}</h4>
+    	
+      	<ul class="sortme">
+    		<li class="clearfix filter">
+      			<select id="ymm_sort_by" class="styled-select">
+                    <option value="default" selected>{{ default }}</option>
+        			<option value="price-ascending">{{ price_ascending }}</option>
+        			<option value="price-descending">{{ price_descending }}</option>
+        			<option value="title-ascending">{{ title_ascending }}</option>
+        			<option value="title-descending">{{ title_descending }}</option>
+        			<option value="created-ascending">{{ created_ascending }}</option>
+        			<option value="created-descending">{{ created_descending }}</option>
+      			</select>
+    		</li>
+  		</ul>
+  	</div>
+</div>
+
+{% comment %} YMM Products Grid {% endcomment %}
+<div class="ymm-grid">
+    <div class="page-ymm-custom">
+      	<div class="section-header text-center">
+        <h1 id="ymm_title"></h1>
+        <h4><span id="total_products"></span></h4>
+        
+        {% comment %} Filter/Sorting Toolbar for Mobile View - 786/92/313/ASKMPF {% endcomment %}
+        
+        <div class="ymm_mobile_wrapper" style="display: none;">
+         	{% comment %} Product Image/PDF Block {% endcomment %}
+    	 	{% render "ymm_product_image_block" %}
+        
+       	 	<div class="ymm_mobile_toolbar">
+        	<div class="ymm_sorting_mobile_wrapper">
+              	<button class="ymm_filter_btn" id="ymm_filter_btn"><svg focusable="false" class="icon icon--filter " viewBox="0 0 19 20" role="presentation"><path d="M17.0288086 4.01391602L11 9v7.0072021l-4 2.008545V9L1.01306152 4.01391602V1H17.0288086z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"></path></svg>{{ filter_by_title }}</button>
+                <button class="ymm_sorting_btn" id="ymm_sorting_btn">{{ sort_by_title }}<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation"><path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path></svg></button>
+                         
+          		{% comment %} YMM Sorting Bottom Modal {% endcomment %}
+				<div id="ymmSortingModal" class="ymm_sort_modal">
+                  	<div class="ymm_sort_modal_content">
+    					<div class="ymm_sort_modal_header">
+      						<h4 class="sort_popup_title">{{ sort_by_title }}</h4>
+                          	<span class="ymm_sort_modal_close"><svg focusable="false" class="icon icon--close " viewBox="0 0 19 19" role="presentation"><path d="M9.1923882 8.39339828l7.7781745-7.7781746 1.4142136 1.41421357-7.7781746 7.77817459 7.7781746 7.77817456L16.9705627 19l-7.7781745-7.7781746L1.41421356 19 0 17.5857864l7.7781746-7.77817456L0 2.02943725 1.41421356.61522369 9.1923882 8.39339828z" fill="currentColor" fill-rule="evenodd"></path></svg></span>
+    					</div>
+    					<div class="ymm_sort_modal_body">
+     						<ul id="ymm_sort_mobile">
+       							<li><a class="ymm_sort_opt" data-ymm-sort-value="default">Default</a></li>
+       							<li><a class="ymm_sort_opt" data-ymm-sort-value="price-ascending">Price, low to high</a></li>
+        						<li><a class="ymm_sort_opt" data-ymm-sort-value="price-descending">Price, high to low</a></li>
+        						<li><a class="ymm_sort_opt" data-ymm-sort-value="title-ascending">Alphabetically, A-Z</a></li>
+        						<li><a class="ymm_sort_opt" data-ymm-sort-value="title-descending">Alphabetically, Z-A</a></li>
+        						<li><a class="ymm_sort_opt" data-ymm-sort-value="created-ascending">Date, old to new</a></li>
+        						<li><a class="ymm_sort_opt" data-ymm-sort-value="created-descending">Date, new to old</a></li>
+      						</ul>
+    					</div>
+  					</div>
+				</div>
+      		</div>
+       		</div>
+        </div>
+        {% comment %} YMM Products List. - 786/92/313/ASKMPF {% endcomment %}
+        
+        </div>
+      	<div class="ymm_content">
+        	{{ page.content }}
+        
+        	{% comment %} DO NOT EDIT BELOW LINES [ PRODUCTS ARE WRITTEN IN THIS PART DYNAMICALLY ] {% endcomment %}
+        	<div id="product_container" class="clearfix">
+              <div class="ymm-prd-loader" style="display: none;"><img src="{{ "loader.gif" | asset_url }}"></div>
+              <div id="products" class="grid search-result-ctm"></div>
+        	</div>
+        	{% comment %} ENDS HERE {% endcomment %}
+      	</div>
+	</div>
+</div>
+</div>
+
+{% comment %} Check jQuery library is not included or if it's version is lower then only include it. {% endcomment %}
+<script type="text/javascript">
+var url = decodeURIComponent(window.location.href);
+var shop_domain = '{{ shop.permanent_domain }}';
+var front_domain = '{{ shop.domain }}';
+var data_url = 'https://www.ymmshopify.capacitywebservices.com/customized/ymm_denalielectronics/get_dropdowns_version4.php';
+// commented by mlveda var no_results = "{{ 'ymm_app.no_results' | t | strip | replace: no_results_err, 'There are No Products found.' | replace: '&#39;', "'" }}";
+var no_results = "{{ 'ymm_app.no_results' | t | strip | replace: no_results_err, 'Select your vehicle above' | replace: '&#39;', "'" }}";
+var ymm_products = "{{ 'ymm_app.products' | t | strip | replace: products_err, 'Products' | replace: '&#39;', "'" }}";
+var ymm_product = "{{ 'ymm_app.product' | t | strip | replace: product_err, 'Product' | replace: '&#39;', "'" }}";
+var sale_lbl = "{{ 'ymm_app.sale_lbl' | t | strip | replace: sale_err, 'Sale' | replace: '&#39;', "'" }}";
+var soldout_lbl = "{{ 'ymm_app.soldout_lbl' | t | strip | replace: soldout_err, 'Soldout' | replace: '&#39;', "'" }}";
+
+var universal_fit = "{{ 'ymm_app.universal_fit' | t | strip | replace: '&#39;', "'" }}";
+var exact_fit = "{{ 'ymm_app.exact_fit' | t | strip | replace: '&#39;', "'" }}";  
+
+var all_products_link = "{{ 'ymm_app.all_products_link' | t | strip | replace: '&#39;', "'" }}";   
+var view_outfitting_guide = "{{ 'ymm_app.view_outfitting_guide' | t | strip | replace: '&#39;', "'" }}";   
+var parts_for = "{{ 'ymm_app.parts_for' | t | strip | replace: '&#39;', "'" }}";   
+    
+var shop_currency = "{{ shop.currency }}";
+var theme_id = "{{ theme.id }}";
+var tags;
+let ymmSearchPageParams = new URLSearchParams(window.location.search);
+var ymm_action = ymmSearchPageParams.get('ymm_action');
+var ymm_sort_by = ymmSearchPageParams.get("sort_by");
+var ymm_prd_type = ymmSearchPageParams.get('type');
+var ymm_pdf_link_default_text = "{{ settings.ymm_default_pdf_link_text | strip }}";
+
+//Multi Currency conversion by Shopify Market - 786
+window.lang_code = "{{ request.locale.iso_code }}";
+window.shopify_ajaxapi = "{{ 'api.jquery.js' | shopify_asset_url }}";
+var ymm_money_format = "{{ shop.money_format | strip_html }}"; 
+window.my_route_url = "{{ routes.root_url }}";
+window.my_curr_code = "{{ cart.currency.iso_code }}";
+window.my_country = "{{ localization.country.iso_code }}";
+window.my_market_id = "{{ localization.market.id }}";
+//Ended Here - 786
+  
+if(ymm_action != null && ymm_action == "add_vehicle") {
+	
+  tags = "";
+  
+} else {
+  
+  	var ymm_query = ymmSearchPageParams.get('rq');
+      
+  	if(ymm_query != null) {
+         
+      tags = ymm_query.split("~");
+      
+  	} else {
+      
+        var query_params = getYMMCookie("ymm_values");
+	
+		if(query_params != null) {
+			tags = query_params.split("~");
+		} else {
+			tags = "";
+		}
+  	}
+}
+  
+  
+if(ymm_sort_by == null) {
+  ymm_sort_by = "default";
+}
+  
+if(ymm_prd_type == null) {
+  	ymm_prd_type = "all"; //set default sort order.
+} 
+  
+//YMM Products Fetch Function. - 786
+function ymmProductsInit(action,sort_by,ymm_prd_type)
+{ 
+  	jQuery('.ymm-prd-loader').show();
+
+	/*if ( Shopify?.routes?.root !== '/' && Shopify?.currency?.active !== shop_currency ) { // if condition is added by MLVeda.
+		shop_currency = Shopify.currency.active;
+	}*/
+
+    jQuery.ajax({
+    	  url: data_url,
+          type: "GET",
+          data: "my_locale="+window.lang_code+"&market_id="+window.my_market_id+"&country_code="+window.my_country+"&curr_code="+window.my_curr_code+"&my_route_url="+window.my_route_url+"&my_locale="+window.lang_code+"&domain="+shop_domain+"&action=get_market_products&tags="+encodeURIComponent(tags)+"&ymm_prd_type="+encodeURIComponent(ymm_prd_type)+"&sort_by="+sort_by+"&currency="+shop_currency+"&theme_id="+theme_id+"&front_domain="+front_domain+"&sale_lbl="+sale_lbl+"&soldout_lbl="+soldout_lbl+"&ver_no=2&show_review=no&ymm_pdf_link_default_text="+ymm_pdf_link_default_text,
+          dataType: 'jsonp'
+    	}).done(function(res){
+          
+          jQuery('.ymm-prd-loader').hide(); 
+          
+          if(typeof res.prd_res != "undefined") {
+			
+            if(jQuery(".spr-badge").length > 0) {
+              jQuery('link[rel=stylesheet][href*="spr"]').remove(); //this line is added to fix big review star problem in IE11.-786/ASK
+              jQuery.getScript("//productreviews.shopifycdn.com/assets/v4/spr.js");
+            }
+	
+            if(action == "loaded") {
+            jQuery('html, body').animate({ scrollTop: eval(jQuery('#ymm_title').offset().top-120)}, 270);
+            }
+            
+            jQuery("#ymm_title").show();
+            
+            jQuery("#product_container #products").html(res.prd_res);
+
+              //Set YMM prices in store currency format - 786/ASK.
+            jQuery("div[class*='ymm_price_box_']").each(function() {
+                var ymm_prd_id_str = jQuery(this).attr("class").split(' ');
+                var ymm_prd_id_val = ymm_prd_id_str[1].replace("ymm_price_box_", "");
+              
+                //Price - Sale price-786/ASK.
+                var ymm_comp_price = jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span.comp_price").attr("data-ymm-compare-price");
+                
+                if (typeof ymm_comp_price !== "undefined") {
+                  
+                    var ymm_prd_price = jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span.ymm-product-price").attr("data-ymm-price"); 
+                    // comment added by mlveda
+                    /* var temp_comp_price = ymm_comp_price/100;
+                    var temp_prd_price = ymm_prd_price/100;
+                  
+                    var a = temp_comp_price-temp_prd_price;
+                    var b = (temp_comp_price+temp_prd_price)/2;
+
+                    var discount = parseInt((a/b)*100); */
+                    // added by mlveda
+                    // var discount = parseInt(((ymm_comp_price - ymm_prd_price)*100)/ymm_comp_price);
+                  var discount = Shopify.formatMoney(ymm_comp_price - ymm_prd_price,ymm_money_format);
+                  // added by mlveda
+                    jQuery(this).append('<style> .savings-sv { color: dodgerblue; font-size: 14px; font-weight: bolder; } .was { font-size: 14px; color: darkgrey; margin-left: 0.25em; margin-right: 0.25em; } </style><span class="savings-sv">SAVE '+discount+'</span><div class="loox-rating" data-id="'+ymm_prd_id_val+'" data-rating="" data-raters="" data-pattern="([count])"></div>');
+
+                    /* commented by mlveda ymm_comp_price = Shopify.formatMoney(ymm_comp_price,ymm_money_format);
+                    ymm_prd_price = Shopify.formatMoney(ymm_prd_price,ymm_money_format);
+              
+              		jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span.ymm-product-price").html(ymm_prd_price);
+                	jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span[data-ymm-compare-price]").html(ymm_comp_price);*/
+                  
+                  if( window.my_curr_code != "USD" ){
+                    ymm_comp_price = Shopify.formatMoney(ymm_comp_price,ymm_money_format + "  " + window.my_curr_code);
+                    ymm_prd_price = Shopify.formatMoney(ymm_prd_price,ymm_money_format + "  " + window.my_curr_code);
+              
+              		jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span.ymm-product-price").html(ymm_prd_price);
+                	jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span[data-ymm-compare-price]").html(ymm_comp_price);
+                  }
+                  else{
+                    ymm_comp_price = Shopify.formatMoney(ymm_comp_price,ymm_money_format);
+                    ymm_prd_price = Shopify.formatMoney(ymm_prd_price,ymm_money_format);
+              
+              		jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span.ymm-product-price").html(ymm_prd_price);
+                	jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span[data-ymm-compare-price]").html(ymm_comp_price);
+                  }
+                  
+                } else {
+                   var ymm_prd_price = parseInt(jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span.ymm-product-price").attr("data-ymm-price")); 
+                  /* commented by mlveda ymm_prd_price = Shopify.formatMoney(ymm_prd_price,ymm_money_format);*/
+
+                  if( window.my_curr_code != "USD" ){
+                   ymm_prd_price = Shopify.formatMoney(ymm_prd_price,ymm_money_format + "  " + window.my_curr_code);
+                  }
+                  else{
+                   ymm_prd_price = Shopify.formatMoney(ymm_prd_price,ymm_money_format);
+                  }
+                  
+                   jQuery(".ymm_price_box_"+ymm_prd_id_val).find("span.ymm-product-price").html(ymm_prd_price);
+                }  
+			});
+            //Ends Here - 786/92
+            
+            action = "loaded";
+
+            // added by JKS 09/30/2021
+            strTitleParts = jQuery('#ymm_title').text();
+            if (strTitleParts.indexOf('/') != -1) {
+	    	strTitleParts = strTitleParts.split('/')
+            jQuery('#ymm_title').html(strTitleParts[0].trim() +' '+parts_for+' '+ strTitleParts[1].trim() + ' ' + strTitleParts[2].trim() + ' ' + strTitleParts[3].trim()); }
+            // end
+
+            jQuery(".exact_fit").each(function() {
+                jQuery(this).html(exact_fit);
+			});
+
+            jQuery(".uni_ymm").each(function() {
+                jQuery(this).html(universal_fit);
+			});
+
+           	if(res.total == 0){
+           	 
+              jQuery("#ymm_main").removeClass("ymm-result-page");
+              
+              jQuery("#total_products").html(no_results);
+              
+              jQuery(".ymm_mobile_wrapper").remove();
+              
+             
+            } else {
+
+               if(res.total > 1) {
+              		jQuery("#total_products").html(res.total+" "+ymm_products);
+            	} else {
+              		jQuery("#total_products").html(res.total+" "+ymm_product);
+            	}
+
+              	//Set ymm product image. - 786
+              	if(res.product_image_html != "") {
+                  	jQuery(".ymm_prd_img_block").show();
+              		jQuery(".ymm_prd_img").html(res.product_image_html);
+              	}
+
+              
+              	//Set ymm pdf link. - 786
+              	if(res.pdf_link_html != "") {
+                  	jQuery(".ymm_prd_img_block").show();
+              		jQuery(".ymm_pdf").html(res.pdf_link_html);
+              	}
+              
+              	if(res.product_image_html == "" && res.pdf_link_html == "") {
+                  jQuery(".ymm_prd_img_block").remove();
+                }
+              
+              	//Set Product types
+                jQuery(".ymm_filter_header").show();
+              	jQuery(".ymm_prd_types").html(res.prd_types_html);
+          
+              	//Show left sidebar-786
+              	jQuery(".ymm_sidebar").show();
+              
+              	//Set top html ymm block
+              	if(res.top_html_block != "") {
+                  if(jQuery("#top_ymm_block").length == 0) {
+                	jQuery(".ymm-grid #product_container").prepend('<div id="top_ymm_block">'+res.top_html_block+'</div>');
+                  }
+              	}
+              
+              	//Set bottom html ymm block
+              	if(res.bottom_html_block != "") {
+                  	if(jQuery("#bottom_ymm_block").length == 0) {
+                	  jQuery(".ymm-grid #product_container").append('<div id="bottom_ymm_block">'+res.bottom_html_block+'</div>');
+                    }
+              	}
+            }
+
+              jQuery('.ymm_types_cont ul li:first').each(function () {
+                  jQuery(this).find('a').html(all_products_link);
+              });
+              jQuery(".ymm_pdf").each(function() {console.log( jQuery(this).find('a'));
+                jQuery(this).find('a').html(view_outfitting_guide);
+              });
+
+          }
+          
+    	}).fail(function(error){ });
+}
+ 
+function showSortingActive(ymm_sort_by)
+{
+   jQuery('ul#ymm_sort_mobile li.active').removeClass('active'); // Just remove class from all folder
+   jQuery("ul#ymm_sort_mobile li").find("[data-ymm-sort-value='" + ymm_sort_by + "']").parent().addClass("active"); 
+}
+  
+function hideMobileMenu() 
+{
+   	var trigger = document.querySelector(".nav-trigger");
+  	var siteWrap = document.querySelector(".site-wrap");
+    var hamburger = document.querySelector(".hamburger");
+    var element = document.querySelector(".mobile-navigation");
+
+   	if (element.style.display === "block") {
+     	siteWrap.classList.remove("menu-open");
+        hamburger.classList.remove("is-active");
+	    element.style.display = "none";
+    }
+}  
+   
+function closeYMMDrawer() 
+{
+  jQuery('.ymm_filter_sidebar').css('display','none');
+  jQuery(".site-wrap").removeClass("filter-drawer-open");
+} 
+  
+//786/92
+(function($){
+    //Check if shopify AJAX API lib. is not included then only include it.[It's require to add below line after jQuery has been loaded.]
+    var check_api_exist = jQuery('script[src*="api.jquery"]').length;
+    if(check_api_exist == 0) {
+      jQuery.getScript(window.shopify_ajaxapi);
+    }
+  
+  	//Set current sort value in dropdown as selected in desktop.
+  	jQuery("select#ymm_sort_by").val(ymm_sort_by);
+
+  	//Set current sort value selected for mobile. - 786
+  	showSortingActive(ymm_sort_by);
+  
+    //Get products onload after ymm searched. - 786
+	if(tags != "") {
+	 	
+      	ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
+      
+    } else {
+      	jQuery("#ymm_main").removeClass("ymm-result-page");
+      	
+      	jQuery("#total_products").html(no_results);
+      
+        jQuery(".ymm_mobile_wrapper").remove();
+    }
+  
+    //On change of sorting dropdown sort products in that chosen order. - 786
+	jQuery(document).on("change", "select#ymm_sort_by" , function() {
+ 	 	var ymm_sort_by = jQuery(this).val();
+      	let ymmSearchPageParams = new URLSearchParams(window.location.search);
+        var ymm_prd_type = ymmSearchPageParams.get("type");
+      
+      	if(ymm_prd_type == null) {
+  		ymm_prd_type = "all"; //set default sort order.
+		}
+      
+  		//Update "sort_by" query parameter value in URL without page reload.
+   		const ymm_new_url = new URL(window.location);
+		ymm_new_url.searchParams.set("sort_by", ymm_sort_by);
+		window.history.replaceState({}, '', ymm_new_url);
+  
+  		//Get products based on sort and product type parameters. - 786
+		ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
+	});
+  
+  
+  	//On click of product type -> filter products based on that chosen type. - 786
+  	jQuery(document).on("click", ".ymm_prd_type" , function() {
+ 		var ymm_prd_type = jQuery(this).attr("data-ymm-prd-type");
+    	let ymmSearchPageParams = new URLSearchParams(window.location.search);
+		var ymm_sort_by = ymmSearchPageParams.get("sort_by");
+      
+      	if(ymm_sort_by == null) {
+        ymm_sort_by = "default";
+      	}
+      
+    	//Update "sort_by" query parameter value in URL without page reload.
+   		const ymm_new_url = new URL(window.location);
+		ymm_new_url.searchParams.set("type", ymm_prd_type);
+		window.history.replaceState({}, '', ymm_new_url);
+    
+   	 	//Get products based on sort and product type parameters. - 786
+		ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
+      
+      	//After choosing product type close the drawer for mobile view. - 786
+      	closeYMMDrawer();
+  	});
+  
+  	//On click of "sort by" button display modal pop-up for mobile view - 786
+  	jQuery(document).on("click", "#ymm_sorting_btn" , function(e) {   
+      	e.preventDefault();
+      	jQuery("#ymmSortingModal").addClass("active");
+    });
+  
+  
+  	//On click of 'close' button hide 'YMM Sort Mobile Popup'
+  	jQuery(document).on("click",'.ymm_sort_modal_close',function() {
+  		jQuery("#ymmSortingModal").removeClass("active");
+    });
+  
+ 	
+  	//On click of sort option inside mobile view - 786.
+  	jQuery(document).on("click",'.ymm_sort_opt',function(e) {
+    
+   		e.preventDefault();
+    
+    	var ymm_sort_by = jQuery(this).attr("data-ymm-sort-value");
+    
+      	//Set active sort
+    	showSortingActive(ymm_sort_by);
+    
+      	let ymmSearchPageParams = new URLSearchParams(window.location.search);
+        var ymm_prd_type = ymmSearchPageParams.get("type");
+      
+      	if(ymm_prd_type == null) {
+  		ymm_prd_type = "all";
+		}
+      
+  		//Update "sort_by" query parameter value in URL without page reload.
+   		const ymm_new_url = new URL(window.location);
+		ymm_new_url.searchParams.set("sort_by", ymm_sort_by);
+		window.history.replaceState({}, '', ymm_new_url);
+ 
+  		//Get products based on sort and product type parameters. - 786
+		ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
+    
+    	//after choosing the sort option then close the popup - 786
+    	jQuery(".ymm_sort_modal_close").trigger("click");
+  	});
+  
+  	//Display filter drawer. - 786
+  	jQuery('#ymm_filter_btn,.closebtn').on("click", function (e) {
+  
+       	//786 - if mobile menu is open then first hide it then display drawer on right side.
+    	if(jQuery(".site-wrap").hasClass("menu-open")) {
+      		hideMobileMenu();
+    	} 
+        
+      	if(jQuery(this).is('#ymm_filter_btn')){
+   			jQuery('.ymm_filter_sidebar').css('display','block');
+       	}
+      
+       	if(jQuery(this).is('.closebtn')){
+   			jQuery('.ymm_filter_sidebar').css('display','none');
+       	}
+     
+   		jQuery('.site-wrap').toggleClass('filter-drawer-open'); //786
+	});
+
+	//Drawer Out side click by hide
+	jQuery(document).mouseup(function (e) {
+      	if (!jQuery(e.target).closest(".ymm_filter_sidebar,.closebtn").length) {
+    		closeYMMDrawer();
+  		}
+  
+   		if(jQuery('#ymmSortingModal').is(e.target)) {    
+    		jQuery("#ymmSortingModal").removeClass("active");
+		}
+	}); 
+
+ 	//Back button ymm selected retain issue on ymm result page fix - 786
+  	var perfEntries = performance.getEntriesByType("navigation");
+	if (perfEntries[0].type === "back_forward") {
+    	location.reload(true);
+	}
+})(jQuery);
+//Ended Here - 786
+
+function getUrlParameter(sParam) 
+{
+    	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+   	 	for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    	}
+}
+  
+jQuery(document).ready(function() { 
+    var res_title = getUrlParameter('rq');
+    restags = res_title.split("~");
+   
+    strTags = restags[1].substring(3) + ' ' + restags[2].substring(3) + ' ' + restags[3].substring(3).replace('-', ' ');
+    
+    var strPageTitle = strTags + ' - LED lighting, air horns, wiring harnesses and mounts - DENALI Electronics';  
+    document.title = strPageTitle.toUpperCase();
+	var strMetaDesc = strTags + ' Parts & Accessories at DENALIelectronics.com. Complete vehicle-specific solutions for LED lights, air horns, wiring harnesses, and mounts for Motorcycles, 4x4s, cars, SxS, ATVs, and other vehicles. CANbus-compatible controllers.';    
+
+    var meta = document.createElement('meta');
+    meta.name = 'description';
+    meta.setAttribute('content', strMetaDesc);
+    document.getElementsByTagName('head')[0].appendChild(meta);
+});   
+</script>

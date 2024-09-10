@@ -1,0 +1,254 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'pt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'pt0 pb0'
+  endif
+
+  assign has_image = false
+  if section.settings.image != blank
+    assign has_image = true
+  endif
+
+-%}
+<section
+  class="shop__theLook-section section-{{ section.id }} global__section {{ section_padding }} padding-top global__section-{{ section.id }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+  data-section-id="{{ section.id }}"
+  data-section-type="shop-the-look"
+>
+  {% if section.settings.full_width %}<div class="gridlock-fluid"><div class="row">{% endif %}
+  <div class="row grid__wrapper shop__theLook-container">
+    <div class="shop__theLook-image-{{ section.id }} span-12 auto">
+      <div class="shop__thelook-content">
+        <div class="image__container">
+          {% if has_image %}
+            {% liquid
+              if section.index == 1
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+             %}
+            {{ section.settings.image | image_url: width: 2000 | image_tag: loading: loading, fetchpriority: fetch_priority }}
+          {% else %}
+            <div class="onboard">
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {% endif %}
+        </div>
+        {% for block in section.blocks %}
+          {%- liquid
+
+            assign product = all_products[block.settings.product]
+            assign hotspot_horizontal = block.settings.hotspot_horizontal
+            assign hotspot_vertical = block.settings.hotspot_vertical
+
+          -%}
+            <div class="product-{{ block.id }} hotspot hotspot-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="product-container">
+                <div class="hover-{{ forloop.index }} product-hotspot product-{{ product.id }}">
+                  <div class="hotspot__prod-image image_square">
+                    {% if product != blank %}
+                      {%- assign preview_image = product.featured_media.preview_image -%}
+                      <a href="{{ product.url }}" title="{{ product.title | escape }}">
+                        {{ product.featured_media | image_url: width: 200 | image_tag: loading: 'eager' }}
+                      </a>
+                    {% else %}
+                      <div class="onboard">
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="hotspot__product-details">
+                    {% if product != blank %}
+                      <a href="{{ product.url}}">
+                        <span class="hotspot__product-title">{{ product.title }}</span>
+                      </a>
+                      <div class="hotspot__product-price">
+                        {% if product.price < product.compare_at_price %}
+                          <div class="onsale">{{ product.price | money }}</div>
+                          <div class="was">{{ product.compare_at_price | money }}</div>
+                        {% else %}
+                          {% if product.price_varies %} {{ 'products.general.from' | t }} {{ product.price_min | money }} - {{ product.price_max | money }} {% else %}{{ product.price | money }}{% endif %}
+                        {% endif %}
+                      </div>
+                    {% else %}
+                      <span class="hotspot__product-title">Featured Product title</span>
+                      <div class="hotspot__product-price">$9.99</div>
+                    {% endif %}
+                  </div>
+                  <style>
+                    .shop__theLook-section .product-{{ block.id }} .hover-{{ forloop.index }} {
+                      background: var(--background);
+                      border: 1px solid var(--dotted-color);
+                    }
+                    .shop__theLook-section .product-{{ block.id }}.hotspot-{{ forloop.index }} {
+                      left: {{ hotspot_horizontal }}%;
+                      top: {{ hotspot_vertical }}%;
+                      transform: translate(-{{ hotspot_horizontal }}%, -{{ hotspot_vertical }}%);
+                      z-index: 1;
+                    }
+                    {% assign color = block.settings.hotspot_color %}
+                    .shop__theLook-section .product-{{ block.id }}.hotspot-{{ forloop.index }}:after {
+                      background-color: {{ color }};
+                    }
+                    .shop__theLook-section .shop__theLook-image-{{ section.id }}:hover .product-{{ block.id }}.hotspot-{{ forloop.index }}:after {
+                      border: 3px solid white;
+                      transform: scale(1.2);
+                      animation: pulse 1s infinite;
+                      animation-timing-function: linear;
+                    }
+                    @keyframes pulse {
+                      0% { transform: scale(1.2); }
+                      50% { transform: scale(1.5);
+                      00% { transform: scale(1.2); }
+                      }
+                    }
+                    .shop__theLook-section .product-{{ block.id }}.hotspot-{{ forloop.index }}:hover .hover-{{ forloop.index }} {
+                      display: grid;
+                    }
+                  </style>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+       </div>
+     </div>
+  </div>
+  {% if section.settings.full_width %}</div></div>{% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Shop the look",
+  "max_blocks": 5,
+  "settings":
+  [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default":true
+    },    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1920px x 1000px recommended"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings":
+      [
+        {
+          "type": "header",
+          "content": "Product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_horizontal",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Hotspot horizontal position",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "hotspot_vertical",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Hotspot vertical position",
+          "default": 40
+        },
+        {
+          "type": "color",
+          "id": "hotspot_color",
+          "label": "Hotspot color",
+          "default": "#000"
+        }
+      ]
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Shop the look",
+      "blocks":
+      [
+        {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_horizontal": 40,
+            "hotspot_vertical": 40,
+            "hotspot_color": "#000"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_horizontal": 55,
+            "hotspot_vertical": 60,
+            "hotspot_color": "#000"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_horizontal": 60,
+            "hotspot_vertical": 19,
+            "hotspot_color": "#000"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

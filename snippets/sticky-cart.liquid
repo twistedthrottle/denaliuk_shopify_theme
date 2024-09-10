@@ -1,0 +1,42 @@
+{% comment %}
+snippets/sticky-cart.liquid
+{% endcomment %}
+<link rel="stylesheet" href="{{ 'sticky-cart.css' | asset_url }}" type="text/css">
+<div id="sticky-cart" class="js-sticky-cart" data-product-sticky-bar>
+  <div class="product-info">
+    <h4 class="p">{{ product.title | truncatewords: 5 }}</h4>
+    {% render 'product-price', variant: current_variant, product: product %}
+  </div>
+  {% for option in product.options_with_values %}
+    {% if product.variants.size > 1 %}
+      {% if current_variant.option1 and forloop.index == 1 %}
+        <div id="current-option-1" class="current-option">
+          <p class="option-label">{{ option.name }}</p>
+          <p class="option-selected">{{ current_variant.option1 }}</p>
+        </div>
+      {% endif %}
+      {% if current_variant.option2 and forloop.index == 2 %}
+        <div id="current-option-2" class="current-option">
+          <p class="option-label">{{ option.name }}</p>
+          <p class="option-selected">{{ current_variant.option2 }}</p>
+        </div>
+      {% endif %}
+      {% if current_variant.option3 and forloop.index == 3 %}
+        <div id="current-option-3" class="current-option">
+          <p class="option-label">{{ option.name }}</p>
+          <p class="option-selected">{{ current_variant.option3 }}</p>
+        </div>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  <div class="product-add">
+    <input class="formVariantId" name="" type="hidden" value="{{ product.selected_or_first_available_variant.id }}">
+    <div class="note note-success mt3 js-added-msg" style="display: none">
+      <b>{{ 'products.product.added' | t }}</b>&nbsp;&nbsp;&nbsp;<a class="underline" href="{{ routes.cart_url }}">{{ 'products.product.view_cart' | t }}</a> {{ 'products.product.or' | t }} <a class="underline" href="{{ routes.all_products_collection_url }}">{{ 'products.product.continue' | t }}</a>.
+    </div>
+    <div class="note note-error js-error-msg" style="display: none">
+      <b>{{ 'cart.general.cart_error' | t }}</b>&nbsp;&nbsp;&nbsp;{{ 'cart.general.update_qty_error' | t }}
+    </div>
+    <input type="submit" name="button" class="sticky-add clearfix mb10 AddtoCart secondary-button js-ajax-submit" value="{{ call_to_action }}" {% unless current_variant.available %}disabled{% endunless %} />
+  </div>
+</div>

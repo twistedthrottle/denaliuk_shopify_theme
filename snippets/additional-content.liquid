@@ -1,0 +1,40 @@
+{% comment %}
+snippets/additional-content.liquid
+
+Usage:
+
+{%
+  render 'additional_content',
+  block: block
+%}
+
+{% endcomment %}
+{% unless block.settings.ac_text == blank %}
+  {% unless block.settings.ac_link == blank %}
+    <a href="{{ block.settings.ac_link }}">
+  {% endunless %}
+  <div class="product-blocks__inner">
+    {% unless block.settings.ac_icon == 'none' %}
+      {% case block.settings.ac_icon %}
+        {% when 'checkmark' or 'circle-minus' or 'circle-minus-focus' or 'circle-plus' or 'circle-plus-focus' or 'error' or 'forward' or 'home' or 'minus' or 'plus' or 'share' or 'wish' or 'wish-focus' %}
+          {% assign icon_collection_type = 'apollo' %}
+        {% else %}
+          {% assign icon_collection_type = 'vantage-theme' %}
+      {% endcase %}
+      {% render 'snip-icons',
+         wrapper: '.product-blocks__icon',
+         type: icon_collection_type,
+         icon: block.settings.ac_icon,
+         classes: 'vib-center',
+         size: '18px',
+         fill: 'var(--text-color)',
+         hover: 'var(--text-color)' %}
+    {% endunless %}
+    <div class="rte">
+      {{ block.settings.ac_text }}
+    </div>
+  </div>
+  {% unless block.settings.ac_link == blank %}
+    </a>
+  {% endunless %}
+{% endunless %}

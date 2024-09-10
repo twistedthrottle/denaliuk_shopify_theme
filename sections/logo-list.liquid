@@ -1,0 +1,148 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+  if section.index == 1
+    assign loading = 'eager'
+    assign fetch_priority = 'high'
+  endif
+
+-%}
+
+<div class="global__section {{ section_padding }}"><section class="homepage-logo-list-{{ section.id }} {% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+  data-section-id="{{ section.id }}"
+  data-section-loaded="false"
+  data-section-type="logo-list">
+
+  <div class="row  logo-section">
+
+    {% if section.settings.title != blank %}
+      <h2 class="section-title desktop-12 tablet-6 mobile-3">
+        {{ section.settings.title | escape }}
+      </h2>
+    {% endif %}
+    {% for block in section.blocks %}
+      <div class="logo-list desktop-2 tablet-1 mobile-1{% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}" {{ block.shopify_attributes }}>
+        {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}
+          {% if block.settings.image != blank %}
+            {% render 'basic-responsive-image',
+              type: block.settings.image, 
+              width: 400,
+              loading: loading,
+              fetchpriority: fetch_priority
+             %}
+          {% else %}
+            <div class="onboard">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {% endif %}
+        {% if block.settings.link != blank %}</a>{% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.blocks.size == 0 %}
+    {% render 'no-blocks' %}
+  {% endif %}
+</section>
+<style>
+ .logo-list .box-ratio,
+ .logo-list .box-ratio img {
+   background: transparent;
+ }
+</style>
+
+<div class="clear"></div></div>
+
+{% schema %}
+{
+  "name": "Logo list",
+  "max_blocks": 6,
+  "settings":
+  [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "As seen in"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings":
+      [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Logo list",
+      "blocks":
+      [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header"
+    ]
+  }
+}
+{% endschema %}

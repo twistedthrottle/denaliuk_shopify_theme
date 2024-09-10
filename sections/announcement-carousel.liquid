@@ -1,0 +1,134 @@
+{%- liquid
+
+  assign is_carousel = false
+  if section.blocks.size > 1
+    assign is_carousel = true
+  endif
+
+-%}
+
+
+<section
+  class="global__section pb0 pt0 pb0 padding-top global__section-{{ section.id }} {% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+  data-section-id="{{ section.id }}"
+  data-section-loaded="false"
+  data-section-type="slideshow-section"
+>
+
+  <div class="gridlock-fluid"><div class="row">
+
+    {% capture slideshow_config %}{
+      "wrapAround":true,
+      "fade":false,
+      "autoPlay":5000,
+      "cellAlign": "left",
+      "dragThreshold":"15",
+      "adaptiveHeight": true,
+      "pauseAutoPlayOnHover":false,
+      "prevNextButtons":true,
+      "pageDots": false,
+      "selectedAttraction": "0.01",
+      "friction": "0.15"
+   }{% endcapture %}
+
+    <div class="row">
+      <div class="announcement--carousel_container {{ section.id }} grid__wrapper pl0 pr0 {% if settings.animation != 'none' %} animate {{ settings.animation }} delay--2{% endif %}">
+         <div class="span-12 auto js-slideshow" data-flickity='{{ slideshow_config }}'>
+            {% for block in section.blocks %}
+              <div class="announcement--text_content" data-slider-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                {% if block.settings.announcement != blank %}
+                  <div class="rte">{{ block.settings.announcement }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+      </div>
+    </div>
+
+  </div></div>
+
+  {% style %}
+
+  .global__section-{{ section.id }}  {
+    background: var(--{{ section.settings.color_scheme }}-background);
+  }
+  {% unless section.settings.color_scheme == 'none' %}
+    .global__section-{{ section.id }} .announcement--text_content .rte,
+    .global__section-{{ section.id }} .announcement--text_content .rte p,
+    .global__section-{{ section.id }} .announcement--text_content .rte a {
+      color: var(--{{ section.settings.color_scheme }}-color) !important;
+    }
+    .announcement--carousel_container .flickity-button svg {
+      fill:  var(--{{ section.settings.color_scheme }}-color) !important;
+    }
+  {% endunless %}
+
+  {% endstyle %}
+</section>
+{% schema %}
+{
+  "name": "Announcement carousel",
+  "max_blocks": 5,
+  "settings":
+  [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "cs1",
+          "label": "1"
+        },
+        {
+          "value": "cs2",
+          "label": "2"
+        },
+        {
+          "value": "cs3",
+          "label": "3"
+        }
+      ],
+      "default": "none"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Announcement carousel",
+      "blocks":
+      [
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        },
+        {
+          "type": "announcement"
+        }
+      ]
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings":
+      [
+        {
+          "type": "richtext",
+          "id": "announcement",
+          "label": "Announcement",
+          "default": "<p>Add an announcement</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

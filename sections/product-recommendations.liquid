@@ -1,0 +1,119 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+  case section.settings.products_per_row
+    when 2
+      assign grid = 'span-6'
+    when 3
+      assign grid = 'span-4'
+    when 4
+      assign grid = 'span-3'
+  endcase
+
+-%}
+
+<div class="global__section {{ section_padding }}"><section
+  class="product-recommendations__wrapper"
+  data-section-id="{{ section.id }}">
+  {%- if recommendations.performed -%}
+    {%- if recommendations.products_count > 0 -%}
+      <div class="product-recommendations row">
+
+        <div class="grid__wrapper edge">
+
+          {% if section.settings.product_recommendations_heading != blank %}
+            <h2 class="section-title span-12 auto">{{ section.settings.product_recommendations_heading }}</h2>
+          {% endif %}
+
+          {%- for product in recommendations.products limit: section.settings.products_shown -%}
+          <div
+            class="product-index {{ grid }} sm-span-6 auto{% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}"
+            id="prod-{{ product.id }}"
+            data-alpha="{{ product.title }}"
+            data-price="{{ product.price }}">
+            {% render 'product-listing', 
+              product: product,
+              collection: collection,
+              grid: section.settings.products_per_row
+            %}
+          </div>
+          {%- endfor -%}
+        </div><!-- /.row -->
+      </div><!-- /.product-recommendations -->
+    {%- endif -%}
+  {%- else  -%}
+    <div class="page-width js-product-rec-wrapper"
+      data-base-url="{{ routes.product_recommendations_url }}"
+      data-product-id="{{ product.id }}"
+      data-section-id="{{ section.id }}"
+      data-limit="{{ section.settings.products_shown }}"
+      data-section-type="product-recommendations"
+      data-intent="related">
+      ></div>
+  {%- endif -%}
+</section></div>
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "settings":
+  [
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Products per row",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "products_shown",
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "label": "Products visible",
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "product_recommendations_heading",
+      "label": "Heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ]
+}
+{% endschema %}

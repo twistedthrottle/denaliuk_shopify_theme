@@ -1,0 +1,573 @@
+{% capture mobile_trigger %}
+  <li class="header__shopping-cart-link cart__link-search">
+     <div class="mobile-menu__trigger {% unless mobile_style %}desktop-hide{% endunless %}{% if mobile_style %} header__main-nav{% endif %}">
+       <div class="slideout__trigger--open text-left">
+         <button class="slideout__trigger-mobile-menu js-slideout-open text-left" data-wau-slideout-target="mobile-navigation" data-slideout-direction="left" aria-label="Open navigation" tabindex="0" type="button" name="button">
+           {% render 'snip-icons',
+               wrapper: '.mobile-menu__trigger',
+               type: 'vantage-theme',
+               icon: 'menu-bars',
+               classes: 'mobile-menu__trigger--icon',
+               size: '12px',
+               fill: 'var(--header-text-color)',
+               hover: 'var(--header-text-color)' %}
+         </button>
+       </div>
+     </div>
+  </li>
+  {% endcapture %}
+<ul id="cart" class="header__shopping-cart-links-container">
+  {{ mobile_trigger }}
+  {% if show_cart_links %}
+    {% unless section.settings.header_layout == 'search' %}
+      <!-- commented by mlveda <li class="header__shopping-cart-link cart__link-search device-hide"> -->
+      <li class="header__shopping-cart-link cart__link-search">
+        <a
+          class="slideout__trigger-search button-as-link js-modal-open"
+          href="#"
+          data-wau-modal-target="search-modal"
+          aria-label="{{ 'sections.search.placeholder' | t }}"
+          aria-haspopup="true"
+          aria-expanded="false"
+          tabindex="0"
+          type="button"
+          name="button"
+        >
+          {% comment %}{% render 'snip-icons',
+            wrapper: '.header__shopping-cart-link',
+            type: 'vantage-theme',
+            icon: 'search',
+            classes: 'header__shopping-cart-link--icon',
+            size: '16px',
+            fill: 'var(--header-text-color)',
+            hover: 'var(--header-text-color)'
+          %}{% endcomment %}
+          <!-- <i class="fa fa-search"></i> -->
+         <i class="mlsearchicon"></i>
+        </a>
+        <div
+          class="search-modal-content"
+          data-wau-modal-content="search-modal"
+          data-wau-modal-full
+          style="display: none;"
+        >
+          {%- if settings.predictive_search_enabled -%}
+            <predictive-search
+              data-routes="{{ routes.predictive_search_url | default: '/search/suggest' }}"
+              data-input-selector='input[name="q"]'
+              data-results-selector="#predictive-search"
+            >
+          {%- endif -%}
+          <form
+            id="search-box"
+            class="header__search-box-inline search-form"
+            action="{{ routes.search_url }}"
+            method="get"
+          >
+            <label>
+              <span class="visually-hidden">{{ 'sections.search.placeholder' | t }}</span>
+              <input
+                type="text"
+                name="q"
+                id="q--search-box"
+                class="search__input search-field"
+                placeholder="{{ 'sections.search.placeholder' | t }}"
+                value="{{ search.terms | escape }}"
+                {%- if settings.predictive_search_enabled -%}
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-owns="predictive-search-results-list"
+                  aria-controls="predictive-search-results-list"
+                  aria-haspopup="listbox"
+                  aria-autocomplete="list"
+                  autocorrect="off"
+                  autocomplete="on"
+                  autocapitalize="off"
+                  spellcheck="false"
+                {%- endif -%}
+              >
+            </label>
+            <button type="submit">
+              {% render 'snip-icons',
+                wrapper: '.header__search-box-inline',
+                type: 'vantage-theme',
+                icon: 'search',
+                classes: 'header__search-box-inline--icon vib-center',
+                size: '16px',
+                fill: 'var(--text-color)',
+                hover: 'var(--text-color)'
+              %}
+            </button>
+            <input name="options[prefix]" type="hidden" value="last">
+
+            {% if settings.search_show_products_only %}
+              <input type="hidden" name="type" value="product">
+            {% endif %}
+
+            {%- if settings.predictive_search_enabled -%}
+              <div id="predictive-search" class="predictive-search" tabindex="-1"></div>
+            {%- endif -%}
+          </form>
+          {%- if settings.predictive_search_enabled -%}
+            </predictive-search>
+          {%- endif -%}
+        </div>
+      </li>
+    {% endunless %}
+
+    <!-- Added by mlveda -->
+    <li class="mini-cart-trigger header__shopping-cart-link cart__link-cart mlwishlist">
+      <a href="#swym-wishlist" class="swym-wishlist">
+        <!-- <i aria-hidden="true" focusable="false" role="presentation" class="icon icon-swym-wishlist"></i> -->
+        <i aria-hidden="true" focusable="false" role="presentation"></i>
+      </a>
+    </li>
+    <!-- Added by mlveda -->
+  
+    {%- comment -%} YMM Garage Function Starts Here. - 786/ASK {%- endcomment -%}
+    <li class="ymm_garage_container header__shopping-cart-link">
+      {% if is_mobile %}
+        <div id="ymm_garage_mobile"></div>
+      {% else %}
+        <div id="ymm_garage_desktop"></div>
+      {% endif %}
+    </li>
+    {%- comment -%} YMM Garage Function Ended Here. - 786/ASK {%- endcomment -%}
+
+    {% if shop.customer_accounts_enabled %}
+      {% if customer %}
+        <li class="header__shopping-cart-link cart__link-account mlaccount">
+          <!--commented by mlveda <a href="{{ routes.account_url }}">{{ 'customer.account.title' | t }}</a> -->
+          <a href="{{ routes.account_url }}"></a>
+        </li>
+        <!-- commented by mlveda <li class="header__shopping-cart-link cart__link-logout device-hide">
+          <a href="{{ routes.account_logout_url }}">{{ 'customer.account.logout' | t }}</a>
+        </li> -->
+      {% else %}
+        <li class="header__shopping-cart-link cart__link-login mlaccount">
+          <!-- commented by mlveda <a href="{{ routes.account_login_url }}">{{ 'customer.account.title' | t }}</a> -->
+          <a href="{{ routes.account_login_url }}"></a>
+        </li>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {%- if hd_locale_selector -%}
+    <li class="cart-links__item lang-selector header__shopping-cart-link">
+      <div class="selectors-form__item">
+        <h2 class="visually-hidden" id="HeaderLanguageLabel">
+          {{ 'general.language.dropdown_label' | t }}
+        </h2>
+
+        <noscript>
+          {%- form 'localization',
+            id: 'HeaderLanguageFormNoScript',
+            class: 'selectors-form',
+            data-disclosure-form: ''
+          -%}
+            <div class="selectors-form__select">
+              <select
+                name="locale_code"
+                class="localization-selector button"
+                aria-labelledby="HeaderLanguageLabel"
+              >
+                <option value="" disabled>{{ 'general.language.dropdown_label' | t }}</option>
+                {%- for language in localization.available_languages -%}
+                  <option
+                    value="{{ language.iso_code }}"
+                    lang="{{ language.iso_code }}"
+                    {%- if language.iso_code == localization.language.iso_code %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ language.endonym_name | capitalize }}
+                  </option>
+                {%- endfor -%}
+              </select>
+              {% render 'snip-icons',
+                wrapper: '.section-top-bar__lang',
+                type: 'apollo',
+                icon: 'down-carrot',
+                size: '8px',
+                fill: 'var(--announcement-bar-text-color)',
+                hover: 'var(--announcement-bar-background-color)'
+              %}
+            </div>
+            <!-- /.selectors-form__select -->
+            <button class="localization-form__noscript-btn button mb0 v-center">
+              {% render 'snip-icons',
+                wrapper: '.section-top-bar__lang',
+                type: 'apollo',
+                icon: 'checkmark',
+                size: '12px',
+                fill: 'var(--announcement-bar-text-color)',
+                hover: 'var(--announcement-bar-background-color)'
+              %}
+            </button>
+          {%- endform -%}
+        </noscript>
+
+        {%- form 'localization', id: 'HeaderLanguageForm', class: 'selectors-form', data-disclosure-form: '' -%}
+          <div class="disclosure" data-disclosure-locale>
+            <button
+              type="button"
+              class="disclosure__toggle"
+              aria-expanded="false"
+              aria-controls="HeaderLanguageList"
+              aria-describedby="HeaderLanguageLabel"
+              data-disclosure-toggle
+            >
+              {{ localization.language.iso_code | capitalize }}
+            </button>
+            <ul
+              id="HeaderLanguageList"
+              class="disclosure-list"
+              data-disclosure-list
+            >
+              {%- for language in localization.available_languages -%}
+                <li class="disclosure-list__item {% if language.iso_code == localization.language.iso_code %}disclosure-list__item--current{% endif %}">
+                  <a
+                    class="disclosure-list__option"
+                    href="#"
+                    title="{{ locale.endonym_name }}"
+                    lang="{{ locale.iso_code }}"
+                    {% if language.iso_code == localization.language.iso_code %}
+                      aria-current="true"
+                    {% endif %}
+                    data-value="{{ language.iso_code | capitalize }}"
+                    data-disclosure-option
+                  >
+                    {{ language.endonym_name | capitalize }}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+            <input
+              type="hidden"
+              name="locale_code"
+              id="LocaleSelector"
+              value="{{ localization.language.iso_code }}"
+              data-disclosure-input
+            >
+          </div>
+          <!-- /.disclosure -->
+        {%- endform -%}
+      </div>
+      <!-- /.selectors-form__item -->
+    </li>
+  {%- endif -%}
+  {%- if hd_country_selector -%}
+    <li class="cart-links__item curr-selector header__shopping-cart-link">
+      <div class="selectors-form__item">
+        <h2 class="visually-hidden" id="currency-heading">
+          {{ 'general.currency.dropdown_label' | t }}
+        </h2>
+        <noscript>
+          {%- form 'localization',
+            id: 'HeaderCountryFormNoScript',
+            class: 'selectors-form',
+            data-disclosure-form: ''
+          -%}
+            <div class="selectors-form__select">
+              <select class="localization-selector link button" name="country_code" aria-labelledby="currency-heading">
+                <option value="" disabled>{{ 'general.currency.dropdown_label' | t }}</option>
+                {%- for country in localization.available_countries -%}
+                  <option
+                    value="{{ country.iso_code }}"
+                    {%- if country.iso_code == localization.country.iso_code %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ country.name }} ({{ country.currency.iso_code }}
+                    {{ country.currency.symbol }})
+                  </option>
+                {%- endfor -%}
+              </select>
+              {% render 'snip-icons',
+                wrapper: '.section-top-bar__lang',
+                type: 'apollo',
+                icon: 'down-carrot',
+                size: '8px',
+                fill: 'var(--announcement-bar-text-color)',
+                hover: 'var(--announcement-bar-background-color)'
+              %}
+            </div>
+            <!-- /.selector-form__select -->
+            <button class="localization-form__noscript-btn button mb0 btn-as-link inline-block v-center">
+              {% render 'snip-icons',
+                wrapper: '.section-top-bar__lang',
+                type: 'apollo',
+                icon: 'checkmark',
+                size: '12px',
+                fill: 'var(--announcement-bar-text-color)',
+                hover: 'var(--announcement-bar-background-color)'
+              %}
+            </button>
+          {%- endform -%}
+        </noscript>
+        {%- form 'localization', id: 'HeaderCountryForm', class: 'selectors-form', data-disclosure-form: '' -%}
+          <div class="disclosure" data-disclosure-currency>
+            <button
+              type="button"
+              class="disclosure__toggle"
+              aria-expanded="false"
+              aria-controls="currency-list"
+              aria-describedby="currency-heading"
+              data-disclosure-toggle
+            >
+              {% if section.settings.show_flag %}
+                <span class="country--flag">
+                  {{
+                    localization.country
+                    | image_url: width: 32
+                    | image_tag:
+                      class: 'disclosure__toggle__flag',
+                      loading: 'eager',
+                      fetchpriority: 'high',
+                      alt: country.name
+                  }}
+                </span>
+              {% endif %}
+              {{ localization.country.name }} ({{ localization.country.currency.iso_code }}
+              {{ localization.country.currency.symbol }})
+            </button>
+            <ul id="currency-list" class="disclosure-list" data-disclosure-list>
+              {%- for country in localization.available_countries -%}
+                <li class="disclosure-list__item {% if currency.iso_code == localization.country.iso_code %}disclosure-list__item--current{% endif %}">
+                  <a
+                    class="disclosure-list__option"
+                    href="#"
+                    title="{{ country.iso_code | escape }}"
+                    {% if country.iso_code == localization.country.iso_code %}
+                      aria-current="true"
+                    {% endif %}
+                    data-value="{{ country.iso_code }}"
+                    data-disclosure-option
+                  >
+                    {{ country.name }}
+                    <span class="localization-form__currency"
+                      >({{ country.currency.iso_code }}
+                      {{ country.currency.symbol }})</span
+                    >
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+            <input
+              type="hidden"
+              name="country_code"
+              id="HeaderCurrencySelector"
+              value="{{ localization.country.iso_code }}"
+              data-disclosure-input
+            >
+          </div>
+        {%- endform -%}
+      </div>
+    </li>
+  {%- endif -%}
+  {% comment %}{% if show_cart_links %}
+    {%- liquid
+      if settings.cart_icon == 'bag'
+        assign cart_icon = 'bag'
+      else
+        assign cart_icon = 'cart'
+      endif
+    -%}
+    
+    <li class="mini-cart-trigger header__shopping-cart-link cart__link-cart mldmob">
+      {%- if settings.cart_type == 'drawer' -%}
+        <div class="slideout__trigger--open">
+          <button
+            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-slideout-open"
+            data-wau-slideout-target="ajax-cart"
+            data-slideout-direction="right"
+            aria-label="Open cart"
+            tabindex="0"
+            type="button"
+            name="button"
+          >
+            <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+            {% render 'snip-icons',
+              wrapper: '.slideout__trigger-mobile-menu',
+              type: 'vantage-theme',
+              icon: cart_icon,
+              classes: 'slideout__trigger-mobile-menu--icon',
+              size: '16px',
+              fill: 'var(--header-text-color)',
+              hover: 'var(--header-text-color)'
+            %}
+            <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+          </button>
+        </div>
+      {% elsif settings.cart_type == 'modal_cart' %}
+        {% assign cart_classes = 'js-modal-open' %}
+        {% assign cart_settings = 'data-wau-modal-target="ajax-cart"' %}
+        <div class="slideout__trigger--open">
+          <button
+            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-modal-open"
+            data-wau-modal-target="ajax-cart"
+            aria-label="Open cart"
+            tabindex="0"
+            type="button"
+            name="button"
+          >
+            <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+            {% render 'snip-icons',
+              wrapper: '.slideout__trigger-mobile-menu',
+              type: 'vantage-theme',
+              icon: cart_icon,
+              classes: 'slideout__trigger-mobile-menu--icon',
+              size: '16px',
+              fill: 'var(--header-text-color)',
+              hover: 'var(--header-text-color)'
+            %}
+            <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+          </button>
+        </div>
+      {% elsif settings.cart_type == 'mini_cart' %}
+        <div class="slideout__trigger--open">
+          <button
+            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-modal-open"
+            data-wau-modal-target="mini-ajax-cart"
+            aria-label="Open cart"
+            tabindex="0"
+            type="button"
+            name="button"
+          >
+            <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+            {% render 'snip-icons',
+              wrapper: '.slideout__trigger-mobile-menu',
+              type: 'vantage-theme',
+              icon: cart_icon,
+              classes: 'slideout__trigger-mobile-menu--icon',
+              size: '16px',
+              fill: 'var(--header-text-color)',
+              hover: 'var(--header-text-color)'
+            %}
+            <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+          </button>
+        </div>
+      {%- else -%}
+        <a class="cart-icon" href="{{ routes.cart_url }}">
+          <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+          {% render 'snip-icons',
+            wrapper: '.cart-icon',
+            type: 'vantage-theme',
+            icon: cart_icon,
+            classes: 'cart-icon--icon',
+            size: '16px',
+            fill: 'var(--header-text-color)',
+            hover: 'var(--header-text-color)'
+          %}
+          <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+        </a>
+      {%- endif -%}
+    </li>
+  {% endif %}{% endcomment %}
+  {% if show_cart_links %}
+    {%- liquid
+      if settings.cart_icon == 'bag'
+        assign cart_icon = 'bag'
+      else
+        assign cart_icon = 'cart'
+      endif
+    -%}
+    
+    <li class="mini-cart-trigger header__shopping-cart-link cart__link-cart mldmob">
+      {%- if settings.cart_type == 'drawer' -%}
+        <div class="slideout__trigger--open">
+          <button
+            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-slideout-open"
+            data-wau-slideout-target="ajax-cart"
+            data-slideout-direction="right"
+            aria-label="Open cart"
+            tabindex="0"
+            type="button"
+            name="button"
+          >
+            <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+            {% render 'snip-icons',
+              wrapper: '.slideout__trigger-mobile-menu',
+              type: 'vantage-theme',
+              icon: cart_icon,
+              classes: 'slideout__trigger-mobile-menu--icon',
+              size: '16px',
+              fill: 'var(--header-text-color)',
+              hover: 'var(--header-text-color)'
+            %}
+            <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+          </button>
+        </div>
+      {% elsif settings.cart_type == 'modal_cart' %}
+        {% assign cart_classes = 'js-modal-open' %}
+        {% assign cart_settings = 'data-wau-modal-target="ajax-cart"' %}
+        <div class="slideout__trigger--open">
+          <button
+            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-modal-open"
+            data-wau-modal-target="ajax-cart"
+            aria-label="Open cart"
+            tabindex="0"
+            type="button"
+            name="button"
+          >
+            <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+            {% render 'snip-icons',
+              wrapper: '.slideout__trigger-mobile-menu',
+              type: 'vantage-theme',
+              icon: cart_icon,
+              classes: 'slideout__trigger-mobile-menu--icon',
+              size: '16px',
+              fill: 'var(--header-text-color)',
+              hover: 'var(--header-text-color)'
+            %}
+            <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+          </button>
+        </div>
+      {% elsif settings.cart_type == 'mini_cart' %}
+        <div class="slideout__trigger--open">
+          <button
+            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-modal-open"
+            data-wau-modal-target="mini-ajax-cart"
+            aria-label="Open cart"
+            tabindex="0"
+            type="button"
+            name="button"
+          >
+            <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+            {% render 'snip-icons',
+              wrapper: '.slideout__trigger-mobile-menu',
+              type: 'vantage-theme',
+              icon: cart_icon,
+              classes: 'slideout__trigger-mobile-menu--icon',
+              size: '16px',
+              fill: 'var(--header-text-color)',
+              hover: 'var(--header-text-color)'
+            %}
+            <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+          </button>
+        </div>
+      {%- else -%}
+        <a class="cart-icon" href="{{ routes.cart_url }}">
+          <!-- commented by mlveda <span class="device-hide">{{ 'cart.general.title' | t }}</span> -->
+        <!-- comment by mlveda -->
+        {% comment %}
+          {% render 'snip-icons',
+            wrapper: '.cart-icon',
+            type: 'vantage-theme',
+            icon: cart_icon,
+            classes: 'cart-icon--icon',
+            size: '16px',
+            fill: 'var(--header-text-color)',
+            hover: 'var(--header-text-color)'
+          %}
+          {% endcomment %}
+          <!-- comment by mlveda -->
+          <!-- <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-right: 3px; font-size: 16px;" ></i> -->
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" id="customCart" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg> -->
+          <i class="mlshoppingcart" aria-hidden="true" style="margin-right: 3px; font-size: 16px;" ></i>
+          <span class="js-cart-count">{% render 'w3-product-options', step: 'cart_count2' %}</span>
+        </a>
+      {%- endif -%}
+    </li>
+    {% render 'orbe', drawer: false %}
+  {% endif %}
+</ul>

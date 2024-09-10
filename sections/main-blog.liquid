@@ -1,0 +1,219 @@
+<section
+ class="blog-template main__section"
+ data-section-id="{{ section.id }}"
+ data-section-loaded="false"
+ data-section-type="blog-template">
+  {% paginate blog.articles by section.settings.posts_per_page %}
+
+  <div id="page">
+
+    <div class="row grid__wrapper">
+      {% if section.settings.text != blank %}
+        <div class="span-12 auto blog-description">
+          <div class="rte">
+            {{ section.settings.text }}
+          </div>
+        </div>
+      {% endif %}
+
+      {% unless request.path contains 'tagged' %}
+      <div id="recent-posts" class="span-12 auto grid__wrapper grid__wrapper-nest">
+        {% for article in blog.articles limit: 2 %}
+          <div class="recent-post span-6 sm-span-12 auto{% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}">
+            {% unless article.image == blank %}
+            {% liquid
+              if section.index == 1
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+             %}
+            <a class="recent-image" href="{{ article.url }}">
+              {%- render 'basic-responsive-image',
+                type: article.image,
+                width: 800,
+                loading: loading,
+                fetchpriority: fetch_priority
+              -%}
+            {% else %}
+              {% capture placeholderCycle %}{% cycle 'collection-1', 'collection-2', 'collection-3' %}{% endcapture %}
+              <div class="onboard">
+                {{ placeholderCycle | placeholder_svg_tag }}
+              </div>
+            {% endunless %}
+            </a>
+            <div class="recent-caption">
+              <h4>{{ article.title | truncate: 60 }}</h4>
+              <a href="{{ article.url }}">
+                <span class="vib-center">{{ 'blogs.article.read_more' | t }}</span>
+                {% render 'snip-icons',
+                   wrapper: '.recent-caption',
+                   type: 'vantage-theme',
+                   icon: 'arrow-right',
+                   classes: 'right-arrow recent-caption--icon',
+                   size: '7px',
+                   fill: 'var(--text-color)',
+                   hover: 'var(--text-color)' %}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {% endunless %}
+
+      {% assign show_sidebar = false %}
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'sidebar' %}
+              {% assign show_sidebar = true %}
+              <div id="blog-sidebar" class="span-2 sm-span-12 auto">
+               <ul class="filter-list">
+                 <li class="{% unless request.path contains 'tagged' %}selected{% endunless %}">
+                   <h4><a href="{{ blog.url }}">{{ 'blogs.article.all_posts' | t }}</a></h4>
+                 </li>
+                 {% for tag in blog.all_tags %}
+                   {% assign tag_handle = tag | handle %}
+                   <li class="{% if request.path contains tag_handle %}selected{% endif %}">
+                     <h4><a href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a></h4>
+                   </li>
+                 {% endfor %}
+                </ul>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      {% endif %}
+      <div id="blog-articles" class="{% if show_sidebar %}span-10{% else %}span-12{% endif %} sm-span-12 auto">
+        <ul class="blog__post-loop grid__wrapper grid__wrapper-nest">
+          {% if request.path contains 'tagged' %}
+            {% for article in blog.articles %}
+              {% liquid
+                assign loading = 'lazy'
+                assign fetch_priority = 'auto'
+                if section.index == 1 and forloop.first
+                  assign loading = 'eager'
+                  assign fetch_priority = 'high'
+                endif
+               %}
+              {% render 'article-loop',
+                article: article,
+                index: forloop.index,
+                loading: loading,
+                fetchpriority: fetch_priority %}
+            {% endfor %}
+          {% else %}
+            {% for article in blog.articles offset: 2 %}
+              {% render 'article-loop',
+                article: article,
+                index: forloop.index %}
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <div class="clear"></div>
+  {% render 'pagination', paginate: paginate %}
+  {% endpaginate %}
+
+  <style>
+    h3.post-title, p.posted, .article-headline .rte, .article-headline {
+      text-align: {{ section.settings.text_align }};
+    }
+   @media (min-width: 980px) {
+     {% if section.settings.image_align == 'alternated' %}
+       .article-index:nth-child(odd) div.article-image {
+         order: 2;
+       }
+     {% endif %}
+     {% if section.settings.image_align == 'right' %}
+       .article-index div.article-image {
+         order: 2;
+       }
+     {% endif %}
+   }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "max_blocks": 1,
+  "blocks":
+  [
+    {
+      "type": "sidebar",
+      "name": "Sidebar tags",
+      "limit": 1,
+      "settings": [
+      ]
+    }
+  ],
+  "settings":
+  [
+    {
+      "id": "text",
+      "type": "richtext",
+      "label": "Text",
+      "default": "<p>Add some descriptive text to your Blog page.</p>"
+    },
+    {
+      "type": "range",
+      "id": "posts_per_page",
+      "min": 2,
+      "max": 48,
+      "step": 1,
+      "label": "Posts per page",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "image_align",
+      "label": "Image alignment",
+      "default": "left",
+      "options":
+      [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "alternated",
+          "label": "Alternated"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_align",
+      "label": "Text alignment",
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show published date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_above",
+      "label": "Show author/date above title",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

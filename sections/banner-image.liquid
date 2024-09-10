@@ -1,0 +1,66 @@
+{%- liquid
+
+  assign section_banner = false
+
+  if section.settings.image != blank
+    assign section_banner = true
+  endif
+
+  assign no_image = false
+
+  if section_banner == false
+    assign no_image = true
+  endif
+
+  assign sm_render = '100vw'
+  assign md_render = '100vw'
+  assign lg_render = '100vw'
+
+-%}
+
+<section class="collection__section--banner collection__banner-{{ section.id }}{% if no_image == false %} has--banner__image{% endif %}"
+  data-aos="fade"
+  data-section-loaded="true"
+  data-section-type="banner-section"
+  data-section-id="{{ section.id }}" >
+    {%- if section.settings.image != blank -%}
+    <div class="collection__banner-image lazyload lazyload-fade">
+      {% render 'basic-responsive-image',
+        type:  section.settings.image,
+        width: 2000,
+        loading: 'eager',
+        sm_render: sm_render,
+        md_render: md_render,
+        lg_render: lg_render
+      %}
+    </div>
+    {%- endif -%}
+
+    <div class="main--collection__title">
+      <h1>
+      {% if template contains 'list-collections' %}
+        {{ 'collections.general.all_collections' | t }}
+      {% elsif template contains 'blog' %}
+        {{ blog.title }}
+      {% elsif template contains 'page' %}
+        {{ page.title }}
+      {% endif %}
+      </h1>
+    </div>
+  </section>
+
+
+
+{% schema %}
+{
+  "name": "Banner image",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1920px x 600px recommended"
+    }
+  ]
+}
+{% endschema %}

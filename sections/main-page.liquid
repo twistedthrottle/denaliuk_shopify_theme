@@ -1,0 +1,21 @@
+<div class="row grid__wrapper">
+  <div id="page" class="{% if section.settings.reduced-width %}span-8 push-2{% else %}span-12{% endif %} md-span-12 sm-span-12 auto main__section main__page-section">
+    <div class="rte">
+      {{ page.content }}
+    </div>
+  </div>
+</div><!-- /.row -->
+
+{% schema %}
+{
+  "name": "Page template",
+  "settings":
+  [
+    {
+      "type": "checkbox",
+      "id": "reduced-width",
+      "label": "Reduce page width"
+    }
+  ]
+}
+{% endschema %}

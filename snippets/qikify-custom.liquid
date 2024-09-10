@@ -1,0 +1,19 @@
+{% if customer.tags contains "Dealer" %}
+  <script>
+    document.addEventListener('smartmenu-loaded', () => {
+      document.body.classList.add('customer-dealer');
+    })
+  </script>
+
+  <style>
+    body.customer-dealer .menu_dealer {
+      display: inline-block !important;
+    }
+  </style>
+{% endif %}
+
+<style>
+  body .menu_dealer {
+    display: none !important;
+  }
+</style>

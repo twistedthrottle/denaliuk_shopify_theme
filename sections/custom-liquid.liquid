@@ -1,0 +1,91 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'mt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'mt0 pb0'
+  endif
+
+-%}
+
+<!-- animation removed by mlveda -->
+{% capture section_classes %}
+  custom-liquid
+  custom-liquid--{{ section.id }}
+  global__section-{{ section.id }}
+  {% comment %}
+    {% if settings.animation != 'none' %}
+    animate {{ settings.animation }}
+    {% endif %}
+  {% endcomment %}
+{% endcapture %}
+
+<div class="global__section {{- section_padding -}}">
+  <section
+    id="custom-liquid--{{ section.id }}"
+    class="{{ section_classes | strip | strip_newlines }}"
+    data-section-loaded="false"
+    data-section-id="{{ section.id }}"
+    data-section-type="custom-liquid">
+
+    <div class="{% unless section.settings.full_width %}row{% endunless %}">
+
+      <div class="rte">
+        {{ section.settings.liquid }}
+      </div>
+
+    </div><!-- /.row -->
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Custom liquid",
+  "settings":
+  [
+    {
+      "type": "liquid",
+      "id": "liquid",
+      "label": "Custom liquid"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Custom liquid"
+    }
+  ]
+}
+{% endschema %}

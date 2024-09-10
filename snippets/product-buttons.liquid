@@ -1,0 +1,171 @@
+{% comment %}
+  snippets/product-buttons.liquid
+
+  useage:
+
+  {%
+    render 'product-buttons',
+    product: product,
+    current_variant: current_variant,
+    call_to_action: call_to_action,
+    id: product_form_id,
+    product_form_config: product_form_config,
+    show_gift_card_recipient: block.settings.show_gift_card_recipient
+  %}
+{% endcomment %}
+
+{% comment %}MLVeda preorder code starts{% endcomment %}
+<script>
+  window.mlvedaMetafields = window.mlvedaMetafields || {};
+  mlvedaMetafields['{{ product.id }}'] = mlvedaMetafields['{{ product.id }}'] || {};
+  {% if product.metafields.custom.mlveda_preorder_enabled_product %}
+  mlvedaMetafields['{{ product.id }}']['productPreorderEnabled'] = {{ product.metafields.custom.mlveda_preorder_enabled_product }};
+  {% else %}
+    mlvedaMetafields['{{ product.id }}']['productPreorderEnabled'] = false;
+  {% endif %}
+  mlvedaMetafields['{{ product.id }}']['productPreorderButtonText'] = '{{ product.metafields.custom.mlveda_preorder_button_text_product }}';
+  mlvedaMetafields['{{ product.id }}']['productPreorderButtonMessageText'] = '{{ product.metafields.custom.mlveda_preorder_message_below_button_product }}';
+  mlvedaMetafields['{{ product.id }}']['productPreorderCartItemMessage'] = '{{ product.metafields.custom.mlveda_preorder_cart_item_label_product }}';
+  mlvedaMetafields['{{ product.id }}']['inventoryNotificationInStockProduct'] = '{{ product.metafields.custom.product_in_stock_message }}';
+  mlvedaMetafields['{{ product.id }}']['inventoryNotificationLowStockProduct'] = '{{ product.metafields.custom.product_low_stock_message }}';
+  {% for variant in product.variants %}
+  mlvedaMetafields['{{ variant.id }}'] = mlvedaMetafields['{{ variant.id }}'] || {};
+  mlvedaMetafields['{{ variant.id }}']['productId'] = '{{ product.id }}';
+  {% if variant.metafields.custom.mlveda_preorder_enabled_variant %}
+  mlvedaMetafields['{{ variant.id }}']['variantPreorderEnabled'] = {{ variant.metafields.custom.mlveda_preorder_enabled_variant }};
+  {% else %}
+    mlvedaMetafields['{{ variant.id }}']['variantPreorderEnabled'] = false;
+  {% endif %}
+  mlvedaMetafields['{{ variant.id }}']['variantPreorderButtonText'] = '{{ variant.metafields.custom.mlveda_preorder_button_text_variant }}';
+  mlvedaMetafields['{{ variant.id }}']['variantPreorderButtonMessageText'] = '{{ variant.metafields.custom.mlveda_preorder_message_below_button_variant }}';
+  mlvedaMetafields['{{ variant.id }}']['variantPreorderCartItemMessage'] = '{{ variant.metafields.custom.mlveda_preorder_cart_item_label_variant }}';
+  mlvedaMetafields['{{ variant.id }}']['inventoryQuantity'] = {{ variant.inventory_quantity }};
+  mlvedaMetafields['{{ variant.id }}']['inventoryPolicy'] = '{{ variant.inventory_policy }}';
+  mlvedaMetafields['{{ variant.id }}']['inventoryNotificationInStockVariant'] = '{{ variant.metafields.custom.variant_in_stock_message }}';
+  mlvedaMetafields['{{ variant.id }}']['inventoryNotificationLowStockVariant'] = '{{ variant.metafields.custom.variant_low_stock_message }}';
+  {% endfor %}
+</script>
+{% assign mlveda_preorder_message_below_button = '' %}
+{% if current_variant.inventory_quantity <= 0 and current_variant.inventory_policy == 'continue' %}
+  {% if current_variant.metafields.custom.mlveda_preorder_enabled_variant %}
+    {% if current_variant.metafields.custom.mlveda_preorder_button_text_variant %}
+      {% assign call_to_action = current_variant.metafields.custom.mlveda_preorder_button_text_variant %}
+    {% endif %}
+    {% if current_variant.metafields.custom.mlveda_preorder_message_below_button_variant %}
+      {% assign mlveda_preorder_message_below_button = current_variant.metafields.custom.mlveda_preorder_message_below_button_variant %}
+    {% endif %}
+  {% elsif product.metafields.custom.mlveda_preorder_enabled_product %}
+    {% if product.metafields.custom.mlveda_preorder_button_text_product %}
+      {% assign call_to_action = product.metafields.custom.mlveda_preorder_button_text_product %}
+    {% endif %}
+    {% if product.metafields.custom.mlveda_preorder_message_below_button_product %}
+      {% assign mlveda_preorder_message_below_button = product.metafields.custom.mlveda_preorder_message_below_button_product %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% assign cart_line_item_label = '' %}
+{% if current_variant.inventory_quantity <= 0 and current_variant.inventory_policy == 'continue' %}
+  {% if current_variant.metafields.custom.mlveda_preorder_enabled_variant %}
+    {% if current_variant.metafields.custom.mlveda_preorder_cart_item_label_variant %}
+      {% assign cart_line_item_label = current_variant.metafields.custom.mlveda_preorder_cart_item_label_variant %}
+    {% endif %}
+  {% elsif product.metafields.custom.mlveda_preorder_enabled_product %}
+    {% if product.metafields.custom.mlveda_preorder_cart_item_label_product %}
+      {% assign cart_line_item_label = product.metafields.custom.mlveda_preorder_cart_item_label_product %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% comment %}MLVeda preorder code ends{% endcomment %}
+
+{% form 'product',
+  product,
+  id: product_form_id,
+  class: 'product_form js-prod-form-submit',
+  data-product-form: product_form_config,
+  data-product-id: product.id
+%}
+  {% comment %}below if with input element is added by MLVeda for preorder.{% endcomment %}
+  {% if cart_line_item_label != '' %}
+    <label class="visually-hidden" for="mlveda-cart-item-label">Preorder cart item label</label>
+    <input
+      class="mlveda-preorder-cart-item-label"
+      id="mlveda-cart-item-label"
+      name="properties[{{ cart_line_item_label }}]"
+      value="variant"
+      style="display: none;"
+    >
+  {% endif %}
+
+  <div style="width:100%;">{% render 'w3-product-options', step: 'widget' %}</div>
+  <div class="clear"></div>
+
+  <div class="product-add clearfix">
+    {% if show_gift_card_recipient and product.gift_card? %}
+      {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+    {%- endif -%}
+
+    <!-- hidden fields -->
+    <input class="formQty" type="hidden" name="quantity" value="1">
+    <input class="formVariantId" name="" type="hidden" value="{{ product.selected_or_first_available_variant.id }}">
+
+    <!-- success message -->
+    <div
+      class="note note-success mt3 js-added-msg"
+      style="display: none"
+    >
+      <b>{{ 'products.product.added' | t }}</b>&nbsp;&nbsp;&nbsp;
+      <a
+        class="underline"
+        href="{{ routes.cart_url }}"
+      >
+        {{ 'products.product.view_cart' | t }}
+      </a>
+      {{ 'products.product.or' | t }}
+      <a
+        class="underline"
+        href="{{ routes.all_products_collection_url }}"
+      >
+        {{ 'products.product.continue' | t }} </a
+      >.
+    </div>
+    <!-- /.note.note-success -->
+
+    <!-- error message -->
+    <div
+      class="note note-error js-error-msg"
+      style="display: none"
+    >
+      <b>{{ 'cart.general.cart_error' | t }}</b>&nbsp;&nbsp;&nbsp;{{ 'cart.general.update_qty_error' | t }}
+    </div>
+    <!-- /.note.note-error -->
+
+    <!-- submit button -->
+    <input
+      type="submit"
+      name="button"
+      class="add clearfix mb10 AddtoCart js-ajax-submit-w3 {% if settings.show_payment_button and product.selling_plan_groups.size == 0 %} secondary-button{% endif %}"
+      value="{{ call_to_action }}"
+      {% unless current_variant.available %}
+        disabled
+      {% endunless %}
+    >
+
+    <!-- payment -->
+    {% if settings.show_payment_button %}
+      {{ form | payment_button }}
+    {% endif %}
+
+    {% comment %}below span element is added by MLVeda for preorder{% endcomment %}
+    <span
+      class="mlveda-preorder-text-below-atc"
+      {% if mlveda_preorder_message_below_button != '' %}
+        style="display: block;"
+      {% else %}
+        style="display: none;"
+      {% endif %}
+    >
+      {{- mlveda_preorder_message_below_button -}}
+    </span>
+  </div>
+  <!-- /.product-add.clearfix -->
+{% endform %}

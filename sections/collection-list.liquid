@@ -1,0 +1,227 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'pt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'pt0 pb0'
+  endif
+
+  assign mobile_single = section.settings.mobile_single
+
+  case section.settings.collections_per_row
+    when 6
+      assign col_per_row = 'span-2'
+    when 5
+      assign col_per_row = 'span-fifth'
+    when 4
+      assign col_per_row = 'span-3'
+    when 3
+      assign col_per_row = 'span-4'
+    when 2
+      assign col_per_row = 'span-6'
+  endcase
+
+-%}
+
+<section
+  class="global__section padding-top {{ section_padding }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %} global__collection-list-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-loaded="false"
+  data-section-type="collection-list-section">
+
+  <div class="row grid__wrapper">
+
+    {% if section.settings.title != blank %}
+      <h2 class="section-title span-12">
+        {{ section.settings.title | escape }}
+      </h2>
+    {% endif %}
+  </div>
+
+    {% if section.blocks.size == 0 %}
+      {% render 'no-blocks' %}
+    {% else %}
+
+      <div class="collection-loop grid__wrapper row">
+
+        {% for block in section.blocks %}
+          {%- liquid
+            assign collection = collections[block.settings.collection]
+            assign loop = forloop.index
+          -%}
+          {% if collection != blank %}
+            {% liquid
+              assign loading = 'lazy'
+              assign fetch_priority = 'auto'
+              if section.index == 1 and forloop.index <= section.settings.collections_per_row
+                assign loading = 'eager'
+                assign fetch_priority = 'high'
+              endif
+             %}
+            {% render 'collection-grid-item',
+              collection: collection,
+              col_per_row: col_per_row, index: forloop.index, mobile_single: mobile_single, loading: loading, fetchpriority: fetch_priority %}
+          {% else %}
+            {% render 'onboard-collection',
+              col_per_row: col_per_row, index: forloop.index, mobile_single: mobile_single %}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    {% endif %}
+  <style>
+    {% if section.settings.collections_per_row == 5 %}
+    @media screen and (min-width: 741px) {
+        .global__collection-list-{{ section.id }} .collection-loop.grid__wrapper.row {
+          grid-template-columns: repeat(5, 1fr);
+        }
+    }
+    {% endif %}
+    section.global__collection-list-{{ section.id }} {
+      background: var(--{{ section.settings.color_scheme }}-background);
+    }
+    {% unless section.settings.color_scheme == 'none' %}
+      section.global__collection-list-{{ section.id }} .collection-index.collection__style--overlay_button .collection__title a {
+        background: var(--{{ section.settings.color_scheme }}-background);
+      }
+      section.global__collection-list-{{ section.id }} .section-title:after {
+        border-color: var(--{{ section.settings.color_scheme }}-color) !important;
+      }
+      section.global__collection-list-{{ section.id }} h2,
+      section.global__collection-list-{{ section.id }} h2 a,
+      section.global__collection-list-{{ section.id }} .collection-index:not(.collection__style--overlay) span.product-title,
+      section.global__collection-list-{{ section.id }} .collection-index:not(.collection__style--overlay) .product-info a {
+        color: var(--{{ section.settings.color_scheme }}-color) !important;
+      }
+    {% endunless %}
+    section.global__collection-list-{{ section.id }} .collection-index .collection-image a {
+      display: inline-block;
+      width: 100%;
+      outline-offset: unset !important;
+   }
+  </style>
+</section>
+
+
+{% schema %}
+{
+  "name": "Collection list",
+  "max_blocks": 30,
+  "settings":
+  [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Collection list"
+    },
+    {
+      "type": "range",
+      "id": "collections_per_row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Collections per row",
+      "default": 3
+    },
+    {
+      "type":"checkbox",
+      "id":"mobile_single",
+      "label":"Show 1 collection per row on mobile",
+      "default":true
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "cs1",
+          "label": "1"
+        },
+        {
+          "value": "cs2",
+          "label": "2"
+        },
+        {
+          "value": "cs3",
+          "label": "3"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "blocks":
+  [
+    {
+      "type": "featured_collection",
+      "name": "Collection",
+      "settings":
+      [
+        {
+          "label": "Collection",
+          "id": "collection",
+          "type": "collection"
+        }
+      ]
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Collection list",
+      "settings":
+      {},
+      "blocks":
+      [
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,38 @@
+{% comment %}
+    Renders a size chart using WAU modals.
+    Accompanies product variants snippet and swatch snippet.
+
+    Accepts:
+    - label: {String} Button label
+    - page: {Object} Page object from input setting
+    - section_id: {String} Unique section ID so that popup are different
+
+    Usage:
+    {% render 'size-chart', label: size_chart_label, page: size_chart_page, section_id: section_id %}
+{% endcomment %}
+<div class="size-chart">
+
+  {% render 'snip-icons',
+   wrapper: '.size-chart_icon',
+   type: 'vantage-theme',
+   icon: 'ruler',
+   classes: 'vib-center',
+   size: '20px',
+   fill: 'var(--text-color)',
+   hover: 'var(--text-color)' %}
+
+  <button
+    class="button-as-link js-modal-open"
+    type="button"
+    name="button"
+    aria-label="Open popup"
+    data-wau-modal-target="product-size-chart--{{ section_id }}">
+    {{ label }}
+  </button>
+
+  <div data-wau-modal-content="product-size-chart--{{ section_id }}" style="display: none;">
+    <div class="rte">
+      {{ page.content }}
+    </div><!-- /.rte -->
+  </div><!-- /.modal -->
+</div><!-- /.size-chart -->

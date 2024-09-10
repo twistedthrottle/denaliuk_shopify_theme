@@ -1,0 +1,16 @@
+{% comment %}Used for sections only when featured collections is chosen but no content has been selected{% endcomment %}
+{% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+{%- assign placeholder = 'collection-' | append: current -%}
+<div class="collection-index {{ col_per_row }}{% if mobile_single %} sm-span-12{% else %} sm-span-6{% endif %} auto {% if settings.animation != 'none' %} animate {{ settings.animation }} delay--{{ index }}{% endif %} collection__style--{{ settings.collection_style }}" data-alpha="{{ collection.title }}">
+  <div class="collection-image collection__image-ratio--{{ settings.collection_image_ratio }} onboard">
+    <div class="box-ratio" style="padding-bottom: 100%;">
+      {{ placeholder | placeholder_svg_tag }}
+    </div>
+  </div>
+
+  <div class="product-info collection__title">
+    <a href="#"{% if settings.collection_style == 'overlay_button' %} class="button"{% endif %}>
+      <span class="product-title">{{ 'products.product.collection' | t }}</span>
+    </a>
+  </div>
+</div>

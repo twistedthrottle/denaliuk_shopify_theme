@@ -1,0 +1,8 @@
+.w3-product-options select{
+	float: none;
+	padding-right:50px;
+}
+
+.options-additional-item{
+	white-space: nowrap;
+}

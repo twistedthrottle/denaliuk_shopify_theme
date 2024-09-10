@@ -1,0 +1,244 @@
+{%- liquid
+
+  assign section_padding = ''
+  if section.settings.section_padding == 'top'
+    assign section_padding = 'pb0'
+  elsif section.settings.section_padding == 'bottom'
+    assign section_padding = 'pt0'
+  elsif section.settings.section_padding == 'none'
+    assign section_padding = 'pt0 pb0'
+  endif
+
+  assign collection = collections[section.settings.collection]
+
+  assign limit = section.settings.limit
+  assign grid = section.settings.grid
+  assign enough_to_wrap = true
+
+  assign is_carousel = false
+  if section.settings.carousel
+   assign is_carousel = true
+  endif
+  if limit <= grid
+    assign is_carousel = false
+    assign enough_to_wrap = false
+  endif
+
+  case section.settings.grid
+    when 2
+      assign prod_grid = 50
+    when 3
+      assign prod_grid = 33.333
+    when 4
+      assign prod_grid = 25
+    when 5
+      assign prod_grid = 20
+  endcase
+
+-%}
+<section class="global__section padding-top {{ section_padding }} featured__collection-{{ section.id }}{% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}"
+data-section-id="{{ section.id }}"
+data-section-loaded="false"
+data-section-type="carousel-section">
+
+  <div class="row grid__wrapper">
+    {% if section.settings.heading != blank %}
+      <h2 class="section-title span-12 auto">
+        <a href="{{ collection.url }}">
+          {{ section.settings.heading | escape }}
+        </a>
+      </h2>
+      <div class="clear"></div>
+    {% endif %}
+  </div>
+
+
+    {% capture slideshow_config %}{
+    "wrapAround": {{ enough_to_wrap }},
+    "cellAlign": "left",
+    "dragThreshold":{{ enough_to_wrap }},
+    "pauseAutoPlayOnHover":false,
+    "freeScroll": true,
+    "contain": false,
+    "prevNextButtons": {{ enough_to_wrap }},
+    "pageDots": false
+    }{% endcapture %}
+
+  <div class="row">
+    <div class="product-loop{% if is_carousel %} flickity__section js-carousel section--carousel{% endif %}"{% if is_carousel %} data-flickity-config='{{ slideshow_config }}'{% endif %}>
+      {% for product in collection.products limit: limit %}
+        <div class="featured__collection-product product-index{% if settings.animation != 'none' and is_carousel == false %} animate {{ settings.animation }} delay--{{ forloop.index }}{% endif %}" id="prod-{{ product.id }}" data-alpha="{{ product.title }}" data-price="{{ product.price }}" data-product-id="{{ product.id }}">
+          {% liquid
+            assign loading = 'lazy'
+            assign fetch_priority = 'auto'
+            if section.index == 1 and forloop.index <= section.settings.grid
+              assign loading = 'eager'
+              assign fetch_priority = 'high'
+            endif
+           %}
+          {% render 'product-listing', product: product, grid: grid, loading: loading, fetchpriority: fetch_priority %}
+        </div>
+      {% endfor %}
+      {% if section.settings.collection == blank %}
+        {% render 'onboard-product', prod_limit: limit, grid: grid, is_carousel: is_carousel %}
+      {% endif %}
+    </div>
+  </div>
+
+  <style>
+
+    section.featured__collection-{{ section.id }} {
+      background: var(--{{ section.settings.color_scheme }}-background);
+    }
+    {% unless section.settings.color_scheme == 'none' %}
+      section.featured__collection-{{ section.id }} .section-title:after {
+        border-color: var(--{{ section.settings.color_scheme }}-color) !important;
+      }
+      section.featured__collection-{{ section.id }} h2,
+      section.featured__collection-{{ section.id }} h2 a,
+      section.featured__collection-{{ section.id }} .product-index span.product-title,
+      section.featured__collection-{{ section.id }} .product-index .product-info a,
+      section.featured__collection-{{ section.id }} .product-index .product-info p,
+      section.featured__collection-{{ section.id }} .product-index .product-info .price,
+      section.featured__collection-{{ section.id }} .product-index .product-info .price-item,
+      section.featured__collection-{{ section.id }} .product-index .product-info .price__badge,
+      section.featured__collection-{{ section.id }} .product-index .product-info .price__badge--sold-out {
+        color: var(--{{ section.settings.color_scheme }}-color) !important;
+      }
+    {% endunless %}
+
+    .featured__collection-{{ section.id }} .product-loop {
+      width: 100%;
+      margin: 0 auto;
+    }
+    {% if is_carousel %}
+      .featured__collection-{{ section.id }} .section--carousel .featured__collection-product {
+        width: {{ prod_grid }}%;
+        box-sizing: border-box !important;
+        padding: 0 15px;
+      }
+      @media screen and (max-width: 740px) {
+        .featured__collection-{{ section.id }} .section--carousel .featured__collection-product {
+          width: 50%;
+        }
+      }
+    {% else %}
+      .featured__collection-{{ section.id }} .product-loop {
+        display: grid;
+        grid-template-columns: repeat({{ grid }}, {{ prod_grid }}%);
+      }
+      .featured__collection-{{ section.id }} .featured__collection-product {
+        box-sizing: border-box !important;
+        padding: 0 15px;
+      }
+      @media screen and (max-width: 740px) {
+        .featured__collection-{{ section.id }} .product-loop {
+          grid-template-columns: repeat(2, 50%);
+        }
+      }
+    {% endif %}
+  </style>
+
+</section>
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings":
+  [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Collection"
+    },
+    {
+      "id": "carousel",
+      "type": "checkbox",
+      "label": "Display in carousel"
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Products per row",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "label": "Products visible",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "cs1",
+          "label": "1"
+        },
+        {
+          "value": "cs2",
+          "label": "2"
+        },
+        {
+          "value": "cs3",
+          "label": "3"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "section_padding",
+      "label": "Section spacing",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "both",
+          "label": "Both"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets":
+  [
+    {
+      "name": "Featured collection"
+    }
+  ],
+  "disabled_on": {
+    "groups":[
+      "header",
+      "footer"
+    ]
+  }
+}
+{% endschema %}
