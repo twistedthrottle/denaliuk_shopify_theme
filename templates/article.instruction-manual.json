@@ -1,1 +1,95 @@
-{"sections":{"shop_the_look_fiKxCa":{"type":"shop-the-look","blocks":{"product_ky4iKb":{"type":"product","settings":{"product":"d7-led-light-pod-with-datadim™-technology","hotspot_horizontal":25,"hotspot_vertical":41,"hotspot_color":"#000000"}},"product_K9TdVg":{"type":"product","settings":{"product":"d3-led-driving-light-with-datadim™-technology","hotspot_horizontal":45,"hotspot_vertical":46,"hotspot_color":"#000000"}},"product_6TnPkx":{"type":"product","settings":{"product":"dnl-d4-10000","hotspot_horizontal":69,"hotspot_vertical":20,"hotspot_color":"#000000"}}},"block_order":["product_ky4iKb","product_K9TdVg","product_6TnPkx"],"settings":{"full_width":true,"image":"shopify:\/\/shop_images\/d3fogtacomazoom4_fa2f7350-3ed9-4270-862a-36c876b90a86.jpg","section_padding":"both"}},"main":{"type":"main-article","blocks":{"header":{"type":"header","settings":{"show_date":true,"show_author":false}},"image":{"type":"image","settings":{}},"content":{"type":"content","settings":{}},"info":{"type":"info","settings":{"show_tags":false,"show_social":true}}},"block_order":["header","image","content","info"],"settings":{"show_sidebar":false}}},"order":["shop_the_look_fiKxCa","main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "shop_the_look_fiKxCa": {
+      "type": "shop-the-look",
+      "blocks": {
+        "product_ky4iKb": {
+          "type": "product",
+          "settings": {
+            "product": "d7-led-light-pod-with-datadim™-technology",
+            "hotspot_horizontal": 25,
+            "hotspot_vertical": 41,
+            "hotspot_color": "#000000"
+          }
+        },
+        "product_K9TdVg": {
+          "type": "product",
+          "settings": {
+            "product": "d3-led-driving-light-with-datadim-technology",
+            "hotspot_horizontal": 45,
+            "hotspot_vertical": 46,
+            "hotspot_color": "#000000"
+          }
+        },
+        "product_6TnPkx": {
+          "type": "product",
+          "settings": {
+            "product": "dnl-d4-10000",
+            "hotspot_horizontal": 69,
+            "hotspot_vertical": 20,
+            "hotspot_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "product_ky4iKb",
+        "product_K9TdVg",
+        "product_6TnPkx"
+      ],
+      "settings": {
+        "full_width": true,
+        "image": "shopify://shop_images/d3fogtacomazoom4_fa2f7350-3ed9-4270-862a-36c876b90a86.jpg",
+        "section_padding": "both"
+      }
+    },
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "show_date": true,
+            "show_author": false
+          }
+        },
+        "image": {
+          "type": "image",
+          "settings": {}
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        },
+        "info": {
+          "type": "info",
+          "settings": {
+            "show_tags": false,
+            "show_social": true
+          }
+        }
+      },
+      "block_order": [
+        "header",
+        "image",
+        "content",
+        "info"
+      ],
+      "settings": {
+        "show_sidebar": false
+      }
+    }
+  },
+  "order": [
+    "shop_the_look_fiKxCa",
+    "main"
+  ]
+}
