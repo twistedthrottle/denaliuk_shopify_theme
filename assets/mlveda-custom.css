@@ -1301,6 +1301,11 @@ font-weight: normal;
   }
 }
 @media only screen and (max-width:768px) {
+      /* Start CSS Added on 1/6/25 */
+.template-product #slider .flickity-viewport{
+  z-index: -9999 !important;
+}
+/* End CSS Added on 1/6/25 */
   .template-collection .slideout--active,.template-collection .js-slideout-overlay.site-overlay{
   display:block !Important;
 }
