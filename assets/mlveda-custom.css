@@ -491,7 +491,13 @@ align-items:center;
 }
 .needsclick.kl-private-reset-css-Xuajs1 {
     margin-right: 10px;
+  z-index: 999999999 !important;
+} 
+/* Added on 6/1/25 Start */
+button.needsclick.klaviyo-close-form.go484501746.kl-private-reset-css-Xuajs1 {
+    z-index: 99999999999 !important;
 }
+/* Added on 6/1/25 End */
 #ymm_actions #ymm_reset,#ymm_actions #ymm_reset:hover{
     background-color: unset !important;
     color: #000018 !important;
@@ -1304,6 +1310,12 @@ font-weight: normal;
       /* Start CSS Added on 1/6/25 */
 .template-product #slider .flickity-viewport{
   z-index: -9999 !important;
+}
+    div#___ratingbadge_0 {
+    z-index: 214 !important;
+}
+.needsclick.kl-private-reset-css-Xuajs1 {
+    margin-right: 0px !Important;
 }
 /* End CSS Added on 1/6/25 */
   .template-collection .slideout--active,.template-collection .js-slideout-overlay.site-overlay{
