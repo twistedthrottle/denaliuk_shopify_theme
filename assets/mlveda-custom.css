@@ -498,6 +498,25 @@ button.needsclick.klaviyo-close-form.go484501746.kl-private-reset-css-Xuajs1 {
     z-index: 99999999999 !important;
 }
 /* Added on 6/1/25 End */
+/* Added on 8/1/25 start */
+/* CSS for product page thumbnail arrow */
+#slider .flickity-prev-next-button.next {
+     left: unset !important;
+    right: 10px !important;
+}
+#slider .flickity-prev-next-button {
+    top: 50% !important;
+}
+.product-photos .flickity-prev-next-button .flickity-button-icon {
+    fill: #000 !important;
+}
+.product-photos .flickity-prev-next-button{
+    background-color: #00e1ff !important; 
+}
+.product-photos .flickity-prev-next-button:hover{
+    background-color: #eeeeee !important;
+}
+/* Added on 8/1/25 start */
 #ymm_actions #ymm_reset,#ymm_actions #ymm_reset:hover{
     background-color: unset !important;
     color: #000018 !important;
