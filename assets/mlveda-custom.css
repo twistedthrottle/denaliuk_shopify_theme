@@ -513,9 +513,9 @@ button.needsclick.klaviyo-close-form.go484501746.kl-private-reset-css-Xuajs1 {
 .product-photos .flickity-prev-next-button{
     background-color: #00e1ff !important; 
 }
-.product-photos .flickity-prev-next-button:hover{
+/* .product-photos .flickity-prev-next-button:hover{
     background-color: #eeeeee !important;
-}
+} */
 /* Added on 8/1/25 start */
 #ymm_actions #ymm_reset,#ymm_actions #ymm_reset:hover{
     background-color: unset !important;
