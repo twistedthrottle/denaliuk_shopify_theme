@@ -511,11 +511,16 @@ button.needsclick.klaviyo-close-form.go484501746.kl-private-reset-css-Xuajs1 {
     fill: #000 !important;
 }
 .product-photos .flickity-prev-next-button{
-    background-color: #00e1ff !important; 
+    /* background-color: #00e1ff !important;  */
+   background-color: unset !important;  
+   display:none;
 }
-/* .product-photos .flickity-prev-next-button:hover{
+.product-photos .flickity-prev-next-button:hover{
     background-color: #eeeeee !important;
-} */
+}
+.product-image-container:hover .flickity-prev-next-button{
+    display:flex !Important;
+}
 /* Added on 8/1/25 start */
 #ymm_actions #ymm_reset,#ymm_actions #ymm_reset:hover{
     background-color: unset !important;
@@ -1327,9 +1332,9 @@ font-weight: normal;
 }
 @media only screen and (max-width:768px) {
       /* Start CSS Added on 1/6/25 */
-.template-product #slider .flickity-viewport{
+/* .template-product #slider .flickity-viewport{
   z-index: -9999 !important;
-}
+} */
     div#___ratingbadge_0 {
     z-index: 214 !important;
 }
