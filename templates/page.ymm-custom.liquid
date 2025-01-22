@@ -7,9 +7,7 @@
 {%- assign product_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.product' -%}
 {%- assign sale_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.sale_lbl' -%}
 {%- assign soldout_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.soldout_lbl' -%}
-
 {%- assign product_pagetitle = 'ymm_app.product_pagetitle' | t | replace: pg_title_err, 'Products' | replace: '&#39;', "'" -%}
-
 {%- assign all_products = 'ymm_app.all_products' | t | replace: all_products_err, 'All Products' | replace: '&#39;', "'" -%}
 {%- assign default = 'ymm_app.default' | t | replace: '&#39;', "'" -%}
 {%- assign price_ascending = 'ymm_app.price_ascending' | t | replace: '&#39;', "'" -%}
@@ -18,10 +16,9 @@
 {%- assign title_descending = 'ymm_app.title_descending' | t | replace: '&#39;', "'" -%}
 {%- assign created_ascending = 'ymm_app.created_ascending' | t | replace: '&#39;', "'" -%}
 {%- assign created_descending = 'ymm_app.created_descending' | t | replace: '&#39;', "'" -%}
-
 {%- assign filter_by_title = 'ymm_app.filter_by_title' | t | replace: '&#39;', "'" -%}
 {%- assign sort_by_title = 'ymm_app.sort_by_title' | t | replace: '&#39;', "'" -%}
-
+{%- assign select_lbl_err = 'translation missing:' | append:' ' | append: shop.locale | append: '.ymm_app.select_label' -%}
 
 {% comment %}{%- assign filter_by_title = settings.ymm_prd_types_widget_title | strip -%}
 
@@ -52,19 +49,20 @@
   		</ul>
     </div>
   
-  	{% comment %} Sorting {% endcomment %}
-    <div class="ymm_sort_cont">
+   {% comment %} Sorting NOT WORK with NEW API 2024-04 UPDATE (so, way is changed now) - 786{% endcomment %}
+   <div class="ymm_sort_cont">
       	<h4>{{ sort_by_title }}</h4>
     	
       	<ul class="sortme">
     		<li class="clearfix filter">
       			<select id="ymm_sort_by" class="styled-select">
+                    <!--<option value="-1">{{ 'ymm_app.select_label' | t | strip | replace: select_lbl_err, 'Select' | replace: '&#39;', "'" | append: " " | append: sort_by_title }}</option>-->
                     <option value="default" selected>{{ default }}</option>
-        			<option value="price-ascending">{{ price_ascending }}</option>
+                    <option value="price-ascending">{{ price_ascending }}</option>
         			<option value="price-descending">{{ price_descending }}</option>
-        			<option value="title-ascending">{{ title_ascending }}</option>
-        			<option value="title-descending">{{ title_descending }}</option>
-        			<option value="created-ascending">{{ created_ascending }}</option>
+                    <option value="title-ascending">{{ title_ascending }}</option>
+                    <option value="title-descending">{{ title_descending }}</option>
+                    <option value="created-ascending">{{ created_ascending }}</option>
         			<option value="created-descending">{{ created_descending }}</option>
       			</select>
     		</li>
@@ -88,9 +86,9 @@
        	 	<div class="ymm_mobile_toolbar">
         	<div class="ymm_sorting_mobile_wrapper">
               	<button class="ymm_filter_btn" id="ymm_filter_btn"><svg focusable="false" class="icon icon--filter " viewBox="0 0 19 20" role="presentation"><path d="M17.0288086 4.01391602L11 9v7.0072021l-4 2.008545V9L1.01306152 4.01391602V1H17.0288086z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"></path></svg>{{ filter_by_title }}</button>
+
+                {% comment %} YMM Sorting Bottom Modal - NOW NOT WORK WITH 2024-04 API {% endcomment %}
                 <button class="ymm_sorting_btn" id="ymm_sorting_btn">{{ sort_by_title }}<svg focusable="false" class="icon icon--arrow-bottom " viewBox="0 0 12 8" role="presentation"><path stroke="currentColor" stroke-width="2" d="M10 2L6 6 2 2" fill="none" stroke-linecap="square"></path></svg></button>
-                         
-          		{% comment %} YMM Sorting Bottom Modal {% endcomment %}
 				<div id="ymmSortingModal" class="ymm_sort_modal">
                   	<div class="ymm_sort_modal_content">
     					<div class="ymm_sort_modal_header">
@@ -99,6 +97,7 @@
     					</div>
     					<div class="ymm_sort_modal_body">
      						<ul id="ymm_sort_mobile">
+                                <!--<li><a class="ymm_sort_opt" data-ymm-sort-value="-1">{{ 'ymm_app.select_label' | t | strip | replace: select_lbl_err, 'Select' | replace: '&#39;', "'" | append: " " | append: sort_by_title }}</a></li>-->
        							<li><a class="ymm_sort_opt" data-ymm-sort-value="default">Default</a></li>
        							<li><a class="ymm_sort_opt" data-ymm-sort-value="price-ascending">Price, low to high</a></li>
         						<li><a class="ymm_sort_opt" data-ymm-sort-value="price-descending">Price, high to low</a></li>
@@ -121,7 +120,7 @@
         
         	{% comment %} DO NOT EDIT BELOW LINES [ PRODUCTS ARE WRITTEN IN THIS PART DYNAMICALLY ] {% endcomment %}
         	<div id="product_container" class="clearfix">
-              <div class="ymm-prd-loader" style="display: none;"><img src="{{ "loader.gif" | asset_url }}"></div>
+              <div class="ymm-prd-loader" style="display: none;"><img src="{{ "loader.gif" | asset_url }}" width="" height="" /></div>
               <div id="products" class="grid search-result-ctm"></div>
         	</div>
         	{% comment %} ENDS HERE {% endcomment %}
@@ -135,7 +134,7 @@
 var url = decodeURIComponent(window.location.href);
 var shop_domain = '{{ shop.permanent_domain }}';
 var front_domain = '{{ shop.domain }}';
-var data_url = 'https://www.ymmshopify.capacitywebservices.com/customized/ymm_denalielectronics/get_dropdowns_version4.php';
+var data_url = 'https://www.ymmshopify.capacitywebservices.com/customized/ymm_denalielectronics/get_dropdowns_version5.php';
 // commented by mlveda var no_results = "{{ 'ymm_app.no_results' | t | strip | replace: no_results_err, 'There are No Products found.' | replace: '&#39;', "'" }}";
 var no_results = "{{ 'ymm_app.no_results' | t | strip | replace: no_results_err, 'Select your vehicle above' | replace: '&#39;', "'" }}";
 var ymm_products = "{{ 'ymm_app.products' | t | strip | replace: products_err, 'Products' | replace: '&#39;', "'" }}";
@@ -201,40 +200,60 @@ if(ymm_sort_by == null) {
 if(ymm_prd_type == null) {
   	ymm_prd_type = "all"; //set default sort order.
 } 
+
+function check_load_more_exist(element)
+{
+	if(jQuery("#ymm_load_more").length > 0) {
+   		var hT = jQuery(element).offset().top,
+       	hH = jQuery(element).outerHeight(),
+       	wH = jQuery(window).height(),
+       	wS = jQuery(this).scrollTop();
+      
+  		return wS > (hT+hH-wH);
+	} else {
+		return false;
+	}
+}
   
 //YMM Products Fetch Function. - 786
-function ymmProductsInit(action,sort_by,ymm_prd_type)
+function ymmProductsInit(ymm_prd_page_no,ymm_prd_type,tags,action)
 { 
   	jQuery('.ymm-prd-loader').show();
-
+    jQuery(".savings-sv").remove();
 	/*if ( Shopify?.routes?.root !== '/' && Shopify?.currency?.active !== shop_currency ) { // if condition is added by MLVeda.
 		shop_currency = Shopify.currency.active;
 	}*/
-
+    
     jQuery.ajax({
     	  url: data_url,
           type: "GET",
-          data: "my_locale="+window.lang_code+"&market_id="+window.my_market_id+"&country_code="+window.my_country+"&curr_code="+window.my_curr_code+"&my_route_url="+window.my_route_url+"&my_locale="+window.lang_code+"&domain="+shop_domain+"&action=get_market_products&tags="+encodeURIComponent(tags)+"&ymm_prd_type="+encodeURIComponent(ymm_prd_type)+"&sort_by="+sort_by+"&currency="+shop_currency+"&theme_id="+theme_id+"&front_domain="+front_domain+"&sale_lbl="+sale_lbl+"&soldout_lbl="+soldout_lbl+"&ver_no=2&show_review=no&ymm_pdf_link_default_text="+ymm_pdf_link_default_text,
-          dataType: 'jsonp'
+          data: "my_locale="+window.lang_code+"&current="+ymm_prd_page_no+"&ver_update=yes&market_id="+window.my_market_id+"&country_code="+window.my_country+"&curr_code="+window.my_curr_code+"&my_route_url="+window.my_route_url+"&my_locale="+window.lang_code+"&domain="+shop_domain+"&action=get_market_products&tags="+encodeURIComponent(tags)+"&ymm_prd_type="+encodeURIComponent(ymm_prd_type)+"&sort_by=default&currency="+shop_currency+"&front_domain="+front_domain+"&sale_lbl="+sale_lbl+"&soldout_lbl="+soldout_lbl+"&ver_no=2&show_review=no&ymm_pdf_link_default_text="+ymm_pdf_link_default_text,
+          dataType: 'jsonp',
+           beforeSend: function() { 
+            jQuery('.ymm-prd-loader-box').html('<img src="'+img_src+'">');
+            jQuery("#ymm_load_more").remove();
+		  }
     	}).done(function(res){
-          
-          jQuery('.ymm-prd-loader').hide(); 
-          
+           jQuery('.ymm-prd-loader-box').html("");
+    	   jQuery('.ymm-prd-loader').hide();
+      
           if(typeof res.prd_res != "undefined") {
-			
-            if(jQuery(".spr-badge").length > 0) {
-              jQuery('link[rel=stylesheet][href*="spr"]').remove(); //this line is added to fix big review star problem in IE11.-786/ASK
-              jQuery.getScript("//productreviews.shopifycdn.com/assets/v4/spr.js");
-            }
-	
-            if(action == "loaded") {
-            jQuery('html, body').animate({ scrollTop: eval(jQuery('#ymm_title').offset().top-120)}, 270);
-            }
+		    jQuery("#ymm_title").show();
+            jQuery(".ymm_prd_types").html(res.prd_types_html);
+            jQuery("#product_container #products").append(res.prd_res);
             
-            jQuery("#ymm_title").show();
-            
-            jQuery("#product_container #products").html(res.prd_res);
+             if(res.show_more_html != "") {
+                jQuery(res.show_more_html).insertAfter(".ymm-grid");
 
+                if(jQuery(".ymm-prd-loader").length == 0){
+                  jQuery('<div class="ymm-prd-loader"><div class="ymm-prd-loader-box"><img src="'+img_src+'"></div></div>').insertAfter("#ymm_load_more");
+                } 
+            }
+
+             if(action == "filter"){
+               jQuery('html, body').animate({ scrollTop: eval(jQuery('#ymm_title').offset().top-120)}, 270);
+            }
+            
               //Set YMM prices in store currency format - 786/ASK.
             jQuery("div[class*='ymm_price_box_']").each(function() {
                 var ymm_prd_id_str = jQuery(this).attr("class").split(' ');
@@ -314,6 +333,11 @@ function ymmProductsInit(action,sort_by,ymm_prd_type)
                 jQuery(this).html(universal_fit);
 			});
 
+            jQuery(".ymm-product-details").each(function() {
+                var productUrl = jQuery(this).find('a').first().attr('href'); // Assuming the first 'a' tag contains the product URL
+                jQuery(this).append('<a href="' + productUrl + '" class="lgx-choose-options">Choose Options</a>');
+            });
+            
            	if(res.total == 0){
            	 
               jQuery("#ymm_main").removeClass("ymm-result-page");
@@ -390,7 +414,7 @@ function showSortingActive(ymm_sort_by)
   
 function hideMobileMenu() 
 {
-   	var trigger = document.querySelector(".nav-trigger");
+   	//var trigger = document.querySelector(".nav-trigger");
   	var siteWrap = document.querySelector(".site-wrap");
     var hamburger = document.querySelector(".hamburger");
     var element = document.querySelector(".mobile-navigation");
@@ -410,6 +434,8 @@ function closeYMMDrawer()
   
 //786/92
 (function($){
+    var img_src= '{{ "loader.gif" | asset_url }}';
+  
     //Check if shopify AJAX API lib. is not included then only include it.[It's require to add below line after jQuery has been loaded.]
     var check_api_exist = jQuery('script[src*="api.jquery"]').length;
     if(check_api_exist == 0) {
@@ -417,108 +443,91 @@ function closeYMMDrawer()
     }
   
   	//Set current sort value in dropdown as selected in desktop.
-  	jQuery("select#ymm_sort_by").val(ymm_sort_by);
+  	jQuery("select#ymm_sort_by").val("default");
 
   	//Set current sort value selected for mobile. - 786
-  	showSortingActive(ymm_sort_by);
+  	showSortingActive("default");
   
     //Get products onload after ymm searched. - 786
 	if(tags != "") {
-	 	
-      	ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
-      
+        //Onload fetch products and left section > product types - 786/92
+    	ymmProductsInit(1,ymm_prd_type,tags,"onload");  
     } else {
       	jQuery("#ymm_main").removeClass("ymm-result-page");
-      	
       	jQuery("#total_products").html(no_results);
-      
         jQuery(".ymm_mobile_wrapper").remove();
     }
-  
-    //On change of sorting dropdown sort products in that chosen order. - 786
-	jQuery(document).on("change", "select#ymm_sort_by" , function() {
- 	 	var ymm_sort_by = jQuery(this).val();
-      	let ymmSearchPageParams = new URLSearchParams(window.location.search);
-        var ymm_prd_type = ymmSearchPageParams.get("type");
-      
-      	if(ymm_prd_type == null) {
-  		ymm_prd_type = "all"; //set default sort order.
-		}
-      
-  		//Update "sort_by" query parameter value in URL without page reload.
-   		const ymm_new_url = new URL(window.location);
-		ymm_new_url.searchParams.set("sort_by", ymm_sort_by);
-		window.history.replaceState({}, '', ymm_new_url);
-  
-  		//Get products based on sort and product type parameters. - 786
-		ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
-	});
-  
   
   	//On click of product type -> filter products based on that chosen type. - 786
   	jQuery(document).on("click", ".ymm_prd_type" , function() {
  		var ymm_prd_type = jQuery(this).attr("data-ymm-prd-type");
     	let ymmSearchPageParams = new URLSearchParams(window.location.search);
-		var ymm_sort_by = ymmSearchPageParams.get("sort_by");
-      
+		
+        /*
+        var ymm_sort_by = ymmSearchPageParams.get("sort_by");
       	if(ymm_sort_by == null) {
         ymm_sort_by = "default";
       	}
+        */
       
     	//Update "sort_by" query parameter value in URL without page reload.
    		const ymm_new_url = new URL(window.location);
 		ymm_new_url.searchParams.set("type", ymm_prd_type);
 		window.history.replaceState({}, '', ymm_new_url);
-    
-   	 	//Get products based on sort and product type parameters. - 786
-		ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
+
+        //Reset sort by drop value - 786
+        jQuery("#ymm_sort_by").val("default");
+         
+        //Set current sort value selected for mobile. - 786
+        showSortingActive("default");
       
+        //Clear products DIV before showing filtered products - 786
+        jQuery("#product_container #products").html("");
+        jQuery("#ymm_load_more").remove();
+
+   	 	//Get products based on product type parameter. - 786
+		ymmProductsInit(1,ymm_prd_type,tags,"filter");
+
       	//After choosing product type close the drawer for mobile view. - 786
       	closeYMMDrawer();
   	});
-  
-  	//On click of "sort by" button display modal pop-up for mobile view - 786
-  	jQuery(document).on("click", "#ymm_sorting_btn" , function(e) {   
-      	e.preventDefault();
-      	jQuery("#ymmSortingModal").addClass("active");
-    });
-  
-  
-  	//On click of 'close' button hide 'YMM Sort Mobile Popup'
-  	jQuery(document).on("click",'.ymm_sort_modal_close',function() {
-  		jQuery("#ymmSortingModal").removeClass("active");
-    });
-  
- 	
-  	//On click of sort option inside mobile view - 786.
-  	jQuery(document).on("click",'.ymm_sort_opt',function(e) {
-    
-   		e.preventDefault();
-    
-    	var ymm_sort_by = jQuery(this).attr("data-ymm-sort-value");
-    
-      	//Set active sort
-    	showSortingActive(ymm_sort_by);
-    
-      	let ymmSearchPageParams = new URLSearchParams(window.location.search);
-        var ymm_prd_type = ymmSearchPageParams.get("type");
+
+    //For Infinite Scrolling - 786
+    jQuery(window).on('scroll', function() {
+        var res_load_more_exist = check_load_more_exist("#ymm_load_more");
       
-      	if(ymm_prd_type == null) {
-  		ymm_prd_type = "all";
-		}
-      
-  		//Update "sort_by" query parameter value in URL without page reload.
-   		const ymm_new_url = new URL(window.location);
-		ymm_new_url.searchParams.set("sort_by", ymm_sort_by);
-		window.history.replaceState({}, '', ymm_new_url);
- 
-  		//Get products based on sort and product type parameters. - 786
-		ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
-    
-    	//after choosing the sort option then close the popup - 786
-    	jQuery(".ymm_sort_modal_close").trigger("click");
-  	});
-  
+        //On load first check if load more div is in viewport or not then show it accordingly (LAZY LOAD AJAX DIV > IF div is in viewport then data will need to fetch & show). - 786
+    	var ymm_prd_loading = false;
+        
+        if(res_load_more_exist) {
+        	if(!ymm_prd_loading) {
+               ymm_prd_loading = true;
+             
+              //On click of 'Load more' => fetch and show next available products during page scrolling - 786. 
+              //Get next page no. -786
+              var ymm_prd_next_page = jQuery("#ymm_load_more").attr("data-next-page"); 
+
+              //Fetch current product type - 786.
+              var ymm_prd_type = getUrlParameter('type');
+
+              //Set default product type i.e. all.
+              if(ymm_prd_type == null) {
+            	ymm_prd_type = "all"; 
+              } 
+
+              //Reset sort by drop value - 786
+              jQuery("#ymm_sort_by").val("default");
+             
+              //Set current sort value selected for mobile. - 786
+        	  showSortingActive("default");
+              
+              //Now, fetch next available products for the current selected product type during infinite scroll - 786. 
+              ymmProductsInit(ymm_prd_next_page,ymm_prd_type,tags,"loaded");
+              //ENDS - 786
+            }
+    	}  
+    });
+
   	//Display filter drawer. - 786
   	jQuery('#ymm_filter_btn,.closebtn').on("click", function (e) {
   
@@ -544,9 +553,9 @@ function closeYMMDrawer()
     		closeYMMDrawer();
   		}
   
-   		if(jQuery('#ymmSortingModal').is(e.target)) {    
+   		/*if(jQuery('#ymmSortingModal').is(e.target)) {    
     		jQuery("#ymmSortingModal").removeClass("active");
-		}
+		}*/
 	}); 
 
  	//Back button ymm selected retain issue on ymm result page fix - 786
@@ -554,6 +563,89 @@ function closeYMMDrawer()
 	if (perfEntries[0].type === "back_forward") {
     	location.reload(true);
 	}
+
+  //Based on JS > do sort now (whichever items/products are present then those only will be sorted means not whole products results set due to load more/API - 2024-04 version) - 786.
+  jQuery(document).on("change", "select#ymm_sort_by" , function() {
+ 	 	var ymm_sort_by = jQuery(this).val();
+
+        if(ymm_sort_by == "title-ascending" || ymm_sort_by == "title-descending") {
+          sortProductsTitle(ymm_sort_by);
+        }
+
+        if(ymm_sort_by == "price-ascending" || ymm_sort_by == "price-descending"){
+          sortProductsPrice(ymm_sort_by);
+        }
+
+        if(ymm_sort_by == "created-ascending" || ymm_sort_by == "created-descending"){
+          sortProductsByCreatedAt(ymm_sort_by);
+        }
+
+        if(ymm_sort_by == "default"){
+          sortProductsDefault();
+        }
+  });
+  
+  /* NOTE: Old Sort By Dropdown will not work now in latest 2024-04 API */
+  /*
+  //On change of sorting dropdown sort products in that chosen order. - 786
+  jQuery(document).on("change", "select#ymm_sort_by" , function() {
+ 	 	var ymm_sort_by = jQuery(this).val();
+      	let ymmSearchPageParams = new URLSearchParams(window.location.search);
+        var ymm_prd_type = ymmSearchPageParams.get("type");
+      
+      	if(ymm_prd_type == null) {
+  		ymm_prd_type = "all"; //set default sort order.
+		}
+      
+  		//Update "sort_by" query parameter value in URL without page reload.
+   		const ymm_new_url = new URL(window.location);
+		ymm_new_url.searchParams.set("sort_by", ymm_sort_by);
+		window.history.replaceState({}, '', ymm_new_url);
+  
+  		//Get products based on sort and product type parameters. - 786
+		ymmProductsInit("onload",ymm_sort_by,ymm_prd_type);
+	});
+    */
+  
+    //On click of 'close' button hide 'YMM Sort Mobile Popup'
+  	jQuery(document).on("click",'.ymm_sort_modal_close',function() {
+  		jQuery("#ymmSortingModal").removeClass("active");
+    });
+  
+    //On click of "sort by" button display modal pop-up for mobile view - 786
+  	jQuery(document).on("click", "#ymm_sorting_btn" , function(e) {   
+      	e.preventDefault();
+      	jQuery("#ymmSortingModal").addClass("active");
+    });
+    
+   //On click of sort option inside mobile view - 786.
+   jQuery(document).on("click",'.ymm_sort_opt',function(e) {
+   		e.preventDefault();
+    
+    	var ymm_sort_by = jQuery(this).attr("data-ymm-sort-value");
+    
+      	//Set active sort
+    	showSortingActive(ymm_sort_by);
+    
+        if(ymm_sort_by == "title-ascending" || ymm_sort_by == "title-descending") {
+          sortProductsTitle(ymm_sort_by);
+        }
+
+        if(ymm_sort_by == "price-ascending" || ymm_sort_by == "price-descending"){
+          sortProductsPrice(ymm_sort_by);
+        }
+
+        if(ymm_sort_by == "created-ascending" || ymm_sort_by == "created-descending"){
+          sortProductsByCreatedAt(ymm_sort_by);
+        }
+
+        if(ymm_sort_by == "default"){
+          sortProductsDefault();
+        }
+     
+    	//after choosing the sort option then close the popup - 786
+    	jQuery(".ymm_sort_modal_close").trigger("click");
+  	});
 })(jQuery);
 //Ended Here - 786
 
@@ -572,6 +664,80 @@ function getUrlParameter(sParam)
         }
     	}
 }
+
+/* ~~~~~~~ START of SORT FEATURE (JS FRONT BASE) - 786 ~~~~~~*/
+function sortProductsTitle(sort_order) 
+{
+  var gridItems = jQuery('.ymm_grid_item');
+  
+  gridItems.sort(function(a, b) {
+    var upA = jQuery('.ymm_p_title', a).text().toUpperCase();
+    var upB = jQuery('.ymm_p_title', b).text().toUpperCase();
+
+    if(sort_order == "title-ascending") return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+    if(sort_order == "title-descending") return (upA > upB) ? -1 : (upA < upB) ? 1 : 0;
+  });
+
+  jQuery("#products").html("");
+  jQuery("#products").append(gridItems);
+}
+  
+function sortProductsPrice(sort_order) 
+{
+  var gridItems = jQuery('.ymm_grid_item');
+
+  gridItems.sort(function(a, b) {
+     if(sort_order == "price-ascending") return jQuery('.ymm-product-price', a).attr("data-ymm-price") - jQuery('.ymm-product-price', b).attr("data-ymm-price");
+     if(sort_order == "price-descending") return jQuery('.ymm-product-price', b).attr("data-ymm-price") - jQuery('.ymm-product-price', a).attr("data-ymm-price");
+  });
+
+  jQuery("#products").html("");
+  jQuery("#products").append(gridItems);
+}
+
+function sortProductsByCreatedAt(sort_order) 
+{
+  var gridItems = jQuery('.ymm_grid_item');
+
+  gridItems.sort(function(a, b) {
+      var upA = jQuery('.ymm-product-item', a).attr("data-prd-created");
+      var upB = jQuery('.ymm-product-item', b).attr("data-prd-created");
+    
+     if(sort_order == "created-ascending") return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+     if(sort_order == "created-descending") return (upA > upB) ? -1 : (upA < upB) ? 1 : 0;
+  });
+
+  jQuery("#products").html("");
+  jQuery("#products").append(gridItems);
+}
+  
+function sortProductsDefault() 
+{
+  var gridItems = jQuery('.ymm_grid_item');
+
+  //i. Strip Exact Fit products then sort exact fit by price descending. - 786
+  var exact_fit_prds = gridItems.filter(function() { 
+  return jQuery(this).attr("data-prd-type") == "exact_fit"; 
+  });
+
+  exact_fit_prds.sort(function(a, b) {
+    return jQuery('.ymm-product-price', b).attr("data-ymm-price") - jQuery('.ymm-product-price', a).attr("data-ymm-price");
+  });
+
+  //ii. Strip Uni Fit products then sort exact fit by price descending. - 786
+  var uni_fit_prds = gridItems.filter(function() { 
+  return jQuery(this).attr("data-prd-type") == "uni_ymm"; 
+  });
+
+  uni_fit_prds.sort(function(a, b) {
+    return jQuery('.ymm-product-price', b).attr("data-ymm-price") - jQuery('.ymm-product-price', a).attr("data-ymm-price");
+  });
+
+  jQuery("#products").html("");
+  jQuery("#products").append(exact_fit_prds);
+  jQuery("#products").append(uni_fit_prds);
+}
+/* ~~~~~~~~~~ ENDS Here - 786 ~~~~~~~~~~~ */
   
 jQuery(document).ready(function() { 
     var res_title = getUrlParameter('rq');
