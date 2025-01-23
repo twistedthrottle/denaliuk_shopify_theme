@@ -13,7 +13,7 @@ function desktopCompatibleInit(fit_type_for_comp_tbl)
 			var comp_ajax_url = "domain="+shop_domain+"&load=all&version=updated&action=get_compatible&current_productid="+ymm_product_id+"&current_ymmpage="+options.current+"&ymm_limit="+options.length;
 	
     		$m.ajax({
-    	  		url: "https://www.ymmshopify.capacitywebservices.com/customized/ymm_denalielectronics/get_dropdowns_version4.php",
+    	  		url: "https://www.ymmshopify.capacitywebservices.com/customized/ymm_denalielectronics/get_dropdowns_version5.php",
           		type: "GET",
         		data: comp_ajax_url,
 			  	dataType: 'jsonp',
