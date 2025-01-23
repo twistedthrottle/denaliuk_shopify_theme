@@ -517,9 +517,12 @@ button.needsclick.klaviyo-close-form.go484501746.kl-private-reset-css-Xuajs1 {
 }
 .product-photos .flickity-prev-next-button:hover{
     background-color: #eeeeee !important;
+  opacity:1 !important;
 }
 .product-image-container:hover .flickity-prev-next-button{
     display:flex !Important;
+  background-color:#fff !important;
+  opacity:0.6;
 }
 /* Added on 8/1/25 start */
 #ymm_actions #ymm_reset,#ymm_actions #ymm_reset:hover{
