@@ -112,3 +112,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
       }
     }
 });
+/* Added on 27/1/25 start */
+if ($(window).width() <= 767) {
+    $(document).on("click", "#add_ymm_vehicle", function() {
+        // Remove the href attribute from the button
+        $(this).removeAttr("href");
+
+        // Trigger the click logic
+        var ml_interval = setInterval(function() {
+            $("#ymm_label").trigger("click"); 
+        }, 1000);
+
+        // Clear the interval after 1 second
+        setTimeout(function() {
+            clearInterval(ml_interval);
+        }, 1000);
+    });
+}
+/* Added on 27/1/25 end */
