@@ -423,11 +423,11 @@ function displayGarage(get_vehicles)
           	$m("ul.ymm_vehicles").html(vehicle_html);
            } else {
        		$m(".ymm_garage_title").hide();
-       		$m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles found.</li>");
+       		$m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles in your garage.</li>");
            }
    } else {
       $m(".ymm_garage_title").hide();
-      $m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles found.</li>");
+      $m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles in your garage.</li>");
    }
 }
   
@@ -524,7 +524,7 @@ function ymmGarageInit()
       $m(".ymm-garage-container .ymm_counter").html("0");
      
      //Remove pervious vehicles HTML set
-     $m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles found.</li>");
+     $m("ul.ymm_vehicles").html("<li class='ymm-empty'>There are no vehicles in your garage.</li>");
      
      //Hide reset history link itself when there are no vehicles in garage.
      $m(".ymm_garage_title").hide();
