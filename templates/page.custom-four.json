@@ -92,7 +92,7 @@
         "cf_show_phone": true,
         "cf_show_vehicle": true,
         "cf_show_subject": false,
-        "cf_show_source": true,
+        "cf_show_source": false,
         "section_padding": "both"
       }
     },
