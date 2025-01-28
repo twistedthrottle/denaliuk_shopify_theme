@@ -79,7 +79,7 @@
         "cf_show_website_url": false,
         "cf_show_phone": true,
         "cf_show_vehicle": true,
-        "cf_show_subject": true,
+        "cf_show_subject": false,
         "cf_show_source": true,
         "section_padding": "both"
       }
