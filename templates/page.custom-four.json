@@ -72,6 +72,18 @@
     },
     "f3d6a053-ebfa-4f47-8b5c-0fee6dd10511": {
       "type": "contact-form",
+      "blocks": {
+        "dropdown_6UChEy": {
+          "type": "dropdown",
+          "settings": {
+            "label": "Subject*",
+            "values": ", Product info (pre-purchase), Tech support (post-purchase), Order Status, Returns and refunds, Other"
+          }
+        }
+      },
+      "block_order": [
+        "dropdown_6UChEy"
+      ],
       "settings": {
         "cf_heading": "Shoot us an email",
         "width": 60,
