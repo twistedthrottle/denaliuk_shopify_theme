@@ -1,19 +1,18 @@
 /*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "page-custom-eleven-template",
       "disabled": true,
-      "settings": {
-      }
+      "settings": {}
     },
     "2c4c7c3f-aacf-49fa-a790-e8d114fc3e8f": {
       "type": "image-with-text-overlay",
@@ -47,8 +46,7 @@
       "block_order": [
         "d011d8d8-1919-4665-a5c1-01db2ee2ff3e"
       ],
-      "settings": {
-      }
+      "settings": {}
     },
     "908ea68b-e2a7-4cbd-ab17-dc9ceb9a8ea2": {
       "type": "image-carousel-with-text",
@@ -106,8 +104,7 @@
       "block_order": [
         "0a8f80ef-4331-4eeb-aadc-235c093d5941"
       ],
-      "settings": {
-      }
+      "settings": {}
     },
     "12a5b004-0522-475e-9a15-021d34b1d806": {
       "type": "contact-form",
@@ -117,24 +114,20 @@
           "settings": {
             "label": "Order Number"
           }
-        },
-        "a53706a1-7d0d-4516-be32-1f58913a2e43": {
-          "type": "textarea",
-          "settings": {
-            "customfield": "Description of Issue"
-          }
         }
       },
       "block_order": [
-        "ebd8c278-c838-414f-998e-9751b398c353",
-        "a53706a1-7d0d-4516-be32-1f58913a2e43"
+        "ebd8c278-c838-414f-998e-9751b398c353"
       ],
       "settings": {
         "cf_heading": "Request a Warranty Repair",
         "width": 60,
-        "cf_show_company_name": false,
+        "cf_show_company_name": true,
         "cf_show_website_url": false,
         "cf_show_phone": true,
+        "cf_show_vehicle": true,
+        "cf_show_subject": false,
+        "cf_show_source": true,
         "section_padding": "both"
       }
     },
