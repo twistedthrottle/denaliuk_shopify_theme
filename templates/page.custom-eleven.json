@@ -109,6 +109,12 @@
     "12a5b004-0522-475e-9a15-021d34b1d806": {
       "type": "contact-form",
       "blocks": {
+        "text_input_e9kbmN": {
+          "type": "text_input",
+          "settings": {
+            "label": "Date of purchase"
+          }
+        },
         "ebd8c278-c838-414f-998e-9751b398c353": {
           "type": "text_input",
           "settings": {
@@ -117,6 +123,7 @@
         }
       },
       "block_order": [
+        "text_input_e9kbmN",
         "ebd8c278-c838-414f-998e-9751b398c353"
       ],
       "settings": {
