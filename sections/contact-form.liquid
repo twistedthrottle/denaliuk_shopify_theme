@@ -46,14 +46,14 @@
           <label for="contactFormFirstName--{{ section.id }}">
           <span class="visually-hidden">{{ 'sections.contact_form.firstname' | t }}</span>
       </label>
-          <input type="text" id="contactFormFirstName--{{ section.id }}" name="contact[FirstName]" required placeholder="{{ 'sections.contact_form.firstname' | t }}*" />
+          <input type="text" id="contactFormFirstName--{{ section.id }}" name="contact[FirstName]" required placeholder="{{ 'sections.contact_form.firstname' | t }}" />
         </div>
 
         <div class="contact__form--input">
           <label for="contactFormLastName--{{ section.id }}">
           <span class="visually-hidden">{{ 'sections.contact_form.lastname' | t }}</span>
       </label>
-          <input type="text" id="contactFormLastName--{{ section.id }}" name="contact[LastName]" required placeholder="{{ 'sections.contact_form.lastname' | t }}*" />
+          <input type="text" id="contactFormLastName--{{ section.id }}" name="contact[LastName]" required placeholder="{{ 'sections.contact_form.lastname' | t }}" />
         </div>
 
     {% if section.settings.cf_show_company_name %}
@@ -75,20 +75,15 @@
         <div class="contact__form--input">
           <label for="contactFormEmail--{{ section.id }}">
             <span class="visually-hidden">{{ 'sections.contact_form.email' | t }}</span>
-          </label>
-          <input 
-            type="email" 
-            id="contactFormEmail--{{ section.id }}" 
-            name="contact[email]" 
-            required 
-            placeholder="{{ 'sections.contact_form.email' | t }}*" />
+      </label>
+          <input type="email" id="contactFormEmail--{{ section.id }}" name="contact[email]" required placeholder="{{ 'sections.contact_form.email' | t }}" />
         </div>
 
     {% if section.settings.cf_show_phone %}
         <div class="contact__form--input">
           <label for="contactFormTelephone--{{ section.id }}">
       <span class="visually-hidden">{{ 'sections.contact_form.phone' | t }}</span></label>
-          <input type="text" id="contactFormTelephone--{{ section.id }}" name="contact[phone]" required placeholder="{{ 'sections.contact_form.phone' | t }}*" />
+          <input type="text" id="contactFormTelephone--{{ section.id }}" name="contact[phone]" required placeholder="{{ 'sections.contact_form.phone' | t }}" />
         </div>
     {% endif %}
 
@@ -96,7 +91,7 @@
         <div class="contact__form--input">
           <label for="contactFormVehicle--{{ section.id }}">
       <span class="visually-hidden">{{ 'sections.contact_form.vehicle' | t }}</span></label>
-          <input type="text" id="contactFormVehicle--{{ section.id }}" name="contact[vehicle]" placeholder="{{ 'sections.contact_form.vehicle' | t }}" />
+          <input type="text" id="contactFormVehicle--{{ section.id }}" name="contact[vehicle]" placeholder="Vehicle Year, Make, and Model" />
         </div>
     {% endif %}
       
@@ -152,7 +147,7 @@
       <label for="contactFormMessage--{{ section.id }}">
       <span class="visually-hidden">{{ 'sections.contact_form.message' | t }}</span>
       </label>
-      <textarea rows="15" cols="90" id="contactFormMessage--{{ section.id }}" name="contact[body]" required placeholder="{{ 'sections.contact_form.message' | t }}*"></textarea>
+      <textarea rows="15" cols="90" id="contactFormMessage--{{ section.id }}" name="contact[body]" placeholder="{{ 'sections.contact_form.message' | t }}"></textarea>
     </div>
     <div class="contact__form--input">
       <input type="submit" id="contactFormSubmit" class="secondary button" value="{{ 'sections.contact_form.send' | t }}" />
