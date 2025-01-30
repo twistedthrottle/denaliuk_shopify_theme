@@ -1,0 +1,269 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "8ca76ce2-2f25-47bf-b4eb-80bd4677eb46": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "full_width": true,
+        "image": "shopify://shop_images/DL_Action_Banner_2.jpg",
+        "image_height": 600,
+        "heading": "LESS IS MORE",
+        "hidden_text": "Our new DURALUX \"DL\" Series Driving Lights are purpose built to deliver DENALI-caliber performance and reliability at a more approachable price point!",
+        "link": "",
+        "button_text": "COMMING SOON",
+        "heading_text_size": 48,
+        "hidden_text_size": 20,
+        "heading_color": "#ffffff",
+        "text_color": "#bdbdbd",
+        "button_text_color": "#ffffff",
+        "button_color": "#000000",
+        "section_padding": "none"
+      }
+    },
+    "countdown_pmtdm7": {
+      "type": "countdown",
+      "blocks": {
+        "text_PNtPBM": {
+          "type": "text",
+          "settings": {
+            "countdown_text": "<p>DL-Series Driving Lights - Coming Jan 2025</p>",
+            "hide_after_countdown": false
+          }
+        },
+        "countdown_F6Gnwq": {
+          "type": "countdown",
+          "settings": {
+            "year": "2025",
+            "month": "january",
+            "day": "1",
+            "hour": "02",
+            "minute": "0",
+            "after_countdown_message": "Pre-Order Now"
+          }
+        },
+        "button_cNyDD3": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "countdown_button": "Shop now",
+            "countdown_link": "shopify://products/d-14-destroyer-dot-sae-modular-headlight-single",
+            "hide_after_countdown": true
+          }
+        }
+      },
+      "block_order": [
+        "text_PNtPBM",
+        "countdown_F6Gnwq",
+        "button_cNyDD3"
+      ],
+      "settings": {
+        "full_width": true,
+        "layout": "center",
+        "section_padding": "bottom",
+        "background_color": "#000000",
+        "text_color": "#ffffff",
+        "button_color": "#ffffff",
+        "button_background": "#333333"
+      }
+    },
+    "de1734e1-04fd-4e53-b460-704c9e1e1a3a": {
+      "type": "image-carousel-with-text",
+      "blocks": {
+        "template--16408914854072__de1734e1-04fd-4e53-b460-704c9e1e1a3a-image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/DL_2_feature_2.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "caption_position": "middle_center",
+            "heading": "",
+            "subheading": "",
+            "link": "",
+            "button_text": "",
+            "text_color": "#ffffff",
+            "button_color": "#ffffff",
+            "button_background": "#000000",
+            "caption_background": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--16408914854072__de1734e1-04fd-4e53-b460-704c9e1e1a3a-image-1"
+      ],
+      "settings": {
+        "full_width": false,
+        "layout": "left",
+        "image_width": "66%",
+        "slideshow_size": "natural",
+        "desktop_height": 900,
+        "mobile_height": 600,
+        "title": "DL SERIES Driving Lights",
+        "text": "<p><strong>Affordable Lights for Affordable Bikes!  <br/><br/></strong>Engineered based on a decade of customer feedback, our DL Series Driving Lights are purpose-built to deliver best-in-class beam performance, unmatched durability, and our signature dimming technology at a price point that is more approachable to new riders, younger riders, and our rapidly growing international customer base!     </p>",
+        "button": "",
+        "link": "",
+        "text_position": "middle",
+        "text_align": "left",
+        "m_center": false,
+        "color_scheme": "none",
+        "section_padding": "top"
+      }
+    },
+    "c90d27ca-788f-444e-99b6-37eee0cfbcb6": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "",
+        "subheading": "<p><strong>Pre-Orders Open Jan 1st. </strong>Limited quantities expected to ship Feb 1st. Drop your email to receive exclusive product release updates, and be one of the 1st riders to experience the DL Series Driving Lights! </p>",
+        "color_scheme": "none",
+        "show_social_icons": false,
+        "section_padding": "bottom"
+      }
+    },
+    "section_text_columns_with_images_PT3cKT": {
+      "type": "section_text_columns_with_images",
+      "settings": {
+        "txt_title": "",
+        "txt_align_text": "left",
+        "txt_no_bottom_margin": false,
+        "txt_image_1": "shopify://shop_images/DL9_Web.jpg",
+        "txt_link_1": "",
+        "txt_title_text_1": "DL9 Hybrid Driving",
+        "txt_text_1": "<p><strong>Pod Size:</strong> 4.5\" x 4.5\"<strong><br/>Watts: </strong>72<strong>  Lumens:</strong> 7,650<br/><strong>Clear:</strong> DNL.DL9.050.W<br/><strong>Amber:</strong> DNL.DL9.050.A<br/><strong>Yellow:</strong> DNL.DL9.050.Y<br/><strong>Pod MSRP:</strong> $175.00 USD</p>",
+        "txt_image_2": "shopify://shop_images/DL6_Web.jpg",
+        "txt_link_2": "",
+        "txt_title_text_2": "DL6 Hybrid Driving",
+        "txt_text_2": "<p><strong>Pod Size:</strong> 4.5\" x 3\"<strong><br/>Watts: </strong>48<strong>  Lumens:</strong> 5,100<br/><strong>Clear:</strong> DNL.DL6.050.W<br/><strong>Amber:</strong> DNL.DL6.050.A<br/><strong>Yellow:</strong> DNL.DL6.050.Y<br/><strong>Pod MSRP:</strong> $137.50 USD</p>",
+        "txt_image_3": "shopify://shop_images/DL4_Web.jpg",
+        "txt_link_3": "",
+        "txt_title_text_3": "DL4 Hybrid Driving",
+        "txt_text_3": "<p><strong>Pod Size:</strong> 3\" x 3\"<strong><br/>Watts: </strong>32<strong>  Lumens:</strong> 3,400<br/><strong>Clear:</strong> DNL.DL4.050.W<br/><strong>Amber:</strong> DNL.DL4.050.A<br/><strong>Yellow:</strong> DNL.DL4.050.Y<br/><strong>Pod MSRP:</strong> $100.00 USD</p>",
+        "txt_image_4": "shopify://shop_images/DL2_Web.jpg",
+        "txt_link_4": "",
+        "txt_title_text_4": "DL2 Visibility Flood",
+        "txt_text_4": "<p><strong>Pod Size:</strong> 3\" x 2\"<strong><br/>Watts: </strong>16<strong>  Lumens:</strong> 1,700<br/><strong>Clear:</strong> DNL.DL2.050.W<br/><strong>Amber:</strong> DNL.DL2.050.A<br/><strong>Yellow:</strong> DNL.DL2.050.Y<br/><strong>MSRP:</strong> $75.00 USD</p>"
+      }
+    },
+    "main": {
+      "type": "page-custom-D7PRO-template",
+      "blocks": {
+        "8544d464-4da2-400c-8bf1-72375b72f49b": {
+          "type": "page_title",
+          "disabled": true,
+          "settings": {
+            "pt_align": "left"
+          }
+        },
+        "b613a9a7-8cd1-419b-b12d-5e8397672cb8": {
+          "type": "page_content",
+          "settings": {
+            "pc_align": "left",
+            "pc_max_width": 1000
+          }
+        }
+      },
+      "block_order": [
+        "8544d464-4da2-400c-8bf1-72375b72f49b",
+        "b613a9a7-8cd1-419b-b12d-5e8397672cb8"
+      ],
+      "settings": {}
+    },
+    "image_carousel_with_text_EUbM8P": {
+      "type": "image-carousel-with-text",
+      "blocks": {
+        "image_c8RYb9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Amber_Lenses.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "caption_position": "middle_center",
+            "heading": "",
+            "subheading": "",
+            "link": "",
+            "button_text": "Button",
+            "text_color": "#ffffff",
+            "button_color": "#ffffff",
+            "button_background": "#000000",
+            "caption_background": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "image_c8RYb9"
+      ],
+      "settings": {
+        "full_width": false,
+        "layout": "left",
+        "image_width": "66%",
+        "slideshow_size": "natural",
+        "desktop_height": 900,
+        "mobile_height": 600,
+        "title": "Be Seen, Ride Safe!",
+        "text": "<p>All DL Series Driving Lights are also available in amber & selective yellow lens options at no additional cost. DL Series lenses are robotically sealed to guarantee IP69K waterproof/submersible performance. DL Series lenses are not interchangeable. </p>",
+        "button": "",
+        "link": "",
+        "text_position": "middle",
+        "text_align": "left",
+        "m_center": true,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "29f31a20-742a-4ad5-b1b9-1f5dfcb28afc": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "full_width": true,
+        "image": "shopify://shop_images/DL_Action_Banner_4.jpg",
+        "image_height": 600,
+        "heading": "",
+        "hidden_text": "",
+        "link": "",
+        "button_text": "",
+        "heading_text_size": 48,
+        "hidden_text_size": 18,
+        "heading_color": "#ffffff",
+        "text_color": "#bdbdbd",
+        "button_text_color": "#ffffff",
+        "button_color": "#000000",
+        "section_padding": "top"
+      }
+    },
+    "image_with_text_overlay_9KFMX4": {
+      "type": "image-with-text-overlay",
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "image_height": 400,
+        "heading": "Image with Text Overlay",
+        "hidden_text": "Pair text with a large full width image to give focus to areas of your store.",
+        "link": "",
+        "button_text": "View Product",
+        "heading_text_size": 32,
+        "hidden_text_size": 18,
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "button_text_color": "#ffffff",
+        "button_color": "#000000",
+        "section_padding": "both"
+      }
+    }
+  },
+  "order": [
+    "8ca76ce2-2f25-47bf-b4eb-80bd4677eb46",
+    "countdown_pmtdm7",
+    "de1734e1-04fd-4e53-b460-704c9e1e1a3a",
+    "c90d27ca-788f-444e-99b6-37eee0cfbcb6",
+    "section_text_columns_with_images_PT3cKT",
+    "main",
+    "image_carousel_with_text_EUbM8P",
+    "29f31a20-742a-4ad5-b1b9-1f5dfcb28afc",
+    "image_with_text_overlay_9KFMX4"
+  ]
+}
