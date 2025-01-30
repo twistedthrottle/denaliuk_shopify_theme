@@ -2085,3 +2085,15 @@ nav.mobile-menu .tmenu_item_has_child > a .tmenu_indicator {
 .tmenu_wrapper.tmenu--wrap {
 grid-column: auto / span 6;
 }
+/* Ensure all placeholder text has consistent font size */
+input::placeholder,
+textarea::placeholder {
+    font-size: 1rem; 
+    opacity: 1; 
+  font-weight:700;
+}
+
+/* Specific fix for the Contact Form textarea */
+.contact__form--input textarea::placeholder {
+    font-size: 1rem !important; 
+}
