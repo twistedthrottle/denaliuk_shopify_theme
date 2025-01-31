@@ -1,307 +1,528 @@
-{%- liquid
-
-  assign section_padding = ''
-  if section.settings.section_padding == 'top'
-    assign section_padding = 'pb0'
-  elsif section.settings.section_padding == 'bottom'
-    assign section_padding = 'mt0'
-  elsif section.settings.section_padding == 'none'
-    assign section_padding = 'mt0 pb0'
-  endif
-
--%}
-
-{%- capture section_classes -%}
-  shopify-section page-contact-form {% if settings.animation != 'none' %} animate {{ settings.animation }}{% endif %}
-{%- endcapture -%}
-
-<div class="global__section {{ section_padding }}">
-  <section
-  data-section-loaded="false"
-  data-section-type="contact-form-section"
-  class="{{ section_classes | strip }} row section-{{ section.id }}"
-  data-section-id="{{ section.id }}">
-
-  {% if section.settings.cf_heading != blank %}
-    <h2 class="section-title">{{ section.settings.cf_heading }}</h2>
-  {% endif %}
-
-
-  <div id="contactFormWrapper" class="grid__wrapper contact__form--inner-wrapper">
-
-    {% form 'contact', class: 'span-12 auto'%}
-      {% if form.posted_successfully? %}
-        <div class="successForm note-success feedback">
-          <p>{{ 'sections.contact_form.post_success' | t }}</p>
-        </div>
-      {% endif %}
-
-      {% if form.errors %}
-        <div class="errorForm feedback">
-          <p>{{ 'general.forms.post_error' | t }}</p>
-        </div>
-      {% endif %}
-
-        <div class="contact__form--input">
-          <label for="contactFormFirstName--{{ section.id }}">
-          <span class="visually-hidden">{{ 'sections.contact_form.firstname' | t }}</span>
-      </label>
-          <input type="text" id="contactFormFirstName--{{ section.id }}" name="contact[FirstName]" required placeholder="{{ 'sections.contact_form.firstname' | t }}" />
-        </div>
-
-        <div class="contact__form--input">
-          <label for="contactFormLastName--{{ section.id }}">
-          <span class="visually-hidden">{{ 'sections.contact_form.lastname' | t }}</span>
-      </label>
-          <input type="text" id="contactFormLastName--{{ section.id }}" name="contact[LastName]" required placeholder="{{ 'sections.contact_form.lastname' | t }}" />
-        </div>
-
-    {% if section.settings.cf_show_company_name %}
-        <div class="contact__form--input">
-          <label for="contactFormCompanyName--{{ section.id }}">
-      <span class="visually-hidden" >{{ 'sections.contact_form.companyname' | t }}</span></label>
-          <input type="text" id="contactFormCompanyName--{{ section.id }}" name="contact[CompanyName]" placeholder="{{ 'sections.contact_form.companyname' | t }}" />
-        </div>
-    {% endif %}
-
-    {% if section.settings.cf_show_website_url %}
-        <div class="contact__form--input">
-          <label for="contactFormWebsiteURL--{{ section.id }}">
-      <span class="visually-hidden">{{ 'sections.contact_form.websiteurl' | t }}</span></label>
-          <input type="text" id="contactFormWebsiteURL--{{ section.id }}" name="contact[WebsiteUrl]" placeholder="{{ 'sections.contact_form.websiteurl' | t }}" />
-        </div>
-    {% endif %}
-      
-        <div class="contact__form--input">
-          <label for="contactFormEmail--{{ section.id }}">
-            <span class="visually-hidden">{{ 'sections.contact_form.email' | t }}</span>
-      </label>
-          <input type="email" id="contactFormEmail--{{ section.id }}" name="contact[email]" required placeholder="{{ 'sections.contact_form.email' | t }}" />
-        </div>
-
-    {% if section.settings.cf_show_phone %}
-        <div class="contact__form--input">
-          <label for="contactFormTelephone--{{ section.id }}">
-      <span class="visually-hidden">{{ 'sections.contact_form.phone' | t }}</span></label>
-          <input type="text" id="contactFormTelephone--{{ section.id }}" name="contact[phone]" required placeholder="{{ 'sections.contact_form.phone' | t }}" />
-        </div>
-    {% endif %}
-
-    {% if section.settings.cf_show_vehicle %}
-        <div class="contact__form--input">
-          <label for="contactFormVehicle--{{ section.id }}">
-      <span class="visually-hidden">{{ 'sections.contact_form.vehicle' | t }}</span></label>
-          <input type="text" id="contactFormVehicle--{{ section.id }}" name="contact[vehicle]" placeholder="Vehicle Year, Make, and Model" />
-        </div>
-    {% endif %}
-      
-    {% if section.settings.cf_show_subject %}
-        <div class="contact__form--input">
-          <label for="contactFormSubject--{{ section.id }}">
-      <span class="visually-hidden">{{ 'sections.contact_form.subject' | t }}</span></label>
-          <input type="text" id="contactFormSubject--{{ section.id }}" name="contact[subject-line]" placeholder="{{ 'sections.contact_form.subject' | t }}" />
-        </div>
-    {% endif %}
-
-    {% if section.settings.cf_show_source %}
-        <div class="contact__form--input">
-          <label for="contactFormSource--{{ section.id }}">
-      <span class="visually-hidden">{{ 'sections.contact_form.source' | t }}</span></label>
-          <input type="hidden" id="contactFormSource--{{ section.id }}" name="contact[source]" value="Warranty Request" />
-        </div>
-    {% endif %}
-      
-    {% for block in section.blocks %}
-      <div class="contact__form--input">
-
-      {%-liquid
-         assign label = block.settings.label | escape
-         -%}
-
-      {% case block.type %}
-        {% when 'text_input' %}
-          <label class="visually-hidden" for="contactForm{{ label | handleize }}--{{ section.id }}--{{ block.id }}">{{ label }}</label>
-          <input type="text" id="contactForm{{ label | handleize }}--{{ section.id }}--{{ block.id }}" name="contact[{{ label }}]" placeholder="{{ label }}" aria-label="{{ label }}" />
-        {% when 'dropdown' %}
-          {% assign values = block.settings.values  | replace: ' ,', ',' | replace: ', ', ',' | split: ',' %}
-          <label for="contactForm{{ label | handleize }}--{{ section.id }}--{{ block.id }}">{{ label }}</label>
-          <select id="contactForm{{ label | handleize }}--{{ section.id }}--{{ block.id }}" name="contact[{{ label }}]">
-            {% for value in values %}
-              <option>{{ value }}</option>
-            {% endfor %}
-          </select>
-         {% when 'textarea' %}
-          <div class="contact__form--input">
-            <p>
-              <label for="contactFormCustomFieldOne">
-      <span class="visually-hidden">{{ block.settings.customfield }}</span></label>
-                <textarea rows="15" cols="90" id="contactFormCustomFieldOne" name="contact[CustomFieldOne]" placeholder="{{ block.settings.customfield }}"></textarea>
-            </p>
-          </div>
-        
-      {% endcase %}
-      </div>
-    {% endfor %}
-
-    <div class="contact__form--input">
-      <label for="contactFormMessage--{{ section.id }}">
-      <span class="visually-hidden">{{ 'sections.contact_form.message' | t }}</span>
-      </label>
-      <textarea rows="15" cols="90" id="contactFormMessage--{{ section.id }}" name="contact[body]" placeholder="{{ 'sections.contact_form.message' | t }}"></textarea>
-    </div>
-    <div class="contact__form--input">
-      <input type="submit" id="contactFormSubmit" class="secondary button" value="{{ 'sections.contact_form.send' | t }}" />
-    <div class="contact__form--input">
-    {% endform %}
-  </div>
-
-  <style>
-    @media (min-width: 741px) {
-      .section-{{ section.id }} .contact__form--inner-wrapper {
-        width: {{ section.settings.width }}%;
-        margin: 0 auto;
-        padding: 0 auto;
-      }
-    }
-  </style>
-
-
-</section></div>
-
-{% schema %}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "name": "Contact form",
-  "settings":
-  [
-    {
-      "type": "text",
-      "id": "cf_heading",
-      "label": "Heading",
-      "default": "Contact Us"
+  "general": {
+    "404": {
+      "title": "Oops - We couldn't find that one",
+      "subtext": "This page does not exist. Try searching for what you would like to find:"
     },
-    {
-      "type": "range",
-      "id": "width",
-      "min": 50,
-      "max": 100,
-      "step": 10,
-      "unit": "%",
-      "label": "Width",
-      "default": 60
+    "password_page": {
+      "thanks": "Thank you for joining our list",
+      "enter_store": "Login with Password",
+      "password": "Password",
+      "enter": "Enter",
+      "email_address": "Email Address",
+      "submit": "Submit",
+      "powered": "This Store will be powered by"
     },
-    {
-      "type": "checkbox",
-      "id": "cf_show_company_name",
-      "label": "Show company name",
-      "default": true
+    "mobile_nav": {
+      "account": "Account",
+      "login": "Log In/Create Account",
+      "logout": "Logout"
     },
-    {
-      "type": "checkbox",
-      "id": "cf_show_website_url",
-      "label": "Show website url",
-      "default": true
+    "age_verification": {
+      "age_title": "Are you at least {{ age }}?",
+      "age_description": "You must be of legal drinking age to continue.",
+      "age_terms": "Learn about our terms of use.",
+      "age_enter": "Yes — Enter Site"
     },
-    {
-      "type": "checkbox",
-      "id": "cf_show_phone",
-      "label": "Show phone number",
-      "default": true
+    "forms": {
+      "post_error": "Sorry, looks like some fields were not completed:"
     },
-            {
-      "type": "checkbox",
-      "id": "cf_show_vehicle",
-      "label": "Show vehicle year, make, model",
-      "default": true
+    "breadcrumbs": {
+      "home": "Home"
     },
-        {
-      "type": "checkbox",
-      "id": "cf_show_subject",
-      "label": "Show subject",
-      "default": true
-    },
-            {
-      "type": "checkbox",
-      "id": "cf_show_source",
-      "label": "Show source",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "section_padding",
-      "label": "Section spacing",
-      "options": [
-        {
-          "value": "top",
-          "label": "Top"
-        },
-        {
-          "value": "bottom",
-          "label": "Bottom"
-        },
-        {
-          "value": "both",
-          "label": "Both"
-        },
-        {
-          "value": "none",
-          "label": "None"
-        }
-      ],
-      "default": "both"
-    }
-  ],
-  "blocks": [
-    {
-    "type": "text_input",
-    "name": "Text input",
-    "settings": [
-      {
-        "type": "text",
-        "id": "label",
-        "label": "Label",
-        "default": "Custom field"
+    "meta": {
+      "title": {
+        "tagged": "tagged",
+        "page": "Page"
       }
-    ]
-  },
-  {
-  "type": "dropdown",
-  "name": "Dropdown",
-  "settings": [
-      {
-        "type": "text",
-        "id": "label",
-        "label": "Label",
-        "default": "Custom field"
+    },
+    "pagination": {
+      "showing_items": "Showing item(s)",
+      "of": "of"
+    },
+    "newsletter_form": {
+      "newsletter_email": "Email address",
+      "email_placeholder": "Email address",
+      "submit": "Subscribe",
+      "confirmation": "Thanks for subscribing"
+    },
+    "onboarding": {
+      "no_content": "This section doesn’t currently include any content. Add content to this section using the sidebar.",
+      "single-product": {
+        "header": "Your product's name",
+        "description": "This area is used to describe your product’s details. Tell customers about the look, feel, and style of your product. Add details on color, materials used, sizing, and where it was made."
       },
-      {
-        "type": "text",
-        "id": "values",
-        "label": "Values",
-        "default": "value 1, value 2, value 3",
-        "info":"Separate each value with a comma"
+      "product": {
+        "title": "Sample product {{ count }}",
+        "price": "9.99"
       }
-    ]
+    },
+    "currency": {
+      "dropdown_label": "Currency"
+    },
+    "language": {
+      "dropdown_label": "Language"
+    },
+    "accessibility": {
+      "unit_price_separator": "per"
+    }
   },
-  {
-    "type": "textarea",
-    "name": "Multiple Text Input",
-    "settings": [
-      {
-      "type": "textarea",
-      "id": "customfield",
-      "label": "Description of Issue",
-      "default": "Description of Issue"
+  "accessibility": {
+    "total_reviews": "total reviews",
+    "star_reviews_info": "{{ rating_value }} out of {{ rating_max }} stars"
+  },
+  "sections": {
+    "contact_form": {
+      "name": "Name",
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "subject": "Subject",
+      "companyname": "Company",
+      "address": "Address",
+      "email": "Email",
+      "phone": "Phone Number",
+      "vehicle": "Vehicle Year, Make, and Model",
+      "message": "Message",
+      "websiteurl": "Website URL",
+      "acceptsmarketing": "Subscribe to stay updated with new products and offers!",
+      "send": "Send",
+      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
+    },
+    "maps": {
+      "get_directions": "Get directions",
+      "address_error": "Error looking up that address",
+      "address_no_results": "No results for that address",
+      "address_query_limit": "You have exceeded the Google API usage limit. Consider upgrading to a Premium Plan (https://developers.google.com/maps/premium/usage-limits).",
+      "auth_error": "There was a problem authenticating your Google Maps account. Create and enable the JavaScript API (https://developers.google.com/maps/documentation/javascript/get-api-key) and Geocoding API (https://developers.google.com/maps/documentation/geocoding/get-api-key) permissions of your app."
+    },
+    "countdown": {
+      "days": "Days",
+      "hours": "Hours",
+      "mins": "Mins",
+      "secs": "Secs"
+    },
+    "search": {
+      "no_results_html": "Your search for \"{{ terms }}\" did not yield any results.",
+      "results_for_html": "Your search for \"{{ terms }}\" revealed the following:",
+      "title": "Search results",
+      "placeholder": "Search",
+      "submit": "Search",
+      "products": "Products",
+      "collections": "Collections",
+      "articles": "Articles",
+      "pages": "Pages",
+      "search_for": "Search for “{{ terms }}”",
+      "suggestions": "Suggestions"
+    }
+  },
+  "blogs": {
+    "article": {
+      "recent_posts": "Recent Posts",
+      "posted_on_date_html": "Posted on {{ date }}",
+      "tags": "Tags",
+      "tagged": "Tagged",
+      "comments": "Comments",
+      "read_more": "Keep reading",
+      "all_posts": "All Posts",
+      "onboarding": {
+        "author": "Author name",
+        "title": "Article title",
+        "body": "Article content is the text and other media that is contained in an article. It is what the article is about and what readers will be reading."
       }
-    ]
-  }],
-  "presets": [{
-    "name": "Contact form"
-  }],
-  "disabled_on": {
-    "groups":[
-      "header",
-      "footer"
-    ]
+    },
+    "comments": {
+      "title": "Leave a comment",
+      "your_name": "Your Name",
+      "your_email": "Your Email",
+      "your_comment": "Your Message",
+      "moderated": "All blog comments are checked prior to publishing",
+      "post": "Post comment",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "success": "Your comment was posted successfully! Thank you!",
+      "comments_with_count": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Cart",
+      "close_cart": "Close",
+      "empty": "Your cart is currently empty.",
+      "product": "Product",
+      "price": "Price",
+      "qty": "Qty",
+      "remove": "Remove",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "continue": "Continue Shopping",
+      "update": "Update Cart",
+      "checkout": "Check Out",
+      "note": "Add an order note",
+      "recently_viewed": "You also Viewed",
+      "discount_applied": "Discount Applied!",
+      "savings": "Total Savings",
+      "discounts": "Discounts",
+      "calc_error": "Calculator Error:",
+      "calc_heading": "Get shipping estimate",
+      "calc_shipping": "Calculate Shipping",
+      "calc_calculating": "Calculating...",
+      "province": "Province",
+      "country": "Country",
+      "choose_country": "Choose country",
+      "zip_postal": "Zip/Postal Code",
+      "cart_discount": "Discount Code (Applied at Checkout)",
+      "free_shipping_before": "You are only",
+      "free_shipping_after": "away from Free Domestic Shipping!",
+      "free_shipping_qualified": "Your order qualifies for Free Domestic Shipping!",
+      "free_shipping_exclusions": "(Excludes International)",
+      "items": "Item(s)",
+      "cart_error": "Cart Error",
+      "form_error": "Form Error",
+      "update_qty_error": "Some items became unavailable. Update the quantity and try again.",
+      "stock_issue": "Stock Issue",
+      "item_out": "You cannot add more of this item.",
+      "items_cart_html": "<span class='js-cart-count'>{{ cart_count }}</span> item(s)",
+      "go_shopping": "Go Shopping",
+      "in_shopping_cart": "in your shopping cart",
+      "view_cart": "View Cart",
+      "tax": "Tax",
+      "shipping": "Shipping",
+      "at_checkout": "Calculated at checkout",
+      "shipping_no_destination": "We do not ship to this destination.",
+      "shipping_single_rate": "There is one shipping rate available for ",
+      "shipping_multi_rate_one": "There are ",
+      "shipping_multi_rate_two": " shipping rates available for ",
+      "shipping_multi_rate_three": ", starting at ",
+      "input_label": "Quantity for {{ product }}",
+      "increase": "Increase quantity for {{ product }}",
+      "decrease": "Decrease quantity for {{ product }}",
+      "or": "or"
+    }
+  },
+  "collections": {
+    "general": {
+      "all_collections": "Collections",
+      "all_products": "All Products",
+      "no_matches": "There are no items in this collection"
+    },
+    "filters": {
+      "clear_all": "Clear all",
+      "from": "From",
+      "filter_and_sort": "Filter and sort",
+      "filter_by_label": "Filter by",
+      "filter_button": "Filter",
+      "filters_selected": "{{ count }} selected",
+      "max_price": "The highest price is {{ price }}",
+      "reset": "Reset",
+      "sort_by_placeholder": "Sort by",
+      "to": "To",
+      "use_fewer_filters_html": "No results. Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all</a>",
+      "type_to_filter": "Type to filter",
+      "match_all": "Match all"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Account",
+      "link": "Back to Account",
+      "returns_content": "Return/Exchange",
+      "details": "Account Details",
+      "view_addresses": "View Addresses",
+      "return": "Return to Account Details",
+      "logout": "Logout"
+    },
+    "activate_account": {
+      "title": "Activate Account",
+      "subtext": "Create your password to activate your account.",
+      "password": "Password",
+      "password_confirm": "Confirm Password",
+      "submit": "Activate Account",
+      "cancel": "Decline Invitation"
+    },
+    "addresses": {
+      "title": "Your Addresses",
+      "default": "Primary Address",
+      "add_new": "Add a New Address",
+      "edit_address": "Edit address",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "company": "Company",
+      "address1": "Address1",
+      "address2": "Address2",
+      "city": "City",
+      "country": "Country",
+      "province": "Province",
+      "zip": "Postal/Zip Code",
+      "phone": "Phone",
+      "set_default": "Set as default address",
+      "add": "Add Address",
+      "update": "Update Address",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot your password?",
+      "sign_in": "Sign In",
+      "cancel": "Return to Store",
+      "guest_title": "Continue as a guest",
+      "guest_continue": "Continue",
+      "or": "or"
+    },
+    "orders": {
+      "title": "Order History",
+      "order_number": "Order",
+      "date": "Date",
+      "payment_status": "Payment Status",
+      "fulfillment_status": "Fulfillment Status",
+      "total": "Total",
+      "none": "You haven't placed any orders yet."
+    },
+    "order": {
+      "title": "Order",
+      "date": "Placed on",
+      "cancelled": "Order Cancelled on",
+      "cancelled_reason": "Reason: {{ reason }}",
+      "billing_address": "Billing Address",
+      "payment_status": "Payment Status",
+      "shipping_address": "Shipping Address",
+      "fulfillment_status": "Fulfillment Status",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "order_details": "Order Details",
+      "details": {
+        "product": "Product",
+        "sku": "SKU",
+        "price": "Price",
+        "quantity": "Quantity",
+        "total": "Total",
+        "fulfilled_at": "Fulfilled {{ date }}",
+        "subtotal": "Subtotal"
+      }
+    },
+    "recover_password": {
+      "title": "Reset your password",
+      "email": "Email",
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "subtext": "We will send you an email to reset your password.",
+      "success": "We've sent you an email with a link to update your password."
+    },
+    "reset_password": {
+      "title": "Reset account password",
+      "subtext": "Enter a new password for {{ email }}",
+      "password": "Password",
+      "password_confirm": "Confirm Password",
+      "submit": "Reset Password"
+    },
+    "register": {
+      "title": "Create Account",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create"
+    }
+  },
+  "products": {
+    "general": {
+      "new": "New in",
+      "sale": "Sale",
+      "bundle": "Bundle",
+      "sold": "Sold Out",
+      "quick_view": "Quick View",
+      "from": "From",
+      "view_full": "View Full Details",
+      "sale_price": "Sale Price",
+      "regular_price": "Regular Price",
+      "savings": "Save {{ savings }}",
+      "shop_this": "Shop this Product",
+      "explore_more": "Explore More in"
+    },
+    "product": {
+      "select_option": "Select Option",
+      "sold_out": "Sold Out",
+      "from_lowest_price_html": "From",
+      "unavailable": "Unavailable",
+      "compare_at": "Compare at",
+      "include_taxes": "Tax included.",
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "add_to_cart": "Add to Cart",
+      "pre_order": "Pre Order",
+      "quantity": "Quantity",
+      "back_to": "Back To",
+      "or": "or",
+      "continue": "Continue Shopping",
+      "adding": "Adding...",
+      "thank_you": "Thank You!",
+      "added": "Added to Cart",
+      "view_cart": "View Cart",
+      "product_details": "Product Details",
+      "product_type": "Product Type",
+      "brand": "Brand",
+      "collection": "Collection",
+      "product_description": "Product Description",
+      "product_more_details": "In Depth",
+      "size_guide": "Size Guide:",
+      "delivery": "Delivery:",
+      "returns": "Returns:",
+      "related_products": "Related Products",
+      "inventory": "In Stock",
+      "weight": "Weight",
+      "variant": "Variant",
+      "call_to_action": "Buy Now",
+      "social_share": "Share",
+      "unit_price_label": "Unit Price",
+      "view_in_space": "View in your space",
+      "view_in_space_label": "View in your space, loads item in augmented reality window",
+      "only_left": {
+        "one": "Only {{ count }} left!",
+        "other": "Only {{ count }} left!"
+      }
+    },
+    "product_pickup_availability": {
+      "view_store_info": "View store information",
+      "check_other_stores": "Check availability at other stores",
+      "pick_up_available": "Pickup available",
+      "pick_up_currently_unavailable": "Pickup currently unavailable",
+      "pick_up_available_at_html": "Pickup available at <strong>{{ location_name }}</strong>",
+      "pick_up_unavailable_at_html": "Pickup currently unavailable at <strong>{{ location_name }}</strong>"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Here's your {{ value }} gift card for {{ shop }}!",
+      "subtext": "Here's your gift card!",
+      "disabled": "Disabled",
+      "expired": "Expired on {{ expiry }}",
+      "active": "Expires on {{ expiry }}",
+      "redeem": "Use this code at checkout to redeem your gift card",
+      "shop_link": "Start shopping",
+      "print": "Print",
+      "email": "Email"
+    }
+  },
+  "recipient": {
+    "form": {
+      "checkbox": "I want to send this as a gift",
+      "email_label": "Recipient email",
+      "email_label_optional_for_no_js_behavior": "Recipient email (optional)",
+      "email": "Email",
+      "name_label": "Recipient name (optional)",
+      "name": "Name",
+      "message_label": "Message (optional)",
+      "message": "Message",
+      "max_characters": "{{ max_chars }} characters max"
+    }
+  },
+  "social": {
+    "icons": {
+      "facebook": "Share on Facebook",
+      "twitter": "Share on Twitter",
+      "pinterest": "Share on Pinterest"
+    }
+  },
+  "date_formats": {
+    "month_date_year": "%B %d %Y"
+  },
+  "ymm_app": {
+    "searchbox_title": "Shop by Vehicle",
+    "search_button": "Search",
+    "reset_button": "Reset",
+    "no_results": "Select your vehicle above",
+    "product_pagetitle": "Products",
+    "products": "Products",
+    "product": "Product",
+    "select_label": "Select",
+    "none_txt": "None",
+    "sale_lbl": "sale",
+    "soldout_lbl": "soldout",
+    "field_1": "Type",
+    "field_2": "Year",
+    "field_3": "Make",
+    "field_4": "Model",
+    "all_products": "All Products",
+    "fitment_check_title": "ENTER VEHICLE TO CHECK FIT",
+    "fitment_button": "Check Fitment",
+    "universal_fit": "Universal Fit Product",
+    "exact_fit": "Exact Fit Product",
+    "default": "Default",
+    "price_ascending": "Price low to high",
+    "price_descending": "Price high to low",
+    "title_ascending": "Alphabetically A-Z",
+    "title_descending": "Alphabetically Z-A",
+    "created_ascending": "Date old to new",
+    "created_descending": "Date new to old",
+    "all_products_link": "All Products",
+    "view_outfitting_guide": "View Outfitting Guide",
+    "parts_for": "Parts For",
+    "reset_fitment_button": "Check A Different Vehicle",
+    "filter_by_title": "Filter By Type",
+    "sort_by_title": "Sort By",
+    "this_product_fits": "This Product Fits",
+    "replacement_part_txt": "<b>This is a replacement part</b> for a product in our range. This item is not vehicle-specific or universal. Please read the product description for installation details.",
+    "uni_but_no_ymm_txt": "<b>This is a Universal Fit Item.</b> It is designed to fit many vehicles. Universal products may require a vehicle-specific fit kit (sold separately) or other modifications for installation. Universal products are not guaranteed to fit every vehicle. Check the product description for installation requirements.",
+    "ymm_comp_hdr_exact_fit": "<b>This is a Vehicle Specific Item.</b> This item is confirmed to fit the vehicles below. This product may also fit other vehicles.",
+    "ymm_comp_hdr_uni_fit": "<b>This is a Universal Fit Item.</b> It is designed to fit many vehicles. Universal products may require a vehicle-specific fit kit (sold separately) or other modifications for installation. Universal products are not guaranteed to fit every vehicle. Check the product description for installation requirements. This item is confirmed to fit the vehicles below."
+  },
+  "pagefly": {
+    "products": {
+      "product": {
+        "regular_price": "Regular price",
+        "sold_out": "Sold out",
+        "unavailable": "Unavailable",
+        "on_sale": "Sale",
+        "quantity": "Quantity",
+        "add_to_cart": "Add to cart",
+        "back_to_collection": "Back to {{ title }}",
+        "view_details": "View details"
+      }
+    },
+    "article": {
+      "tags": "Tags:",
+      "all_topics": "All topics",
+      "by_author": "by {{ author }}",
+      "posted_in": "Posted in",
+      "read_more": "Read more",
+      "back_to_blog": "Back to {{ title }}"
+    },
+    "comments": {
+      "title": "Leave a comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "post": "Post comment",
+      "moderated": "Please note, comments must be approved before they are published",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "success": "Your comment was posted successfully! Thank you!",
+      "comments_with_count": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
+    },
+    "password_page": {
+      "login_form_message": "Enter store using password:",
+      "login_form_password_label": "Password",
+      "login_form_password_placeholder": "Your password",
+      "login_form_submit": "Enter",
+      "signup_form_email_label": "Email",
+      "signup_form_success": "We will send you an email right before we open!",
+      "password_link": "Enter using password"
+    }
   }
 }
-{% endschema %}
