@@ -1,6 +1,6 @@
 <style>select { padding: 0; }</style>
 {% assign attribute = 'Sales Representative' %}
-<p id="sales_representative_title"><label for="sales_representative_id">Who helped you?</label></p>
+<p id="sales_representative_title"><label for="sales_representative_id">Who helped you? (optional)</label></p>
 
 <select id="sales_representative_id" name="attributes[{{ attribute }}]">
   {% for i in (1..9) %}
