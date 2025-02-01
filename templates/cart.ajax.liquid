@@ -38,7 +38,14 @@
       <h4 class="cart-title a-left h3">{{ 'cart.general.title' | t }} <span id="js-cart-subtotal" class="js-cart-subtotal">{{ cart.items_subtotal_price | money }}</span></h4>
     </div>
     <div id="cart-count" class="span-6 sm-span-12 auto a-right v-center">
-      <h4 class="modal-cart-count a-right"><strong>{% render 'w3-product-options', step:'cart_count2' %} item(s)</strong> <span class="modal-cart-title">{{ 'cart.general.in_shopping_cart' | t }}</span></h4>
+      <h4 class="modal-cart-count a-right"><strong>
+
+        {% comment %} Commented by MLVeda 
+        {% render 'w3-product-options', step:'cart_count2' %} item(s)</strong> 
+        {% endcomment %}
+  
+        <span class="modal-cart-title">{{ 'cart.general.in_shopping_cart' | t }}</span></h4>
+  
     </div>
   </div> -->
   <p class="ajax-cart__empty-cart a-center js-cart-empty {{ isEmpty }}">{{ 'cart.general.empty' | t }}</p>
