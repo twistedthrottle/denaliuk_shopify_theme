@@ -43,7 +43,12 @@
       </dt>
       <dd>
         <!-- class "w3-custom-price" added by mlveda -->
-        <span class="price-item price-item--regular w3-custom-price" data-regular-price> {{ money_price }} Incl. VAT </span>
+        <!-- <span class="price-item price-item--regular w3-custom-price" data-regular-price> -->
+
+        {% comment %} Added by MLVeda : S{% endcomment %}
+        <span class="price-item price-item--regular" data-regular-price>
+          {{ money_price }} Incl. VAT 
+        </span>
       </dd>
     </dl>
     <dl class="price__sale">
