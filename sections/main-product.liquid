@@ -266,6 +266,10 @@
               </div><!-- /.product-blocks__block -->
               <div class="clear"></div>
               {% endunless %}
+
+{% comment %} Added by MLVeda : start {% endcomment %}
+  {% render 'MLV-custom_add_on' %}
+{% comment %} Added by MLVeda : end {% endcomment %}
             
             {% when 'accordion_content' %}
                 {% if gallery_full %}
