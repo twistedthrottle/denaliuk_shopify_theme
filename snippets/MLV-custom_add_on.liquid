@@ -1,0 +1,860 @@
+{% if product.metafields.custom.denali_add_on %}
+  {% for entry in product.metafields.custom.denali_add_on.value %}
+
+    {% if entry.title.value %}
+      <h3 class="mlv_title">{{ entry.title.value }}</h3>
+    {% endif %}
+
+    {% if entry.description.value %}
+      <p>{{ entry.description.value }}</p>
+    {% endif %}
+
+    {% if entry.radio_option.value == true %}
+      <div class="product1-container" data-entry-id="{{ forloop.index }}">
+        {% for variant in entry.variants.value %}
+            {% if variant.product.variants.size > 1 %}
+              <div class="mlv_radio_option_div" style="display: flex; gap: 5px; margin-bottom: 5px;">
+                <input type="radio" 
+                  class="variant-option-radio"
+                  data-variant-id="{{ variant.id }}" 
+                  data-title="{{ variant.product.title }} ({{ variant.title }})" 
+                  data-price="{{ variant.price | money_without_currency }}" 
+                  data-product-id="{{ variant.product.id }}" 
+                  id="{{ variant.title }}" 
+                  name="{{ entry.title }}" 
+                  value="{{ variant.title }}"
+                  onclick="toggleVariantSelection(this, 'radio')"
+                />
+                <label class="mlv_label" for="{{ variant.title }}">Add {{ variant.product.title }} ({{ variant.title }}) +{{ variant.price | money }}</label><br>
+              </div>
+            {% else %}
+              <div class="mlv_radio_option_div" style="display: flex; gap: 5px; margin-bottom: 5px;">
+                <input 
+                  type="radio" 
+                  class="variant-option-radio"
+                  data-variant-id="{{ variant.product.variants.first.id }}" 
+                  data-title="{{ variant.product.title }}" 
+                  data-price="{{ variant.product.price | money_without_currency }}" 
+                  data-product-id="{{ variant.product.id }}"
+                  id="{{ variant.product.title }}" 
+                  name="{{ entry.title }}" 
+                  value="{{ variant.product.title }}"
+                  onclick="toggleVariantSelection(this, 'radio')"
+                />
+                <label class="mlv_label" for="{{ variant.product.title }}">Add {{ variant.product.title }} +{{ variant.product.price | money }}</label><br>
+              </div>
+            {% endif %}
+        {% endfor %}
+
+        <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+          <input type="radio" 
+            class="variant-option-radio"
+            name="{{ entry.title }}" 
+            id="Skip For Now"
+            value="Skip For Now"
+            onclick="toggleVariantSelection(this, 'radio')"
+          />
+          <label class="mlv_label" for="Skip For Now">Skip For Now</label><br>
+        </div>
+        
+      </div>
+      
+      {% for variant in entry.variants.value %}
+        {% if variant.metafields.custom.denali_main_select %}
+          <div class="entry-products product2-container hidden" data-product1-id="{{ variant.id }}">
+              {% assign select_list = variant.metafields.custom.denali_main_select.value %}
+              {% if select_list.title.value %}
+                <h3 class="mlv_title">{{ select_list.title.value }}</h3>
+              {% endif %}
+
+              {% if select_list.enable_select_box.value == true %}
+                
+                <div style="display: flex; gap: 10px;">
+                  <select onchange="toggleVariantSelection(this, 'select')" class="variant-option-select">
+                    <option class="variant-select-option" name="{{ entry.title }}" value="Please Select">Please Select</option>
+                    {% for product2 in select_list.variants.value %}
+                      {% if product2.product.variants.size > 1 %}
+                        <option class="variant-select-option" id="{{ product2.title }}" data-variant-id="{{ product2.id }}" data-price="{{ product2.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }} ({{ product2.title }})">{{ product2.product.title }} ({{ product2.title }})</option>
+                      {% else %}
+                        <option class="variant-select-option" id="{{ product2.product.title }}" data-variant-id="{{ product2.product.variants.first.id }}" data-price="{{ product2.product.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }}">{{ product2.product.title }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+
+              {% elsif select_list.variants.value %}
+                 select_list : {{ select_list }}
+                <div style="display: flex; gap: 10px;">
+                  {% for product2 in select_list.variants.value %}
+                    {% if product2.product.variants.size > 1 %}
+                      <div class="product2">
+                        <div 
+                          class="variant-option" 
+                          data-variant-id="{{ product2.id }}" 
+                          data-title="{{ product2.product.title }} ({{ product2.title }})" 
+                          data-price="{{ product2.price | money_without_currency }}" 
+                          data-product-id="{{ product2.id }}"
+                          {% if entry.multi_select.value == true %}
+                            onclick="toggleVariantSelection(this, 'multiSelect')"
+                          {% else %}
+                            onclick="toggleVariantSelection(this, 'image')"
+                          {% endif %}
+                        >
+                          <img 
+                            src="{{ product2.featured_image.src | img_url: '100px' }}" 
+                            alt="{{ product2.product.title }} ({{ product2.title }})" 
+                            title="{{ product2.product.title }} ({{ product2.title }})"
+                          />
+
+                          <div class="tipr_container_top variant-name">
+                            <div class="tipr_point_top">
+                              <div class="tipr_content">
+                                {{ product2.title }}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <!-- <span class="variant-name">{{ product2.title }}</span>  -->
+                        </div>
+                      </div>
+                    {% else %}
+                      <div class="product2">
+                        <div 
+                          class="variant-option" 
+                          data-variant-id="{{ product2.product.variants.first.id }}" 
+                          data-title="{{ product2.product.title }}" 
+                          data-price="{{ product2.product.price | money_without_currency }}" 
+                          data-product-id="{{ product2.product.id }}"
+                          {% if entry.multi_select.value == true %}
+                            onclick="toggleVariantSelection(this, 'multiSelect')"
+                          {% else %}
+                            onclick="toggleVariantSelection(this, 'image')"
+                          {% endif %}
+                        >
+                          <img 
+                            src="{{ product2.product.featured_image.src | img_url: '100px' }}" 
+                            alt="{{ product2.product.title }}" 
+                            title="{{ product2.product.title }}"
+                          />
+
+                          <div class="tipr_container_top variant-name">
+                            <div class="tipr_point_top">
+                              <div class="tipr_content">
+                                {{ product2.product.title }} ({{ product2.title }})
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <span class="variant-name">{{ product2.product.title }} ({{ product2.title }})</span> -->
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    {% elsif entry.variants.value or entry.multi_select.value == true %}
+      <div class="entry-products product1-container" data-entry-id="{{ forloop.index }}">
+        {% for variant in entry.variants.value %}
+          <div 
+            class="product-variants product1" 
+            data-product-id="{{ variant.product.id }}" 
+            onclick="toggleProduct2(this, 'image')"
+          >
+            {% if variant.product.variants.size > 1 %}
+              <div 
+                class="variant-option" 
+                data-variant-id="{{ variant.id }}" 
+                data-title="{{ variant.product.title }} ({{ variant.title }})" 
+                data-price="{{ variant.price | money_without_currency }}" 
+                data-product-id="{{ variant.product.id }}"
+                {% if entry.multi_select.value == true %}
+                  onclick="toggleVariantSelection(this, 'multiSelect')"
+                {% else %}
+                  onclick="toggleVariantSelection(this, 'image')"
+                {% endif %}
+              >
+                <img 
+                  src="{{ variant.featured_image.src | img_url: '100px' }}" 
+                  alt="{{ variant.title }}" 
+                  title="{{ variant.title }}"
+                />
+
+                <div class="tipr_container_top variant-name">
+                  <div class="tipr_point_top">
+                    <div class="tipr_content">
+                      {{ variant.product.title }} ({{ variant.title }})
+                    </div>
+                  </div>
+                </div>
+                <!-- <span class="variant-name">{{ variant.product.title }} ({{ variant.title }})</span> -->
+              </div>
+            {% else %}
+              <div 
+                class="variant-option" 
+                data-variant-id="{{ variant.product.variants.first.id }}" 
+                data-title="{{ variant.product.title }}" 
+                data-price="{{ variant.product.price | money_without_currency }}" 
+                data-product-id="{{ variant.product.id }}"
+                {% if entry.multi_select.value == true %}
+                  onclick="toggleVariantSelection(this, 'multiSelect')"
+                {% else %}
+                  onclick="toggleVariantSelection(this, 'image')"
+                {% endif %}
+              >
+                <img 
+                  src="{{ variant.product.featured_image | img_url: '100px' }}" 
+                  alt="{{ variant.product.title }}" 
+                  title="{{ variant.product.title }}"
+                />
+                
+                <div class="tipr_container_top variant-name">
+                  <div class="tipr_point_top">
+                    <div class="tipr_content">
+                      {{ variant.product.title }}
+                    </div>
+                  </div>
+                </div>
+                <!-- <span class="variant-name">{{ variant.product.title }}</span> -->
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      
+      {% for variant in entry.variants.value %}
+        {% if variant.metafields.custom.denali_main_select %}
+          <div class="entry-products product2-container hidden" data-product1-id="{{ variant.product.id }}">            
+            {% assign select_list = variant.metafields.custom.denali_main_select.value %}
+              {% if select_list.title.value %}
+                <h3 class="mlv_title">{{ select_list.title.value }}</h3>
+              {% endif %}
+
+              {% if select_list.enable_select_box.value == true %}
+                <div style="display: flex; gap: 10px;">
+                  <select onchange="toggleVariantSelection(this, 'select')" class="variant-option-select">
+                    <option class="variant-select-option" name="{{ entry.title }}" value="Please Select">Please Select</option>
+                    {% for product2 in select_list.variants.value %}
+                      {% if product2.product.variants.size > 1 %}
+                        <option class="variant-select-option" id="{{ product2.product.title }}" data-variant-id="{{ product2.id }}" data-price="{{ product2.product.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }} ({{ product2.title }})">{{ product2.product.title }} ({{ product2.title }})</option>
+                      {% else %}
+                        <option class="variant-select-option" id="{{ product2.title }}" data-variant-id="{{ product2.product.variants.first.id }}" data-price="{{ product2.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.title }}">{{ product2.title }}</option>
+                      {% endif %}  
+                    {% endfor %}
+                  </select>
+                </div>
+
+              {% elsif select_list.variants.value %}
+                <div style="display: flex; gap: 10px;">
+                  {% for product2 in select_list.variants.value %}
+                    {% if product2.product.variants.size > 1 %}
+                      <div class="product2">
+                        <div 
+                          class="variant-option" 
+                          data-variant-id="{{ product2.id }}" 
+                          data-title="{{ product2.product.title }} ({{ product2.title }})" 
+                          data-price="{{ product2.price | money_without_currency }}" 
+                          data-product-id="{{ product2.id }}"
+                          {% if entry.multi_select.value == true %}
+                            onclick="toggleVariantSelection(this, 'multiSelect')"
+                          {% else %}
+                            onclick="toggleVariantSelection(this, 'image')"
+                          {% endif %}
+                        >
+                          <img 
+                            src="{{ product2.featured_image.src | img_url: '100px' }}" 
+                            alt="{{ product2.product.title }} ({{ product2.title }})" 
+                            title="{{ product2.product.title }} ({{ product2.title }})"
+                          />
+
+                          <div class="tipr_container_top variant-name">
+                            <div class="tipr_point_top">
+                              <div class="tipr_content">
+                                {{ product2.title }}
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <span class="variant-name">{{ product2.title }}</span>  -->
+                        </div>
+                      </div>
+                    {% else %}
+                      <div class="product2">
+                        <div 
+                          class="variant-option" 
+                          data-variant-id="{{ product2.product.variants.first.id }}" 
+                          data-title="{{ product2.product.title }}" 
+                          data-price="{{ product2.product.price | money_without_currency }}" 
+                          data-product-id="{{ product2.product.id }}"
+                          {% if entry.multi_select.value == true %}
+                            onclick="toggleVariantSelection(this, 'multiSelect')"
+                          {% else %}
+                            onclick="toggleVariantSelection(this, 'image')"
+                          {% endif %}
+                        >
+                          <img 
+                            src="{{ product2.product.featured_image.src | img_url: '100px' }}" 
+                            alt="{{ product2.product.title }}" 
+                            title="{{ product2.product.title }}"
+                          />
+
+                          <div class="tipr_container_top variant-name">
+                            <div class="tipr_point_top">
+                              <div class="tipr_content">
+                                {{ product2.product.title }} ({{ product2.title }})
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <span class="variant-name">{{ product2.product.title }} ({{ product2.title }})</span> -->
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    {% endif %}
+
+  {% endfor %}
+
+
+<div id="selected-products-board">
+  <h3 class="mlv_board_title">Your Selections:</h3>
+  <div id="selected-products-list">
+    <p id="main-product-details" class="mlv_board_details">{{ product.title }}</p>
+  </div>
+  <p id="totalCost" style="font-weight: bold; padding: 10px;">
+    <!-- <strong>Total: </strong> -->
+  </p>
+</div>
+
+  
+<script>
+
+function toggleProduct2(ele, type) {
+    // Get all product1 elements
+    const product1Elements = document.querySelectorAll('.product-variants.product1');
+    const product1Radios = document.querySelectorAll('.variant-option-radio.selected');
+
+    // Hide all product2-containers initially
+    const allProduct2Containers = document.querySelectorAll('.product2-container');
+    allProduct2Containers.forEach(container => {
+        container.classList.add('hidden');
+    });
+
+    // const productId = ele.getAttribute('data-product-id');
+    // const variantId = ele.getAttribute('data-variant-id');
+    // console.log("productId : ", productId);
+    // console.log("variantId : ", variantId);
+
+    // if(productId){ 
+    //   const matchingProduct2Containers = document.querySelectorAll(`.product2-container[data-product1-id="${productId}"]`);
+    //   matchingProduct2Containers.forEach(container => {
+    //     console.log("container : ",container);
+    //       container.classList.remove('hidden');
+    //   });
+    // }
+
+    product1Elements.forEach(element => {
+      // Get the data-product-id of the current product1
+      const productId = element.getAttribute('data-product-id');
+
+      // Check if the current product1 has a child with the class 'variant-option selected'
+      const hasSelectedVariant = element.querySelector('.variant-option.selected') !== null;
+
+      // If a selected variant is found, show matching .product2-container elements
+      if (hasSelectedVariant) {
+        const matchingProduct2Containers = document.querySelectorAll(`.product2-container[data-product1-id="${productId}"]`);
+        matchingProduct2Containers.forEach(container => {
+            container.classList.remove('hidden');
+        });
+      }
+    });
+
+    product1Radios.forEach(element => {
+      // Get the data-product-id of the current product1
+      const productId2 = element.getAttribute('data-variant-id');
+      console.log("productId2 : ", productId2);
+
+      const matchingProduct2Containers = document.querySelectorAll(`.product2-container[data-product1-id="${productId2}"]`);
+      matchingProduct2Containers.forEach(container => {
+          container.classList.remove('hidden');
+      });
+    });
+    
+    // if(variantId){ 
+    //   const matchingProduct2Containers1 = document.querySelectorAll(`.product2-container[data-product1-id="${variantId}"]`);
+    //   matchingProduct2Containers1.forEach(container => {
+    //     console.log("container : ",container);
+    //       container.classList.remove('hidden');
+    //   });
+    // }
+
+    // // Iterate over all product1 elements
+    // product1Elements.forEach(element => {
+    //     // Get the data-product-id of the current product1
+    //     const productId = element.getAttribute('data-product-id');
+
+    //     // Check if the current product1 has a child with the class 'variant-option selected'
+    //     const hasSelectedVariant = element.querySelector('.variant-option.selected') !== null;
+
+    //     // If a selected variant is found, show matching .product2-container elements
+    //     if (hasSelectedVariant) {
+    //         const matchingProduct2Containers = document.querySelectorAll(`.product2-container[data-product1-id="${productId}"]`);
+    //         matchingProduct2Containers.forEach(container => {
+    //             container.classList.remove('hidden');
+    //         });
+    //     }
+    // });
+}
+
+
+
+function addSelectedProductsToCart() {
+  console.log("Function Called !!");
+  const selectedProductsList = document.querySelectorAll('#selected-products-list p');
+  const defaultProductForm = document.querySelector('.product_form');
+  const items = [];
+
+  // Start processing from the second child
+  selectedProductsList.forEach((product, index) => {
+      if (index === 0) return; // Skip the first child
+
+      const variantId = product.getAttribute('mlv-variant-id');
+      if (variantId) {
+        items.push({
+            id: variantId,
+            quantity: 1,
+            properties: {
+              _AddOnMainProductId: "{{ product.id }}"
+            }
+        });
+      }
+  });
+
+  if (items.length > 0) {
+    const addOnIds = items.map(item => item.id).join(',');
+
+    const hiddenField = document.createElement("input");
+    hiddenField.type = "hidden";
+    hiddenField.name = "properties[_AddOnIds]";
+    hiddenField.value = addOnIds;
+    defaultProductForm.appendChild(hiddenField);
+  }
+
+  // const hiddenField2 = document.createElement("input");
+  // hiddenField2.type = "hidden";
+  // hiddenField2.name = "properties[_AddOnMainProductId]";
+  // hiddenField2.value = "{{ product.id }}";
+  // defaultProductForm.appendChild(hiddenField);
+
+  // Add all selected products to the cart using a single API call
+  if (items.length > 0) {
+    console.log("Cart Initiated !!");
+      fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ items })
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log('Added items to cart:', data);
+
+          // After successfully adding items, submit the default product form
+          if (defaultProductForm) {
+              defaultProductForm.submit(); // Submit the form to add the default product
+          }
+      })
+      .catch(error => {
+          console.error('Error adding items to cart:', error);
+      });
+  } else if (defaultProductForm) {
+      // If no items to add, just submit the default product form
+      defaultProductForm.submit();
+  }
+}
+
+// Add event listener to your 'Add to Cart' button
+document.addEventListener("DOMContentLoaded", function(){
+  const addToCartButton = document.querySelector('.AddtoCart');
+  console.log("addToCartButton : ",addToCartButton);
+  if (addToCartButton) {
+      addToCartButton.addEventListener('click', function(event) {
+          event.preventDefault();  // Prevent the default behavior to allow adding selected products first
+          addSelectedProductsToCart();  // Call the function to add products and submit the form
+      });
+  }
+});
+
+
+  
+
+  
+  
+function toggleVariantSelection(element, type) {
+
+    const container = element.closest('.entry-products');
+    const isSelected = element.classList.contains('selected');
+  
+    // Remove the 'selected' class from all variants within the same container
+    
+  if(type == "image"){
+    container.querySelectorAll('.variant-option').forEach(option => {
+      option.classList.remove('selected');
+    });
+  }
+  
+  // Toggle the 'selected' class on the clicked variant
+  if (!isSelected) {
+    element.classList.add('selected');
+  } else {
+    element.classList.remove('selected');
+  }
+  
+  if(type == "radio"){
+
+
+
+    const allProduct2Containers = document.querySelectorAll('.product2-container');
+    allProduct2Containers.forEach(container => {
+        container.classList.add('hidden');
+    });
+    
+     const productId = element.getAttribute('data-variant-id');
+     console.log("productId : ", productId);
+
+      const matchingProduct2Containers = document.querySelectorAll(`.product2-container[data-product1-id="${productId}"]`);
+      matchingProduct2Containers.forEach(container => {
+        console.log("container : ",container);
+          container.classList.remove('hidden');
+      });
+
+    
+    document.querySelectorAll('.variant-option-radio').forEach(radio => {
+      radio.classList.remove('selected');
+    });
+    const selectedRadio = document.querySelector(".variant-option-radio:checked");
+    if(selectedRadio) {
+      selectedRadio.classList.add('selected');
+    }
+    
+  }
+
+  if(type == "select"){
+    document.querySelectorAll('.variant-select-option').forEach(select => {
+      select.classList.remove('selected');
+    });
+    const selectedRadio = document.querySelector(".variant-select-option");
+    if(selectedRadio) {
+      selectedRadio.classList.add('selected');
+    }
+    
+  }
+
+  // Update the selected product list
+  updateSelectedProducts();
+}
+
+
+document.querySelectorAll('select.variant-select-option').forEach(select => {
+  select.addEventListener('change', () => updateSelectedProducts());
+});
+
+
+
+function updateSelectedProducts() {
+  const selectedProductsList = document.getElementById("selected-products-list");
+  const totalCostElement = document.getElementById("totalCost");
+  const selectedProductsBoard = document.getElementById("selected-products-board");
+
+  // Clear the list but keep the main product and totalCost intact
+  Array.from(selectedProductsList.children).forEach((child) => {
+    if (child.id !== "main-product-details") {
+      selectedProductsList.removeChild(child);
+    }
+  });
+
+  // Main product details
+  const mainProductTitle = "{{ product.title }}"; // Replace with dynamic title
+  const mainProductPriceText = "{{ product.price }}".replace(/,/g, ""); // Replace with dynamic price
+  const mainProductPrice = parseFloat(mainProductPriceText / 100);
+
+  if (isNaN(mainProductPrice)) {
+    console.error("Invalid main product price");
+    return;
+  }
+
+  // Start total cost with the main product price
+  let totalCost = mainProductPrice;
+
+  // Function to process selected options
+  const processSelectedOptions = (selectedOptions) => {
+    selectedOptions.forEach((option) => {
+      const title = option.dataset.title || option.textContent.trim();
+      const variantId = option.dataset.variantId;
+      // console.log("option : ", option.dataset);
+      const priceText = option.dataset.price ? option.dataset.price.replace(/,/g, "") : "0";
+      const price = parseFloat(priceText);
+
+      if (!title || title.toLowerCase() === "please select" || isNaN(price)) {
+        return;
+      }
+
+      // Add a new entry for the selected product
+      const productEntry = document.createElement("p");
+      productEntry.setAttribute('class',"mlv_board_details");
+      productEntry.setAttribute('mlv-variant-id',variantId);
+      productEntry.innerHTML = `${title}`;
+      selectedProductsList.appendChild(productEntry);
+
+      // Add to total cost
+      totalCost += price;
+    });
+  };
+
+  // Process selected variants
+  const selectedVariants = document.querySelectorAll(".variant-option.selected");
+  processSelectedOptions(selectedVariants);
+
+  // Process selected radio options
+  const selectedRadios = document.querySelectorAll(".variant-option-radio.selected");
+  processSelectedOptions(selectedRadios);
+
+  // Process selected dropdown options
+  const selectedDropdownOptions = document.querySelectorAll("select.variant-option-select option:checked");
+  processSelectedOptions(selectedDropdownOptions);
+
+  // Update total cost display
+  totalCostElement.innerHTML = `<strong>Total Cost:</strong> <span style="font-size: 20px;">$${totalCost.toFixed(2)}</span>`;
+
+  // Show or hide the selected products board based on whether there are other selected products
+  if (selectedProductsList.children.length > 1) {
+    selectedProductsBoard.style.display = "block";
+  } else {
+    selectedProductsBoard.style.display = "none";  }
+}
+
+
+// Function to reset the dropdown if the parent div has 'hidden' class
+function resetDropdownIfHidden(container) {
+  const selectDropdown = container.querySelector('.variant-option-select');
+  
+  if (selectDropdown) {
+    const defaultOption = selectDropdown.querySelector('option[value="Please Select"]');
+    if (defaultOption) {
+      selectDropdown.value = "Please Select";
+      selectDropdown.dispatchEvent(new Event('change'));
+    }
+  }
+}
+
+// MutationObserver to detect changes in the 'hidden' class and trigger immediate action
+function observeHiddenClass() {
+  // Get all product containers
+  const productContainers = document.querySelectorAll('.entry-products.product2-container');
+
+  productContainers.forEach(container => {
+    // Set up MutationObserver to watch for changes in class attribute
+    const observer = new MutationObserver((mutationsList) => {
+      mutationsList.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          // If the 'hidden' class is added or removed, reset the dropdown
+          if (container.classList.contains('hidden')) {
+            resetDropdownIfHidden(container);
+          }
+        }
+      });
+    });
+
+    // Start observing for class changes on the container
+    observer.observe(container, { attributes: true });
+  });
+}
+
+// Call the function to start observing
+observeHiddenClass();
+
+
+</script>
+
+<style>
+.mlv_title {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Karla !important;
+  margin-top: 15px;
+}
+.mlv_board_title {
+  font-family: Karla !important;
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #555;
+  border-radius: 4px;
+  padding: 10px;
+}
+#selected-products-board {
+  display: block;
+  background-color: #ddd;
+  color: #000;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.mlv_board_details {
+  padding: 10px;
+}
+.product2-container {
+  flex-direction: column;
+  align-items: flex-start !important;
+}
+.entry-products {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* gap: 10px; */
+  margin-bottom: 20px;
+}
+
+.product-variants {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.variant-option {
+  background: #fff;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  border: 2px solid #bbb;
+  border-radius: 4px;
+  max-width: 250px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* padding: 2px; */
+  box-sizing: border-box;
+  max-width: 75px;
+  width: 75px;
+  height: 75px;
+  align-content: center;
+}
+
+.variant-option img {
+  /* border: 2px solid #bbb;
+  border-radius: 5px;
+  transition: border-color 0.3s ease; */
+  /* height: auto; */
+  /* width: 75px; */
+  
+}
+
+.variant-option:hover img {
+  /* border-color: #ccc; */
+  opacity: 0.7;
+  transition: 0.5 ease;
+}
+
+.variant-option.selected {
+  border-color: black;
+}
+
+.variant-name {
+  /* position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 2px 5px;
+  font-size: 12px;
+  border-radius: 3px;
+  display: none; */
+}
+
+.variant-option:hover .variant-name {
+  display: block;
+}
+
+.hidden, #selected-products-board {
+  display: none;
+}
+  
+.mlv_label {
+  font-weight: normal !important;
+}
+  
+.mlv_label, .mlv_board_details, .mlv_board_title {
+  margin-bottom: unset !important;
+}
+
+.variant-option .tipr_container_top {
+  margin-top: 0px;
+  bottom: 90%;
+  font-size: 13px !important;
+}
+.tipr_container_top {
+  display: none;
+  position: absolute;
+  margin-top: -77px;
+  z-index: 1000;
+}
+.tipr_point_top {
+  position: relative;
+  background: #fff;
+  border: 1px solid #000;
+}
+/* .tipr_point_top:before {
+  border-top-color: #000;
+  border-width: 9px;
+  left: 50%;
+  margin-left: -9px;
+}
+.tipr_point_top:before {
+  position: absolute;
+  pointer-events: none;
+  border: solid transparent;
+  top: 100%;
+  content: "";
+  height: 0;
+  width: 0;
+} */
+.tipr_content {
+  color: #fff;
+  background-color: #000;
+  background: rgba(0, 0, 0, 1);
+  padding: 5px 13px;
+}
+.tipr_point_top:after {
+  border-top-color: #000;
+  border-width: 8px;
+  left: 50%;
+  margin-left: -8px;
+}
+.tipr_point_top:after {
+  position: absolute;
+  pointer-events: none;
+  border: solid transparent;
+  bottom: -6px;
+  content: "";
+  height: 10px;
+  width: 10px;
+  background: black;
+  rotate: 45deg;
+}
+.product1-container {
+  margin-bottom: 15px;
+}
+</style>
+
+{% endif %}
