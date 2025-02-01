@@ -198,7 +198,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- content for header ends --> 
 
 
-
+{% comment %} Commented by MLVeda
 {% render 'w3-product-options', item: item, step:'header_inject' %}
 
 
@@ -210,10 +210,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <!-- preload added by mlveda -->
 {{'w3-vantage-custom-styles.css' | asset_url | stylesheet_tag: preload: true}}
+{% endcomment %}
   
 <!-- type added by mlveda -->
 {% comment %}{{'w3-customizer-scripts.js' | asset_url | script_tag }}{% endcomment %}
+  {% comment %} Commented by MLVeda
   <script src="{{ 'w3-customizer-scripts.js' | asset_url }}" >
+  {% endcomment %}
 
     {% comment %}below file (mlveda-preorder.css) is added by MLVeda for preorder functionalities.{% endcomment %}
   {{ 'mlveda-preorder.css' | asset_url | stylesheet_tag: preload: true }} {% comment %}preload added by mlveda{% endcomment %}
