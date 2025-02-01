@@ -13,7 +13,13 @@
         </thead>
        </table>
       {% for item in cart.items %}
-        <ul class="item_{{ item.id }}-{{ forloop.index }} ajax-cart__cart-item grid__wrapper edge {% render 'w3-product-options', item: item, step:'item_row_class' %} ">
+        <ul class="item_{{ item.id }}-{{ forloop.index }} ajax-cart__cart-item grid__wrapper edge 
+
+          {% comment %} Commented by MLVeda 
+          {% render 'w3-product-options', item: item, step:'item_row_class' %} 
+          {% endcomment %}
+          
+        ">
           <a class="ajax-cart__item-remove--no-js" style="display:none;" href="/cart/change?line={{ forloop.index }}&amp;quantity=0" data-role="product-remove">
             {% render 'snip-icons',
                wrapper: '.ajax-cart__item-remove',
@@ -24,7 +30,9 @@
                fill: 'var(--text-color)',
                hover: 'var(--text-color)' %}
           </a>
-          <li class="remove_{{ item.id }}-{{ forloop.index }} ajax-cart__item-remove--js mb0 js-cart-remove" data-item-id="{{ item.id }}-{{ forloop.index }}" data-item-key="{{ item.key }}" data-line-item="{{ forloop.index }}">
+          
+          {% comment %} Added mlv_remove_item class and data-product-id attribute by MLVeda {% endcomment %}
+          <li class="remove_{{ item.id }}-{{ forloop.index }} ajax-cart__item-remove--js mb0 mlv_remove_item js-cart-remove" data-product-id="{{ item.product.id }}" data-item-id="{{ item.id }}-{{ forloop.index }}" data-item-key="{{ item.key }}" data-line-item="{{ forloop.index }}">
             {% render 'snip-icons',
                wrapper: '.ajax-cart__item-remove--js',
                type: 'apollo',
