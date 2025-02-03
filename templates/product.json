@@ -1,1 +1,232 @@
-{"sections":{"main":{"type":"main-product","blocks":{"0ee0e57a-a514-45ea-8ad6-a320b436c922":{"type":"title","settings":{}},"3d509b0b-78f5-44c2-8faf-bcbbf76d7495":{"type":"shopify:\/\/apps\/loox-reviews\/blocks\/loox-rating\/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e","disabled":true,"settings":{"contentSize":16,"pattern":"Read {{ product.metafields.reviews.rating_count.value }} Reviews | Write a Review","hideText":false,"alignment":"","layout":"","textColor":"","starColor":"","showAllReviews":false,"looxOpenFloatingWidget":false,"emptyRatingWidget":false}},"d4bc118c-34ce-411c-8496-6f07985c8b3e":{"type":"price","settings":{}},"4734dabf-5af5-4b76-9077-391427ae4b62":{"type":"variant_picker","settings":{"show_size_chart":false,"size_chart_page":"","size_chart_label":"Size chart"}},"ef6b29b9-47fd-46e1-b030-4931fd59a3a2":{"type":"stock_levels","settings":{"threshold":4,"pulse_color":"#ffb042"}},"85156b73-697c-4bed-86e8-70ed43061d55":{"type":"quantity","settings":{}},"6aeeef44-525f-47e8-b724-9c02c8cde4cc":{"type":"buttons","settings":{"show_gift_card_recipient":false}},"84665c35-15c8-4df3-9867-e170861135a5":{"type":"pickup_availability","disabled":true,"settings":{}},"efe0d88a-d707-4bb1-add8-cbbb8e054990":{"type":"description","settings":{"show_as_accordion":true,"default_open_accordion":true}},"0b1ca642-3b30-4a17-a48a-3467485112c5":{"type":"details","settings":{"show_as_accordion":true,"pf_show_sku":true,"pf_show_barcode":true,"pf_show_product_inventory":false,"pf_show_product_weight":true,"pf_show_product_type":true,"pf_show_product_vendor":false,"pf_show_product_collection":true,"default_open_accordion":true}},"accordion_item1":{"type":"accordion_content","disabled":true,"settings":{"accordion_heading":"Accordion heading","page":"","richtext":"<p>Enter the content to use inside the accordion panel selected.<\/p>","default_open_accordion":false}},"a7c78079-7683-4e65-8bc0-55dd7b18bfc7":{"type":"share","disabled":true,"settings":{}},"accordion_content_XibgMm":{"type":"accordion_content","settings":{"accordion_heading":"This Product Fits","page":"ymm-compatible-table-chart-shortcode-page","richtext":"","default_open_accordion":true}}},"block_order":["0ee0e57a-a514-45ea-8ad6-a320b436c922","3d509b0b-78f5-44c2-8faf-bcbbf76d7495","d4bc118c-34ce-411c-8496-6f07985c8b3e","4734dabf-5af5-4b76-9077-391427ae4b62","ef6b29b9-47fd-46e1-b030-4931fd59a3a2","85156b73-697c-4bed-86e8-70ed43061d55","6aeeef44-525f-47e8-b724-9c02c8cde4cc","84665c35-15c8-4df3-9867-e170861135a5","efe0d88a-d707-4bb1-add8-cbbb8e054990","0b1ca642-3b30-4a17-a48a-3467485112c5","accordion_item1","a7c78079-7683-4e65-8bc0-55dd7b18bfc7","accordion_content_XibgMm"],"settings":{"pf_show_sticky_cart":false,"show_tax_info":true,"pf_gallery_style":"thumbnails","thumbnail_position":"left","full_image_count":3,"click_to_enlarge":true,"enable_video_looping":false}},"custom_liquid_jgWhzR":{"type":"custom-liquid","settings":{"liquid":"<div\n                class=\"product-blocks__block product-blocks__block--{{ block.type }}\"\n                {{ block.shopify_attributes }}>\n                <div id=\"soc\" class=\"mlsocialshare\">\n                  {% render 'social' with product %}\n                <\/div><!-- \/#soc -->\n              <\/div><!-- \/.product-blocks__block -->\n              <div class=\"clear\"><\/div>\n\n<script>\ndocument.addEventListener('DOMContentLoaded', function() {\n    var carouselNav = document.querySelector('#thumb-slider-wrapper .carousel-nav');\n    var thumbSliderWrapper = document.querySelector('#thumbnails .thumb-slider-wrapper');\n    var offset = 50;\n\n    if (!carouselNav || !thumbSliderWrapper) return;\n\n    function checkCarouselEdge() {\n        var newScrollLeft = carouselNav.scrollLeft;\n        var width = carouselNav.offsetWidth;\n        var scrollWidth = carouselNav.scrollWidth;\n\n        if (scrollWidth - newScrollLeft <= width + offset) {\n            thumbSliderWrapper.classList.add('end-reached');\n        } else {\n            thumbSliderWrapper.classList.remove('end-reached');\n        }\n    }\n\n    carouselNav.addEventListener('scroll', checkCarouselEdge);\n    window.addEventListener('resize', checkCarouselEdge);\n    checkCarouselEdge();\n});\n<\/script>","full_width":false,"section_padding":"none"}},"main-product-content":{"type":"main-product-content","disabled":true,"settings":{}},"custom_liquid_yewrF8":{"type":"custom-liquid","settings":{"liquid":"<div class=\"page-width row\">\n<alby-generative-qa class=\"mlvDesktop\" item-group-id=\"gid:\/\/shopify\/Product\/{{ product.id }}\" compatibility-model-key=\"\"><h4>Questions & Answers<\/h4><\/alby-generative-qa>\n<\/div>\n      <script type=\"text\/javascript\"> \n        const urlParams = new URLSearchParams(window.location.search);\n        const myParam = urlParams.get('rq');\n        const mlgetCookieValue = (name) => (\n          document.cookie.match('(^|;)\\\\s*' + name + '\\\\s*=\\\\s*([^;]+)')?.pop() || ''\n        )\n        const mlalby = document.querySelector(\"alby-generative-qa\");\n\n        mlalby.setAttribute(\"compatibility-model-key\", mlgetCookieValue(\"ymm_values\"));\n      <\/script>","full_width":false,"section_padding":"both"}},"product-recommendations":{"type":"product-recommendations","settings":{"products_per_row":4,"products_shown":4,"product_recommendations_heading":"You may also like","section_padding":"both"}},"recently-viewed":{"type":"recently-viewed","settings":{"title":"You also Viewed","carousel":true,"grid":4,"limit":6,"section_padding":"both"}},"eb20f6df-12b6-41d0-8df2-5d92b7f37d42":{"type":"custom-liquid","disabled":true,"settings":{"liquid":"<h2 class=\"spr-header-title\" style=\"margin:0 auto;text-align:center;display:block;\">Customer Reviews<\/h2>\n<div class=\"spr-summary rte\" style=\"margin:0 auto;text-align:center;display:block;\">\n\n        <span class=\"spr-starrating spr-summary-starrating\" aria-label=\"5.0 of 5 stars\" role=\"img\">\n          <i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"><\/i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"><\/i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"><\/i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"><\/i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"><\/i>\n        <\/span>\n        <span class=\"spr-summary-caption\"><span class=\"spr-summary-actions-togglereviews\">Based on 2 reviews<\/span>\n        <\/span><span class=\"spr-summary-actions\">\n        <a href=\"#\" class=\"spr-summary-actions-newreview\" onclick=\"SPR.toggleForm(1575118241892);return false\">Write a review<\/a>\n      <\/span>\n    <\/div>","full_width":false,"section_padding":"none"}},"cbbf981b-b65a-4ec6-b608-e7ba16669cb1":{"type":"custom-liquid","settings":{"liquid":"<h1 class=\"spr-header-title bl-master-title\" style=\"margin:0 auto;text-align:center;display:block;\">Customer Reviews<\/h1>","full_width":false,"section_padding":"none"}},"17024653299b1f7f19":{"type":"apps","blocks":{"182dea28-f442-4443-b14b-6f0373c34a19":{"type":"shopify:\/\/apps\/loox-reviews\/blocks\/loox-dynamic-section\/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e","settings":{"only_photos":false,"aggregated":false,"limit":20,"hide_thumbnails":false,"maxwidth":1080,"is_sample":true}}},"block_order":["182dea28-f442-4443-b14b-6f0373c34a19"],"settings":{"full_width":true,"section_padding":"both"}},"035488b2-0fe6-4177-8ee0-607cda0d9689":{"type":"custom-liquid","settings":{"liquid":"<div class=\"blog-linker\"\n     data-layout=\"layout_thumb_title_desc\"\n     data-rows=\"1\"\n     data-max-lines=\"4\"\n     data-title-max-lines=\"2\"\n     data-columns=\"4\"\n     data-title=\"Related Posts\"\n     data-link-text=\"Read More\"\n     data-all-random=\"false\"\n     data-fill-random=\"true\"\n     data-use-add-to-cart-links=\"false\"\n     data-make-title-a-link=\"false\">\n     <div class=\"blog-linker-spinner\">\n      <div class=\"sk-three-bounce\">\n        <div class=\"sk-child sk-bounce1\"><\/div>\n        <div class=\"sk-child sk-bounce2\"><\/div>\n        <div class=\"sk-child sk-bounce3\"><\/div>\n      <\/div>\n    <\/div>\n<\/div>","full_width":false,"section_padding":"top"}}},"order":["main","custom_liquid_jgWhzR","main-product-content","custom_liquid_yewrF8","product-recommendations","recently-viewed","eb20f6df-12b6-41d0-8df2-5d92b7f37d42","cbbf981b-b65a-4ec6-b608-e7ba16669cb1","17024653299b1f7f19","035488b2-0fe6-4177-8ee0-607cda0d9689"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "0ee0e57a-a514-45ea-8ad6-a320b436c922": {
+          "type": "title",
+          "settings": {}
+        },
+        "3d509b0b-78f5-44c2-8faf-bcbbf76d7495": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-rating/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "disabled": true,
+          "settings": {
+            "contentSize": 16,
+            "pattern": "Read {{ product.metafields.reviews.rating_count.value }} Reviews | Write a Review",
+            "hideText": false,
+            "alignment": "",
+            "layout": "",
+            "textColor": "",
+            "starColor": "",
+            "showAllReviews": false,
+            "looxOpenFloatingWidget": false,
+            "emptyRatingWidget": false
+          }
+        },
+        "d4bc118c-34ce-411c-8496-6f07985c8b3e": {
+          "type": "price",
+          "settings": {}
+        },
+        "4734dabf-5af5-4b76-9077-391427ae4b62": {
+          "type": "variant_picker",
+          "settings": {
+            "show_size_chart": false,
+            "size_chart_page": "",
+            "size_chart_label": "Size chart"
+          }
+        },
+        "ef6b29b9-47fd-46e1-b030-4931fd59a3a2": {
+          "type": "stock_levels",
+          "settings": {
+            "threshold": 4,
+            "pulse_color": "#ffb042"
+          }
+        },
+        "85156b73-697c-4bed-86e8-70ed43061d55": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "6aeeef44-525f-47e8-b724-9c02c8cde4cc": {
+          "type": "buttons",
+          "settings": {
+            "show_gift_card_recipient": false
+          }
+        },
+        "84665c35-15c8-4df3-9867-e170861135a5": {
+          "type": "pickup_availability",
+          "disabled": true,
+          "settings": {}
+        },
+        "efe0d88a-d707-4bb1-add8-cbbb8e054990": {
+          "type": "description",
+          "settings": {
+            "show_as_accordion": true,
+            "default_open_accordion": true
+          }
+        },
+        "0b1ca642-3b30-4a17-a48a-3467485112c5": {
+          "type": "details",
+          "settings": {
+            "show_as_accordion": true,
+            "pf_show_sku": true,
+            "pf_show_barcode": true,
+            "pf_show_product_inventory": false,
+            "pf_show_product_weight": true,
+            "pf_show_product_type": true,
+            "pf_show_product_vendor": false,
+            "pf_show_product_collection": true,
+            "default_open_accordion": true
+          }
+        },
+        "accordion_item1": {
+          "type": "accordion_content",
+          "disabled": true,
+          "settings": {
+            "accordion_heading": "Accordion heading",
+            "page": "",
+            "richtext": "<p>Enter the content to use inside the accordion panel selected.</p>",
+            "default_open_accordion": false
+          }
+        },
+        "a7c78079-7683-4e65-8bc0-55dd7b18bfc7": {
+          "type": "share",
+          "disabled": true,
+          "settings": {}
+        },
+        "accordion_content_XibgMm": {
+          "type": "accordion_content",
+          "settings": {
+            "accordion_heading": "This Product Fits",
+            "page": "ymm-compatible-table-chart-shortcode-page",
+            "richtext": "",
+            "default_open_accordion": true
+          }
+        }
+      },
+      "block_order": [
+        "0ee0e57a-a514-45ea-8ad6-a320b436c922",
+        "3d509b0b-78f5-44c2-8faf-bcbbf76d7495",
+        "d4bc118c-34ce-411c-8496-6f07985c8b3e",
+        "4734dabf-5af5-4b76-9077-391427ae4b62",
+        "ef6b29b9-47fd-46e1-b030-4931fd59a3a2",
+        "85156b73-697c-4bed-86e8-70ed43061d55",
+        "6aeeef44-525f-47e8-b724-9c02c8cde4cc",
+        "84665c35-15c8-4df3-9867-e170861135a5",
+        "efe0d88a-d707-4bb1-add8-cbbb8e054990",
+        "0b1ca642-3b30-4a17-a48a-3467485112c5",
+        "accordion_item1",
+        "a7c78079-7683-4e65-8bc0-55dd7b18bfc7",
+        "accordion_content_XibgMm"
+      ],
+      "settings": {
+        "pf_show_sticky_cart": false,
+        "show_tax_info": true,
+        "pf_gallery_style": "thumbnails",
+        "thumbnail_position": "left",
+        "full_image_count": 3,
+        "click_to_enlarge": true,
+        "enable_video_looping": false
+      }
+    },
+    "custom_liquid_jgWhzR": {
+      "type": "custom-liquid",
+      "settings": {
+        "liquid": "<div\n                class=\"product-blocks__block product-blocks__block--{{ block.type }}\"\n                {{ block.shopify_attributes }}>\n                <div id=\"soc\" class=\"mlsocialshare\">\n                  {% render 'social' with product %}\n                </div><!-- /#soc -->\n              </div><!-- /.product-blocks__block -->\n              <div class=\"clear\"></div>\n\n<script>\ndocument.addEventListener('DOMContentLoaded', function() {\n    var carouselNav = document.querySelector('#thumb-slider-wrapper .carousel-nav');\n    var thumbSliderWrapper = document.querySelector('#thumbnails .thumb-slider-wrapper');\n    var offset = 50;\n\n    if (!carouselNav || !thumbSliderWrapper) return;\n\n    function checkCarouselEdge() {\n        var newScrollLeft = carouselNav.scrollLeft;\n        var width = carouselNav.offsetWidth;\n        var scrollWidth = carouselNav.scrollWidth;\n\n        if (scrollWidth - newScrollLeft <= width + offset) {\n            thumbSliderWrapper.classList.add('end-reached');\n        } else {\n            thumbSliderWrapper.classList.remove('end-reached');\n        }\n    }\n\n    carouselNav.addEventListener('scroll', checkCarouselEdge);\n    window.addEventListener('resize', checkCarouselEdge);\n    checkCarouselEdge();\n});\n</script>",
+        "full_width": false,
+        "section_padding": "none"
+      }
+    },
+    "main-product-content": {
+      "type": "main-product-content",
+      "disabled": true,
+      "settings": {}
+    },
+    "custom_liquid_yewrF8": {
+      "type": "custom-liquid",
+      "settings": {
+        "liquid": "<div class=\"page-width row\">\n<alby-generative-qa class=\"mlvDesktop\" item-group-id=\"gid://shopify/Product/{{ product.id }}\" compatibility-model-key=\"\"><h4>Questions & Answers</h4></alby-generative-qa>\n</div>\n      <script type=\"text/javascript\"> \n        const urlParams = new URLSearchParams(window.location.search);\n        const myParam = urlParams.get('rq');\n        const mlgetCookieValue = (name) => (\n          document.cookie.match('(^|;)\\\\s*' + name + '\\\\s*=\\\\s*([^;]+)')?.pop() || ''\n        )\n        const mlalby = document.querySelector(\"alby-generative-qa\");\n\n        mlalby.setAttribute(\"compatibility-model-key\", mlgetCookieValue(\"ymm_values\"));\n      </script>",
+        "full_width": false,
+        "section_padding": "both"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "products_per_row": 4,
+        "products_shown": 4,
+        "product_recommendations_heading": "You may also like",
+        "section_padding": "both"
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "title": "You also Viewed",
+        "carousel": true,
+        "grid": 4,
+        "limit": 6,
+        "section_padding": "both"
+      }
+    },
+    "eb20f6df-12b6-41d0-8df2-5d92b7f37d42": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "settings": {
+        "liquid": "<h2 class=\"spr-header-title\" style=\"margin:0 auto;text-align:center;display:block;\">Customer Reviews</h2>\n<div class=\"spr-summary rte\" style=\"margin:0 auto;text-align:center;display:block;\">\n\n        <span class=\"spr-starrating spr-summary-starrating\" aria-label=\"5.0 of 5 stars\" role=\"img\">\n          <i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"></i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"></i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"></i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"></i><i class=\"spr-icon spr-icon-star\" aria-hidden=\"true\"></i>\n        </span>\n        <span class=\"spr-summary-caption\"><span class=\"spr-summary-actions-togglereviews\">Based on 2 reviews</span>\n        </span><span class=\"spr-summary-actions\">\n        <a href=\"#\" class=\"spr-summary-actions-newreview\" onclick=\"SPR.toggleForm(1575118241892);return false\">Write a review</a>\n      </span>\n    </div>",
+        "full_width": false,
+        "section_padding": "none"
+      }
+    },
+    "cbbf981b-b65a-4ec6-b608-e7ba16669cb1": {
+      "type": "custom-liquid",
+      "settings": {
+        "liquid": "<h1 class=\"spr-header-title bl-master-title\" style=\"margin:0 auto;text-align:center;display:block;\">Customer Reviews</h1>",
+        "full_width": false,
+        "section_padding": "none"
+      }
+    },
+    "17024653299b1f7f19": {
+      "type": "apps",
+      "blocks": {
+        "182dea28-f442-4443-b14b-6f0373c34a19": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "aggregated": false,
+            "limit": 20,
+            "hide_thumbnails": false,
+            "maxwidth": 1080,
+            "is_sample": true
+          }
+        }
+      },
+      "block_order": [
+        "182dea28-f442-4443-b14b-6f0373c34a19"
+      ],
+      "settings": {
+        "full_width": true,
+        "section_padding": "both"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_jgWhzR",
+    "main-product-content",
+    "custom_liquid_yewrF8",
+    "product-recommendations",
+    "recently-viewed",
+    "eb20f6df-12b6-41d0-8df2-5d92b7f37d42",
+    "cbbf981b-b65a-4ec6-b608-e7ba16669cb1",
+    "17024653299b1f7f19"
+  ]
+}
