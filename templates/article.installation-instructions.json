@@ -1,1 +1,52 @@
-{"sections":{"main":{"type":"main-article","blocks":{"header":{"type":"header","settings":{"show_date":true,"show_author":false}},"image":{"type":"image","settings":{}},"content":{"type":"content","settings":{}},"info":{"type":"info","settings":{"show_tags":false,"show_social":true}}},"block_order":["header","image","content","info"],"settings":{"show_sidebar":false}},"custom_liquid_yfYXhw":{"type":"custom-liquid","settings":{"liquid":"<div class=\"blog-linker\"\n     data-layout=\"layout_thumb_title_desc\"\n     data-rows=\"2\"\n     data-max-lines=\"4\"\n     data-title-max-lines=\"2\"\n     data-columns=\"4\"\n     data-title=\"Related Product\"\n     data-link-text=\"Read More\"\n     data-all-random=\"false\"\n     data-fill-random=\"true\"\n     data-use-add-to-cart-links=\"false\"\n     data-make-title-a-link=\"false\">\n     <div class=\"blog-linker-spinner\">\n      <div class=\"sk-three-bounce\">\n        <div class=\"sk-child sk-bounce1\"><\/div>\n        <div class=\"sk-child sk-bounce2\"><\/div>\n        <div class=\"sk-child sk-bounce3\"><\/div>\n      <\/div>\n    <\/div>\n<\/div>","full_width":false,"section_padding":"both"}}},"order":["main","custom_liquid_yfYXhw"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "show_date": true,
+            "show_author": false
+          }
+        },
+        "image": {
+          "type": "image",
+          "settings": {}
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        },
+        "info": {
+          "type": "info",
+          "settings": {
+            "show_tags": false,
+            "show_social": true
+          }
+        }
+      },
+      "block_order": [
+        "header",
+        "image",
+        "content",
+        "info"
+      ],
+      "settings": {
+        "show_sidebar": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
