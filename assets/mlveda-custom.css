@@ -2104,38 +2104,8 @@ nav.mobile-menu .tmenu_item_has_child > a .tmenu_indicator {
     margin-top: 15px;
 }
 /* LOGEIX CSS Tweaks END */
-@media screen and (max-width:500px) {
-  #main-search-results #search-products #product-loop {
-    display: block;
-}
-    #main-search-results #search-products #product-loop > div {
-    margin-bottom: 12px;
-}
-}
-
-.ymm-grid .ymm-product-item {
-    display: flex;
-    flex-direction: column;
-}
-
-.ymm-grid .ymm_fitment_type {
-    margin-bottom: 8px;
-}
-
-.ymm-grid .ymm_fitment_type + .loox-rating {
-    margin-bottom: 8px;
-    margin-top: -8px;
-}
-
-.ymm-grid .ymm-product-details {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.has_sub_menu a.header__nav__link.dlink.first-level{
-  /* pointer-events:none;
-  cursor:pointer; */
+.tmenu_wrapper.tmenu--wrap {
+  grid-column: auto / span 6;
 }
 /* Ensure all placeholder text has consistent font size */
 input::placeholder,
