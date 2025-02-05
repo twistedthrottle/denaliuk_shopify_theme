@@ -2,10 +2,55 @@
 .klaviyo-form.klaviyo-form.klaviyo-form {
     z-index: -9 !important;
 }
+  div#___ratingbadge_0 {
+    z-index: 214 !important;
+}
+#reset_ymm_garage_link{
+  color:#fff !important;
+}
 /* Added on 27/1/25  end */
+.hsds-beacon .bbHIsf {
+    bottom: 60px !important;
+}
+.ContainerFramecss__WrapperUI-sc-d7rzhh-0.lcyIqL.BeaconContainer.is-configDisplayRight.BeaconContainer-enter-done{
+      bottom: 110px !important;
+}
 .product-index-inner:hover .icn{
   opacity:1 !Important;
 }
+/* data-sale-opt-out page CSS */
+.pc--opt-out-form-field_wrapper label{
+  display:none;
+}
+.pc--opt-out-form-button svg{
+      height: 2.5rem;
+    width: 2.5rem;
+    margin-bottom: 0px;
+    position: relative;
+    top: 4px;
+  display:none;
+}
+.pc--opt-out-form-button::after{
+    content:"Submit";
+}
+.pc--opt-out-form-message svg{
+      height: 2.5rem;
+    width: 2.5rem;
+    margin-bottom: 0px;
+}
+.pc--opt-out-form-message span{
+  /* position: relative;
+    bottom: 10px; */
+}
+.pc--opt-out-form small{
+/* display: flex;
+  align-items: center;
+  gap: 12px; */
+      font-size: 26px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+/* data-sale-opt-out page CSS */
 #sales_representative_id{
   width: 44%;
   margin: 0 auto;
@@ -137,8 +182,14 @@ ul#posts {
 /*Breadcrumb CSS*/
 
 /* Header Menu CSS */
-.header__main-nav li a,.header__nav__link.dlink,.header__shopping-cart-links-container li a{
+/* .header__main-nav li a,.header__nav__link.dlink,.header__shopping-cart-links-container li a{
     font-size: 14px !important;
+} */
+
+.header__nav__link.dlink:not(.first-level),.header__shopping-cart-links-container li a, .header__linklist-images-link{
+    /* font-size: 14px !important; */
+    font-size: 16px !important;
+    color:#4A4A4A !important;
 }
 .header__linklist-images-wrapper.image-ratio-square .header__linklist-images__image {
     /* width: 100%;
@@ -147,12 +198,19 @@ ul#posts {
 .header__linklist-images-wrapper.image-ratio-square .header__linklist-images__image img {
     object-fit: unset;
 }
+
+/* Commented By MLVeda  */
 .header__linklist-images-header a{
-  border-bottom: 2px solid #FFEB00;
+  /* border-bottom: 2px solid #FFEB00; */
 }
+
+.header__linklist-images-header {
+  border-bottom: 1px solid #FFEB00;
+}
+
 .header__linklist-images-link:hover {
     text-decoration: none !Important;
-   /* color:#4A4A4A !Important; */
+  /* color:#4A4A4A !Important; */
     color:#000000 !important;
 }
 i.fa.fa-search {
@@ -497,8 +555,9 @@ align-items:center;
 }
 .needsclick.kl-private-reset-css-Xuajs1 {
     margin-right: 10px;
+    margin-bottom: 3px;
   z-index: 999999999 !important;
-} 
+}
 /* Added on 6/1/25 Start */
 button.needsclick.klaviyo-close-form.go484501746.kl-private-reset-css-Xuajs1 {
     z-index: 99999999999 !important;
@@ -1062,6 +1121,9 @@ body.template-cart .recently-viewed-products .variants-recently-viewed-cart{
   color: #000 !important;
   background: #eeeeee !important;
 }
+/* commented by mlveda on 28/1/25 button.needsclick{
+  color:rgb(255, 242, 0) !important;
+} */
 /* Media Query*/
 /* @media only screen and (min-width:1171px) and (max-width:1203px){ */
 @media only screen and (min-width:980px) and (max-width:1274px){
@@ -1075,7 +1137,7 @@ body.template-cart .recently-viewed-products .variants-recently-viewed-cart{
 }
 @media only screen and (min-width: 1920px){
   .header__main-nav li a, .header__nav__link.dlink, .header__shopping-cart-links-container li a{
-        /* font-size: 19px !important; */
+    /* font-size: 19px !important; */
     font-size: 16px !important;
     /* color: #4A4A4A !important; */
   }
@@ -1342,12 +1404,15 @@ font-weight: normal;
   }
 }
 @media only screen and (max-width:768px) {
-      /* Start CSS Added on 1/6/25 */
+  /* Start CSS Added on 1/6/25 */
 /* .template-product #slider .flickity-viewport{
   z-index: -9999 !important;
 } */
-    div#___ratingbadge_0 {
+  div#___ratingbadge_0 {
     z-index: 214 !important;
+}
+.hsds-beacon .bbHIsf {
+    bottom: 10px !important;
 }
 .needsclick.kl-private-reset-css-Xuajs1 {
     margin-right: 0px !Important;
@@ -1892,7 +1957,6 @@ top: -16px
 }
 
 .lgx-choose-options {
-  /* commented by mlveda on 4/2/25 display: block; */
   display: none;
   cursor: pointer;
   width: 100%;
@@ -1967,6 +2031,7 @@ top: -16px
     line-height: 1.6;
     padding-top: 8px;
     padding-bottom: 8px;
+  display:none;
 }
 
 /* Recently Viewed button fixes END */
@@ -2085,9 +2150,38 @@ nav.mobile-menu .tmenu_item_has_child > a .tmenu_indicator {
     margin-top: 15px;
 }
 /* LOGEIX CSS Tweaks END */
+@media screen and (max-width:500px) {
+  #main-search-results #search-products #product-loop {
+    display: block;
+}
+    #main-search-results #search-products #product-loop > div {
+    margin-bottom: 12px;
+}
+}
 
-.tmenu_wrapper.tmenu--wrap {
-grid-column: auto / span 6;
+.ymm-grid .ymm-product-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.ymm-grid .ymm_fitment_type {
+    margin-bottom: 8px;
+}
+
+.ymm-grid .ymm_fitment_type + .loox-rating {
+    margin-bottom: 8px;
+    margin-top: -8px;
+}
+
+.ymm-grid .ymm-product-details {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.has_sub_menu a.header__nav__link.dlink.first-level{
+  /* pointer-events:none;
+  cursor:pointer; */
 }
 /* Ensure all placeholder text has consistent font size */
 input::placeholder,
@@ -2103,9 +2197,7 @@ textarea::placeholder {
 }
 
 
-
 /* 3 feb 2024  */
-
 .c-accordion.c-accordion--mobile-nav.mlv-c-accordion--mobile-nav li:not(.c-accordion__panel) {
   /* padding:unset !important; */
   margin-bottom: 0px !important;
