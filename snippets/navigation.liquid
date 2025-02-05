@@ -65,43 +65,110 @@
     {% endif %}
   {% elsif block.type == 'linklist_with_images' %}
     {% if block.settings.linklist_images_menu_item == link.title %}
+      {% assign totalsubLinks = link.links | size %}
+      {% assign basis = 100 | divided_by: totalsubLinks %}
       {% capture 'linklist_images_columns' %}
-          <div class="header__linklist-images-wrapper image-ratio-{{ block.settings.image_ratio }}" {{ block.shopify_attributes }}>
-            <div class="header__linklist-images-container">
+          <div class="header__linklist-images-wrapper mlv-header__linklist-images-wrapper total-links-{{ totalsubLinks }} image-ratio-{{ block.settings.image_ratio }}" {{ block.shopify_attributes }}>
+            <!-- <div class="header__linklist-images-container" {% unless block.settings.put_image_below_the_main_link_title %}{% endunless %}> -->
+        <div class="custom-flex-box">
+        {% assign myindex = 0 %}
               {% for sub_link in link.links %}
-                <ul class="header__linklist-images-list">
-                  <h5 class="header__linklist-images-header">
-                   <a href="{{ sub_link.url }}">{{ sub_link.title }}</a>
+                {% assign myindex = myindex | plus: 1 %}
+                 {% if custom_title != blank %}
+                    <h5 class="header__linklist-images__title" title="{{ custom_title }}">
+                      {{ custom_title }}
+                    </h5>
+                  {% endif %}
+                <ul class="header__linklist-images-list mlv-header__linklist-images-list" style="width:{{ basis }}%" {% comment %} style="flex: 0 0 {{ basis | minus: 3 }}%" {% endcomment %}>
+                  <h5 class="header__linklist-images-header" title="{{ sub_link.title }}">
+                   <a class="mlv-link" {% unless sub_link.url == "/" %} href="{{ sub_link.url }}" {% endunless%}>{{ sub_link.title }}</a>
                   </h5>
+
+                  {% assign image_position = "featured_image_position_" | append: myindex %}
+                    {% if block.settings[image_position] %}
+                    
+
+                {% assign custom_image_size = "column_width_" | append: myindex %}
+                {% assign custom_image = block.settings[custom_image] %}
+                {% assign custom_image_size = block.settings[custom_image_size] %}
+                {% assign custom_image = "featured_image_" | append: myindex %}
+                {% assign custom_image = block.settings[custom_image] %}
+                {% assign custom_title = "featured_image_label_" | append: myindex %}
+                {% assign custom_title = block.settings[custom_title] %}
+                {% assign custom_url = "image_url_" | append: myindex %}
+                {% assign custom_url = block.settings[custom_url] %}
+                {% if custom_url %}<a class="header__linklist-images__image-wrapper mlv-header__linklist-images__image-wrapper" {% unless custom_url == "/" or custom_url =="#" %}  href="{{ custom_url }}" {% endunless%} {% if custom_url contains "youtube" %} target="_blank" {% endif %}>{% else %}<div class="header__linklist-images__image-wrapper mlv-header__linklist-images__image-wrapper">{% endif %}
+                  <div class="header__linklist-images__image mlv-header__linklist-images__image" title="{{ custom_image.alt }}">
+                    {% if custom_image != blank %}
+                      
+                  <img data-srcset="
+                    {{ custom_image | image_url: width: 180 }} 180w, 
+                    {{ custom_image | image_url: width: 360 }} 360w, 
+                    {{ custom_image | image_url: width: 540 }} 540w, 
+                    {{ custom_image | image_url: width: 720 }} 720w, 
+                    {{ custom_image | image_url: width: 900 }} 900w, 
+                    {{ custom_image | image_url: width: 1080 }} 1080w, 
+                    {{ custom_image | image_url: width: 1296 }} 1296w, 
+                    {{ custom_image | image_url: width: 1512 }} 1512w, 
+                    {{ custom_image | image_url: width: 1728 }} 1728w, 
+                    {{ custom_image | image_url: width: 2048 }} 2048w" 
+                  alt="{{ custom_image.alt }}"
+                    class="{{ custom_image_size }}"
+                  data-src="{{ custom_image | image_url: width: 900 }}" 
+                  src="{{ custom_image | image_url: width: 900 }}" 
+                  loading="eager">
+
+                      
+                    {% endif %}
+                  </div>
+                  {% if custom_url %}</a>{% else %}</div>{% endif %}
+                  {% endif %}
+
+                  
                   {% for sub_sub_link in sub_link.links %}
-                    <li class="header__linklist-images-item">
-                      <a class="header__linklist-images-link" href="{{ sub_sub_link.url }}">{{ sub_sub_link.title }}</a>
+                     {% assign icon_image_url = sub_sub_link.title | replace:" ","-"  %}
+                            {% assign final_image = icon_image_url | append: '.png' %}
+                            {% assign final_image = final_image | file_img_url:"100x" %}
+                            <li class="mlveda-li">
+                     <a title="{{ sub_sub_link.title }}" class="header__linklist-images-link custom-flex" {% unless sub_sub_link.url =="#" %} href="{{ sub_sub_link.url }}" {% endunless %} {% if sub_sub_link.url contains "youtube" or sub_sub_link.url contains ".pdf" %} target="_blank" {% endif %}>
+                       {% if final_image contains "?v=" %}
+                          <div class="mlveda-icons-images" style="background-image:url({{ final_image }})"></div>
+                      {% endif %}
+                       {{ sub_sub_link.title }}</a>
                     </li>
                   {% endfor %}
                 </ul>
               {% endfor %}
              </div>
-              {% for n in (1..3) %}
+              {% for n in (1..4) %}
+                {% assign image_position = "featured_image_position_" | append: n %}
+                  {% unless block.settings[image_position] %}
+             
                 {% assign custom_image = "featured_image_" | append: n %}
+                {% assign custom_image_size = "column_width_" | append: n %}
                 {% assign custom_image = block.settings[custom_image] %}
+                {% assign custom_image_size = block.settings[custom_image_size] %}
                 {% assign custom_title = "featured_image_label_" | append: n %}
                 {% assign custom_title = block.settings[custom_title] %}
                 {% assign custom_url = "image_url_" | append: n %}
                 {% assign custom_url = block.settings[custom_url] %}
-                {% if custom_url %}<a class="header__linklist-images__image-wrapper" href="{{ custom_url }}">{% else %}<div class="header__linklist-images__image-wrapper">{% endif %}
-                  <div class="header__linklist-images__image">
+                {% if custom_url %}<a class="header__linklist-images__image-wrapper mlv-header__linklist-images__image-wrapper {{ custom_image_size }}" {% unless custom_url == "/" or custom_url =="#" %}  href="{{ custom_url }}" {% endunless %} {% if custom_url contains "youtube" %} target="_blank" {% endif %}>{% else %}<div class="header__linklist-images__image-wrapper mlv-header__linklist-images__image-wrapper {{ custom_image_size }}">{% endif %}
                     {% if custom_image != blank %}
+                  <div class="header__linklist-images__image mlv-header__linklist-images__image" title="{{ custom_image.alt }}">
+
+                    <img srcset="{{ custom_image | image_url: width: 180 }} 180w, {{ custom_image | image_url: width: 360 }} 360w, {{ custom_image | image_url: width: 540 }} 540w, {{ custom_image | image_url: width: 720 }} 720w, {{ custom_image | image_url: width: 900 }} 900w, {{ custom_image | image_url: width: 1080 }} 1080w, {{ custom_image | image_url: width: 1296 }} 1296w, {{ custom_image | image_url: width: 1512 }} 1512w, {{ custom_image | image_url: width: 1728 }} 1728w, {{ custom_image | image_url: width: 2048 }} 2048w" alt="{{ custom_image.alt }}"  src="{{ custom_image | image_url: "_900x" }}" loading="eager">
+
+                   
                       
-                    {{ custom_image | image_url: width: 450 | image_tag: alt: 'header linklist images', loading: 'eager' }}
-                      
-                    {% endif %}
                   </div>
+                    {% endif %}
                   {% if custom_title != blank %}
                     <h5 class="header__linklist-images__title">
                       {{ custom_title }}
                     </h5>
                   {% endif %}
                 {% if custom_url %}</a>{% else %}</div>{% endif %}
+                {% endunless %}
               {% endfor %}
           </div>
         {% endcapture %}
@@ -118,7 +185,12 @@
     aria-expanded="false"
     role="none"
   >
-    <a class="header__nav__link dlink first-level js-open-dropdown-on-key" href="{{ link.url }}">
+    <a
+      class="header__nav__link dlink first-level js-open-dropdown-on-key mlv-first-level"
+      {% unless link.url == '/' or link.url == '#' %}
+        href="{{ link.url }}"
+      {% endunless %}
+    >
       {{ link.title | escape }}
       {% render 'snip-icons',
         wrapper: '.header__nav__link',
@@ -134,13 +206,18 @@
   </li>
 {% elsif linklist_mega_menu %}
   <li
-    class="header__nav__list-item header__nav__dropdown-linklist has_sub_menu first-level js-doubletap-to-go js-aria-expand"
+    class="header__nav__list-item header__nav__dropdown-linklist has_sub_menu first-level mlv-first-level js-doubletap-to-go js-aria-expand"
     data-active-class="navigation__menuitem--active"
     aria-haspopup="true"
     aria-expanded="false"
     role="none"
   >
-    <a class="header__nav__link dlink first-level js-open-dropdown-on-key" href="{{ link.url }}">
+    <a
+      class="header__nav__link dlink first-level mlv-first-level js-open-dropdown-on-key"
+      {% unless link.url == '/' or link.url == '#' %}
+        href="{{ link.url }}"
+      {% endunless %}
+    >
       {{ link.title | escape }}
       {% render 'snip-icons',
         wrapper: '.header__nav__link',
@@ -156,13 +233,19 @@
   </li>
 {% elsif linklist_images_menu %}
   <li
-    class="header__nav__list-item header__nav__dropdown-linklistImages has_sub_menu first-level js-doubletap-to-go js-aria-expand"
+    class="header__nav__list-item header__nav__dropdown-linklistImages has_sub_menu first-level mlv-first-level js-doubletap-to-go js-aria-expand"
     data-active-class="navigation__menuitem--active"
     aria-haspopup="true"
     aria-expanded="false"
     role="none"
   >
-    <a class="header__nav__link dlink first-level js-open-dropdown-on-key" href="{{ link.url }}">
+    <a
+      class="header__nav__link dlink mytarget-is-fixed first-level mlv-first-level js-open-dropdown-on-key"
+      title="{{ link.title | escape }}"
+      {% unless link.url == '/' or link.url == '#' %}
+        href="{{ link.url }}"
+      {% endunless %}
+    >
       {{ link.title | escape }}
       {% render 'snip-icons',
         wrapper: '.header__nav__link',
@@ -181,13 +264,18 @@
     <span class="{% if forloop.rindex <= 3 %}right{% else %}left{% endif %}">
   {%- endif %}
   <li
-    class="header__nav__list-item header__nav__dropdown-simple has_sub_menu first-level js-doubletap-to-go js-aria-expand"
+    class="header__nav__list-item header__nav__dropdown-simple has_sub_menu first-level mlv-first-level js-doubletap-to-go js-aria-expand"
     data-active-class="navigation__menuitem--active"
     aria-haspopup="true"
     aria-expanded="false"
     role="none"
   >
-    <a class="header__nav__link dlink first-level js-open-dropdown-on-key" href="{{ link.url }}">
+    <a
+      class="header__nav__link dlink first-level mlv-first-level js-open-dropdown-on-key"
+      {% unless link.url == '/' or link.url == '#' %}
+        href="{{ link.url }}"
+      {% endunless %}
+    >
       {{ link.title | escape }}
       {% render 'snip-icons',
         wrapper: '.header__nav__link',
@@ -210,7 +298,12 @@
             aria-expanded="false"
             role="none"
           >
-            <a class="header__nav__link second-level" href="{{ sub_link.url }}">
+            <a
+              class="header__nav__link second-level"
+              {% unless sub_link.url == '/' or sub_link.url == '#' %}
+                href="{{ sub_link.url }}"
+              {% endunless %}
+            >
               {{ sub_link.title | escape }}
               {% render 'snip-icons',
                 wrapper: '.header__nav__link',
@@ -248,13 +341,13 @@
     <span class="{% if forloop.rindex <= 3 %}right{% else %}left{% endif %}">
   {%- endif %}
   <li
-    class="header__nav__list-item no-dropdown first-level js-doubletap-to-go js-aria-expand"
+    class="header__nav__list-item no-dropdown first-level js-doubletap-to-go js-aria-expand mlv-first-level"
     data-active-class="navigation__menuitem--active"
     aria-haspopup="true"
     aria-expanded="false"
     role="none"
   >
-    <a class="header__nav__link dlink first-level" href="{{ link.url }}">
+    <a class="header__nav__link dlink first-level mlv-first-level" href="{{ link.url }}">
       {{ link.title | escape }}
     </a>
   </li>
