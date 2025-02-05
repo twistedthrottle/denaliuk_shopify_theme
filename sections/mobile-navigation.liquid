@@ -17,16 +17,17 @@
       <div class="icn-close"></div>
     </button>
   </div>
-      <!-- Added by mlveda -->
-    <div class="mobile-menu__block mldswitcher" {{ block.shopify_attributes }}>
-      <a href="#swym-wishlist" class="swym-wishlist">
-        <!-- <i aria-hidden="true" focusable="false" role="presentation" class="icon icon-swym-wishlist"></i> -->
-        <!-- <lable class="mldrawerwishlistlabel">Wishlist</lable> -->
-        <i aria-hidden="true" focusable="false" role="presentation" class="mldrawerwishlist"></i>
-      </a>
-      {% render 'orbe', drawer: true %}
-    </div>
-    {% comment %}{% if shop.customer_accounts_enabled %}
+  <!-- Added by mlveda -->
+  <div class="mobile-menu__block mldswitcher" {{ block.shopify_attributes }}>
+    <a href="#swym-wishlist" class="swym-wishlist">
+      <!-- <i aria-hidden="true" focusable="false" role="presentation" class="icon icon-swym-wishlist"></i> -->
+      <!-- <lable class="mldrawerwishlistlabel">Wishlist</lable> -->
+      <i aria-hidden="true" focusable="false" role="presentation" class="mldrawerwishlist"></i>
+    </a>
+    {% render 'orbe', drawer: true %}
+  </div>
+  {% comment %}
+    {% if shop.customer_accounts_enabled %}
       {% if customer %}
         <li class="header__shopping-cart-link cart__link-account mobile-menu__block">
           <!--commented by mlveda <a href="{{ routes.account_url }}">{{ 'customer.account.title' | t }}</a> -->
@@ -47,8 +48,9 @@
           </a>
         </li>
       {% endif %}
-    {% endif %}{% endcomment %}
-    <!-- Added by mlveda -->
+    {% endif %}
+  {% endcomment %}
+  <!-- Added by mlveda -->
   {% for block in section.blocks %}
     {% case block.type %}
       {% when 'search_box' %}
@@ -105,7 +107,7 @@
         {% assign mobile_menu_allow_multiple = false %}
 
         <ul
-          class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordion--{{unique_id}}"
+          class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav mlv-c-accordion--mobile-nav c-accordion--{{unique_id}}"
           id="c-accordion--{{unique_id}}"
           {% if mobile_menu_allow_multiple %}
             data-accordion-allow-multiple
@@ -130,7 +132,10 @@
                 | append: level_one_link_index
               %}
 
-              <li class="js-accordion-header c-accordion__header">
+              <li
+                class="js-accordion-header mlv-js-accordion-li c-accordion__header custom-arrow-mlveda"
+                title="{{ link.title | escape }}"
+              >
                 <a class="js-accordion-link c-accordion__link" href="{{ link.url }}">{{ link.title | escape }}</a>
                 <button
                   class="dropdown-arrow"
@@ -152,14 +157,14 @@
               </li>
 
               <li
-                class="c-accordion__panel {{ accordion_content_id }}"
+                class="c-accordion__panel mlv-c-accordion__panel {{ accordion_content_id }}"
                 id="{{ accordion_content_id }}"
                 data-parent="#c-accordion--{{ unique_id }}"
               >
                 {% assign level_two_unique_id = unique_id | append: '-' | append: level_one_nested_link_count %}
 
                 <ul
-                  class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordion--mobile-nav__inner c-accordion--{{ level_two_unique_id }}"
+                  class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav mlv-c-accordion--mobile-nav c-accordion--mobile-nav__inner c-accordion--{{ level_two_unique_id }}"
                   id="c-accordion--{{ level_two_unique_id }}"
                 >
                   {% for sub_link in link.links %}
@@ -173,8 +178,15 @@
                         | append: level_two_link_index
                       %}
 
-                      <li class="js-accordion-header c-accordion__header">
-                        <a class="js-accordion-link c-accordion__link" href="{{ sub_link.url }}">
+                      <li
+                        class="js-accordion-header mlv-js-accordion-li c-accordion__header custom-arrow-mlveda"
+                        title="{{- sub_link.title | escape -}}"
+                      >
+                        <a
+                          class="js-accordion-link c-accordion__link"
+                          href="{{ sub_link.url }}"
+                          title="{{- sub_link.title | escape -}}"
+                        >
                           {{- sub_link.title | escape -}}
                         </a>
                         <button
@@ -197,33 +209,106 @@
                       </li>
 
                       <li
-                        class="c-accordion__panel {{ level_two_accordion_content_id }}"
+                        class="c-accordion__panel mlv-c-accordion__panel {{ level_two_accordion_content_id }}"
                         id="{{ level_two_accordion_content_id }}"
                         data-parent="#c-accordion--{{ level_two_unique_id }}"
                       >
                         <ul>
                           {% for sub_sub_link in sub_link.links %}
-                            <li>
-                              <a class="js-accordion-link c-accordion__link" href="{{ sub_sub_link.url }}">
+                            {% assign icon_image_url = sub_sub_link.title | replace: ' ', '-' %}
+                            {% assign final_image = icon_image_url | append: '.png' %}
+                            {% assign final_image = final_image | file_img_url: '100x' %}
+                            <li class="mlveda-li" title="{{- sub_sub_link.title -}}">
+                              {% if final_image contains '?v=' %}
+                                <div class="mlveda-icons-images" style="background-image:url({{ final_image }})"></div>
+                              {% endif %}
+                              <a class="js-accordion-link c-accordion__link sub-custom" href="{{ sub_sub_link.url }}">
                                 {{- sub_sub_link.title -}}
                               </a>
                             </li>
+                            {% if forloop.last %}
+                              {% for block in section.blocks %}
+                                {% case block.type %}
+                                  {% when 'mobile_nav_image' %}
+                                    {% comment %}   {{ sub_link.title }} - {{ block.settings.navigation_link }} {% endcomment %}
+                                    {% if block.settings.navigation_link == sub_link.title %}
+                                      <li class="mlveda-li">
+                                        {% if block.settings.navigation_image_link != blank -%}
+                                          <a href="{{ block.settings.navigation_link }}">
+                                        {%- endif %}
+                                        <img
+                                          src="{{ block.settings.navigation_image | image_url }}"
+                                          width="100"
+                                          height="100"
+                                          class="mlveda-mobile-nav-image"
+                                        >
+                                        {% if block.settings.navigation_image_link != blank %}</a>{% endif %}
+                                      </li>
+                                    {% endif %}
+                                {% endcase %}
+                              {% endfor %}
+                            {% endif %}
                           {% endfor %}
                         </ul>
                       </li>
                     {% else %}
-                      <li>
-                        <a class="js-accordion-link c-accordion__link" href="{{ sub_link.url }}">
+                      <li class="js-accordion-header mlv-js-accordion-li c-accordion__header custom-arrow-mlveda">
+                        <a
+                          class="js-accordion-link c-accordion__link"
+                          href="{{ sub_link.url }}"
+                          title="{{- sub_link.title | escape -}}"
+                        >
                           {{- sub_link.title | escape -}}
                         </a>
                       </li>
+                      {% for block in section.blocks %}
+                        {% case block.type %}
+                          {% when 'mobile_nav_image' %}
+                            {% if block.settings.navigation_link == sub_link.title %}
+                              <li class="mlveda-li">
+                                {% if block.settings.navigation_image_link != blank -%}
+                                  <a href="{{ block.settings.navigation_link }}">
+                                {%- endif %}
+                                <img
+                                  src="{{ block.settings.navigation_image | image_url }}"
+                                  width="100"
+                                  height="100"
+                                  class="mlveda-mobile-nav-image"
+                                >
+                                {% if block.settings.navigation_image_link != blank %}</a>{% endif %}
+                              </li>
+                            {% endif %}
+                        {% endcase %}
+                      {% endfor %}
                     {% endif %}
+                  {% endfor %}
+
+                  {% for block in section.blocks %}
+                    {% case block.type %}
+                      {% when 'mobile_nav_image' %}
+                        {% if block.settings.navigation_link == link.title %}
+                          <li class="mlveda-li">
+                            {% if block.settings.navigation_image_link != blank -%}
+                              <a href="{{ block.settings.navigation_link }}">
+                            {%- endif %}
+                            <img
+                              src="{{ block.settings.navigation_image | image_url }}"
+                              width="100"
+                              height="100"
+                              class="mlveda-mobile-nav-image"
+                            >
+                            {% if block.settings.navigation_image_link != blank %}</a>{% endif %}
+                          </li>
+                        {% endif %}
+                    {% endcase %}
                   {% endfor %}
                 </ul>
               </li>
             {% else %}
-              <li>
-                <a class="js-accordion-link c-accordion__link" href="{{ link.url }}">{{ link.title | escape }}</a>
+              <li class="Mlveda">
+                <a class="js-accordion-link c-accordion__link" href="{{ link.url }}" title="{{ link.title | escape }}">
+                  {{- link.title | escape -}}
+                </a>
               </li>
             {% endif %}
           {% endfor %}
@@ -307,27 +392,33 @@
             assign cart_icon = 'cart'
           endif
         -%}
-        {% comment %}<div class="mobile-menu__block mobile-menu__cart-status" {{ block.shopify_attributes }}>
-          <a class="mobile-menu__cart-icon" href="{{ routes.cart_url }}">
-            {{ 'cart.general.title' | t }}
-            (<span class="mobile-menu__cart-count js-cart-count">{{ cart.item_count }}</span>)
-            {% comment %}{% render 'snip-icons',
-              wrapper: '.mobile-menu__cart-icon',
-              type: 'vantage-theme',
-              icon: cart_icon,
-              classes: 'mobile-menu__cart-icon--icon',
-              size: '14px',
-              fill: section.settings.link_color,
-              hover: section.settings.link_color
-            %}{% endcomment %}
-          <i class="mldeawarshoppingcart" aria-hidden="true"></i>
-          </a>
-        </div>{% endcomment %}
+        {% comment %}
+          <div class="mobile-menu__block mobile-menu__cart-status" {{ block.shopify_attributes }}>
+            <a class="mobile-menu__cart-icon" href="{{ routes.cart_url }}">
+              {{ 'cart.general.title' | t }}
+              (<span class="mobile-menu__cart-count js-cart-count">{{ cart.item_count }}</span>)
+              {% comment %}{% render 'snip-icons',
+                wrapper: '.mobile-menu__cart-icon',
+                type: 'vantage-theme',
+                icon: cart_icon,
+                classes: 'mobile-menu__cart-icon--icon',
+                size: '14px',
+                fill: section.settings.link_color,
+                hover: section.settings.link_color
+              %}{% endcomment %}
+            <i class="mldeawarshoppingcart" aria-hidden="true"></i>
+            </a>
+          </div>
+        {% endcomment %}
     {% endcase %}
   {% endfor %}
   <!-- Added by mvleda -->
   <p style="font-weight:bold;padding: 16px;">BWI FAMILY OF BRANDS</p>
-  <a href="https://denalielectronics.com/pages/bwi-family-of-brands" style="position: relative;right: -15px;top: -22px;color: #0d00ff;">Learn about BWI automotive accessories brands.</a>
+  <a
+    href="https://denalielectronics.com/pages/bwi-family-of-brands"
+    style="position: relative;right: -15px;top: -22px;color: #0d00ff;"
+    >Learn about BWI automotive accessories brands.</a
+  >
   <!-- Added by mvleda -->
   <style>
     .mobile-menu {
@@ -479,6 +570,28 @@
         }
       ],
       "limit": 1
+    },
+    {
+      "type": "mobile_nav_image",
+      "name": "Navigation Image",
+      "settings":
+      [
+        {
+          "type": "inline_richtext",
+          "id": "navigation_link",
+          "label": "Enter navigation link text",
+        },
+        {
+          "type": "image_picker",
+          "id": "navigation_image",
+          "label": "Choose navigation image",
+        },
+        {
+          "type": "url",
+          "id": "navigation_image_link",
+          "label": "Navigation image link"
+        },
+      ],
     },
     {
       "type": "social_icons",
