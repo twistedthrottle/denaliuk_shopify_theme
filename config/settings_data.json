@@ -527,9 +527,7 @@
       "footer_border_color": "#ffffff",
       "footer_header_color": "#ffffff",
       "icon_color": "#333333",
-      "content_for_index": [
-
-      ]
+      "content_for_index": []
     }
   },
   "current": {
@@ -673,13 +671,11 @@
           },
           "mobile-navigation-1": {
             "type": "cart_status",
-            "settings": {
-            }
+            "settings": {}
           },
           "mobile-navigation-4": {
             "type": "search_box",
-            "settings": {
-            }
+            "settings": {}
           },
           "mobile-navigation-2": {
             "type": "navigation",
@@ -736,15 +732,12 @@
         }
       }
     },
-    "content_for_index": [
-
-    ],
+    "content_for_index": [],
     "blocks": {
       "11532412952436166569": {
         "type": "shopify://apps/loox-reviews/blocks/loox-inject/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
         "disabled": false,
-        "settings": {
-        }
+        "settings": {}
       },
       "17592058902588436946": {
         "type": "shopify://apps/c-year-make-model-search/blocks/app-embed-ymm-basic-script/ce35ea35-ef50-4f43-8cb6-7c34cae4c285",
@@ -772,20 +765,12 @@
       "5946647744298494267": {
         "type": "shopify://apps/wishlist-plus/blocks/wishlist-app-embed/80c3b1fc-3a8f-407e-8367-ffdeebb8b612",
         "disabled": false,
-        "settings": {
-        }
-      },
-      "15623156175785154009": {
-        "type": "shopify://apps/qikify-smart-menu-mega-menu/blocks/app-embed/19d2f1cd-1836-4a32-8937-03df3c601dc8",
-        "disabled": false,
-        "settings": {
-        }
+        "settings": {}
       },
       "18356332299842544250": {
         "type": "shopify://apps/b4b-variable-products/blocks/variable_init/4b5ec290-6de8-4c3d-b99f-b8721f30ea87",
         "disabled": false,
-        "settings": {
-        }
+        "settings": {}
       },
       "15912215999290715800": {
         "type": "shopify://apps/geolocation-orbe/blocks/app-embed-modal/7cb09287-cd2b-4646-837c-f1f9b6ea703e",
@@ -844,14 +829,17 @@
       "12205662367945783544": {
         "type": "shopify://apps/iadvize-ai-copilot/blocks/iadvize-tag/97672039-3647-476c-9ad9-4f6daaa2d3e4",
         "disabled": false,
-        "settings": {
-        }
+        "settings": {}
       },
       "855628211100114053": {
         "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
         "disabled": false,
-        "settings": {
-        }
+        "settings": {}
+      },
+      "15623156175785154009": {
+        "type": "shopify://apps/qikify-smart-menu-mega-menu/blocks/app-embed/19d2f1cd-1836-4a32-8937-03df3c601dc8",
+        "disabled": true,
+        "settings": {}
       }
     }
   }
