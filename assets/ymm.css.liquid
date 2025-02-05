@@ -121,7 +121,7 @@ a#selected_ymm_vehicle_link { cursor: pointer; }
 .gridlock .header-section .row .desktop-2 { width: 24.583%; }
 
 ul#cart { margin-left:0; }
-ul.nav li a{ padding:0 7px; }
+ul.nav li a{ padding:0 7px; padding: 3px 0px; }
 
 #ymm_garage_desktop{ float: right; /*commented by mlveda padding-right:60px;*/}
 
@@ -139,7 +139,7 @@ ul.nav li a{ padding:0 7px; }
 
 @media only screen and (max-width:1520px){
   ul.dropdowns li:not(.ymm_bttns) { width: 18%; }
-  ul.nav li a { padding:0 3px; font-size: 14px; }
+  ul.nav li a { padding:0 3px; font-size: 14px; padding:5px 0px; }
   
   .gridlock .header-section .row .desktop-7 {
     width: 61.25%;
@@ -421,7 +421,7 @@ ul.nav li a{ padding:0 7px; }
 .ymm-grid .grid-view-item { margin:0 auto 35px; }
 .ymm-grid .grid-view-item__link { display:block; }
 .ymm-grid .ymm-product-item { width:100%; }
-.ymm-grid .product-thumb{ position:relative; margin:0 auto 15px; width: 100%; /*min-height:240px; display:-webkit-box; display:-moz-box; display:-ms-flexbox; display:-webkit-flex; display:flex; -ms-flex-align:center; align-items:center; -ms-flex-pack:center; justify-content:center;*/ }
+.ymm-grid .product-thumb{ position:relative; margin:0 auto 15px; /*min-height:240px; display:-webkit-box; display:-moz-box; display:-ms-flexbox; display:-webkit-flex; display:flex; -ms-flex-align:center; align-items:center; -ms-flex-pack:center; justify-content:center;*/ }
 .ymm-grid .grid-view-item__image { /*max-height:240px; min-height:240px;*/ width:auto; height:auto; max-width:100%; display:block; margin:0 auto; border:none; outline:none; }
 .ymm-grid .grid-view-item__meta { margin: 2px 0 -2px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
 .ymm-grid .ymm-product-price,
@@ -620,9 +620,3 @@ ul.nav li a{ padding:0 7px; }
   padding-right: 0;
 }
 
-/* Infinite Scroll - Load More */
-a#ymm_load_more { text-align: center !important; text-decoration: none; color: inherit; }
-#ymm_load_more span { font-size: 30px; }
-
-/* YMM No Image */
-.ymm_no_img { background-image: url('no_img.png'); background-repeat: no-repeat; background-position: 50% 50%; background-size: cover; display: block; font-size: 0px; height: 100%; width: 100%; min-height: 240px; }
