@@ -152,7 +152,8 @@ ul#posts {
 }
 .header__linklist-images-link:hover {
     text-decoration: none !Important;
-  color:#4A4A4A !Important;
+   /* color:#4A4A4A !Important; */
+    color:#000000 !important;
 }
 i.fa.fa-search {
     margin-right: 2px;
@@ -1074,7 +1075,9 @@ body.template-cart .recently-viewed-products .variants-recently-viewed-cart{
 }
 @media only screen and (min-width: 1920px){
   .header__main-nav li a, .header__nav__link.dlink, .header__shopping-cart-links-container li a{
-    font-size: 19px !important;
+        /* font-size: 19px !important; */
+    font-size: 16px !important;
+    /* color: #4A4A4A !important; */
   }
   .ymm-grid .grid__item{
     width: 25% !important;
