@@ -2,55 +2,9 @@
 .klaviyo-form.klaviyo-form.klaviyo-form {
     z-index: -9 !important;
 }
-  div#___ratingbadge_0 {
-    z-index: 214 !important;
-}
-#reset_ymm_garage_link{
-  color:#fff !important;
-}
+
 /* Added on 27/1/25  end */
-.hsds-beacon .bbHIsf {
-    bottom: 60px !important;
-}
-.ContainerFramecss__WrapperUI-sc-d7rzhh-0.lcyIqL.BeaconContainer.is-configDisplayRight.BeaconContainer-enter-done{
-      bottom: 110px !important;
-}
-.product-index-inner:hover .icn{
-  opacity:1 !Important;
-}
-/* data-sale-opt-out page CSS */
-.pc--opt-out-form-field_wrapper label{
-  display:none;
-}
-.pc--opt-out-form-button svg{
-      height: 2.5rem;
-    width: 2.5rem;
-    margin-bottom: 0px;
-    position: relative;
-    top: 4px;
-  display:none;
-}
-.pc--opt-out-form-button::after{
-    content:"Submit";
-}
-.pc--opt-out-form-message svg{
-      height: 2.5rem;
-    width: 2.5rem;
-    margin-bottom: 0px;
-}
-.pc--opt-out-form-message span{
-  /* position: relative;
-    bottom: 10px; */
-}
-.pc--opt-out-form small{
-/* display: flex;
-  align-items: center;
-  gap: 12px; */
-      font-size: 26px;
-    font-weight: bold;
-    line-height: 1.2;
-}
-/* data-sale-opt-out page CSS */
+
 #sales_representative_id{
   width: 44%;
   margin: 0 auto;
@@ -2031,7 +1985,7 @@ top: -16px
     line-height: 1.6;
     padding-top: 8px;
     padding-bottom: 8px;
-  display:none;
+
 }
 
 /* Recently Viewed button fixes END */
