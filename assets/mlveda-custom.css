@@ -141,8 +141,8 @@ ul#posts {
     font-size: 14px !important;
 }
 .header__linklist-images-wrapper.image-ratio-square .header__linklist-images__image {
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
 }
 .header__linklist-images-wrapper.image-ratio-square .header__linklist-images__image img {
     object-fit: unset;
