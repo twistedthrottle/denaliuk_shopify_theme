@@ -1,294 +1,85 @@
 {% comment %}
-snippets/sidebar-filter.liquid
+  snippets/sidebar-sortby.liquid
 
-Use the "defaultOpen" variable to determine if the filter will be
-collapsed by default in the accordion.
+  Use the "defaultOpen" variable to determine if the sortby will be
+  collapsed by default in the accordion.
 {% endcomment %}
 
-{%- for filter in collection.filters -%}
-  {%- liquid
+{%- liquid
+  assign defaultOpen = false
+  assign accordion_content_id = accordion_content_class | append: block.id | append: '-' | append: forloop.index
+  assign total_active_values = total_active_values | plus: filter.active_values.size
+-%}
 
-    assign defaultOpen = false
-    assign accordion_content_id = accordion_content_class | append: block.id | append: '-' | append: forloop.index
-    assign total_active_values = total_active_values | plus: filter.active_values.size
+{% capture accordion_heading_capture %}
+    {{ 'collections.filters.sort_by_placeholder' | t }}
+  {% endcapture %}
 
-  -%}
-  {% case filter.type %}
-    {% when 'list' %}
-      {%- liquid
+{% capture accordion_content_capture %}
+    <div class="collection__page-sort sidebar-filter" data-collection-sort-by>
+      <ul>
+        {% for option in collection.sort_options %}
+          {%- liquid
 
-        assign is_size_filter = false
-        assign is_color_filter = false
-
-        assign filter_label_to_lowercase = filter.label | downcase
-
-        if filter_label_to_lowercase contains "color"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "colour"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "farbe"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "couleur"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "colore"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "cor"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "swatch"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "amostra"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "échantillon"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "muster"
-          assign is_color_filter = true
-        elsif filter_label_to_lowercase contains "size"
-          assign is_size_filter = true
-        elsif filter_label_to_lowercase contains "talla"
-          assign is_size_filter = true
-        elsif filter_label_to_lowercase contains "taglia"
-          assign is_size_filter = true
-        elsif filter_label_to_lowercase contains "taille"
-          assign is_size_filter = true
-        elsif filter_label_to_lowercase contains "tamanho"
-          assign is_size_filter = true
-        elsif filter_label_to_lowercase contains "grosse"
-          assign is_size_filter = true
-        endif
-
-        if is_color_filter
-          assign filter_type = 'color'
-          assign defaultOpen = false
-        elsif is_size_filter
-          assign filter_type = 'size'
-          assign defaultOpen = false
-        else
-          assign filter_type = 'regular'
-        endif
-
-      -%}
-        {% capture accordion_heading_capture %}
-        {{ filter.label | escape }}{% if filter.operator == 'AND' %}<small>({{ 'collections.filters.match_all' | t }})</small>{% endif %}
-        {% endcapture %}
-        {% capture accordion_content_capture %}
-          <div class="sidebar-filter filter--{{ filter_type }}">
-            <ul>
-              {% liquid
-                if filter.operator == 'AND'
-                  assign active_values = filter.values | where: 'active', true
-                  assign inactive_values = filter.values | where: 'active', false
-                  assign sorted_values = active_values | concat: inactive_values
-                else
-                  assign sorted_values = filter.values
-                endif
-               %}
-              {% for value in sorted_values %}
-
-                {%- liquid
-
-                  if is_color_filter
-                    assign swatch_color_name = value.label | handleize | downcase | append: '.png'
-                    assign swatch_image_url = swatch_color_name | file_url
-                    assign css_color = value.label | split: ' ' | last | downcase
-
-                    if images[swatch_color_name] != blank
-                      assign bg_img = 'background-image:url(' | append: swatch_image_url | append: ');'
-                    else
-                      assign bg_img = ''
-                    endif
-                    assign bg_color = 'background-color:' | append: css_color | append: ';'
-                  endif
-
-                  if value.active
-                    assign status = 'current'
-                    assign url = value.url_to_remove
-                  elsif value.count == 0 and value.active == false
-                    assign status = 'disabled'
-                    assign url = ''
-                  else
-                    assign status = ''
-                    assign url = value.url_to_add
-                  endif
-                -%}
-                {% liquid
-                  assign size_limit = value.display.value.size | at_most: 4
-                  assign rotation = '0deg'
-                  if size_limit == 2
-                    assign rotation = '45deg'
-                  endif
-
-                  assign angle_increment = 360 | divided_by: size_limit
-                  assign angle = 0
-                %}
-                {%- capture conic_gradient -%}
-                  {%- for color in value.display.value limit: size_limit -%}
-                    {{ color }} {{ angle }}deg{%- assign angle = angle | plus: angle_increment %} {{ angle }}deg{%- unless forloop.last %}, {%- endunless -%}
-                  {%- endfor -%}
-                {%- endcapture -%}
-
-                <li class="{{ status }} {% unless is_color_filter %}checkbox-wrapper{% endunless %}">
-                  {% if is_color_filter %}
-                    <a class="js-collection-side-filter {{ status }}" href="{{ url }}" title="{{ value.label }}">
-                      <input type="checkbox"
-                                   name="{{ value.param_name }}"
-                                   value="{{ value.value }}"
-                                   id="{{ filter.label | handle }}--{{ value.value }}"
-                                   {% if value.active %}checked{% endif %}
-                                   {% if value.count == 0 and value.active == false %}disabled{% endif%} >
-                      {% if filter.presentation == 'swatch' %}
-                        {% comment %}
-                        We capture the classes out here so that we can pass it into the image_tag filter.
-                        {% endcomment %}
-                        {%- capture classes -%}
-                          color-filter color-filter--rounded color-filter--{{- status -}} {{- status -}}
-                        {%- endcapture -%}
-                        {% case value.display.type %}
-                          {% when 'colors' %}
-                            <div class="{{- classes -}}" style="background: conic-gradient({{ conic_gradient }}); transform: rotateZ({{ rotation }});"></div>
-                          {% when 'image' %}
-                            {{ value.display.value | image_url: width: 300 | image_tag: alt: value.display.value.alt, class: classes }}
-                        {% endcase %}
-                      {% else %}
-                        <span class="color-filter color-filter--rounded color-filter--{{ status }} {{ status }}" style="{{ bg_color }}{{ bg_img }}"></span>
-                      {% endif %}
-                      <label class="color-filter--label" for="{{ filter.label | handle }}--{{ value.value }}">{{ value.label | escape }} <span class="filter__count">({{ value.count }})</span></label>
-                    </a>
-                  {% else %}
-                    <a class="js-collection-side-filter {{ status }}" data-tag="{{ url }}" href="{{ url }}">
-                      <input type="checkbox"
-                                   name="{{ value.param_name }}"
-                                   value="{{ value.value }}"
-                                   id="{{ filter.label | handle }}--{{ value.value }}"
-                                   {% if value.active %}checked{% endif %}
-                                   {% if value.count == 0 and value.active == false %}disabled{% endif%} >
-                      <div class="checkbox-indicator"></div>
-                      <label class="regular-filter--label" for="{{ filter.label | handle }}--{{ value.value }}">{{ value.label | escape }} <span class="filter__count">({{ value.count }})</span></label>
-                    </a>
-                  {% endif %}
-                </li>
-              {% endfor %}
-
-            </ul>
-          </div>
-        {% endcapture %}
-    {% when 'price_range' %}
-      {%- liquid
-        assign currencies_using_comma_decimals = "ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND" | split: ','
-        assign uses_comma_decimals = false
-
-        if currencies_using_comma_decimals contains cart.currency.iso_code
-          assign uses_comma_decimals = true
-        endif
-      -%}
-
-        {% capture accordion_heading_capture %}
-        {{ filter.label | escape }}
-        {% endcapture %}
-        {% capture accordion_content_capture %}
-        <div class="sidebar-filter filter--price-range" data-collection-filters-price-range>
-          <div class="filter-range__boxes js-price-range">
-            <div class="filter-range__field">
-              <label class="filter-range__field__label visually-hidden" for="Filter-{{ filter.label | escape }}-{{ forloop.index }}">{{ 'collections.filters.from' | t }}</label>
-              <span class="filter-range__field__currency">{{ cart.currency.symbol }}</span>
-              <input class="filter-range__field__input js-filter-range-input js-price-min-output"
-                name="{{ filter.min_value.param_name }}"
-                id="Filter-{{ filter.label | escape }}-{{ forloop.index }}"
-                {%- if filter.min_value.value -%}
-                  {%- if uses_comma_decimals -%}
-                    value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
-                  {%- else -%}
-                    value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
-                  {% endif %}
-                {%- endif -%}
-                type="number"
-                placeholder="{{ 'collections.filters.from' | t }}"
-                min="0"
-                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
-              </input>
-            </div>
-            <div class="filter-range__field">
-              <label class="filter-range__field__label visually-hidden" for="Filter-{{ filter.label | escape }}-{{ forloop.index }}">{{ 'collections.filters.to' | t }}</label>
-              <span class="filter-range__field__currency">{{ cart.currency.symbol }}</span>
-              <input class="filter-range__field__input js-filter-range-input js-price-max-output"
-                name="{{ filter.max_value.param_name }}"
-                id="Filter-{{ filter.label | escape }}-{{ forloop.index }}"
-                {%- if filter.max_value.value -%}
-                  {%- if uses_comma_decimals -%}
-                    value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
-                  {%- else -%}
-                    value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
-                  {% endif %}
-                {%- endif -%}
-                type="number"
-                placeholder="{{ 'collections.filters.to' | t }}"
-                min="0"
-                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
-              </input>
-            </div>
-
-            <div class="filter-range__slider--wrapper">
-              <input class="filter-range__slider--input"
-                {%- if filter.min_value.value -%}
-                  {%- if uses_comma_decimals -%}
-                    value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
-                  {%- else -%}
-                    value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
-                  {% endif %}
-                {%- else -%}
-                  value="0"
-                {%- endif -%}
-                min="0"
-                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                step="1.00"
-                type="range"/>
-              <input class="filter-range__slider--input"
-                {%- if filter.max_value.value -%}
-                  {%- if uses_comma_decimals -%}
-                    value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
-                  {%- else -%}
-                    value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
-                  {% endif %}
-                {%- else -%}
-                  value="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                {%- endif -%}
-                min="0"
-                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                step="1.00"
-                type="range"/>
-            </div>
-          </div>
-        </div>
-      {% endcapture %}
-  {% endcase %}
-
-  <li class="js-accordion-header c-accordion__header {% if defaultOpen %}js-accordion-is-open{% endif %}"
-        {% if defaultOpen %}
-          aria-expanded="true"
-        {% else %}
-          aria-expanded="false"
-        {% endif %}
-        aria-controls="{{ accordion_content_id }}" data-toggle="accordion"
-        data-accordion-context="{{ block.id }}"
-        {{ block.shopify_attributes }} >
-    <a class="js-accordion-link c-accordion__link" href="" rel="nofollow"><h4>{{ accordion_heading_capture }}</h4></a>
-    <button class="dropdown-arrow" aria-label="{{  link.title | escape }}" data-toggle="accordion" aria-expanded="false" aria-controls="{{ accordion_content_id }}" >
-      {% render 'snip-icons',
-         wrapper: '.c-accordion__header',
-         type: 'apollo',
-         icon: 'down-carrot',
-         classes: 'c-accordion__header--icon vib-center',
-         size: '6px',
-         fill: 'var(--text-color)',
-         hover: 'var(--text-color)' %}
-    </button>
-  </li>
-
-   <li class="c-accordion__panel {% if defaultOpen %}is-active{% endif %} {{ accordion_content_id }} c-accordion__panel--{{ block.type }}"
-     id="{{ accordion_content_id }}"
-     data-parent="#c-accordion--{{ unique_id }}"
-     data-accordion-context="{{ block.id }}">
-    <div class="c-accordion__inner">
-     {{ accordion_content_capture }}
+            if option.value == collection.sort_by
+              assign status = 'current'
+            else
+              assign status = 'available'
+            endif
+          -%}
+          <li class="js-collection-side-filter {{ status }}" data-placeholder="{{ option.name }}" data-option-value="{{ option.value }}">
+            <input type="checkbox"
+                   name="sort_by"
+                   id="{{ option.name }}"
+                   value="{{ option.value | escape }}">
+            <label for="{{ option.name }}">{{ option.name }}</label>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
-  </li>
-{%- endfor -%}
+  {% endcapture %}
+
+<li
+  class="js-accordion-header c-accordion__header accordion-expanded {% if defaultOpen %}js-accordion-is-open{% endif %}"
+  {% if defaultOpen %}
+    aria-expanded="false"
+  {% else %}
+    aria-expanded="false"
+  {% endif %}
+  aria-controls="{{ accordion_content_id }}"
+  data-toggle="accordion"
+  data-accordion-context="{{ block.id }}"
+  {{ block.shopify_attributes }}
+>
+  <a class="js-accordion-link c-accordion__link" href="" rel="nofollow">
+    <h4>{{ accordion_heading_capture }}</h4>
+  </a>
+  <button
+    class="dropdown-arrow"
+    aria-label="{{  link.title | escape }}"
+    data-toggle="accordion"
+    aria-expanded="true"
+    aria-controls="{{ accordion_content_id }}"
+  >
+    {% render 'snip-icons',
+      wrapper: '.c-accordion__header',
+      type: 'apollo',
+      icon: 'down-carrot',
+      classes: 'c-accordion__header--icon vib-center',
+      size: '6px',
+      fill: 'var(--text-color)',
+      hover: 'var(--text-color)'
+    %}
+  </button>
+</li>
+
+<li
+  class="c-accordion__panel {% if defaultOpen %}is-active{% endif %} {{ accordion_content_id }} c-accordion__panel--{{ block.type }}"
+  id="{{ accordion_content_id }}"
+  data-parent="#c-accordion--{{ unique_id }}"
+  data-accordion-context="{{ block.id }}"
+>
+  <div class="c-accordion__inner">
+    {{ accordion_content_capture }}
+  </div>
+</li>
