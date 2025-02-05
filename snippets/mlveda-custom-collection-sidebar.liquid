@@ -1,37 +1,39 @@
 {% comment %}
-snippets/collection-sidebar.liqiud
+  snippets/collection-sidebar.liqiud
 
-Collection sidebar
-Render collection sidebar filters.
+  Collection sidebar
+  Render collection sidebar filters.
 
-Accepts:
-- collection: {Object} Collection Liquid object (required)
+  Accepts:
+  - collection: {Object} Collection Liquid object (required)
 
-Usage:
-{% render 'collection-sidebar', collection: collection %}
-
+  Usage:
+  {% render 'collection-sidebar', collection: collection %}
 {% endcomment %}
-  {%- liquid
-
-    assign defaultOpen = true
-   
-  -%}
+{%- liquid
+  assign defaultOpen = true
+-%}
 <div id="collection-sidebar" class="mlsidebar">
   <form id="CollectionSidebarFiltersForm" data-collection-sidebar>
     {% if collection.current_vendor or collection.current_type %}
       <input type="hidden" name="q" value="{{ collection.current_vendor }}{{ collection.current_type }}">
     {% endif %}
     <div class="sidebar-filters js-sidebar-filters">
-
       {% assign unique_id = section.id | slice: 0, 7 %}
 
-      <ul class="js-accordion c-accordion c-accordion--collection-page-sidebar c-accordion--vantage c-accordion--{{ unique_id }}"
-          id="c-accordion--{{ unique_id }}" data-accordion-family="collection-sidebar" data-accordion-allow-multiple>
-        
+      <ul
+        class="js-accordion c-accordion c-accordion--collection-page-sidebar c-accordion--vantage c-accordion--{{ unique_id }}"
+        id="c-accordion--{{ unique_id }}"
+        data-accordion-family="collection-sidebar"
+        data-accordion-allow-multiple
+      >
         {% for block in section.blocks %}
-
           {% assign accordion_content_class = 'c-accordion__panel--' %}
-          {% assign accordion_content_id = accordion_content_class | append: unique_id | append: '-' | append: forloop.index %}
+          {% assign accordion_content_id = accordion_content_class
+            | append: unique_id
+            | append: '-'
+            | append: forloop.index
+          %}
 
           {% if block.type == 'menu' %}
             {% if block.settings.header != 'Shop By Vehicle' %}
@@ -44,23 +46,21 @@ Usage:
                 {% render 'collection-sidebar-menu', block: block, sidenav: block.settings.side_nav %}
 
               {% endcapture %}
-              {% endif %}
+            {% endif %}
           {% endif %}
 
           {% if block.type == 'sidebar_filter' %}
             {%- if collection.all_products_count < 1000 -%}
-              {%
-                render 'sidebar-filter',
+              {% render 'sidebar-filter',
                 block: block,
                 accordion_content_class: accordion_content_class,
                 unique_id: unique_id
               %}
             {%- endif -%}
           {% endif %}
-          
+
           {% if block.type == 'sort_by' %}
-            {%
-              render 'mlveda-sidebar-filter',
+            {% render 'mlveda-sidebar-filter',
               block: block,
               accordion_content_class: accordion_content_class,
               unique_id: unique_id
@@ -68,110 +68,151 @@ Usage:
           {% endif %}
 
           {% comment %}
-          render blocks
-          if block type is image, then render image other wise render block within accordion markup.
+            render blocks
+            if block type is image, then render image other wise render block within accordion markup.
           {% endcomment %}
-          {% unless block.type == 'featured_image'%}
+          {% unless block.type == 'featured_image' %}
             {% if block.type == 'image' %}
               <div class="sidebar-image" {{ block.shopify_attributes }}>
                 {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}
-                  {% if block.settings.image != blank %}
-                    {% render 'basic-responsive-image',
-                      type: block.settings.image,
-                      width: 500
-                    %}
-                  {% else %}
-                    <div class="onboard">
-                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-                    </div>
-                  {% endif %}
+                {% if block.settings.image != blank %}
+                  {% render 'basic-responsive-image', type: block.settings.image, width: 500 %}
+                {% else %}
+                  <div class="onboard">
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {% endif %}
                 {% if block.settings.link != blank %}</a>{% endif %}
               </div>
             {% elsif block.type == 'sidebar_filter' or block.type == 'sort_by' %}
               {% continue %}
             {% else %}
-{% if block.settings.header != 'Shop By Vehicle' %}
-              <li class="js-accordion-header c-accordion__header {% if defaultOpen %}js-accordion-is-open{% endif %}"
-                    {% if defaultOpen %}
-                      aria-expanded="true"
-                    {% else %}
-                      aria-expanded="false"
-                    {% endif %}
-                    aria-controls="{{ accordion_content_id }}" data-toggle="accordion"
-                    data-accordion-context="{{ block.id }}"
-                    {{ block.shopify_attributes }} >
-                <a class="js-accordion-link c-accordion__link" href="" rel="nofollow"><h4>{{ accordion_heading_capture }}</h4></a>
-                <button class="dropdown-arrow" aria-label="{{  link.title | escape }}" data-toggle="accordion" aria-expanded="false" aria-controls="{{ accordion_content_id }}" >
-                  {% render 'snip-icons',
-                    wrapper: '.c-accordion__header',
-                    type: 'apollo',
-                    icon: 'down-carrot',
-                    classes: 'c-accordion__header--icon vib-center',
-                    size: '6px',
-                    fill: 'var(--text-color)',
-                    hover: 'var(--text-color)' %}
-                </button>
-              </li>
+              {% if block.settings.header != 'Shop By Vehicle' %}
+                <li
+                  class="js-accordion-header c-accordion__header hello {% if defaultOpen %}js-accordion-is-open{% endif %}"
+                  {% if defaultOpen %}
+                    aria-expanded="false"
+                  {% else %}
+                    aria-expanded="false"
+                  {% endif %}
+                  aria-controls="{{ accordion_content_id }}"
+                  data-toggle="accordion"
+                  data-accordion-context="{{ block.id }}"
+                  {{ block.shopify_attributes }}
+                >
+                  <a class="js-accordion-link c-accordion__link" href="" rel="nofollow">
+                    <h4>{{ accordion_heading_capture }}</h4>
+                  </a>
+                  <button
+                    class="dropdown-arrow"
+                    aria-label="{{  link.title | escape }}"
+                    data-toggle="accordion"
+                    aria-expanded="false"
+                    aria-controls="{{ accordion_content_id }}"
+                  >
+                    {% render 'snip-icons',
+                      wrapper: '.c-accordion__header',
+                      type: 'apollo',
+                      icon: 'down-carrot',
+                      classes: 'c-accordion__header--icon vib-center',
+                      size: '6px',
+                      fill: 'var(--text-color)',
+                      hover: 'var(--text-color)'
+                    %}
+                  </button>
+                </li>
 
-              <li class="c-accordion__panel {% if defaultOpen %}is-active{% endif %} {{ accordion_content_id }} c-accordion__panel--{{ block.type }}"
-                id="{{ accordion_content_id }}"
-                data-parent="#c-accordion--{{ unique_id }}"
-                data-accordion-context="{{ block.id }}">
-                <div class="c-accordion__inner">
-                {{ accordion_content_capture }}
-                </div>
-              </li>
-  {% endif %}
+                <li
+                  class="c-accordion__panel {% if defaultOpen %}is-active{% endif %} {{ accordion_content_id }} c-accordion__panel--{{ block.type }}"
+                  id="{{ accordion_content_id }}"
+                  data-parent="#c-accordion--{{ unique_id }}"
+                  data-accordion-context="{{ block.id }}"
+                >
+                  <div class="c-accordion__inner">
+                    {{ accordion_content_capture }}
+                  </div>
+                </li>
+              {% endif %}
             {% endif %}
           {% endunless %}
         {% endfor %}
-        
-                    <!-- Added by mlveda -->
-        {% for product_type in collection.all_types %}    
-        {% assign type_count = forloop.index %}
+
+        <!-- Added by mlveda -->
+        {% for product_type in collection.all_types %}
+          {% assign type_count = forloop.index %}
         {% endfor %}
         {% if type_count > 1 %}
-        <li class="js-accordion-header c-accordion__header {% if defaultOpen %}js-accordion-is-open{% endif %}"
-                    {% if defaultOpen %}
-                      aria-expanded="true"
-                    {% else %}
-                      aria-expanded="false"
-                    {% endif %}
-                    aria-controls="{{ accordion_content_id }}" data-toggle="accordion"
-                    data-accordion-context="{{ block.id }}"
-                    {{ block.shopify_attributes }}>
-          <a class="js-accordion-link c-accordion__link" href="" rel="nofollow">
-            <!-- commented by mlveda <h4>Shop By Product</h4> --> 
-            <h4>Filter by</h4>
-          </a>
-        <button class="dropdown-arrow" aria-label="{{  link.title | escape }}" data-toggle="accordion" aria-expanded="false" aria-controls="{{ accordion_content_id }}" >
-        {% render 'snip-icons',
-        wrapper: '.c-accordion__header',
-        type: 'apollo',
-        icon: 'down-carrot',
-        classes: 'c-accordion__header--icon vib-center',
-        size: '6px',
-        fill: 'var(--text-color)',
-        hover: 'var(--text-color)' %}
-        </button></li>
-        
-        <li class="c-accordion__panel {% if defaultOpen %}is-active{% endif %} {{ accordion_content_id }} c-accordion__panel--{{ block.type }}"
-                id="{{ accordion_content_id }}"
-                data-parent="#c-accordion--{{ unique_id }}"
-                data-accordion-context="{{ block.id }}">
-           <div class="c-accordion__inner">
-             <ul class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordrion--collection-sidebar-menu c-accordion--menu" id="c-accordion--menu">
-               {% for product_type in collection.all_types %}   
-                 <li>{{product_type | link_to_type}}</li>
-               {% endfor %}
-             </ul>
-          </div>
-        </li>     
+          <li
+            class="js-accordion-header c-accordion__header accordion-expanded {% if defaultOpen %}js-accordion-is-open{% endif %}"
+            {% if defaultOpen %}
+              aria-expanded="false"
+            {% else %}
+              aria-expanded="false"
+            {% endif %}
+            aria-controls="{{ accordion_content_id }}"
+            data-toggle="accordion"
+            data-accordion-context="{{ block.id }}"
+            {{ block.shopify_attributes }}
+          >
+            <a class="js-accordion-link c-accordion__link" href="" rel="nofollow">
+              <!-- commented by mlveda <h4>Shop By Product</h4> -->
+              <h4>Filter by</h4>
+            </a>
+            <button
+              class="dropdown-arrow"
+              aria-label="{{  link.title | escape }}"
+              data-toggle="accordion"
+              aria-expanded="true"
+              aria-controls="{{ accordion_content_id }}"
+            >
+              {% render 'snip-icons',
+                wrapper: '.c-accordion__header',
+                type: 'apollo',
+                icon: 'down-carrot',
+                classes: 'c-accordion__header--icon vib-center',
+                size: '6px',
+                fill: 'var(--text-color)',
+                hover: 'var(--text-color)'
+              %}
+            </button>
+          </li>
+
+          <li
+            class="c-accordion__panel {% if defaultOpen %}is-active{% endif %} {{ accordion_content_id }} c-accordion__panel--{{ block.type }}"
+            id="{{ accordion_content_id }}"
+            data-parent="#c-accordion--{{ unique_id }}"
+            data-accordion-context="{{ block.id }}"
+          >
+            <div class="c-accordion__inner">
+              <ul
+                class="js-accordion js-accordion-mobile-nav c-accordion c-accordion--mobile-nav c-accordrion--collection-sidebar-menu c-accordion--menu"
+                id="c-accordion--menu"
+              >
+                {% for product_type in collection.all_types %}
+                  <li>{{ product_type | link_to_type }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
         {% endif %}
-      <!-- Added by mlveda -->
-        
-      </ul><!-- /.c-accordion -->
-    
-    </div><!-- /.sidebar-filters.tablet-6.mobile-3 -->
-  </form><!-- /#CollectionSidebarFiltersForm -->
-</div><!-- /#collection-sidebar -->
+        <!-- Added by mlveda -->
+      </ul>
+      <!-- /.c-accordion -->
+    </div>
+    <!-- /.sidebar-filters.tablet-6.mobile-3 -->
+  </form>
+  <!-- /#CollectionSidebarFiltersForm -->
+</div>
+<!-- /#collection-sidebar -->
+
+<script>
+  // setTimeout(()=>{
+  //     const myAccordions = document.querySelectorAll(".mlv-expanded");
+  //     if(myAccordions){
+  //       console.log("heheeh")
+  //       myAccordions.forEach(myAccordion =>{
+  //         myAccordion.querySelector("button.dropdown-arrow").setAttribute("aria-expanded","true");
+  //       })
+  //     }
+  // },1500)
+</script>
