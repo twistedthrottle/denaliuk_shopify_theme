@@ -2101,3 +2101,12 @@ textarea::placeholder {
 .contact__form--input textarea::placeholder {
     font-size: 1rem !important; 
 }
+
+
+
+/* 3 feb 2024  */
+
+.c-accordion.c-accordion--mobile-nav.mlv-c-accordion--mobile-nav li:not(.c-accordion__panel) {
+  /* padding:unset !important; */
+  margin-bottom: 0px !important;
+}
