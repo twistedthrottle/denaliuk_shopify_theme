@@ -592,7 +592,7 @@
     "color_swatch_style": "variant-image",
     "show_quantity": true,
     "cart_added_event": "product_page",
-    "cart_type": "drawer",
+    "cart_type": "page_only",
     "cart_icon": "cart",
     "show_cart_notes": false,
     "show_shipping_calculator": false,
