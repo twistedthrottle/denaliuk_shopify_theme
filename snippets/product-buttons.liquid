@@ -146,10 +146,19 @@
     <!-- /.note.note-error -->
 
     <!-- submit button -->
-    <input
+    {% comment %} commented by mlveda 8/2/25 <input
       type="submit"
       name="button"
       class="add clearfix mb10 AddtoCart js-ajax-submit-w3 {% if settings.show_payment_button and product.selling_plan_groups.size == 0 %} secondary-button{% endif %}"
+      value="{{ call_to_action }}"
+      {% unless current_variant.available %}
+        disabled
+      {% endunless %}
+    >{% endcomment %}
+    <input
+      type="submit"
+      name="button"
+      class="add clearfix mb10 AddtoCart js-ajax-submit {% if settings.show_payment_button and product.selling_plan_groups.size == 0 %} secondary-button{% endif %}"
       value="{{ call_to_action }}"
       {% unless current_variant.available %}
         disabled
