@@ -325,7 +325,7 @@
 <div id="selected-products-board">
   <h3 class="mlv_board_title">Your Selections:</h3>
   <div id="selected-products-list">
-    <p id="main-product-details" class="mlv_board_details">{{ product.title }}</p>
+    <p id="main-product-details" mlv-variant-id="{{ product.selected_or_first_available_variant.id }}" class="mlv_board_details">{{ product.title }}</p>
   </div>
   <p id="totalCost" style="font-weight: bold; padding: 10px;">
     <!-- <strong>Total: </strong> -->
@@ -418,11 +418,12 @@ function addSelectedProductsToCart() {
   console.log("Function Called !!");
   const selectedProductsList = document.querySelectorAll('#selected-products-list p');
   const defaultProductForm = document.querySelector('.product_form');
+  const MLV_add_to_cart = document.querySelector(".MLV_add_to_cart");
   const items = [];
 
   // Start processing from the second child
   selectedProductsList.forEach((product, index) => {
-      if (index === 0) return; // Skip the first child
+      // if (index === 0) return; // Skip the first child
 
       const variantId = product.getAttribute('mlv-variant-id');
       if (variantId) {
@@ -466,17 +467,53 @@ function addSelectedProductsToCart() {
       .then(data => {
           console.log('Added items to cart:', data);
 
+        setTimeout(() => {
+          // let totalQuantity = data.items.reduce((sum, item) => sum + item.quantity, 0);
+          // const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
+        
+          // MLV_add_to_carts.forEach((i) => {
+          //   const cart_count = i.querySelector(".js-cart-count");
+          //   console.log("cart_count : ",cart_count);
+          //   if(cart_count) {
+          //     cart_count.innerHTML = totalQuantity;
+          //   }
+          //   console.log('Total Quantity in Cart:', totalQuantity);
+          // })
+
+          let totalQuantity = data.items.reduce((sum, item) => sum + item.quantity, 0);
+
+          // Update all cart count elements
+          const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
+      
+          MLV_add_to_carts.forEach((i) => {
+              const cart_count = i.querySelector(".js-cart-count");
+              console.log("cart_count:", cart_count);
+              if (cart_count) {
+                  cart_count.innerHTML = totalQuantity;
+              }
+          });
+          
+        },2000);
+
           // After successfully adding items, submit the default product form
-          if (defaultProductForm) {
-              defaultProductForm.submit(); // Submit the form to add the default product
+          // if (defaultProductForm) {
+          //     defaultProductForm.submit(); // Submit the form to add the default product
+          // }
+          if (MLV_add_to_cart) {
+            MLV_add_to_cart.dispatchEvent(new Event('click'));
           }
       })
       .catch(error => {
           console.error('Error adding items to cart:', error);
       });
-  } else if (defaultProductForm) {
+  } 
+  // else if (defaultProductForm) {
+  //     // If no items to add, just submit the default product form
+  //     defaultProductForm.submit();
+  // }
+  else if (MLV_add_to_cart) {
       // If no items to add, just submit the default product form
-      defaultProductForm.submit();
+      MLV_add_to_cart.dispatchEvent(new Event('click'));
   }
 }
 
