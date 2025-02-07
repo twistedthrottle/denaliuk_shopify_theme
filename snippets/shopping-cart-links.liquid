@@ -475,8 +475,10 @@
     <li class="mini-cart-trigger header__shopping-cart-link cart__link-cart mldmob">
       {%- if settings.cart_type == 'drawer' -%}
         <div class="slideout__trigger--open">
+
+          {% comment %} Added class MLV_add_to_cart by MLVeda {% endcomment %}
           <button
-            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-slideout-open"
+            class="slideout__trigger-mobile-menu cart-icon js-mini-cart-trigger js-slideout-open MLV_add_to_cart"
             data-wau-slideout-target="ajax-cart"
             data-slideout-direction="right"
             aria-label="Open cart"
