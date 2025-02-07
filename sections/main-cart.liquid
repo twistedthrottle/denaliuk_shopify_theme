@@ -38,7 +38,7 @@
     <div class="ajax-cart__form-wrapper cart-wrapper js-ajax-cart-content"></div>
 
     {%- unless request.design_mode -%}
-      {%- if additional_checkout_buttons -%}
+      {% comment %} commented by mlveda 8/2/25 {%- if additional_checkout_buttons -%}
         <div class="ajax-cart__footer-wrapper grid__wrapper edge">
           <div class="push-6 span-6 sm-span-12 auto" id="dynamic" style="grid-column: 9 / 13;">
             <!-- commented by mlveda <p class="sm-caps or-divider mt2 mb2 a-center">
@@ -54,7 +54,7 @@
             </div> 
           </div>
         </div>
-      {%- endif -%}
+      {%- endif -%}{% endcomment %}
     {%- endunless -%}
 
     <!-- Added by mlveda -->
