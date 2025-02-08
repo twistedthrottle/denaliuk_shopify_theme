@@ -13838,6 +13838,8 @@ button.before--after_button svg.before--after_button-icon {
 /* Added By MLVeda */
  #main-nav {
      opacity: 1;
+   display:flex;
+   justify-content:center;
 }
  .header__wrapper.full-width-false .header__linklist-images-wrapper.mlv-header__linklist-images-wrapper {
     /* max-width: 990px;
