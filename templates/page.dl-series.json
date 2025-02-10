@@ -34,7 +34,7 @@
         "text_PNtPBM": {
           "type": "text",
           "settings": {
-            "countdown_text": "<p>DL-Series Driving Lights - Coming Jan 2025</p>",
+            "countdown_text": "<p></p>",
             "hide_after_countdown": false
           }
         },
@@ -46,7 +46,7 @@
             "day": "1",
             "hour": "02",
             "minute": "0",
-            "after_countdown_message": "Pre-Order Now"
+            "after_countdown_message": ""
           }
         },
         "button_cNyDD3": {
