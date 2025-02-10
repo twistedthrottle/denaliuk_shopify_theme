@@ -133,22 +133,29 @@
         "txt_align_text": "left",
         "txt_no_bottom_margin": false,
         "txt_image_1": "shopify://shop_images/DL9_Web.jpg",
-        "txt_link_1": "",
+        "txt_link_1": "/products/dl-9-driving-light-w-datadim-technology",  
         "txt_title_text_1": "DL9 Hybrid Driving",
-        "txt_text_1": "<p><strong>Pod Size:</strong> 4.5\" x 4.5\"<strong><br/>Watts: </strong>72<strong>  Lumens:</strong> 7,650<br/><strong>Clear:</strong> DNL.DL9.050.W<br/><strong>Amber:</strong> DNL.DL9.050.A<br/><strong>Yellow:</strong> DNL.DL9.050.Y<br/><strong>Pod MSRP:</strong> $175.00 USD</p>",
+        "txt_text_1": "<p><strong><strong><a href='/products/dl9-driving-light-w-datadim-technology' target='_blank'>SHOP DL9 NOW</a><br/></strong> Pod Size:</strong> 4.5\" x 4.5\"<strong><br/>Watts: </strong>72<strong>  Lumens:</strong> 7,650<br/><strong>Clear:</strong> DNL.DL9.050.W<br/><strong>Amber:</strong> DNL.DL9.050.A<br/><strong>Yellow:</strong> DNL.DL9.050.Y<br/><strong>Pod MSRP:</strong> $175.00 USD</p>",
+          
+    
         "txt_image_2": "shopify://shop_images/DL6_Web.jpg",
-        "txt_link_2": "",
+        "txt_link_2": "/products/dl6-driving-light-w-datadim-technology",  
         "txt_title_text_2": "DL6 Hybrid Driving",
-        "txt_text_2": "<p><strong>Pod Size:</strong> 4.5\" x 3\"<strong><br/>Watts: </strong>48<strong>  Lumens:</strong> 5,100<br/><strong>Clear:</strong> DNL.DL6.050.W<br/><strong>Amber:</strong> DNL.DL6.050.A<br/><strong>Yellow:</strong> DNL.DL6.050.Y<br/><strong>Pod MSRP:</strong> $137.50 USD</p>",
+        "txt_text_2": "<p><strong><a href='/products/dl6-driving-light-w-datadim-technology' target='_blank'>SHOP DL6 NOW</a></strong><br/><strong>Pod Size:</strong> 4.5\" x 3\"<strong><br/>Watts: </strong>48<strong>  Lumens:</strong> 5,100<br/><strong>Clear:</strong> DNL.DL6.050.W<br/><strong>Amber:</strong> DNL.DL6.050.A<br/><strong>Yellow:</strong> DNL.DL6.050.Y<br/><strong>Pod MSRP:</strong> $137.50 USD</p>",
+  
+    
         "txt_image_3": "shopify://shop_images/DL4_Web.jpg",
-        "txt_link_3": "",
+        "txt_link_3": "/products/dl-4-driving-light-w-datadim-technology",  
         "txt_title_text_3": "DL4 Hybrid Driving",
-        "txt_text_3": "<p><strong>Pod Size:</strong> 3\" x 3\"<strong><br/>Watts: </strong>32<strong>  Lumens:</strong> 3,400<br/><strong>Clear:</strong> DNL.DL4.050.W<br/><strong>Amber:</strong> DNL.DL4.050.A<br/><strong>Yellow:</strong> DNL.DL4.050.Y<br/><strong>Pod MSRP:</strong> $100.00 USD</p>",
+        "txt_text_3": "<p><strong><a href='/products/dl4-driving-light-w-datadim-technology' target='_blank'>SHOP DL4 NOW</a></strong><br/><strong>Pod Size:</strong> 3\" x 3\"<strong><br/>Watts: </strong>32<strong>  Lumens:</strong> 3,400<br/><strong>Clear:</strong> DNL.DL4.050.W<br/><strong>Amber:</strong> DNL.DL4.050.A<br/><strong>Yellow:</strong> DNL.DL4.050.Y<br/><strong>Pod MSRP:</strong> $100.00 USD</p>",
+  
+    
         "txt_image_4": "shopify://shop_images/DL2_Web.jpg",
-        "txt_link_4": "",
+        "txt_link_4": "/products/denali-dl-2-driving-light-w-datadim-technology",  
         "txt_title_text_4": "DL2 Visibility Flood",
-        "txt_text_4": "<p><strong>Pod Size:</strong> 3\" x 2\"<strong><br/>Watts: </strong>16<strong>  Lumens:</strong> 1,700<br/><strong>Clear:</strong> DNL.DL2.050.W<br/><strong>Amber:</strong> DNL.DL2.050.A<br/><strong>Yellow:</strong> DNL.DL2.050.Y<br/><strong>MSRP:</strong> $75.00 USD</p>"
-      }
+        "txt_text_4": "<p><strong><a href='/products/dl2-driving-light-w-datadim-technology' target='_blank'>SHOP DL2 NOW</a></strong><br/><strong>Pod Size:</strong> 3\" x 2\"<strong><br/>Watts: </strong>16<strong>  Lumens:</strong> 1,700<br/><strong>Clear:</strong> DNL.DL2.050.W<br/><strong>Amber:</strong> DNL.DL2.050.A<br/><strong>Yellow:</strong> DNL.DL2.050.Y<br/><strong>MSRP:</strong> $75.00 USD</p>",
+  
+        }
     },
     "main": {
       "type": "page-custom-D7PRO-template",
