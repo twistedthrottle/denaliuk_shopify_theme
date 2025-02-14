@@ -1,7 +1,9 @@
-{% if product.metafields.custom.denali_add_on %}
+
   {% for entry in product.metafields.custom.denali_add_on.value %}
 
-    {% if entry.title.value %}
+    {% if entry.backend_title.value %}
+      <h3 class="mlv_title">{{ entry.backend_title.value }}</h3>
+    {% elsif entry.title.value %}
       <h3 class="mlv_title">{{ entry.title.value }}</h3>
     {% endif %}
 
@@ -20,10 +22,12 @@
                   data-title="{{ variant.product.title }} ({{ variant.title }})" 
                   data-price="{{ variant.price | money_without_currency }}" 
                   data-product-id="{{ variant.product.id }}" 
+                  data-product-qty="{{ entry.custom_quantity.value }}"
                   id="{{ variant.title }}" 
                   name="{{ entry.title }}" 
                   value="{{ variant.title }}"
                   onclick="toggleVariantSelection(this, 'radio')"
+                  {% if entry.enable_pre_selected.value == true and forloop.first %}checked{% endif %}
                 />
                 <label class="mlv_label" for="{{ variant.title }}">Add {{ variant.product.title }} ({{ variant.title }}) +{{ variant.price | money }}</label><br>
               </div>
@@ -36,10 +40,12 @@
                   data-title="{{ variant.product.title }}" 
                   data-price="{{ variant.product.price | money_without_currency }}" 
                   data-product-id="{{ variant.product.id }}"
+                  data-product-qty="{{ entry.custom_quantity.value }}"
                   id="{{ variant.product.title }}" 
                   name="{{ entry.title }}" 
                   value="{{ variant.product.title }}"
                   onclick="toggleVariantSelection(this, 'radio')"
+                  {% if entry.enable_pre_selected.value == true and forloop.first %}checked{% endif %}
                 />
                 <label class="mlv_label" for="{{ variant.product.title }}">Add {{ variant.product.title }} +{{ variant.product.price | money }}</label><br>
               </div>
@@ -74,22 +80,21 @@
                     <option class="variant-select-option" name="{{ entry.title }}" value="Please Select">Please Select</option>
                     {% for product2 in select_list.variants.value %}
                       {% if product2.product.variants.size > 1 %}
-                        <option class="variant-select-option" id="{{ product2.title }}" data-variant-id="{{ product2.id }}" data-price="{{ product2.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }} ({{ product2.title }})">{{ product2.product.title }} ({{ product2.title }})</option>
+                        <option class="variant-select-option" {% if select_list.enable_pre_selected.value == true and forloop.first %}selected{% endif %} id="{{ product2.title }}" data-variant-id="{{ product2.id }}" data-price="{{ product2.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }} ({{ product2.title }})">{{ product2.product.title }} ({{ product2.title }})</option>
                       {% else %}
-                        <option class="variant-select-option" id="{{ product2.product.title }}" data-variant-id="{{ product2.product.variants.first.id }}" data-price="{{ product2.product.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }}">{{ product2.product.title }}</option>
+                        <option class="variant-select-option" {% if select_list.enable_pre_selected.value == true and forloop.first %}selected{% endif %} id="{{ product2.product.title }}" data-variant-id="{{ product2.product.variants.first.id }}" data-price="{{ product2.product.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }}">{{ product2.product.title }}</option>
                       {% endif %}
                     {% endfor %}
                   </select>
                 </div>
 
               {% elsif select_list.variants.value %}
-                 select_list : {{ select_list }}
                 <div style="display: flex; gap: 10px;">
                   {% for product2 in select_list.variants.value %}
                     {% if product2.product.variants.size > 1 %}
                       <div class="product2">
                         <div 
-                          class="variant-option" 
+                          class="variant-option {% if select_list.enable_pre_selected.value == true and forloop.first %}selected{% endif %}" 
                           data-variant-id="{{ product2.id }}" 
                           data-title="{{ product2.product.title }} ({{ product2.title }})" 
                           data-price="{{ product2.price | money_without_currency }}" 
@@ -120,7 +125,7 @@
                     {% else %}
                       <div class="product2">
                         <div 
-                          class="variant-option" 
+                          class="variant-option {% if entry.enable_pre_selected.value == true and forloop.first %}selected{% endif %}" 
                           data-variant-id="{{ product2.product.variants.first.id }}" 
                           data-title="{{ product2.product.title }}" 
                           data-price="{{ product2.product.price | money_without_currency }}" 
@@ -165,11 +170,12 @@
           >
             {% if variant.product.variants.size > 1 %}
               <div 
-                class="variant-option" 
+                class="variant-option {% if entry.enable_pre_selected.value == true and forloop.first %}selected{% endif %}" 
                 data-variant-id="{{ variant.id }}" 
                 data-title="{{ variant.product.title }} ({{ variant.title }})" 
                 data-price="{{ variant.price | money_without_currency }}" 
                 data-product-id="{{ variant.product.id }}"
+                data-product-qty="{{ entry.custom_quantity.value }}"
                 {% if entry.multi_select.value == true %}
                   onclick="toggleVariantSelection(this, 'multiSelect')"
                 {% else %}
@@ -193,11 +199,12 @@
               </div>
             {% else %}
               <div 
-                class="variant-option" 
+                class="variant-option {% if entry.enable_pre_selected.value == true and forloop.first %}selected{% endif %}" 
                 data-variant-id="{{ variant.product.variants.first.id }}" 
                 data-title="{{ variant.product.title }}" 
                 data-price="{{ variant.product.price | money_without_currency }}" 
                 data-product-id="{{ variant.product.id }}"
+                data-product-qty="{{ entry.custom_quantity.value }}"
                 {% if entry.multi_select.value == true %}
                   onclick="toggleVariantSelection(this, 'multiSelect')"
                 {% else %}
@@ -238,9 +245,9 @@
                     <option class="variant-select-option" name="{{ entry.title }}" value="Please Select">Please Select</option>
                     {% for product2 in select_list.variants.value %}
                       {% if product2.product.variants.size > 1 %}
-                        <option class="variant-select-option" id="{{ product2.product.title }}" data-variant-id="{{ product2.id }}" data-price="{{ product2.product.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }} ({{ product2.title }})">{{ product2.product.title }} ({{ product2.title }})</option>
+                        <option class="variant-select-option" {% if select_list.enable_pre_selected.value == true and forloop.first %}selected{% endif %} id="{{ product2.product.title }}" data-variant-id="{{ product2.id }}" data-price="{{ product2.product.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.product.title }} ({{ product2.title }})">{{ product2.product.title }} ({{ product2.title }})</option>
                       {% else %}
-                        <option class="variant-select-option" id="{{ product2.title }}" data-variant-id="{{ product2.product.variants.first.id }}" data-price="{{ product2.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.title }}">{{ product2.title }}</option>
+                        <option class="variant-select-option" {% if select_list.enable_pre_selected.value == true and forloop.first %}selected{% endif %} id="{{ product2.title }}" data-variant-id="{{ product2.product.variants.first.id }}" data-price="{{ product2.price | money_without_currency }}" name="{{ entry.title }}" value="{{ product2.title }}">{{ product2.title }}</option>
                       {% endif %}  
                     {% endfor %}
                   </select>
@@ -252,7 +259,7 @@
                     {% if product2.product.variants.size > 1 %}
                       <div class="product2">
                         <div 
-                          class="variant-option" 
+                          class="variant-option {% if select_list.enable_pre_selected.value == true and forloop.first %}selected{% endif %}" 
                           data-variant-id="{{ product2.id }}" 
                           data-title="{{ product2.product.title }} ({{ product2.title }})" 
                           data-price="{{ product2.price | money_without_currency }}" 
@@ -282,7 +289,7 @@
                     {% else %}
                       <div class="product2">
                         <div 
-                          class="variant-option" 
+                          class="variant-option {% if select_list.enable_pre_selected.value == true and forloop.first %}selected{% endif %}" 
                           data-variant-id="{{ product2.product.variants.first.id }}" 
                           data-title="{{ product2.product.title }}" 
                           data-price="{{ product2.product.price | money_without_currency }}" 
@@ -378,38 +385,13 @@ function toggleProduct2(ele, type) {
     product1Radios.forEach(element => {
       // Get the data-product-id of the current product1
       const productId2 = element.getAttribute('data-variant-id');
-      console.log("productId2 : ", productId2);
+      // console.log("productId2 : ", productId2);
 
       const matchingProduct2Containers = document.querySelectorAll(`.product2-container[data-product1-id="${productId2}"]`);
       matchingProduct2Containers.forEach(container => {
           container.classList.remove('hidden');
       });
     });
-    
-    // if(variantId){ 
-    //   const matchingProduct2Containers1 = document.querySelectorAll(`.product2-container[data-product1-id="${variantId}"]`);
-    //   matchingProduct2Containers1.forEach(container => {
-    //     console.log("container : ",container);
-    //       container.classList.remove('hidden');
-    //   });
-    // }
-
-    // // Iterate over all product1 elements
-    // product1Elements.forEach(element => {
-    //     // Get the data-product-id of the current product1
-    //     const productId = element.getAttribute('data-product-id');
-
-    //     // Check if the current product1 has a child with the class 'variant-option selected'
-    //     const hasSelectedVariant = element.querySelector('.variant-option.selected') !== null;
-
-    //     // If a selected variant is found, show matching .product2-container elements
-    //     if (hasSelectedVariant) {
-    //         const matchingProduct2Containers = document.querySelectorAll(`.product2-container[data-product1-id="${productId}"]`);
-    //         matchingProduct2Containers.forEach(container => {
-    //             container.classList.remove('hidden');
-    //         });
-    //     }
-    // });
 }
 
 
@@ -421,101 +403,72 @@ function addSelectedProductsToCart() {
   const MLV_add_to_cart = document.querySelector(".MLV_add_to_cart");
   const items = [];
 
-  // Start processing from the second child
-  selectedProductsList.forEach((product, index) => {
-      // if (index === 0) return; // Skip the first child
-
+  selectedProductsList.forEach((product) => {
       const variantId = product.getAttribute('mlv-variant-id');
+      const variantQty = product.getAttribute('mlv-variant-qty');
       if (variantId) {
-        items.push({
-            id: variantId,
-            quantity: 1,
-            properties: {
-              _AddOnMainProductId: "{{ product.id }}"
-            }
-        });
+          items.push({
+              id: variantId,
+              quantity: variantQty ? parseInt(variantQty, 10) : 1,
+              properties: {
+                  _AddOnMainProductId: "{{ product.id }}"
+              }
+          });
       }
   });
 
   if (items.length > 0) {
-    const addOnIds = items.map(item => item.id).join(',');
+      const addOnIds = items.map(item => item.id).join(',');
 
-    const hiddenField = document.createElement("input");
-    hiddenField.type = "hidden";
-    hiddenField.name = "properties[_AddOnIds]";
-    hiddenField.value = addOnIds;
-    defaultProductForm.appendChild(hiddenField);
+      const hiddenField = document.createElement("input");
+      hiddenField.type = "hidden";
+      hiddenField.name = "properties[_AddOnIds]";
+      hiddenField.value = addOnIds;
+      defaultProductForm.appendChild(hiddenField);
   }
 
-  // const hiddenField2 = document.createElement("input");
-  // hiddenField2.type = "hidden";
-  // hiddenField2.name = "properties[_AddOnMainProductId]";
-  // hiddenField2.value = "{{ product.id }}";
-  // defaultProductForm.appendChild(hiddenField);
-
-  // Add all selected products to the cart using a single API call
   if (items.length > 0) {
-    console.log("Cart Initiated !!");
+      console.log("Cart Initiated !!");
+
       fetch('/cart/add.js', {
           method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ items })
       })
       .then(response => response.json())
-      .then(data => {
-          console.log('Added items to cart:', data);
+      .then(() => {
+          console.log("Items added, fetching updated cart...");
 
-        setTimeout(() => {
-          // let totalQuantity = data.items.reduce((sum, item) => sum + item.quantity, 0);
-          // const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
-        
-          // MLV_add_to_carts.forEach((i) => {
-          //   const cart_count = i.querySelector(".js-cart-count");
-          //   console.log("cart_count : ",cart_count);
-          //   if(cart_count) {
-          //     cart_count.innerHTML = totalQuantity;
-          //   }
-          //   console.log('Total Quantity in Cart:', totalQuantity);
-          // })
+          // Fetch updated cart data
+          return fetch('/cart.js').then(response => response.json());
+      })
+      .then(cartData => {
+          let totalQuantity = cartData.item_count; // Get correct total cart quantity
 
-          let totalQuantity = data.items.reduce((sum, item) => sum + item.quantity, 0);
+          console.log("Updated Total Quantity in Cart:", totalQuantity);
 
           // Update all cart count elements
           const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
-      
           MLV_add_to_carts.forEach((i) => {
               const cart_count = i.querySelector(".js-cart-count");
-              console.log("cart_count:", cart_count);
               if (cart_count) {
                   cart_count.innerHTML = totalQuantity;
               }
           });
-          
-        },2000);
 
-          // After successfully adding items, submit the default product form
-          // if (defaultProductForm) {
-          //     defaultProductForm.submit(); // Submit the form to add the default product
+          // Simulate click on add-to-cart button
+          // if (MLV_add_to_cart) {
+          //     MLV_add_to_cart.dispatchEvent(new Event('click'));
           // }
-          if (MLV_add_to_cart) {
-            MLV_add_to_cart.dispatchEvent(new Event('click'));
-          }
       })
       .catch(error => {
-          console.error('Error adding items to cart:', error);
+          console.error("Error updating cart:", error);
       });
-  } 
-  // else if (defaultProductForm) {
-  //     // If no items to add, just submit the default product form
-  //     defaultProductForm.submit();
-  // }
-  else if (MLV_add_to_cart) {
-      // If no items to add, just submit the default product form
+  } else if (MLV_add_to_cart) {
       MLV_add_to_cart.dispatchEvent(new Event('click'));
   }
 }
+
 
 // Add event listener to your 'Add to Cart' button
 document.addEventListener("DOMContentLoaded", function(){
@@ -635,9 +588,13 @@ function updateSelectedProducts() {
     selectedOptions.forEach((option) => {
       const title = option.dataset.title || option.textContent.trim();
       const variantId = option.dataset.variantId;
-      // console.log("option : ", option.dataset);
+      const mlv_qty = parseInt(option.dataset.productQty, 10);
+      console.log("mlv_qty : ", mlv_qty);
       const priceText = option.dataset.price ? option.dataset.price.replace(/,/g, "") : "0";
-      const price = parseFloat(priceText);
+      let price = parseFloat(priceText);
+      if(mlv_qty > 1){
+        price = parseFloat(priceText) * mlv_qty;
+      }
 
       if (!title || title.toLowerCase() === "please select" || isNaN(price)) {
         return;
@@ -647,7 +604,14 @@ function updateSelectedProducts() {
       const productEntry = document.createElement("p");
       productEntry.setAttribute('class',"mlv_board_details");
       productEntry.setAttribute('mlv-variant-id',variantId);
-      productEntry.innerHTML = `${title}`;
+      productEntry.setAttribute('mlv-variant-qty',mlv_qty);
+
+      if(mlv_qty > 1) {
+        productEntry.innerHTML = `${title} <strong>X ${mlv_qty}</strong>`;
+      }
+      else {
+        productEntry.innerHTML = `${title}`;
+      }
       selectedProductsList.appendChild(productEntry);
 
       // Add to total cost
@@ -716,6 +680,10 @@ function observeHiddenClass() {
 
 // Call the function to start observing
 observeHiddenClass();
+
+document.addEventListener("DOMContentLoaded", function() {
+  updateSelectedProducts();
+});
 
 
 </script>
@@ -893,5 +861,3 @@ observeHiddenClass();
   margin-bottom: 15px;
 }
 </style>
-
-{% endif %}
