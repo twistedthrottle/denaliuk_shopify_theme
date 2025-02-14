@@ -2126,3 +2126,12 @@ textarea::placeholder {
   /* padding:unset !important; */
   margin-bottom: 0px !important;
 }
+
+@media(max-width: 930px){
+  .slideout {
+    padding-top: 40px;
+  }
+  .slideout__trigger--close {
+    top: -45px !important;
+  }
+}
