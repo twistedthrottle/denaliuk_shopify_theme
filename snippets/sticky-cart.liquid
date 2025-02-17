@@ -37,6 +37,8 @@ snippets/sticky-cart.liquid
     <div class="note note-error js-error-msg" style="display: none">
       <b>{{ 'cart.general.cart_error' | t }}</b>&nbsp;&nbsp;&nbsp;{{ 'cart.general.update_qty_error' | t }}
     </div>
-    <input type="submit" name="button" class="sticky-add clearfix mb10 AddtoCart secondary-button js-ajax-submit" value="{{ call_to_action }}" {% unless current_variant.available %}disabled{% endunless %} />
+
+    {% comment %} Removed class js-ajax-submit by MLVeda {% endcomment %}
+    <input type="submit" name="button" class="sticky-add clearfix mb10 AddtoCart secondary-button" value="{{ call_to_action }}" {% unless current_variant.available %}disabled{% endunless %} />
   </div>
 </div>
