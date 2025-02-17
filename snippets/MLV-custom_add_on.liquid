@@ -22,7 +22,7 @@
                   data-title="{{ variant.product.title }} ({{ variant.title }})" 
                   data-price="{{ variant.price | money_without_currency }}" 
                   data-product-id="{{ variant.product.id }}" 
-                  data-product-qty="{{ entry.custom_quantity.value }}"
+                  data-product-qty="{% if entry.custom_quantity.value != blank %}{{ entry.custom_quantity.value }}{% else %}1{% endif %}"
                   id="{{ variant.title }}" 
                   name="{{ entry.title }}" 
                   value="{{ variant.title }}"
@@ -40,7 +40,7 @@
                   data-title="{{ variant.product.title }}" 
                   data-price="{{ variant.product.price | money_without_currency }}" 
                   data-product-id="{{ variant.product.id }}"
-                  data-product-qty="{{ entry.custom_quantity.value }}"
+                  data-product-qty="{% if entry.custom_quantity.value != blank %}{{ entry.custom_quantity.value }}{% else %}1{% endif %}"
                   id="{{ variant.product.title }}" 
                   name="{{ entry.title }}" 
                   value="{{ variant.product.title }}"
@@ -175,7 +175,7 @@
                 data-title="{{ variant.product.title }} ({{ variant.title }})" 
                 data-price="{{ variant.price | money_without_currency }}" 
                 data-product-id="{{ variant.product.id }}"
-                data-product-qty="{{ entry.custom_quantity.value }}"
+                data-product-qty="{% if entry.custom_quantity.value != blank %}{{ entry.custom_quantity.value }}{% else %}1{% endif %}"
                 {% if entry.multi_select.value == true %}
                   onclick="toggleVariantSelection(this, 'multiSelect')"
                 {% else %}
@@ -204,7 +204,7 @@
                 data-title="{{ variant.product.title }}" 
                 data-price="{{ variant.product.price | money_without_currency }}" 
                 data-product-id="{{ variant.product.id }}"
-                data-product-qty="{{ entry.custom_quantity.value }}"
+                data-product-qty="{% if entry.custom_quantity.value != blank %}{{ entry.custom_quantity.value }}{% else %}1{% endif %}"
                 {% if entry.multi_select.value == true %}
                   onclick="toggleVariantSelection(this, 'multiSelect')"
                 {% else %}
@@ -398,14 +398,18 @@ function toggleProduct2(ele, type) {
 
 function addSelectedProductsToCart() {
   console.log("Function Called !!");
-  const selectedProductsList = document.querySelectorAll('#selected-products-list p');
+  // const selectedProductsList = document.querySelectorAll('#selected-products-list p');
+  const selectedProductsList = document.querySelectorAll('.mlv_board_details');
+  console.log("selectedProductsList : ",selectedProductsList);
   const defaultProductForm = document.querySelector('.product_form');
   const MLV_add_to_cart = document.querySelector(".MLV_add_to_cart");
   const items = [];
 
   selectedProductsList.forEach((product) => {
       const variantId = product.getAttribute('mlv-variant-id');
+      console.log("variantId : ",variantId);
       const variantQty = product.getAttribute('mlv-variant-qty');
+      console.log("variantQty : ",variantQty);
       if (variantId) {
           items.push({
               id: variantId,
@@ -418,6 +422,7 @@ function addSelectedProductsToCart() {
   });
 
   if (items.length > 0) {
+      console.log("items : ",items);
       const addOnIds = items.map(item => item.id).join(',');
 
       const hiddenField = document.createElement("input");
@@ -450,16 +455,17 @@ function addSelectedProductsToCart() {
           // Update all cart count elements
           const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
           MLV_add_to_carts.forEach((i) => {
-              const cart_count = i.querySelector(".js-cart-count");
-              if (cart_count) {
-                  cart_count.innerHTML = totalQuantity;
-              }
+            const cart_count = i.querySelector(".js-cart-count");
+            if (cart_count) {
+                cart_count.innerHTML = totalQuantity;
+            }
+            
+            // Simulate click on add-to-cart button
+            setTimeout(() => {
+                MLV_add_to_cart.dispatchEvent(new Event('click'));
+            },500);
           });
 
-          // Simulate click on add-to-cart button
-          // if (MLV_add_to_cart) {
-          //     MLV_add_to_cart.dispatchEvent(new Event('click'));
-          // }
       })
       .catch(error => {
           console.error("Error updating cart:", error);
@@ -472,13 +478,15 @@ function addSelectedProductsToCart() {
 
 // Add event listener to your 'Add to Cart' button
 document.addEventListener("DOMContentLoaded", function(){
-  const addToCartButton = document.querySelector('.AddtoCart');
-  console.log("addToCartButton : ",addToCartButton);
-  if (addToCartButton) {
-      addToCartButton.addEventListener('click', function(event) {
-          event.preventDefault();  // Prevent the default behavior to allow adding selected products first
-          addSelectedProductsToCart();  // Call the function to add products and submit the form
+  const addToCartButtons = document.querySelectorAll('.AddtoCart');
+  if (addToCartButtons.length > 0) {
+    addToCartButtons.forEach(addToCartButton => {
+        console.log("addToCartButton : ",addToCartButton);
+        addToCartButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        addSelectedProductsToCart();
       });
+    });
   }
 });
 
