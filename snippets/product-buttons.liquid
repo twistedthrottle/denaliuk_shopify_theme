@@ -155,10 +155,12 @@
         disabled
       {% endunless %}
     >{% endcomment %}
+
+    {% comment %} Removed class js-ajax-submit by MLVeda {% endcomment %}
     <input
       type="submit"
       name="button"
-      class="add clearfix mb10 AddtoCart js-ajax-submit {% if settings.show_payment_button and product.selling_plan_groups.size == 0 %} secondary-button{% endif %}"
+      class="add clearfix mb10 AddtoCart {% if settings.show_payment_button and product.selling_plan_groups.size == 0 %} secondary-button{% endif %}"
       value="{{ call_to_action }}"
       {% unless current_variant.available %}
         disabled
