@@ -332,7 +332,7 @@
 <div id="selected-products-board">
   <h3 class="mlv_board_title">Your Selections:</h3>
   <div id="selected-products-list">
-    <p id="main-product-details" mlv-variant-id="{{ product.selected_or_first_available_variant.id }}" class="mlv_board_details">{{ product.title }}</p>
+    <p id="main-product-details" mlv-variant-id="{{ product.selected_or_first_available_variant.id }}" class="mlv_board_details board_main_product">{{ product.title }}</p>
   </div>
   <p id="totalCost" style="font-weight: bold; padding: 10px;">
     <!-- <strong>Total: </strong> -->
@@ -396,83 +396,189 @@ function toggleProduct2(ele, type) {
 
 
 
-function addSelectedProductsToCart() {
-  console.log("Function Called !!");
-  // const selectedProductsList = document.querySelectorAll('#selected-products-list p');
-  const selectedProductsList = document.querySelectorAll('.mlv_board_details');
-  console.log("selectedProductsList : ",selectedProductsList);
-  const defaultProductForm = document.querySelector('.product_form');
-  const MLV_add_to_cart = document.querySelector(".MLV_add_to_cart");
-  const items = [];
+// function addSelectedProductsToCart() {
+//   console.log("Function Called !!");
+//   // const selectedProductsList = document.querySelectorAll('#selected-products-list p');
+//   const selectedProductsList = document.querySelectorAll('.mlv_board_details');
+//   console.log("selectedProductsList : ",selectedProductsList);
+//   const defaultProductForm = document.querySelector('.product_form');
+//   const MLV_add_to_cart = document.querySelector(".MLV_add_to_cart");
+//   const items = [];
 
-  selectedProductsList.forEach((product) => {
-      const variantId = product.getAttribute('mlv-variant-id');
-      console.log("variantId : ",variantId);
-      const variantQty = product.getAttribute('mlv-variant-qty');
-      console.log("variantQty : ",variantQty);
-      if (variantId) {
-          items.push({
-              id: variantId,
-              quantity: variantQty ? parseInt(variantQty, 10) : 1,
-              properties: {
-                  _AddOnMainProductId: "{{ product.id }}"
-              }
-          });
-      }
-  });
+//   selectedProductsList.forEach((product) => {
+//       const variantId = product.getAttribute('mlv-variant-id');
+//       console.log("variantId : ",variantId);
+//       const variantQty = product.getAttribute('mlv-variant-qty');
+//       console.log("variantQty : ",variantQty);
+//       if (variantId) {
+//           items.push({
+//               id: variantId,
+//               quantity: variantQty ? parseInt(variantQty, 10) : 1,
+//               properties: {
+//                   _AddOnMainProductId: "{{ product.id }}"
+//               }
+//           });
+//       }
+//   });
 
-  if (items.length > 0) {
-      console.log("items : ",items);
-      const addOnIds = items.map(item => item.id).join(',');
+//   if (items.length > 0) {
+//       console.log("items : ",items);
+//       const addOnIds = items.map(item => item.id).join(',');
 
-      const hiddenField = document.createElement("input");
-      hiddenField.type = "hidden";
-      hiddenField.name = "properties[_AddOnIds]";
-      hiddenField.value = addOnIds;
-      defaultProductForm.appendChild(hiddenField);
-  }
+//       const hiddenField = document.createElement("input");
+//       hiddenField.type = "hidden";
+//       hiddenField.name = "properties[_AddOnIds]";
+//       hiddenField.value = addOnIds;
+//       defaultProductForm.appendChild(hiddenField);
+//   }
 
-  if (items.length > 0) {
-      console.log("Cart Initiated !!");
+//   if (items.length > 0) {
+//       console.log("Cart Initiated !!");
 
-      fetch('/cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items })
-      })
-      .then(response => response.json())
-      .then(() => {
-          console.log("Items added, fetching updated cart...");
+//       fetch('/cart/add.js', {
+//           method: 'POST',
+//           headers: { 'Content-Type': 'application/json' },
+//           body: JSON.stringify({ items })
+//       })
+//       .then(response => response.json())
+//       .then(() => {
+//           console.log("Items added, fetching updated cart...");
 
-          // Fetch updated cart data
-          return fetch('/cart.js').then(response => response.json());
-      })
-      .then(cartData => {
-          let totalQuantity = cartData.item_count; // Get correct total cart quantity
+//           // Fetch updated cart data
+//           return fetch('/cart.js').then(response => response.json());
+//       })
+//       .then(cartData => {
+//           let totalQuantity = cartData.item_count; // Get correct total cart quantity
 
-          console.log("Updated Total Quantity in Cart:", totalQuantity);
+//           console.log("Updated Total Quantity in Cart:", totalQuantity);
 
-          // Update all cart count elements
-          const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
-          MLV_add_to_carts.forEach((i) => {
-            const cart_count = i.querySelector(".js-cart-count");
-            if (cart_count) {
-                cart_count.innerHTML = totalQuantity;
-            }
+//           // Update all cart count elements
+//           const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
+//           MLV_add_to_carts.forEach((i) => {
+//             const cart_count = i.querySelector(".js-cart-count");
+//             if (cart_count) {
+//                 cart_count.innerHTML = totalQuantity;
+//             }
             
-            // Simulate click on add-to-cart button
-            setTimeout(() => {
-                MLV_add_to_cart.dispatchEvent(new Event('click'));
-            },500);
-          });
+//             // Simulate click on add-to-cart button
+//             setTimeout(() => {
+//                 MLV_add_to_cart.dispatchEvent(new Event('click'));
+//             },500);
+//           });
 
-      })
-      .catch(error => {
-          console.error("Error updating cart:", error);
-      });
-  } else if (MLV_add_to_cart) {
-      MLV_add_to_cart.dispatchEvent(new Event('click'));
-  }
+//       })
+//       .catch(error => {
+//           console.error("Error updating cart:", error);
+//       });
+//   } else if (MLV_add_to_cart) {
+//       MLV_add_to_cart.dispatchEvent(new Event('click'));
+//   }
+// }
+
+
+// // Add event listener to your 'Add to Cart' button
+// document.addEventListener("DOMContentLoaded", function(){
+//   const addToCartButtons = document.querySelectorAll('.AddtoCart');
+//   if (addToCartButtons.length > 0) {
+//     addToCartButtons.forEach(addToCartButton => {
+//         console.log("addToCartButton : ",addToCartButton);
+//         addToCartButton.addEventListener('click', function(event) {
+//         event.preventDefault();
+//         addSelectedProductsToCart();
+//       });
+//     });
+//   }
+// });
+
+function addSelectedProductsToCart() {
+    console.log("Function Called !!");
+
+    const selectedProductsList = document.querySelectorAll('.mlv_board_details');
+    console.log("selectedProductsList : ", selectedProductsList);
+    
+    const mainProduct = document.querySelector('.board_main_product');
+    if (!mainProduct) {
+        console.error("Main product not found!");
+        return;
+    }
+
+    const mainVariantId = mainProduct.getAttribute('mlv-variant-id');
+    if (!mainVariantId) {
+        console.error("Main product variant ID missing!");
+        return;
+    }
+
+    const items = [];
+
+    // Collect add-on product IDs
+    const addOnIds = [];
+    selectedProductsList.forEach((product) => {
+        const variantId = product.getAttribute('mlv-variant-id');
+        const variantQty = product.getAttribute('mlv-variant-qty');
+
+        if (variantId && variantId !== mainVariantId) { // Avoid duplicate main product entry
+            addOnIds.push(variantId);
+            items.push({
+                id: variantId,
+                quantity: variantQty ? parseInt(variantQty, 10) : 1,
+                properties: {
+                  _AddOnMainProductId: "{{ product.id }}"
+                }
+            });
+        }
+    });
+
+    // Add main product to cart with properties
+    items.unshift({
+        id: mainVariantId,
+        quantity: 1, // Main product always added with qty 1
+        properties: {
+            _AddOnIds: addOnIds.join(',') // Add-on product IDs stored in properties
+        }
+    });
+
+    console.log("Final Items: ", items);
+
+  debugger;
+  
+    if (items.length > 0) {
+        console.log("Cart Initiated !!");
+
+        fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items })
+        })
+        .then(response => response.json())
+        .then(() => {
+            console.log("Items added, fetching updated cart...");
+
+            // Fetch updated cart data
+            return fetch('/cart.js').then(response => response.json());
+        })
+        .then(cartData => {
+            let totalQuantity = cartData.item_count;
+            console.log("Updated Total Quantity in Cart:", totalQuantity);
+
+            // Update all cart count elements
+            const MLV_add_to_carts = document.querySelectorAll(".MLV_add_to_cart");
+            MLV_add_to_carts.forEach((i) => {
+                const cart_count = i.querySelector(".js-cart-count");
+                if (cart_count) {
+                    cart_count.innerHTML = totalQuantity;
+                }
+
+                // Simulate click on add-to-cart button
+                setTimeout(() => {
+                    i.dispatchEvent(new Event('click'));
+                }, 500);
+            });
+
+        })
+        .catch(error => {
+            console.error("Error updating cart:", error);
+        });
+    }
 }
 
 
@@ -489,7 +595,6 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   }
 });
-
 
   
 
