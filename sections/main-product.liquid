@@ -219,11 +219,13 @@
                       type="button">
                       <span class="visually-hidden">{{ 'cart.general.decrease' | t: product: product.title | escape }}</span>
                     -</button>
+
+                    {% comment %} Added class mlv_qty_input by MLVeda {% endcomment %}
                     <input
                       id="product-qty-{{ product.id }}"
                       type="text"
                       name="quantity"
-                      class="product-qty quantity" {% if current_variant.inventory_management == 'shopify' %}{% unless current_variant.inventory_policy == 'continue' %}
+                      class="product-qty quantity mlv_qty_input" {% if current_variant.inventory_management == 'shopify' %}{% unless current_variant.inventory_policy == 'continue' %}
                       data-limit="{{ current_variant.inventory_quantity }}"
                       {% endunless %}{% endif %}
                       value="1"
