@@ -442,9 +442,11 @@
             {% when 'price' %}
             <!-- Added by mlveda -->
               {% assign current_variant = product.selected_or_first_available_variant %}
-              <span class="variant-sku">SKU: {{ current_variant.sku }}</span>        
+
+              {% comment %} Added classes variant-sku_mlv, variant-barcode_mlv by MLVeda {% endcomment %}
+              <span class="variant-sku variant-sku_mlv">SKU: {{ current_variant.sku }}</span>        
               {% if current_variant.barcode != blank %}
-              <span class="variant-barcode">UPC: {{current_variant.barcode }}</span>
+              <span class="variant-barcode variant-barcode_mlv">UPC: {{current_variant.barcode }}</span>
               {% endif %}    
               
               <a href="#looxReviews">
