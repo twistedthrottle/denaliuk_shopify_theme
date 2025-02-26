@@ -332,7 +332,7 @@
 <div id="selected-products-board">
   <h3 class="mlv_board_title">Your Selections:</h3>
   <div id="selected-products-list">
-    <p id="main-product-details" mlv-variant-id="{{ product.selected_or_first_available_variant.id }}" class="mlv_board_details board_main_product">{{ product.title }}</p>
+    <p id="main-product-details" mlv-qty="1" mlv-variant-id="{{ product.selected_or_first_available_variant.id }}" class="mlv_board_details board_main_product">{{ product.title }}</p>
   </div>
   <p id="totalCost" style="font-weight: bold; padding: 10px;">
     <!-- <strong>Total: </strong> -->
@@ -397,6 +397,7 @@ function toggleProduct2(ele, type) {
 
 
 // function addSelectedProductsToCart() {
+//   debugger;
 //   console.log("Function Called !!");
 //   // const selectedProductsList = document.querySelectorAll('#selected-products-list p');
 //   const selectedProductsList = document.querySelectorAll('.mlv_board_details');
@@ -475,21 +476,6 @@ function toggleProduct2(ele, type) {
 //   }
 // }
 
-
-// // Add event listener to your 'Add to Cart' button
-// document.addEventListener("DOMContentLoaded", function(){
-//   const addToCartButtons = document.querySelectorAll('.AddtoCart');
-//   if (addToCartButtons.length > 0) {
-//     addToCartButtons.forEach(addToCartButton => {
-//         console.log("addToCartButton : ",addToCartButton);
-//         addToCartButton.addEventListener('click', function(event) {
-//         event.preventDefault();
-//         addSelectedProductsToCart();
-//       });
-//     });
-//   }
-// });
-
 function addSelectedProductsToCart() {
     console.log("Function Called !!");
 
@@ -501,6 +487,17 @@ function addSelectedProductsToCart() {
         console.error("Main product not found!");
         return;
     }
+
+    const mlv_radio_input = document.querySelector(".mlv_radio_input:checked");
+    if(mlv_radio_input) {
+      mainProduct.setAttribute("mlv-variant-id", mlv_radio_input.getAttribute("data-variant-id"));
+    }
+    const mlv_qty_input = document.querySelector(".mlv_qty_input");
+    if(mlv_qty_input) {
+      mainProduct.setAttribute("mlv-qty", mlv_qty_input.value);
+    }
+
+    const mainProductQty = mainProduct.getAttribute("mlv-qty");
 
     const mainVariantId = mainProduct.getAttribute('mlv-variant-id');
     if (!mainVariantId) {
@@ -531,7 +528,7 @@ function addSelectedProductsToCart() {
     // Add main product to cart with properties
     items.unshift({
         id: mainVariantId,
-        quantity: 1, // Main product always added with qty 1
+        quantity: mainProductQty ? parseInt(mainProductQty, 10) : 1,
         properties: {
             _AddOnIds: addOnIds.join(',') // Add-on product IDs stored in properties
         }
@@ -589,12 +586,14 @@ document.addEventListener("DOMContentLoaded", function(){
     addToCartButtons.forEach(addToCartButton => {
         console.log("addToCartButton : ",addToCartButton);
         addToCartButton.addEventListener('click', function(event) {
+          debugger;
         event.preventDefault();
         addSelectedProductsToCart();
       });
     });
   }
 });
+
 
   
 
@@ -684,7 +683,7 @@ function updateSelectedProducts() {
   });
 
   // Main product details
-  const mainProductTitle = "{{ product.title }}"; // Replace with dynamic title
+  // const mainProductTitle = "{{ product.title }}"; // Replace with dynamic title
   const mainProductPriceText = "{{ product.price }}".replace(/,/g, ""); // Replace with dynamic price
   const mainProductPrice = parseFloat(mainProductPriceText / 100);
 
