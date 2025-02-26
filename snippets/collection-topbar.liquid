@@ -30,7 +30,7 @@ snippets/collection-topbar.liquid
         {%- endif -%}
         {%- if block.type == 'sidebar_filter' -%}
           {%- if collection.all_products_count < 1000 -%}
-            <li class="collection__topbar-controls--filter js-collection-slideout-link" data-accordion-context="{{ block.id }}">
+            {% comment %} commented by mlveda on 26/2/25 <li class="collection__topbar-controls--filter js-collection-slideout-link" data-accordion-context="{{ block.id }}">
               <button class="slideout__trigger-collection-sidebar button-as-link js-slideout-open"
                 data-wau-slideout-target="collection-sidebar"
                 data-slideout-direction="right"
@@ -45,7 +45,7 @@ snippets/collection-topbar.liquid
                    hover: 'var(--text-color)' %}
                 {{ 'collections.filters.filter_button' | t }}
               </button>
-            </li>
+            </li>{% endcomment %}
           {%- endif -%}
         {%- endif -%}
         {%- if block.type == 'sort_by' -%}
