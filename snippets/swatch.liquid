@@ -127,6 +127,8 @@
     -%}
 
     {% capture radio_button %}
+
+      {% comment %} Added data-variant-id attribute and mlv_radio_input class by MLVeda {% endcomment %}
       <input
         type="radio"
         class="swatches__form--input"
@@ -135,6 +137,8 @@
         form="product-form-{{ section.id }}"
         value="{{ value | escape }}"
         data-position="{{ option.position }}"
+        
+        data-variant-id="{% for variant in product.variants %}{% if variant[current_option] == value %}{{ variant.id }}{% break %}{% endif %}{% endfor %}"
         {{ checked }}
        />
     {% endcapture %}
