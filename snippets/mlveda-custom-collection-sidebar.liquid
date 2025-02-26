@@ -138,7 +138,7 @@
         {% endfor %}
 
         <!-- Added by mlveda -->
-        {% comment %} commented by mlveda on 26/2/25{% for product_type in collection.all_types %}
+        {% for product_type in collection.all_types %}
           {% assign type_count = forloop.index %}
         {% endfor %}
         {% if type_count > 1 %}
@@ -194,7 +194,7 @@
               </ul>
             </div>
           </li>
-        {% endif %}{% endcomment %}
+        {% endif %}
         <!-- Added by mlveda -->
       </ul>
       <!-- /.c-accordion -->
