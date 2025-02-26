@@ -1000,6 +1000,29 @@
 }
 </script>
 {% endif %}
+
+{% comment %} Added by MLVeda : start {% endcomment %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const mlv_radio_labels = document.querySelectorAll(".mlv_radio_label");
+  const variant_barcode_mlv = document.querySelector(".variant-barcode_mlv");
+  const variant_sku_mlv = document.querySelector(".variant-sku_mlv");
+  if(mlv_radio_labels.length > 0) {
+    mlv_radio_labels.forEach((input) => {
+      input.addEventListener("click", function() {
+        if(variant_barcode_mlv) {
+          variant_barcode_mlv.innerText = `UPC: ${document.querySelector(".mlv_radio_input:checked").getAttribute("data-variant-barcode")}`;
+        }
+        if(variant_sku_mlv) {
+          variant_sku_mlv.innerText = `SKU: ${document.querySelector(".mlv_radio_input:checked").getAttribute("data-variant-sku")}`;
+        }
+      });
+    });
+  }
+});
+</script>
+{% comment %} Added by MLVeda : end {% endcomment %}
+
 {% schema %}
 {
   "name": "Product page",
