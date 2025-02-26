@@ -126,9 +126,8 @@
 
     -%}
 
+    {% comment %} Added data-variant-id, data-variant-barcode attribute and mlv_radio_input class by MLVeda {% endcomment %}
     {% capture radio_button %}
-
-      {% comment %} Added data-variant-id attribute and mlv_radio_input class by MLVeda {% endcomment %}
       <input
         type="radio"
         class="swatches__form--input mlv_radio_input"
@@ -139,6 +138,8 @@
         data-position="{{ option.position }}"
         
         data-variant-id="{% for variant in product.variants %}{% if variant[current_option] == value %}{{ variant.id }}{% break %}{% endif %}{% endfor %}"
+        data-variant-barcode="{% for variant in product.variants %}{% if variant[current_option] == value %}{{ variant.barcode }}{% break %}{% endif %}{% endfor %}"
+        data-variant-sku="{% for variant in product.variants %}{% if variant[current_option] == value %}{{ variant.sku }}{% break %}{% endif %}{% endfor %}"
         {{ checked }}
        />
     {% endcapture %}
@@ -147,8 +148,9 @@
       <div class="swatch-element {% unless available %}soldout{% endunless %}">
         {{ radio_button }}
 
+        {% comment %} class mlv_radio_input Added by MLVeda {% endcomment %} 
         <label
-          class="swatches__form--label"
+          class="swatches__form--label mlv_radio_label"
           for="{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}"
           tabindex="0"
         >
