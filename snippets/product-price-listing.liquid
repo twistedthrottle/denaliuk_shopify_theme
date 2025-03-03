@@ -105,7 +105,7 @@
       {% if product.price < product.compare_at_price %}
     <dd>
        <style> .savings-sv { color: dodgerblue; font-size: 14px; font-weight: bolder; } .was { font-size: 14px; color: darkgrey; margin-left: 0.25em; margin-right: 0.25em; } </style>
-        {% if template contains 'collection' %}
+        {% comment %} commented by mlveda on 3/3/25 {% if template contains 'collection' %}
         <span class="savings-sv">
             SAVE {{ compare_at_price | minus: price | times: 100 | divided_by: compare_at_price }}% OFF!
        </span>
@@ -113,7 +113,21 @@
       <span class="savings-sv">
             SAVE {{ product.compare_at_price | minus: product.price | money }}
        </span>
-      {% endif %}
+      {% endif %}{% endcomment %}
+       <!-- Added by mlveda on 3/3/25 start -->
+    {% assign original_price = product.compare_at_price | times: 1.0 %}
+    {% assign sale_price = product.price | times: 1.0 %}
+    {% assign discount_amount = original_price | minus: sale_price %}
+    {% assign discount_amount_dollars = discount_amount | divided_by: 100.0 %}
+    {% assign discount_percentage = discount_amount | times: 100 | divided_by: original_price | round %}
+    <span class="savings-sv">
+       {% if discount_percentage > discount_amount_dollars %}
+            SAVE {{ discount_percentage }}% OFF!
+        {% else %}
+           SAVE {{ discount_amount_dollars | round: 2 | prepend: '$' }}
+        {% endif %}
+    </span>
+    <!-- Added by mlveda on 3/3/25 end -->
     </dd>
     {% endif %}        
     {% endif %}
