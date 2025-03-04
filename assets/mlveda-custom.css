@@ -1466,9 +1466,9 @@ width:100%;
 }
 /* Added by mlveda on 3/3/25 start */
 @media (max-width: 340px) {
-    .mlcustommain div#sticky-announcement {
+    /* .mlcustommain div#sticky-announcement {
         margin-bottom: 20px;
-    }
+    } */
 }
 /* Added by mlveda on 3/3/25 end */
 /* Media Query*/
