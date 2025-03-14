@@ -1,1 +1,762 @@
-{"wrapper":"div.index-sections","sections":{"slideshow":{"type":"slideshow","blocks":{"d306d1cd-11c5-43c1-862e-111f6aeb6342":{"type":"image","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/BMW-MOA-R1300-Lighting-Bundles-Banner-v2.jpg","mobile_image":"shopify:\/\/shop_images\/BMW-MOA-R1300-Lighting-Bundles-Banner-Mobile-v2.jpg","overlay_color":"#000000","overlay_opacity":10,"text_align":"left","caption_horizontal":20,"caption_vertical":20,"heading":"R1300GS BUNDLES","subheading":"<p>FREE Installs of our NEW R1300 GS Signature Lighting Bundles at 2024 BMW MOA RALLY<\/p>","link":"shopify:\/\/pages\/bmw-r1300-gs-led-lighting-packages","button_text":"LEARN MORE","text_color":"#ffffff","button_color":"#000000","button_background":"#fcff00","caption_background":"rgba(0,0,0,0)"}},"image_hhfiEL":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/R1300GS-CanSmart-Homepage-Banner-2000x800-01-01-01.jpg","mobile_image":"shopify:\/\/shop_images\/CANsmart_Homepage_Banner-02_102394a4-d698-466e-ad16-c02ccb96bfec.jpg","overlay_color":"#000000","overlay_opacity":10,"text_align":"left","caption_horizontal":20,"caption_vertical":20,"heading":"R1300GS BUNDLES","subheading":"<p>Bundle and save with our NEW BMW signature lighting packages<\/p>","link":"shopify:\/\/collections\/vehicle-specific-bundles","button_text":"VIEW KITS","text_color":"#ffffff","button_color":"#000000","button_background":"#fcff00","caption_background":"rgba(0,0,0,0)"}},"slideshow-2":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/D7_PRO_Homepage_Banner-01.jpg","mobile_image":"shopify:\/\/shop_images\/D7_PRO_Homepage_Banner-02.jpg","overlay_color":"#000000","overlay_opacity":10,"text_align":"left","caption_horizontal":15,"caption_vertical":15,"heading":"GAME CHANGER","subheading":"<p>Check Out Our New Revolutionary D7 PRO Driving Light!<\/p>","link":"shopify:\/\/pages\/d7pro","button_text":"MORE INFO","text_color":"#ffffff","button_color":"#000000","button_background":"#fcff00","caption_background":""}},"slideshow-1":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/DENALI_V_TWIN_Horn_Banner_4000x1600-01-01.jpg","mobile_image":"shopify:\/\/shop_images\/DENALI_V_TWIN_Horn_Banner_Mobile-02-02.jpg","overlay_color":"#000000","overlay_opacity":20,"text_align":"left","caption_horizontal":15,"caption_vertical":15,"heading":"SoundBomb HD","subheading":"<p>V-Twin Air Horn Kits  \/\/  Crazy Loud \/\/ Unmatched Style<\/p>","link":"shopify:\/\/products\/soundbomb™-v-twin-dual-tone-air-horn-with-cover-black-bracket","button_text":"Shop Now","text_color":"#ffffff","button_color":"#3e3e3e","button_background":"#fcff00","caption_background":""}}},"block_order":["d306d1cd-11c5-43c1-862e-111f6aeb6342","image_hhfiEL","slideshow-2","slideshow-1"],"custom_css":[],"settings":{"enable_autoplay":true,"slider_speed":6,"display_wide":true,"slideshow_size":"natural","desktop_height":600,"mobile_height":600,"caption_below":false,"pager":"dots","slide_offset":false,"slide_heading_size":25,"subheading_size":16,"section_padding":"bottom"}},"162923332329533d70":{"type":"gallery","blocks":{"0e4b0f11-a4e1-499a-9056-31a5fbde25fa":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/BMW_R1300_GS_Feature_Block_1.jpg","image_width":"25","overlay_color":"#000000","overlay_opacity":30,"link":"shopify:\/\/products\/denali-gen-ii-cansmart-controller-for-bmw-r1300gs-24","title":"BMW R1300 GS CANsmart","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"162923332329533d70-0":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/DesertX.jpg","image_width":"25","overlay_color":"#000000","overlay_opacity":30,"link":"shopify:\/\/blogs\/outfitting-guides\/ducati-desertx-led-lighting-outfitting-guide","title":"Ducati DesertX Accessories","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"d98bb021-6b32-4a8d-9bb8-51cf07d8e397":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/Husqvarna_Headlight_6.jpg","image_width":"25","overlay_color":"#000000","overlay_opacity":30,"link":"shopify:\/\/pages\/ktm-husqvarna-enduro-led-headlight-kits","title":"NEW ENDURO HEADLIGHTS","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"e82a2b66-164d-4adb-998a-0d1e732486cb":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/DialDim_t700_1.jpg","image_width":"25","overlay_color":"#000000","overlay_opacity":30,"link":"shopify:\/\/pages\/dialdim-smart-controller","title":"NEW DIALDIM CONTROLLER","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"5154739c-059e-428d-bb91-a41d0be0cfe5":{"type":"image","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/D3_Fog_Tacoma_Zoom_4_42547c19-e962-49cb-8b72-f57adec17a20.jpg","image_width":"25","overlay_color":"#000000","overlay_opacity":0,"link":"shopify:\/\/pages\/d3","title":"NEW D3 FOG LIGHTS","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}}},"block_order":["0e4b0f11-a4e1-499a-9056-31a5fbde25fa","162923332329533d70-0","d98bb021-6b32-4a8d-9bb8-51cf07d8e397","e82a2b66-164d-4adb-998a-0d1e732486cb","5154739c-059e-428d-bb91-a41d0be0cfe5"],"custom_css":["@media screen and (max-width: 1440px) {.gallery__container {grid-template-columns: repeat(12, 1fr); grid-gap: 12px; } .gallery-block {grid-column: auto \/ span 6 !important; } h3 {font-size: 16px !important; } .gallery__btn-wrapper a {font-size: 11px; } .gallery-block .image__container .caption {padding: 0px; }}",".gallery__btn-wrapper a {padding: 3px 12px !important; text-transform: uppercase; font-weight: bold; width: 100%;}","section {max-height: none !important;}"],"settings":{"is_first":true,"full_width":false,"swipe_on_mobile":false,"image_size":"none","desktop_image_size":400,"mobile_image_size":400,"promo_size":18,"hidden_size":14,"images_touching":false,"color_scheme":"none","section_padding":"none"}},"1402a8b7-3618-4ba9-b96b-0c5cb194886f":{"type":"editorial-columns","blocks":{"template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-1":{"type":"text_block","settings":{"image":"shopify:\/\/shop_images\/D7_D3_Photo_Yellow_1000x1000_5ba59e9d-59f9-4f2c-8d0b-d427c3c84cf4.jpg","link":"shopify:\/\/collections\/all-lighting","title_text":"LED Lighting","text":"<p>Featuring our proprietary DataDim™ Technology<\/p>","button_text":""}},"template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-2":{"type":"text_block","settings":{"image":"shopify:\/\/shop_images\/Compact_and_Mini_square.jpg","link":"shopify:\/\/collections\/all-horns","title_text":"SoundBomb Horns","text":"<p>The loudest damn horns on the planet<\/p>","button_text":""}},"template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-3":{"type":"text_block","settings":{"image":"shopify:\/\/shop_images\/DialDim_1000x1000_e8fc77db-b347-4c84-a870-b8b95f742d61.jpg","link":"shopify:\/\/collections\/accessory-mangement","title_text":"Vehicle Integration","text":"<p>Vehicle specific mounting and wiring solutions<\/p>","button_text":""}}},"block_order":["template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-1","template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-2","template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-3"],"settings":{"title":"","image_height":"natural","desktop_height":450,"mobile_height":300,"align_text":"center","section_padding":"both"}},"cbf36c28-ac4c-420a-883c-7bba4a681ffa":{"type":"gallery","blocks":{"template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-1":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/Moto2_800x800_e880fbe9-b298-482f-95e8-4f5100e72f5c.jpg","image_width":"33","overlay_color":"#000000","overlay_opacity":0,"link":"shopify:\/\/pages\/adv-motorcycle-led-lights","title":"ADV \/\/ ENDURO","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-2":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/ATV_800x800_720x_10e37454-b663-4ad5-8893-8a24d7cbab09.jpg","image_width":"33","overlay_color":"#000000","overlay_opacity":0,"link":"shopify:\/\/pages\/atv-utv-led-lights","title":"SxS \/\/ ATV","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-3":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/Cruiser_800x800_e84a8b9a-4ffd-480d-b096-0d7a7c8d7401.jpg","image_width":"33","overlay_color":"#000000","overlay_opacity":0,"link":"shopify:\/\/pages\/cruiser-custom-motorcycle","title":"STREET \/\/  V-TWIN","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"42b0f2cd-b22a-4903-8beb-fdbf2ed350de":{"type":"image","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/jeep_800x800_e26369b0-fea8-4e22-9248-d301aff17e7e.jpg","image_width":"33","overlay_color":"#000000","overlay_opacity":0,"link":"shopify:\/\/pages\/jeep-truck-outfitting-guide","title":"Jeep & Truck","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"8e44a886-d13c-42aa-b468-6264c9bac3f5":{"type":"image","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/Snow_800x800_79e4ec11-e2ff-42ac-9033-1c34bdecebb5.jpg","image_width":"33","overlay_color":"#000000","overlay_opacity":0,"link":"shopify:\/\/pages\/led-snowmobile-lights","title":"Snow","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}},"35d76caf-3c42-4999-879b-354aaaabb03e":{"type":"image","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/Street_800x800_fc31f471-4154-446d-84a0-c662d6b8536a.jpg","image_width":"33","overlay_color":"#000000","overlay_opacity":0,"link":"shopify:\/\/pages\/street-motorcycle-led-lights","title":"Street Moto","caption_text":"","button_text":"","vertical_position":50,"horizontal_position":50,"center_align":true,"text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000"}}},"block_order":["template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-1","template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-2","template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-3","42b0f2cd-b22a-4903-8beb-fdbf2ed350de","8e44a886-d13c-42aa-b468-6264c9bac3f5","35d76caf-3c42-4999-879b-354aaaabb03e"],"settings":{"is_first":false,"full_width":false,"swipe_on_mobile":false,"image_size":"none","desktop_image_size":400,"mobile_image_size":400,"promo_size":18,"hidden_size":14,"images_touching":false,"color_scheme":"none","section_padding":"none"}},"background_video_BmxY8z":{"type":"background-video","settings":{"video_url":"https:\/\/youtu.be\/-FPIQwza5n0?si=p9ph8X4P3Y_dYjFe","video_url_mp4":"","video_audio":"off","video_heading":"","video_subheading":"","video_button_link":"\/","video_button_text":"","video_range_horizontal_position":50,"video_range_vertical_position":50,"video_caption_alignment":"center","slide_heading_size":40,"subheading_size":16,"video_slide_text_color":"#000000","video_cta_color":"#ffffff","video_cta_background":"#000000","video_caption_background":"#ffffff","section_padding":"both"}},"5e08f7ab-84b1-480f-bee0-f92243b420d0":{"type":"video","disabled":true,"settings":{"heading":"","display_wide":false,"video_url":"https:\/\/youtu.be\/qmMug-k-tg4","description":"","section_padding":"both"}},"16292336094808a55f":{"type":"featured-collection","settings":{"heading":"Shop New Products","collection":"new-products","carousel":true,"grid":4,"limit":4,"color_scheme":"none","section_padding":"both"}},"1655756898c3f54e12":{"type":"image-with-text","settings":{"full_width":false,"image":"shopify:\/\/shop_images\/D4_Explode_White_800x800_720x_900x_51fba4ab-1db0-4e1a-8147-391db8548e97.jpg","slideshow_size":"natural","desktop_height":400,"mobile_height":600,"heading":"Exclusive 2.0 Technology","subheading":"<p>Our 2.0 light kits are the brightest, most feature-rich LED light kits in their class. Our HiDrive™ LEDs, Tri-Optic™ Lens system, and DataDim™ Technology are just a few of the unique features you will only find in DENALI 2.0 lights.<\/p>","button_text":"Shop by Vehicle","link":"shopify:\/\/pages\/shop-by-vehicle-denali-outfitting-guides","layout":"left","text_align":"left","m_center":true,"color_scheme":"none","section_padding":"both"}},"1c97380a-14da-4b0b-ace9-95002812899b":{"type":"featured-collection","settings":{"heading":"Best-In-Class LED Auxiliary Lights","collection":"led-driving-lights","carousel":false,"grid":4,"limit":4,"color_scheme":"none","section_padding":"both"}},"b956389b-b075-4930-95de-a3d7b598cee1":{"type":"image-with-text-overlay","settings":{"full_width":true,"image":"shopify:\/\/shop_images\/Cruiser_Custom_Ender_c33a5bcb-b252-4baa-b522-7a64974b1c9d.jpg","image_height":400,"heading":"","hidden_text":"","link":"","button_text":"","heading_text_size":28,"hidden_text_size":18,"heading_color":"#ffffff","text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000","section_padding":"none"}},"1630689276b332b6cb":{"type":"featured-collection-carousel","disabled":true,"settings":{"collection":"","grid":3,"limit":3,"show_collection_image":false,"mobile_caption_top":false,"heading":"Featured collection","text":"<p>Display a featured collection alongside a paragraph of text and button.<\/p>","button":"Button","color_scheme":"none","section_padding":"both"}},"0017157b-3756-4a91-9c57-8dd1ae2f02ea":{"type":"shop-the-look","blocks":{"template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-0":{"type":"product","settings":{"product":"","hotspot_horizontal":35,"hotspot_vertical":26,"hotspot_color":"#000000"}},"template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-1":{"type":"product","settings":{"product":"","hotspot_horizontal":62,"hotspot_vertical":50,"hotspot_color":"#000000"}},"template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-2":{"type":"product","settings":{"product":"","hotspot_horizontal":41,"hotspot_vertical":78,"hotspot_color":"#000000"}}},"block_order":["template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-0","template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-1","template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-2"],"disabled":true,"settings":{"full_width":true,"section_padding":"both"}},"1629233737d5a73ae1":{"type":"collection-list","blocks":{"1629233737d5a73ae1-0":{"type":"featured_collection","settings":{"collection":""}},"1629233737d5a73ae1-1":{"type":"featured_collection","settings":{"collection":""}},"1629233737d5a73ae1-2":{"type":"featured_collection","settings":{"collection":""}}},"block_order":["1629233737d5a73ae1-0","1629233737d5a73ae1-1","1629233737d5a73ae1-2"],"disabled":true,"settings":{"title":"Collection list","collections_per_row":3,"mobile_single":true,"color_scheme":"none","section_padding":"both"}},"16557569268a1ae243":{"type":"testimonials","blocks":{"1655756926321e0092-0":{"type":"testimonial","settings":{"title":"Heading","text":"Add a customer testimonial or review","credit":"A. customer, New York","rating":5}},"1655756926321e0092-1":{"type":"testimonial","settings":{"title":"Heading","text":"Add a customer testimonial or review","credit":"A. customer, New York","rating":5}},"1655756926321e0092-2":{"type":"testimonial","settings":{"title":"Heading","text":"Add a customer testimonial or review","credit":"A. customer, New York","rating":5}}},"block_order":["1655756926321e0092-0","1655756926321e0092-1","1655756926321e0092-2"],"disabled":true,"settings":{"rating_color":"#ffdf00","color_scheme":"cs2","section_padding":"both"}},"1655757036f12ccb28":{"type":"text-with-icons","blocks":{"16557570369626ae13-0":{"type":"text_block","settings":{"icon":"shipping","link":"","rich_text":"<p>Add some text content along with an image or icon<\/p>","link_text":"Button"}},"16557570369626ae13-1":{"type":"text_block","settings":{"icon":"heart","link":"","rich_text":"<p>Add some text content along with an image or icon<\/p>","link_text":"Button"}},"16557570369626ae13-2":{"type":"text_block","settings":{"icon":"nature","link":"","rich_text":"<p>Add some text content along with an image or icon<\/p>","link_text":"Button"}},"1cc2b363-ee75-49d0-91ce-ab9ff29f67e1":{"type":"text_block","settings":{"icon":"world","link":"","rich_text":"<p>Add some text content along with an image or icon<\/p>","link_text":"Button"}}},"block_order":["16557570369626ae13-0","16557570369626ae13-1","16557570369626ae13-2","1cc2b363-ee75-49d0-91ce-ab9ff29f67e1"],"disabled":true,"settings":{"appearance":"top","icon_size":30,"section_padding":"none","color_scheme":"cs1"}}},"order":["slideshow","162923332329533d70","1402a8b7-3618-4ba9-b96b-0c5cb194886f","cbf36c28-ac4c-420a-883c-7bba4a681ffa","background_video_BmxY8z","5e08f7ab-84b1-480f-bee0-f92243b420d0","16292336094808a55f","1655756898c3f54e12","1c97380a-14da-4b0b-ace9-95002812899b","b956389b-b075-4930-95de-a3d7b598cee1","1630689276b332b6cb","0017157b-3756-4a91-9c57-8dd1ae2f02ea","1629233737d5a73ae1","16557569268a1ae243","1655757036f12ccb28"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div.index-sections",
+  "sections": {
+    "slideshow": {
+      "type": "slideshow",
+      "blocks": {
+        "d306d1cd-11c5-43c1-862e-111f6aeb6342": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/BMW-MOA-R1300-Lighting-Bundles-Banner-v2.jpg",
+            "mobile_image": "shopify://shop_images/BMW-MOA-R1300-Lighting-Bundles-Banner-Mobile-v2.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 10,
+            "text_align": "left",
+            "caption_horizontal": 20,
+            "caption_vertical": 20,
+            "heading": "R1300GS BUNDLES",
+            "subheading": "<p>FREE Installs of our NEW R1300 GS Signature Lighting Bundles at 2024 BMW MOA RALLY</p>",
+            "link": "shopify://pages/bmw-r1300-gs-led-lighting-packages",
+            "button_text": "LEARN MORE",
+            "text_color": "#ffffff",
+            "button_color": "#000000",
+            "button_background": "#fcff00",
+            "caption_background": "rgba(0,0,0,0)"
+          }
+        },
+        "image_Dqcimb": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Artboard_1-100.jpg",
+            "mobile_image": "shopify://shop_images/Artboard_2-100.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 10,
+            "text_align": "left",
+            "caption_horizontal": 15,
+            "caption_vertical": 10,
+            "heading": "UK Sale",
+            "subheading": "<p>Save10% through March 25</p>",
+            "link": "shopify://collections/all-lighting",
+            "button_text": "Shop Now",
+            "text_color": "#ffffff",
+            "button_color": "#000000",
+            "button_background": "#fcff00",
+            "caption_background": "transparent"
+          }
+        },
+        "image_hhfiEL": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/R1300GS-CanSmart-Homepage-Banner-2000x800-01-01-01.jpg",
+            "mobile_image": "shopify://shop_images/CANsmart_Homepage_Banner-02_102394a4-d698-466e-ad16-c02ccb96bfec.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 10,
+            "text_align": "left",
+            "caption_horizontal": 20,
+            "caption_vertical": 20,
+            "heading": "R1300GS BUNDLES",
+            "subheading": "<p>Bundle and save with our NEW BMW signature lighting packages</p>",
+            "link": "shopify://collections/vehicle-specific-bundles",
+            "button_text": "VIEW KITS",
+            "text_color": "#ffffff",
+            "button_color": "#000000",
+            "button_background": "#fcff00",
+            "caption_background": "rgba(0,0,0,0)"
+          }
+        },
+        "slideshow-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/D7_PRO_Homepage_Banner-01.jpg",
+            "mobile_image": "shopify://shop_images/D7_PRO_Homepage_Banner-02.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 10,
+            "text_align": "left",
+            "caption_horizontal": 15,
+            "caption_vertical": 15,
+            "heading": "GAME CHANGER",
+            "subheading": "<p>Check Out Our New Revolutionary D7 PRO Driving Light!</p>",
+            "link": "shopify://pages/d7pro",
+            "button_text": "MORE INFO",
+            "text_color": "#ffffff",
+            "button_color": "#000000",
+            "button_background": "#fcff00",
+            "caption_background": ""
+          }
+        },
+        "slideshow-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/DENALI_V_TWIN_Horn_Banner_4000x1600-01-01.jpg",
+            "mobile_image": "shopify://shop_images/DENALI_V_TWIN_Horn_Banner_Mobile-02-02.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 20,
+            "text_align": "left",
+            "caption_horizontal": 15,
+            "caption_vertical": 15,
+            "heading": "SoundBomb HD",
+            "subheading": "<p>V-Twin Air Horn Kits  //  Crazy Loud // Unmatched Style</p>",
+            "link": "shopify://products/soundbomb™-v-twin-dual-tone-air-horn-with-cover-black-bracket",
+            "button_text": "Shop Now",
+            "text_color": "#ffffff",
+            "button_color": "#3e3e3e",
+            "button_background": "#fcff00",
+            "caption_background": ""
+          }
+        }
+      },
+      "block_order": [
+        "d306d1cd-11c5-43c1-862e-111f6aeb6342",
+        "image_Dqcimb",
+        "image_hhfiEL",
+        "slideshow-2",
+        "slideshow-1"
+      ],
+      "custom_css": [],
+      "settings": {
+        "enable_autoplay": true,
+        "slider_speed": 6,
+        "display_wide": true,
+        "slideshow_size": "natural",
+        "desktop_height": 600,
+        "mobile_height": 600,
+        "caption_below": false,
+        "pager": "dots",
+        "slide_offset": false,
+        "slide_heading_size": 25,
+        "subheading_size": 16,
+        "section_padding": "bottom"
+      }
+    },
+    "162923332329533d70": {
+      "type": "gallery",
+      "blocks": {
+        "0e4b0f11-a4e1-499a-9056-31a5fbde25fa": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/BMW_R1300_GS_Feature_Block_1.jpg",
+            "image_width": "25",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "link": "shopify://products/denali-gen-ii-cansmart-controller-for-bmw-r1300gs-24",
+            "title": "BMW R1300 GS CANsmart",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "162923332329533d70-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/DesertX.jpg",
+            "image_width": "25",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "link": "shopify://blogs/outfitting-guides/ducati-desertx-led-lighting-outfitting-guide",
+            "title": "Ducati DesertX Accessories",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "d98bb021-6b32-4a8d-9bb8-51cf07d8e397": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Husqvarna_Headlight_6.jpg",
+            "image_width": "25",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "link": "shopify://pages/ktm-husqvarna-enduro-led-headlight-kits",
+            "title": "NEW ENDURO HEADLIGHTS",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "e82a2b66-164d-4adb-998a-0d1e732486cb": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/DialDim_t700_1.jpg",
+            "image_width": "25",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "link": "shopify://pages/dialdim-smart-controller",
+            "title": "NEW DIALDIM CONTROLLER",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "5154739c-059e-428d-bb91-a41d0be0cfe5": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/D3_Fog_Tacoma_Zoom_4_42547c19-e962-49cb-8b72-f57adec17a20.jpg",
+            "image_width": "25",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "link": "shopify://pages/d3",
+            "title": "NEW D3 FOG LIGHTS",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "0e4b0f11-a4e1-499a-9056-31a5fbde25fa",
+        "162923332329533d70-0",
+        "d98bb021-6b32-4a8d-9bb8-51cf07d8e397",
+        "e82a2b66-164d-4adb-998a-0d1e732486cb",
+        "5154739c-059e-428d-bb91-a41d0be0cfe5"
+      ],
+      "custom_css": [
+        "@media screen and (max-width: 1440px) {.gallery__container {grid-template-columns: repeat(12, 1fr); grid-gap: 12px; } .gallery-block {grid-column: auto / span 6 !important; } h3 {font-size: 16px !important; } .gallery__btn-wrapper a {font-size: 11px; } .gallery-block .image__container .caption {padding: 0px; }}",
+        ".gallery__btn-wrapper a {padding: 3px 12px !important; text-transform: uppercase; font-weight: bold; width: 100%;}",
+        "section {max-height: none !important;}"
+      ],
+      "settings": {
+        "is_first": true,
+        "full_width": false,
+        "swipe_on_mobile": false,
+        "image_size": "none",
+        "desktop_image_size": 400,
+        "mobile_image_size": 400,
+        "promo_size": 18,
+        "hidden_size": 14,
+        "images_touching": false,
+        "color_scheme": "none",
+        "section_padding": "none"
+      }
+    },
+    "1402a8b7-3618-4ba9-b96b-0c5cb194886f": {
+      "type": "editorial-columns",
+      "blocks": {
+        "template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-1": {
+          "type": "text_block",
+          "settings": {
+            "image": "shopify://shop_images/D7_D3_Photo_Yellow_1000x1000_5ba59e9d-59f9-4f2c-8d0b-d427c3c84cf4.jpg",
+            "link": "shopify://collections/all-lighting",
+            "title_text": "LED Lighting",
+            "text": "<p>Featuring our proprietary DataDim™ Technology</p>",
+            "button_text": ""
+          }
+        },
+        "template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-2": {
+          "type": "text_block",
+          "settings": {
+            "image": "shopify://shop_images/Compact_and_Mini_square.jpg",
+            "link": "shopify://collections/all-horns",
+            "title_text": "SoundBomb Horns",
+            "text": "<p>The loudest damn horns on the planet</p>",
+            "button_text": ""
+          }
+        },
+        "template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-3": {
+          "type": "text_block",
+          "settings": {
+            "image": "shopify://shop_images/DialDim_1000x1000_e8fc77db-b347-4c84-a870-b8b95f742d61.jpg",
+            "link": "shopify://collections/accessory-mangement",
+            "title_text": "Vehicle Integration",
+            "text": "<p>Vehicle specific mounting and wiring solutions</p>",
+            "button_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-1",
+        "template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-2",
+        "template--16334699135160__1402a8b7-3618-4ba9-b96b-0c5cb194886f-text_block-3"
+      ],
+      "settings": {
+        "title": "",
+        "image_height": "natural",
+        "desktop_height": 450,
+        "mobile_height": 300,
+        "align_text": "center",
+        "section_padding": "both"
+      }
+    },
+    "cbf36c28-ac4c-420a-883c-7bba4a681ffa": {
+      "type": "gallery",
+      "blocks": {
+        "template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Moto2_800x800_e880fbe9-b298-482f-95e8-4f5100e72f5c.jpg",
+            "image_width": "33",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "link": "shopify://pages/adv-motorcycle-led-lights",
+            "title": "ADV // ENDURO",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ATV_800x800_720x_10e37454-b663-4ad5-8893-8a24d7cbab09.jpg",
+            "image_width": "33",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "link": "shopify://pages/atv-utv-led-lights",
+            "title": "SxS // ATV",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Cruiser_800x800_e84a8b9a-4ffd-480d-b096-0d7a7c8d7401.jpg",
+            "image_width": "33",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "link": "shopify://pages/cruiser-custom-motorcycle",
+            "title": "STREET //  V-TWIN",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "42b0f2cd-b22a-4903-8beb-fdbf2ed350de": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/jeep_800x800_e26369b0-fea8-4e22-9248-d301aff17e7e.jpg",
+            "image_width": "33",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "link": "shopify://pages/jeep-truck-outfitting-guide",
+            "title": "Jeep & Truck",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "8e44a886-d13c-42aa-b468-6264c9bac3f5": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Snow_800x800_79e4ec11-e2ff-42ac-9033-1c34bdecebb5.jpg",
+            "image_width": "33",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "link": "shopify://pages/led-snowmobile-lights",
+            "title": "Snow",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        },
+        "35d76caf-3c42-4999-879b-354aaaabb03e": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Street_800x800_fc31f471-4154-446d-84a0-c662d6b8536a.jpg",
+            "image_width": "33",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "link": "shopify://pages/street-motorcycle-led-lights",
+            "title": "Street Moto",
+            "caption_text": "",
+            "button_text": "",
+            "vertical_position": 50,
+            "horizontal_position": 50,
+            "center_align": true,
+            "text_color": "#ffffff",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-1",
+        "template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-2",
+        "template--16334699135160__cbf36c28-ac4c-420a-883c-7bba4a681ffa-image-3",
+        "42b0f2cd-b22a-4903-8beb-fdbf2ed350de",
+        "8e44a886-d13c-42aa-b468-6264c9bac3f5",
+        "35d76caf-3c42-4999-879b-354aaaabb03e"
+      ],
+      "settings": {
+        "is_first": false,
+        "full_width": false,
+        "swipe_on_mobile": false,
+        "image_size": "none",
+        "desktop_image_size": 400,
+        "mobile_image_size": 400,
+        "promo_size": 18,
+        "hidden_size": 14,
+        "images_touching": false,
+        "color_scheme": "none",
+        "section_padding": "none"
+      }
+    },
+    "background_video_BmxY8z": {
+      "type": "background-video",
+      "settings": {
+        "video_url": "https://youtu.be/-FPIQwza5n0?si=p9ph8X4P3Y_dYjFe",
+        "video_url_mp4": "",
+        "video_audio": "off",
+        "video_heading": "",
+        "video_subheading": "",
+        "video_button_link": "/",
+        "video_button_text": "",
+        "video_range_horizontal_position": 50,
+        "video_range_vertical_position": 50,
+        "video_caption_alignment": "center",
+        "slide_heading_size": 40,
+        "subheading_size": 16,
+        "video_slide_text_color": "#000000",
+        "video_cta_color": "#ffffff",
+        "video_cta_background": "#000000",
+        "video_caption_background": "#ffffff",
+        "section_padding": "both"
+      }
+    },
+    "5e08f7ab-84b1-480f-bee0-f92243b420d0": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "heading": "",
+        "display_wide": false,
+        "video_url": "https://youtu.be/qmMug-k-tg4",
+        "description": "",
+        "section_padding": "both"
+      }
+    },
+    "16292336094808a55f": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Shop New Products",
+        "collection": "new-products",
+        "carousel": true,
+        "grid": 4,
+        "limit": 4,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "1655756898c3f54e12": {
+      "type": "image-with-text",
+      "settings": {
+        "full_width": false,
+        "image": "shopify://shop_images/D4_Explode_White_800x800_720x_900x_51fba4ab-1db0-4e1a-8147-391db8548e97.jpg",
+        "slideshow_size": "natural",
+        "desktop_height": 400,
+        "mobile_height": 600,
+        "heading": "Exclusive 2.0 Technology",
+        "subheading": "<p>Our 2.0 light kits are the brightest, most feature-rich LED light kits in their class. Our HiDrive™ LEDs, Tri-Optic™ Lens system, and DataDim™ Technology are just a few of the unique features you will only find in DENALI 2.0 lights.</p>",
+        "button_text": "Shop by Vehicle",
+        "link": "shopify://pages/shop-by-vehicle-denali-outfitting-guides",
+        "layout": "left",
+        "text_align": "left",
+        "m_center": true,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "1c97380a-14da-4b0b-ace9-95002812899b": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Best-In-Class LED Auxiliary Lights",
+        "collection": "led-driving-lights",
+        "carousel": false,
+        "grid": 4,
+        "limit": 4,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "b956389b-b075-4930-95de-a3d7b598cee1": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "full_width": true,
+        "image": "shopify://shop_images/Cruiser_Custom_Ender_c33a5bcb-b252-4baa-b522-7a64974b1c9d.jpg",
+        "image_height": 400,
+        "heading": "",
+        "hidden_text": "",
+        "link": "",
+        "button_text": "",
+        "heading_text_size": 28,
+        "hidden_text_size": 18,
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "button_text_color": "#ffffff",
+        "button_color": "#000000",
+        "section_padding": "none"
+      }
+    },
+    "1630689276b332b6cb": {
+      "type": "featured-collection-carousel",
+      "disabled": true,
+      "settings": {
+        "collection": "",
+        "grid": 3,
+        "limit": 3,
+        "show_collection_image": false,
+        "mobile_caption_top": false,
+        "heading": "Featured collection",
+        "text": "<p>Display a featured collection alongside a paragraph of text and button.</p>",
+        "button": "Button",
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "0017157b-3756-4a91-9c57-8dd1ae2f02ea": {
+      "type": "shop-the-look",
+      "blocks": {
+        "template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-0": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_horizontal": 35,
+            "hotspot_vertical": 26,
+            "hotspot_color": "#000000"
+          }
+        },
+        "template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-1": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_horizontal": 62,
+            "hotspot_vertical": 50,
+            "hotspot_color": "#000000"
+          }
+        },
+        "template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-2": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "hotspot_horizontal": 41,
+            "hotspot_vertical": 78,
+            "hotspot_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-0",
+        "template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-1",
+        "template--16016667705514__0017157b-3756-4a91-9c57-8dd1ae2f02ea-16702639793d941664-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "section_padding": "both"
+      }
+    },
+    "1629233737d5a73ae1": {
+      "type": "collection-list",
+      "blocks": {
+        "1629233737d5a73ae1-0": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "1629233737d5a73ae1-1": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "1629233737d5a73ae1-2": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "1629233737d5a73ae1-0",
+        "1629233737d5a73ae1-1",
+        "1629233737d5a73ae1-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Collection list",
+        "collections_per_row": 3,
+        "mobile_single": true,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "16557569268a1ae243": {
+      "type": "testimonials",
+      "blocks": {
+        "1655756926321e0092-0": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Heading",
+            "text": "Add a customer testimonial or review",
+            "credit": "A. customer, New York",
+            "rating": 5
+          }
+        },
+        "1655756926321e0092-1": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Heading",
+            "text": "Add a customer testimonial or review",
+            "credit": "A. customer, New York",
+            "rating": 5
+          }
+        },
+        "1655756926321e0092-2": {
+          "type": "testimonial",
+          "settings": {
+            "title": "Heading",
+            "text": "Add a customer testimonial or review",
+            "credit": "A. customer, New York",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "1655756926321e0092-0",
+        "1655756926321e0092-1",
+        "1655756926321e0092-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "rating_color": "#ffdf00",
+        "color_scheme": "cs2",
+        "section_padding": "both"
+      }
+    },
+    "1655757036f12ccb28": {
+      "type": "text-with-icons",
+      "blocks": {
+        "16557570369626ae13-0": {
+          "type": "text_block",
+          "settings": {
+            "icon": "shipping",
+            "link": "",
+            "rich_text": "<p>Add some text content along with an image or icon</p>",
+            "link_text": "Button"
+          }
+        },
+        "16557570369626ae13-1": {
+          "type": "text_block",
+          "settings": {
+            "icon": "heart",
+            "link": "",
+            "rich_text": "<p>Add some text content along with an image or icon</p>",
+            "link_text": "Button"
+          }
+        },
+        "16557570369626ae13-2": {
+          "type": "text_block",
+          "settings": {
+            "icon": "nature",
+            "link": "",
+            "rich_text": "<p>Add some text content along with an image or icon</p>",
+            "link_text": "Button"
+          }
+        },
+        "1cc2b363-ee75-49d0-91ce-ab9ff29f67e1": {
+          "type": "text_block",
+          "settings": {
+            "icon": "world",
+            "link": "",
+            "rich_text": "<p>Add some text content along with an image or icon</p>",
+            "link_text": "Button"
+          }
+        }
+      },
+      "block_order": [
+        "16557570369626ae13-0",
+        "16557570369626ae13-1",
+        "16557570369626ae13-2",
+        "1cc2b363-ee75-49d0-91ce-ab9ff29f67e1"
+      ],
+      "disabled": true,
+      "settings": {
+        "appearance": "top",
+        "icon_size": 30,
+        "section_padding": "none",
+        "color_scheme": "cs1"
+      }
+    }
+  },
+  "order": [
+    "slideshow",
+    "162923332329533d70",
+    "1402a8b7-3618-4ba9-b96b-0c5cb194886f",
+    "cbf36c28-ac4c-420a-883c-7bba4a681ffa",
+    "background_video_BmxY8z",
+    "5e08f7ab-84b1-480f-bee0-f92243b420d0",
+    "16292336094808a55f",
+    "1655756898c3f54e12",
+    "1c97380a-14da-4b0b-ace9-95002812899b",
+    "b956389b-b075-4930-95de-a3d7b598cee1",
+    "1630689276b332b6cb",
+    "0017157b-3756-4a91-9c57-8dd1ae2f02ea",
+    "1629233737d5a73ae1",
+    "16557569268a1ae243",
+    "1655757036f12ccb28"
+  ]
+}
