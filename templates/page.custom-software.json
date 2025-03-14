@@ -1,1 +1,222 @@
-{"sections":{"72f832f8-f59a-4bc0-a58c-2c43f33db9c4":{"type":"image-with-text-overlay","settings":{"full_width":true,"image":"shopify:\/\/shop_images\/KTM_Light_Slide.jpg","image_height":600,"heading":"CANsmart Software v2402.4","hidden_text":"Released February 28, 2024","link":"","button_text":"","heading_text_size":36,"hidden_text_size":20,"heading_color":"#ffffff","text_color":"#eeeeee","button_text_color":"#ffffff","button_color":"#000000","section_padding":"bottom"}},"2df4a249-ef3f-49ae-af53-5b1e1082390a":{"type":"image-carousel-with-text","blocks":{"template--16434593431736__2df4a249-ef3f-49ae-af53-5b1e1082390a-image-1":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/CANsmart_Accessory_Manager_Software_Gen_II_2000x_ef2e673e-2a0f-4041-b6c1-289376b1af9e.jpg","overlay_color":"#000000","overlay_opacity":0,"caption_position":"middle_center","heading":"","subheading":"","link":"","button_text":"","text_color":"#ffffff","button_color":"#ffffff","button_background":"#000000","caption_background":"rgba(0,0,0,0)"}}},"block_order":["template--16434593431736__2df4a249-ef3f-49ae-af53-5b1e1082390a-image-1"],"settings":{"full_width":false,"layout":"right","image_width":"66%","slideshow_size":"natural","desktop_height":900,"mobile_height":600,"title":"CANsmart Software Download","text":"<p>Click on the links below to download the latest version of the CANsmart™ Accessory Manager Software! <\/p><p><\/p><p><a href=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0030\/3408\/7524\/files\/ezCAN_v2402.4_installer.exe?v=1709047599\" target=\"_blank\" title=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0030\/3408\/7524\/files\/ezCAN_v2402.4_installer.exe?v=1709047599\"><span style=\"text-decoration:underline\"><strong>Windows (v2402.4) Download<\/strong><\/span><\/a><\/p><p><a href=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0030\/3408\/7524\/files\/ezCAN_v2402.4_installer.dmg?v=1709047840\" target=\"_blank\" title=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0030\/3408\/7524\/files\/ezCAN_v2402.4_installer.dmg?v=1709047840\"><span style=\"text-decoration:underline\"><strong>Mac (v2402.4) Download<\/strong><\/span><\/a><em><br\/><br\/><\/em><\/p>","button":"Tour the Software","link":"\/pages\/cansmart-software#shopify-section-template--16434593431736__60e0cd7f-8f00-4b86-8ae9-2f23493d7490","text_position":"middle","text_align":"left","m_center":true,"color_scheme":"none","section_padding":"both"}},"91e6c41f-285a-4b18-ac5a-34867b03ea23":{"type":"featured-collection","settings":{"heading":"Shop CANsmart Controllers","collection":"cansmart-accessory-manager","carousel":false,"grid":4,"limit":4,"color_scheme":"none","section_padding":"both"}},"60e0cd7f-8f00-4b86-8ae9-2f23493d7490":{"type":"page-custom-DataDim-template","blocks":{"ae3b857c-d5c2-4f28-a39c-b72940fadcf8":{"type":"image_text_overlay","settings":{"full_width":true,"image":"shopify:\/\/shop_images\/Laptop_in_Shop.jpg","image_height":600,"heading":"CANsmart Software Overview","hidden_text":"","link":"","button_text":"","heading_text_size":36,"hidden_text_size":32,"heading_color":"#ffffff","text_color":"#bdbdbd","button_text_color":"#ffffff","button_color":"#000000","section_padding":"both"}},"d0a2a783-bde0-4bab-afa1-1bc01839bcc2":{"type":"page_title","settings":{"pt_align":"center"}}},"block_order":["ae3b857c-d5c2-4f28-a39c-b72940fadcf8","d0a2a783-bde0-4bab-afa1-1bc01839bcc2"],"settings":{}},"main":{"type":"main-page","settings":{"reduced-width":true}},"20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d":{"type":"image-carousel-with-text","blocks":{"template--16434593431736__20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d-image-1":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/Circuit_Selector_Square_d06c07bc-1aa9-43bf-9737-2e6791947676.jpg","overlay_color":"#000000","overlay_opacity":0,"caption_position":"middle_center","heading":"","subheading":"","link":"","button_text":"","text_color":"#ffffff","button_color":"#ffffff","button_background":"#000000","caption_background":"rgba(0,0,0,0)"}}},"block_order":["template--16434593431736__20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d-image-1"],"settings":{"full_width":false,"layout":"left","image_width":"50%","slideshow_size":"natural","desktop_height":900,"mobile_height":600,"title":"New Diagnostic window","text":"<p>The Diagnostics Window can be opened from the main menu. Use this window to get an overall view of the systems power consumption, as well as Battery\/CAN bus voltage and device temperature. <br\/><br\/>Each circuit can be tested by sliding the slider underneath the circuit name. The unit must be connected to the battery or another source of 12V DC power in order to use the circuit test feature. The circuits will revert to normal operation when the diagnostics window is closed.<\/p>","button":"","link":"","text_position":"middle","text_align":"left","m_center":true,"color_scheme":"none","section_padding":"both"}},"section_text_columns_with_images":{"type":"section_text_columns_with_images","settings":{"txt_title":"Lean more about what the CANsmart can do on your bike!","txt_align_text":"left","txt_no_bottom_margin":false,"txt_image_1":"shopify:\/\/shop_images\/ADV_Moto_Main_17a4907d-d43b-4064-adcf-0e0d4d34de6c.jpg","txt_link_1":"shopify:\/\/pages\/denali-cansmart-canbus-controller","txt_title_text_1":"CANsmart for BMW","txt_text_1":"<p>Compatible with 30 BMW models. Click on the image above to learn more. <\/p>","txt_image_2":"shopify:\/\/shop_images\/KTM_Lights_Square_471f2583-df52-4dd5-8475-3fa5d850e5ba.jpg","txt_link_2":"shopify:\/\/pages\/ktm-cansmart-controller","txt_title_text_2":"CANsmart for KTM","txt_text_2":"<p>Compatible KTM Duke and Adventure models. Click on the image above to learn more. <\/p>","txt_image_3":"shopify:\/\/shop_images\/Harley_Street_Glide_LED_Lighting_Main_Iamge_3aa3f801-5ac5-4ce5-a50a-7750b6031057.jpg","txt_link_3":"shopify:\/\/pages\/harley-davidson-cansmart-controller","txt_title_text_3":"CANsmart for Harley","txt_text_3":"<p>Compatible with over 60 Harley-Davidson models. Click on the image above to learn more. <\/p>","txt_image_4":"shopify:\/\/shop_images\/Street_800x800_3cbdfe4b-e6be-4b54-b388-1f57438439ce.jpg","txt_link_4":"shopify:\/\/collections\/accessory-mangement","txt_title_text_4":"Shop All CANsmarts","txt_text_4":"<p>Click on the image above to browse all available CANsmart Controllers. <\/p>"}},"637aef80-b467-4cf3-b021-7e82a2850bcc":{"type":"image-with-text-overlay","settings":{"full_width":true,"image":"shopify:\/\/shop_images\/led-driving-lights_b3ca93b7-98b6-49f2-851d-9fa309511d3d.jpg","image_height":600,"heading":"","hidden_text":"","link":"","button_text":"","heading_text_size":28,"hidden_text_size":18,"heading_color":"#ffffff","text_color":"#ffffff","button_text_color":"#ffffff","button_color":"#000000","section_padding":"top"}}},"order":["72f832f8-f59a-4bc0-a58c-2c43f33db9c4","2df4a249-ef3f-49ae-af53-5b1e1082390a","91e6c41f-285a-4b18-ac5a-34867b03ea23","60e0cd7f-8f00-4b86-8ae9-2f23493d7490","main","20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d","section_text_columns_with_images","637aef80-b467-4cf3-b021-7e82a2850bcc"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "72f832f8-f59a-4bc0-a58c-2c43f33db9c4": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "full_width": true,
+        "image": "shopify://shop_images/KTM_Light_Slide.jpg",
+        "image_height": 600,
+        "heading": "CANsmart Software v2411.1",
+        "hidden_text": "Released January 2025",
+        "link": "",
+        "button_text": "",
+        "heading_text_size": 36,
+        "hidden_text_size": 20,
+        "heading_color": "#ffffff",
+        "text_color": "#eeeeee",
+        "button_text_color": "#ffffff",
+        "button_color": "#000000",
+        "section_padding": "bottom"
+      }
+    },
+    "2df4a249-ef3f-49ae-af53-5b1e1082390a": {
+      "type": "image-carousel-with-text",
+      "blocks": {
+        "template--16434593431736__2df4a249-ef3f-49ae-af53-5b1e1082390a-image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/CANsmart_Accessory_Manager_Software_Gen_II_2000x_ef2e673e-2a0f-4041-b6c1-289376b1af9e.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "caption_position": "middle_center",
+            "heading": "",
+            "subheading": "",
+            "link": "",
+            "button_text": "",
+            "text_color": "#ffffff",
+            "button_color": "#ffffff",
+            "button_background": "#000000",
+            "caption_background": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--16434593431736__2df4a249-ef3f-49ae-af53-5b1e1082390a-image-1"
+      ],
+      "settings": {
+        "full_width": false,
+        "layout": "right",
+        "image_width": "66%",
+        "slideshow_size": "natural",
+        "desktop_height": 900,
+        "mobile_height": 600,
+        "title": "CANsmart Software Download",
+        "text": "<p>Click on the links below to download the latest version of the CANsmart™ Accessory Manager Software! </p><p></p><p><a href=\"https://cdn.shopify.com/s/files/1/0030/3408/7524/files/ezCAN_v2402.4_installer.exe?v=1709047599\" target=\"_blank\" title=\"https://cdn.shopify.com/s/files/1/0030/3408/7524/files/ezCAN_v2402.4_installer.exe?v=1709047599\"><span style=\"text-decoration:underline\"><strong>Windows (v2402.4) Download</strong></span></a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0030/3408/7524/files/ezCAN_v2402.4_installer.dmg?v=1709047840\" target=\"_blank\" title=\"https://cdn.shopify.com/s/files/1/0030/3408/7524/files/ezCAN_v2402.4_installer.dmg?v=1709047840\"><span style=\"text-decoration:underline\"><strong>Mac (v2402.4) Download</strong></span></a><em><br/><br/></em></p>",
+        "button": "Tour the Software",
+        "link": "/pages/cansmart-software#shopify-section-template--16434593431736__60e0cd7f-8f00-4b86-8ae9-2f23493d7490",
+        "text_position": "middle",
+        "text_align": "left",
+        "m_center": true,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "91e6c41f-285a-4b18-ac5a-34867b03ea23": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Shop CANsmart Controllers",
+        "collection": "cansmart-accessory-manager",
+        "carousel": false,
+        "grid": 4,
+        "limit": 4,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "60e0cd7f-8f00-4b86-8ae9-2f23493d7490": {
+      "type": "page-custom-DataDim-template",
+      "blocks": {
+        "ae3b857c-d5c2-4f28-a39c-b72940fadcf8": {
+          "type": "image_text_overlay",
+          "settings": {
+            "full_width": true,
+            "image": "shopify://shop_images/Laptop_in_Shop.jpg",
+            "image_height": 600,
+            "heading": "CANsmart Software Overview",
+            "hidden_text": "",
+            "link": "",
+            "button_text": "",
+            "heading_text_size": 36,
+            "hidden_text_size": 32,
+            "heading_color": "#ffffff",
+            "text_color": "#bdbdbd",
+            "button_text_color": "#ffffff",
+            "button_color": "#000000",
+            "section_padding": "both"
+          }
+        },
+        "d0a2a783-bde0-4bab-afa1-1bc01839bcc2": {
+          "type": "page_title",
+          "settings": {
+            "pt_align": "center"
+          }
+        }
+      },
+      "block_order": [
+        "ae3b857c-d5c2-4f28-a39c-b72940fadcf8",
+        "d0a2a783-bde0-4bab-afa1-1bc01839bcc2"
+      ],
+      "settings": {}
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "reduced-width": true
+      }
+    },
+    "20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d": {
+      "type": "image-carousel-with-text",
+      "blocks": {
+        "template--16434593431736__20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d-image-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Circuit_Selector_Square_d06c07bc-1aa9-43bf-9737-2e6791947676.jpg",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "caption_position": "middle_center",
+            "heading": "",
+            "subheading": "",
+            "link": "",
+            "button_text": "",
+            "text_color": "#ffffff",
+            "button_color": "#ffffff",
+            "button_background": "#000000",
+            "caption_background": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--16434593431736__20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d-image-1"
+      ],
+      "settings": {
+        "full_width": false,
+        "layout": "left",
+        "image_width": "50%",
+        "slideshow_size": "natural",
+        "desktop_height": 900,
+        "mobile_height": 600,
+        "title": "New Diagnostic window",
+        "text": "<p>The Diagnostics Window can be opened from the main menu. Use this window to get an overall view of the systems power consumption, as well as Battery/CAN bus voltage and device temperature. <br/><br/>Each circuit can be tested by sliding the slider underneath the circuit name. The unit must be connected to the battery or another source of 12V DC power in order to use the circuit test feature. The circuits will revert to normal operation when the diagnostics window is closed.</p>",
+        "button": "",
+        "link": "",
+        "text_position": "middle",
+        "text_align": "left",
+        "m_center": true,
+        "color_scheme": "none",
+        "section_padding": "both"
+      }
+    },
+    "section_text_columns_with_images": {
+      "type": "section_text_columns_with_images",
+      "settings": {
+        "txt_title": "Lean more about what the CANsmart can do on your bike!",
+        "txt_align_text": "left",
+        "txt_no_bottom_margin": false,
+        "txt_image_1": "shopify://shop_images/ADV_Moto_Main_17a4907d-d43b-4064-adcf-0e0d4d34de6c.jpg",
+        "txt_link_1": "shopify://pages/denali-cansmart-canbus-controller",
+        "txt_title_text_1": "CANsmart for BMW",
+        "txt_text_1": "<p>Compatible with 30 BMW models. Click on the image above to learn more. </p>",
+        "txt_image_2": "shopify://shop_images/KTM_Lights_Square_471f2583-df52-4dd5-8475-3fa5d850e5ba.jpg",
+        "txt_link_2": "shopify://pages/ktm-cansmart-controller",
+        "txt_title_text_2": "CANsmart for KTM",
+        "txt_text_2": "<p>Compatible KTM Duke and Adventure models. Click on the image above to learn more. </p>",
+        "txt_image_3": "shopify://shop_images/Harley_Street_Glide_LED_Lighting_Main_Iamge_3aa3f801-5ac5-4ce5-a50a-7750b6031057.jpg",
+        "txt_link_3": "shopify://pages/harley-davidson-cansmart-controller",
+        "txt_title_text_3": "CANsmart for Harley",
+        "txt_text_3": "<p>Compatible with over 60 Harley-Davidson models. Click on the image above to learn more. </p>",
+        "txt_image_4": "shopify://shop_images/Street_800x800_3cbdfe4b-e6be-4b54-b388-1f57438439ce.jpg",
+        "txt_link_4": "shopify://collections/accessory-mangement",
+        "txt_title_text_4": "Shop All CANsmarts",
+        "txt_text_4": "<p>Click on the image above to browse all available CANsmart Controllers. </p>"
+      }
+    },
+    "637aef80-b467-4cf3-b021-7e82a2850bcc": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "full_width": true,
+        "image": "shopify://shop_images/led-driving-lights_b3ca93b7-98b6-49f2-851d-9fa309511d3d.jpg",
+        "image_height": 600,
+        "heading": "",
+        "hidden_text": "",
+        "link": "",
+        "button_text": "",
+        "heading_text_size": 28,
+        "hidden_text_size": 18,
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "button_text_color": "#ffffff",
+        "button_color": "#000000",
+        "section_padding": "top"
+      }
+    }
+  },
+  "order": [
+    "72f832f8-f59a-4bc0-a58c-2c43f33db9c4",
+    "2df4a249-ef3f-49ae-af53-5b1e1082390a",
+    "91e6c41f-285a-4b18-ac5a-34867b03ea23",
+    "60e0cd7f-8f00-4b86-8ae9-2f23493d7490",
+    "main",
+    "20f9bb32-5eb8-4ed4-b8b0-4c809ef7691d",
+    "section_text_columns_with_images",
+    "637aef80-b467-4cf3-b021-7e82a2850bcc"
+  ]
+}
