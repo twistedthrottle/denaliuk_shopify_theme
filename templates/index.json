@@ -45,17 +45,18 @@
             "caption_horizontal": 15,
             "caption_vertical": 10,
             "heading": "UK Sale",
-            "subheading": "<p>Save10% through March 25</p>",
+            "subheading": "<p>Save 10% through March 25</p>",
             "link": "shopify://collections/all-lighting",
             "button_text": "Shop Now",
             "text_color": "#ffffff",
             "button_color": "#000000",
             "button_background": "#fcff00",
-            "caption_background": "transparent"
+            "caption_background": "rgba(0,0,0,0)"
           }
         },
         "image_hhfiEL": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/R1300GS-CanSmart-Homepage-Banner-2000x800-01-01-01.jpg",
             "mobile_image": "shopify://shop_images/CANsmart_Homepage_Banner-02_102394a4-d698-466e-ad16-c02ccb96bfec.jpg",
@@ -76,6 +77,7 @@
         },
         "slideshow-2": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/D7_PRO_Homepage_Banner-01.jpg",
             "mobile_image": "shopify://shop_images/D7_PRO_Homepage_Banner-02.jpg",
@@ -96,6 +98,7 @@
         },
         "slideshow-1": {
           "type": "image",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/DENALI_V_TWIN_Horn_Banner_4000x1600-01-01.jpg",
             "mobile_image": "shopify://shop_images/DENALI_V_TWIN_Horn_Banner_Mobile-02-02.jpg",
