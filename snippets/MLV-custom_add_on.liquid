@@ -114,7 +114,7 @@
                           <div class="tipr_container_top variant-name">
                             <div class="tipr_point_top">
                               <div class="tipr_content">
-                                {{ product2.title }}
+                                {{ product2.title }}{{ product2.price | money }}
                               </div>
                             </div>
                           </div>
@@ -145,7 +145,7 @@
                           <div class="tipr_container_top variant-name">
                             <div class="tipr_point_top">
                               <div class="tipr_content">
-                                {{ product2.product.title }} ({{ product2.title }})
+                                {{ product2.product.title }} ({{ product2.title }}) ({{ product2.price | money }})
                               </div>
                             </div>
                           </div>
@@ -191,7 +191,7 @@
                 <div class="tipr_container_top variant-name">
                   <div class="tipr_point_top">
                     <div class="tipr_content">
-                      {{ variant.product.title }} ({{ variant.title }})
+                      {{ variant.product.title }} ({{ variant.title }}) ({{ variant.price | money }})
                     </div>
                   </div>
                 </div>
@@ -220,7 +220,7 @@
                 <div class="tipr_container_top variant-name">
                   <div class="tipr_point_top">
                     <div class="tipr_content">
-                      {{ variant.product.title }}
+                      {{ variant.product.title }} {{ variant.product.price | money }}
                     </div>
                   </div>
                 </div>
@@ -279,7 +279,7 @@
                           <div class="tipr_container_top variant-name">
                             <div class="tipr_point_top">
                               <div class="tipr_content">
-                                {{ product2.title }}
+                                {{ product2.title }}{{ product2.price | money }}
                               </div>
                             </div>
                           </div>
@@ -309,7 +309,7 @@
                           <div class="tipr_container_top variant-name">
                             <div class="tipr_point_top">
                               <div class="tipr_content">
-                                {{ product2.product.title }} ({{ product2.title }})
+                                {{ product2.product.title }} ({{ product2.title }}) ({{ product2.price | money }})
                               </div>
                             </div>
                           </div>
