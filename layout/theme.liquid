@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ request.locale.iso_code }}">
 <head>
+   {% comment %} Added by mlveda on 18/3/25 start {% endcomment %}
    {% if settings.favicon %}
     <link rel="icon" href="https:{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />
     <link rel="shortcut icon" href="https:{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />
     <link rel="apple-touch-icon" href="https:{{ settings.favicon | image_url: width: 180, height: 180 }}" />
     {% endif %}
+    {% comment %} Added by mlveda on 18/3/25 start {% endcomment %}
 <style>#main-page{position:absolute;font-size:1200px;line-height:1px;word-wrap:break-word;top:0;left:0;width:99vw;min-height:2px;max-width:99vw;max-height:99vh;pointer-events:none;z-index:99999999999;color:transparent;overflow:hidden}</style>
 <div id="main-page" data-optimizer="layout">□</div>
   <script type="text/javascript"> 
@@ -125,7 +127,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preload" href="{{ 'eventemitter3.min.js' | asset_url }}" as="script">
   <link rel="preload" href="{{ 'theme.js' | asset_url }}" as="script">
 
-  {% comment %}{% if settings.favicon %}<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />{% endif %}{% endcomment %}
+  {% comment %}commented by mlveda on 18/3/25{% if settings.favicon %}<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />{% endif %}{% endcomment %}
   <link rel="canonical" href="{{ canonical_url }}" />
 
   {% # De-optimise paginated collections - Added by LOGEIX April 6th 2024 %}
