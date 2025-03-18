@@ -488,19 +488,20 @@ function addSelectedProductsToCart() {
         return;
     }
 
-  //condition added by milan(13/3)
+    //condition added by mlveda on 18/3/25 start
     {% if product.metafields.custom.denali_add_on.value %}
       const mlv_radio_input = document.querySelector(".mlv_radio_input:checked");
       if (mlv_radio_input) {
           mainProduct.setAttribute("mlv-variant-id", mlv_radio_input.getAttribute("data-variant-id"));
       }
     {% endif %}
-    //condition added by milan(13/3)
-  
-    // const mlv_radio_input = document.querySelector(".mlv_radio_input:checked");
-    // if(mlv_radio_input) {
-    //   mainProduct.setAttribute("mlv-variant-id", mlv_radio_input.getAttribute("data-variant-id"));
-    // }
+    //condition added by mlveda on 18/3/25 end
+    
+    /* commented by mlveda on 18/3/25 
+    const mlv_radio_input = document.querySelector(".mlv_radio_input:checked");
+    if(mlv_radio_input) {
+      mainProduct.setAttribute("mlv-variant-id", mlv_radio_input.getAttribute("data-variant-id"));
+    }*/
     const mlv_qty_input = document.querySelector(".mlv_qty_input");
     if(mlv_qty_input) {
       mainProduct.setAttribute("mlv-qty", mlv_qty_input.value);
@@ -706,14 +707,14 @@ function updateSelectedProducts() {
 
   // Function to process selected options
   const processSelectedOptions = (selectedOptions) => {
-     console.log(selectedOptions.length,"selectedOptions");
-    // added by milan
+     // console.log(selectedOptions.length,"selectedOptions");
+    // added by mlveda on 18/3/25 start
     if(selectedOptions.length == 0 && window.location.href.includes('variant')){
       let mainProductVariantId = window.location.href.split('variant=')[1];
       document.querySelector("#main-product-details").setAttribute("mlv-variant-id",mainProductVariantId)
       // const variantId = option.dataset.variantId;
     }
-    // added by milan
+    // added by mlveda on 18/3/25 end
     
     selectedOptions.forEach((option) => {
       const title = option.dataset.title || option.textContent.trim();
