@@ -94,7 +94,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1">
-{% if settings.favicon %}<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />{% endif %}
+
   <!-- Establish early connection to external domains -->
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.shopify.com" crossorigin>
@@ -121,6 +121,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preload" href="{{ 'theme.js' | asset_url }}" as="script">
 
   {% comment %}{% if settings.favicon %}<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />{% endif %}{% endcomment %}
+    {% if settings.favicon %}
+    <link rel="icon" href="https:{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />
+    <link rel="shortcut icon" href="https:{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />
+    <link rel="apple-touch-icon" href="https:{{ settings.favicon | image_url: width: 180, height: 180 }}" />
+    {% endif %}
   <link rel="canonical" href="{{ canonical_url }}" />
 
   {% # De-optimise paginated collections - Added by LOGEIX April 6th 2024 %}
