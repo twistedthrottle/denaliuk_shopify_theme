@@ -489,18 +489,18 @@ function addSelectedProductsToCart() {
     }
 
   //condition added by milan(13/3)
-    {% if product.metafields.custom.denali_add_on.value %}
+    {% comment %}{% if product.metafields.custom.denali_add_on.value %}
       const mlv_radio_input = document.querySelector(".mlv_radio_input:checked");
       if (mlv_radio_input) {
           mainProduct.setAttribute("mlv-variant-id", mlv_radio_input.getAttribute("data-variant-id"));
       }
-    {% endif %}
+    {% endif %}{% endcomment %}
     //condition added by milan(13/3)
     
-    /* const mlv_radio_input = document.querySelector(".mlv_radio_input:checked");
+    const mlv_radio_input = document.querySelector(".mlv_radio_input:checked");
     if(mlv_radio_input) {
       mainProduct.setAttribute("mlv-variant-id", mlv_radio_input.getAttribute("data-variant-id"));
-    }*/
+    }
     const mlv_qty_input = document.querySelector(".mlv_qty_input");
     if(mlv_qty_input) {
       mainProduct.setAttribute("mlv-qty", mlv_qty_input.value);
