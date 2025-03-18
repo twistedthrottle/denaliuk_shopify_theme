@@ -706,13 +706,13 @@ function updateSelectedProducts() {
 
   // Function to process selected options
   const processSelectedOptions = (selectedOptions) => {
-     console.log(selectedOptions.length,"selectedOptions");
+    // console.log(selectedOptions.length,"selectedOptions");
     // added by milan
-    if(selectedOptions.length == 0 && window.location.href.includes('variant')){
-      let mainProductVariantId = window.location.href.split('variant=')[1];
-      document.querySelector("#main-product-details").setAttribute("mlv-variant-id",mainProductVariantId)
+    // if(selectedOptions.length == 0 && window.location.href.includes('variant')){
+    //   let mainProductVariantId = window.location.href.split('variant=')[1];
+    //   document.querySelector("#main-product-details").setAttribute("mlv-variant-id",mainProductVariantId)
       // const variantId = option.dataset.variantId;
-    }
+   // }
     // added by milan
     
     selectedOptions.forEach((option) => {
