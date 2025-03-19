@@ -1019,14 +1019,23 @@ document.addEventListener("DOMContentLoaded", function() {
           //   variant_sku_mlv.innerText = `SKU: ${document.querySelector(".mlv_radio_input:checked").getAttribute("data-variant-sku")}`;
           // } 
           /* commented by mlveda on 18/3/25 end */
-          
-          // added  by milan
-          updateSelectedProducts();
-          // added  by milan
         },300);
       });
     });
   }
+
+  // added  by milan
+  const mlv_radio_inputs = document.querySelectorAll(".mlv_radio_input");
+  if(mlv_radio_inputs.length > 0) {
+    mlv_radio_inputs.forEach((input) => {
+      input.addEventListener("change", function() {
+        setTimeout(() => {
+          updateSelectedProducts();
+        },300);
+      });
+    });
+  }
+  // added  by milan
 });
 </script>
 {% comment %} Added by MLVeda : end {% endcomment %}
