@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="https:{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />
     <link rel="apple-touch-icon" href="https:{{ settings.favicon | image_url: width: 180, height: 180 }}" />
     {% endif %}
-    {% comment %} Added by mlveda on 18/3/25 start {% endcomment %}
+    {% comment %} Added by mlveda on 18/3/25 end {% endcomment %}
 <style>#main-page{position:absolute;font-size:1200px;line-height:1px;word-wrap:break-word;top:0;left:0;width:99vw;min-height:2px;max-width:99vw;max-height:99vh;pointer-events:none;z-index:99999999999;color:transparent;overflow:hidden}</style>
 <div id="main-page" data-optimizer="layout">□</div>
   <script type="text/javascript"> 
@@ -572,8 +572,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       $m(".mlannouncementbartext").html('Free Shipping on Orders Over $49 <a href="/collections/new-products">Shop Now</a>');
       }
       else if(getURL == "uk.denalielectronics.com"){
-      $m(".mlannouncementbartext").html('Save 10% & get Free Shipping through March 25<br><a href="/collections/all">Shop Now</a>');
-      }
+        $m(".mlannouncementbartext").html('Free Shipping on Orders Over £99 <a href="/collections/new-products">Shop Now</a>');
       else{ 
       }
   </script>
