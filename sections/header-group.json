@@ -83,7 +83,7 @@
         "linklist_with_images_BiTAwQ": {
           "type": "linklist_with_images",
           "settings": {
-            "linklist_images_menu_item": "",
+            "linklist_images_menu_item": "Shop",
             "image_ratio": "square",
             "featured_image_1": "shopify://shop_images/Outfitting_Guide_900x900_rev02.jpg",
             "featured_image_label_1": "",
