@@ -29,6 +29,7 @@
       "blocks": {
         "4df1efe3-1e31-433c-b0a2-5b08a2399d63": {
           "type": "linklist_with_images",
+          "disabled": true,
           "settings": {
             "linklist_images_menu_item": "Shop",
             "image_ratio": "square",
@@ -53,6 +54,7 @@
         },
         "a2b7f00e-8c36-4e1b-898e-a8acadac06e4": {
           "type": "linklist_with_images",
+          "disabled": true,
           "settings": {
             "linklist_images_menu_item": "Products",
             "image_ratio": "square",
@@ -78,10 +80,42 @@
             "column_width_4": "mlvmenu_col-12"
           }
         },
+        "linklist_with_images_BiTAwQ": {
+          "type": "linklist_with_images",
+          "settings": {
+            "linklist_images_menu_item": "",
+            "image_ratio": "square",
+            "featured_image_1": "shopify://shop_images/Outfitting_Guide_900x900_rev02.jpg",
+            "featured_image_label_1": "",
+            "image_url_1": "#",
+            "featured_image_position_1": true,
+            "column_width_1": "mlvmenu_col-12",
+            "featured_image_2": "shopify://shop_images/D-Series_Lights_2277b1b1-ab51-448d-94ad-72500b6291e8.jpg",
+            "featured_image_label_2": "",
+            "image_url_2": "#",
+            "featured_image_position_2": true,
+            "column_width_2": "mlvmenu_col-12",
+            "featured_image_3": "shopify://shop_images/SoundBomb_Horns_7a421726-12c1-472d-8877-e51ada1b01da.jpg",
+            "featured_image_label_3": "",
+            "image_url_3": "#",
+            "featured_image_position_3": true,
+            "column_width_3": "mlvmenu_col-12",
+            "featured_image_4": "shopify://shop_images/DialDim_1000x1000_crop_823c6132-cf40-43b6-8cfc-6a0a55a1953a.jpg",
+            "featured_image_label_4": "",
+            "image_url_4": "#",
+            "featured_image_position_4": true,
+            "column_width_4": "mlvmenu_col-12",
+            "featured_image_5": "shopify://shop_images/DENALI_Swag_small_8b762490-53aa-494f-8888-289e82b1011b.jpg",
+            "featured_image_label_5": "",
+            "image_url_5": "#",
+            "featured_image_position_5": true,
+            "column_width_5": "mlvmenu_col-12"
+          }
+        },
         "48ccfbeb-22f9-4ac9-9409-21af1e1202de": {
           "type": "linklist_with_images",
           "settings": {
-            "linklist_images_menu_item": "Resources",
+            "linklist_images_menu_item": "Explore",
             "image_ratio": "square",
             "featured_image_1": "shopify://shop_images/cansmart_accessory_manager_software_gen_ii_4dd95ff9-aae2-43b1-b0c7-01d65d466e09.jpg",
             "featured_image_label_1": "",
@@ -154,6 +188,7 @@
       "block_order": [
         "4df1efe3-1e31-433c-b0a2-5b08a2399d63",
         "a2b7f00e-8c36-4e1b-898e-a8acadac06e4",
+        "linklist_with_images_BiTAwQ",
         "48ccfbeb-22f9-4ac9-9409-21af1e1202de",
         "ae59f4e2-c4b5-4b14-9f98-9cc4da36d741",
         "33b8efe4-5d59-4526-9498-fb045bfe496d"
