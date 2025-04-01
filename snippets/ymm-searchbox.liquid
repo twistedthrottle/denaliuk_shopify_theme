@@ -485,14 +485,31 @@ function ymmGarageInit()
       //For Mobile view
       $m("#ymm_garage_mobile").html(ymm_garage_html);
     }
-    
- 	//Get vehicle count and display it. -786/ASK
+
+ 	//Get vehicle count and display it upon page load. -786/ASK
     var vehicle_count = getVehicleCount();
     // $m(".ymm-garage-container .ymm_counter").html("("+vehicle_count+")");
     $m(".ymm-garage-container .ymm_counter").html(vehicle_count);
-  
+
+    /*** Display My garage icon even in switching view port - 786. ***/
+    $m(window).resize(function() {
+     if($m(window).width() >=981) {
+      //For desktop
+      $m("#ymm_garage_desktop").html(ymm_garage_html);
+     } else {
+      //For Mobile view
+      $m("#ymm_garage_mobile").html(ymm_garage_html);
+     }
+
+    //Get vehicle count and display it. -786/ASK
+    var vehicle_count = getVehicleCount();
+    // $m(".ymm-garage-container .ymm_counter").html("("+vehicle_count+")");
+    $m(".ymm-garage-container .ymm_counter").html(vehicle_count);
+   });
+   //ENDS 29 March 25 - 786.
+    
     //On click of Garage dropdown. - 786/ASK.
-    $m("#ymm_garage_link").click(function(e) {
+    $m(document).on('click','#ymm_garage_link',function(e) {
      	e.preventDefault();
      	
      	var get_vehicles = getYMMCookie("ymm_vehicles");
@@ -503,7 +520,8 @@ function ymmGarageInit()
     });
 
     <!-- Added by mlveda -->
-      $m("body").click(function() {
+     // $m("body").click(function() {
+     $m(document).on('click','body',function(e){
         if($m("div.ymm-garage-contents").hasClass("active")){
           $m("div.ymm-garage-contents").removeClass("active");
         }
@@ -511,7 +529,7 @@ function ymmGarageInit()
     <!-- Added by mlveda -->
     
     //Clear Garage History Function - 786/ASK.
-    $m("#reset_ymm_garage_link").click(function(e) {
+    $m(document).on('click','#reset_ymm_garage_link',function(e) {
      e.preventDefault();
      
      //Reset all YMM cookies
