@@ -4,7 +4,16 @@
 }
 
 /* Added on 27/1/25  end */
-
+/* Added by mlveda on 1/4/25 start */
+  /* Header menu related css start */
+  .header__wrapper.full-width-false .header__linklist-images-wrapper.mlv-header__linklist-images-wrapper {
+      /* width: 74% !important;
+      left: 154px; */
+      width: 78% !important;
+      left: 100px;
+  }
+  /* Header menu related css end */
+/* Added by mlveda on 1/4/25 end */
 #sales_representative_id{
   width: 44%;
   margin: 0 auto;
