@@ -680,7 +680,7 @@
           "mobile-navigation-2": {
             "type": "navigation",
             "settings": {
-              "main_nav": "main-menu",
+              "main_nav": "new-mobile-menu",
               "customer_account_links": false
             }
           },
