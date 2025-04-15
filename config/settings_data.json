@@ -772,35 +772,6 @@
         "disabled": false,
         "settings": {}
       },
-      "15912215999290715800": {
-        "type": "shopify://apps/geolocation-orbe/blocks/app-embed-modal/7cb09287-cd2b-4646-837c-f1f9b6ea703e",
-        "disabled": false,
-        "settings": {
-          "test_mode": false,
-          "modal_closeButton": true,
-          "option_flag_style": "square",
-          "option_currency_type": "iso_flag",
-          "option_language": true,
-          "option_search_country": true,
-          "title": "Are you in the right place?",
-          "text": "Please select your shipping country.",
-          "helper_text": "<p>We can only ship your order to addresses located in the chosen country.</p>",
-          "cta_text": "Shop now",
-          "fallback_text": "We don’t ship to {country}",
-          "alignment_image": "right",
-          "style_corners": "square",
-          "style_dropdown": "outlined",
-          "modal_button_align": "right",
-          "title_font_size": 20,
-          "text_font_size": 14,
-          "show_blurred_background": false,
-          "style_colors_background": "#ffffff",
-          "style_colors_closeButton": "#5c5f62",
-          "style_colors_cta_text": "#ffffff",
-          "style_colors_cta_button": "#000000",
-          "style_colors_text": "#000000"
-        }
-      },
       "5858961087409699889": {
         "type": "shopify://apps/geolocation-orbe/blocks/app-embed-footer-selector/7cb09287-cd2b-4646-837c-f1f9b6ea703e",
         "disabled": false,
@@ -840,6 +811,35 @@
         "type": "shopify://apps/qikify-smart-menu-mega-menu/blocks/app-embed/19d2f1cd-1836-4a32-8937-03df3c601dc8",
         "disabled": true,
         "settings": {}
+      },
+      "15912215999290715800": {
+        "type": "shopify://apps/geolocation-orbe/blocks/app-embed-modal/7cb09287-cd2b-4646-837c-f1f9b6ea703e",
+        "disabled": true,
+        "settings": {
+          "test_mode": false,
+          "modal_closeButton": true,
+          "option_flag_style": "square",
+          "option_currency_type": "iso_flag",
+          "option_language": true,
+          "option_search_country": true,
+          "title": "Are you in the right place?",
+          "text": "Please select your shipping country.",
+          "helper_text": "<p>We can only ship your order to addresses located in the chosen country.</p>",
+          "cta_text": "Shop now",
+          "fallback_text": "We don’t ship to {country}",
+          "alignment_image": "right",
+          "style_corners": "square",
+          "style_dropdown": "outlined",
+          "modal_button_align": "right",
+          "title_font_size": 20,
+          "text_font_size": 14,
+          "show_blurred_background": false,
+          "style_colors_background": "#ffffff",
+          "style_colors_closeButton": "#5c5f62",
+          "style_colors_cta_text": "#ffffff",
+          "style_colors_cta_button": "#000000",
+          "style_colors_text": "#000000"
+        }
       }
     }
   }
