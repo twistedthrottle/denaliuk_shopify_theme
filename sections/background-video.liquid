@@ -85,6 +85,45 @@
   -moz-transform: translate(-{{ section.settings.video_range_horizontal_position }}%, -{{ section.settings.video_range_vertical_position }}%);
   -o-transform: translate(-{{ section.settings.video_range_horizontal_position }}%, -{{ section.settings.video_range_vertical_position }}%);
 }
+
+     /* Added by mlveda on 25/4/25 start */
+  @font-face {
+  font-family: 'vipnagorgiallaRg-BoldItalic';
+  src: url('https://cdn.shopify.com/s/files/1/0030/3408/7524/files/vipnagorgialla_bd_it.woff2?v=1745590680') format('woff2');  
+  }
+  @font-face {
+  font-family: 'vipnagorgiallaRg-Italic';
+  src: url('https://cdn.shopify.com/s/files/1/0030/3408/7524/files/vipnagorgialla_rg_it.woff2?v=1745590680') format('woff2');  
+  }
+  {% if section.settings.video_heading_font == true %}
+  .background-video .caption-inner h2{
+      font-family: 'vipnagorgiallaRg-BoldItalic' !important;
+  }
+  {% endif %}
+  {% if section.settings.video_subheading_font == true %}
+  .background-video .caption-inner p{
+      font-family: 'vipnagorgiallaRg-Italic' !important;
+  }
+  {% endif %}
+  .background--video__section .caption.a-left .caption-inner .video--button_wrapper {
+    margin-top: 16px !important;
+  }
+  {% if section.settings.video_block_height == true %}
+  /* .background--video__section .item,.background--video__section video{
+    height: {{ section.settings.videoandimageheight }}px;
+    } */
+    .background--video__section{
+    height: {{ section.settings.videoandimageheight }}px;
+    }
+    .background--video__section video{
+    height: {{ section.settings.videoandimageheight }}px;
+    object-fit: cover;
+    }
+    .background--video__section .item {
+    height: unset;
+    }
+  {% endif %}
+  /* Added by mlveda on 25/4/25 end */  
 {% endstyle %}
 
 <div class="global__section {{ section_padding }}">
@@ -208,6 +247,22 @@
       "label": "Placeholder Image for Video"
     },
     {
+      "type": "checkbox",
+      "id": "video_block_height",
+      "label": "Enable maximum block height",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "videoandimageheight",
+      "min": 300,
+      "max": 1000,
+      "step": 100,
+      "unit": "px",
+      "label": "Video And Placeholder Image Height",
+      "default": 400
+    },
+    {
       "type": "header",
       "content": "Caption Text"
     },
@@ -270,22 +325,34 @@
     {
       "type": "range",
       "id": "slide_heading_size",
-      "min": 13,
+      "min": 12,
       "max": 72,
       "step": 1,
       "unit": "px",
       "label": "Heading size",
       "default": 40
     },
+     {
+      "type": "checkbox",
+      "id": "video_heading_font",
+      "label": "Replace the theme heading font to Vipnagorgialla Bold Italic",
+      "default": false
+    },
     {
       "type": "range",
       "id": "subheading_size",
-      "min": 13,
+      "min": 12,
       "max": 36,
       "step": 1,
       "unit": "px",
       "label": "Subheading size",
       "default": 16
+    },
+    {
+     "type": "checkbox",
+      "id": "video_subheading_font",
+      "label": "Replace the theme text font to Vipnagorgialla Italic",
+      "default": false
     },
     {
       "type": "color",
