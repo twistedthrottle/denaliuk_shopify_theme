@@ -1459,6 +1459,11 @@ width:100%;
   .gridlock .row {
     width: 92% !important;
 }
+   /* CSS added by mlveda on 25/4/25 start */
+   .mlvcountdown .row {
+    width: 100% !important;
+  }
+  /* CSS added by mlveda on 25/4/25 end */
   .page-width.container {
     width: 100% !important;
   }
