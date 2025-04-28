@@ -154,7 +154,7 @@
         "video_url": "",
         "video_url_mp4": "https://cdn.shopify.com/videos/c/o/v/f7e764774a8f4712822e1bde284eee1c.mp4",
         "video_audio": "off",
-        "video_block_height": false,
+        "video_block_height": true,
         "videoandimageheight": 400,
         "video_heading": "test",
         "video_subheading": "testt",
