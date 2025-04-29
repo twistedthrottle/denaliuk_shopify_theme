@@ -455,12 +455,23 @@
         "section_padding": "none"
       }
     },
+    "custom_liquid_GKaXjk": {
+      "type": "custom-liquid",
+      "name": "Custom liquid",
+      "settings": {
+        "liquid": "<!-- Calendly inline widget begin -->\n<div class=\"calendly-inline-widget\" data-url=\"https://calendly.com/denali-electronics/15-minute-meeting\" style=\"min-width:320px;height:700px;\"></div>\n<script type=\"text/customscript\" src=\"https://assets.calendly.com/assets/external/widget.js\" async></script>\n<!-- Calendly inline widget end -->",
+        "full_width": false,
+        "section_padding": "both"
+      }
+    },
     "background_video_BmxY8z": {
       "type": "background-video",
       "settings": {
         "video_url": "https://youtu.be/-FPIQwza5n0?si=p9ph8X4P3Y_dYjFe",
         "video_url_mp4": "",
         "video_audio": "off",
+        "video_block_height": false,
+        "videoandimageheight": 400,
         "video_heading": "",
         "video_subheading": "",
         "video_button_link": "/",
@@ -469,7 +480,9 @@
         "video_range_vertical_position": 50,
         "video_caption_alignment": "center",
         "slide_heading_size": 40,
+        "video_heading_font": false,
         "subheading_size": 16,
+        "video_subheading_font": false,
         "video_slide_text_color": "#000000",
         "video_cta_color": "#ffffff",
         "video_cta_background": "#000000",
@@ -747,6 +760,7 @@
     "162923332329533d70",
     "1402a8b7-3618-4ba9-b96b-0c5cb194886f",
     "cbf36c28-ac4c-420a-883c-7bba4a681ffa",
+    "custom_liquid_GKaXjk",
     "background_video_BmxY8z",
     "5e08f7ab-84b1-480f-bee0-f92243b420d0",
     "16292336094808a55f",
