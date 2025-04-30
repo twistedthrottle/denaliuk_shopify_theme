@@ -504,6 +504,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
       }
     </script>
+  <!-- HelpScout Beacon Chat icon code -->
+  
+        {% comment %}The below script is added by Erik Stephens for Google Merchant Center Google Reviews Badge Code.{% endcomment %}
+        <!-- type added by mlveda type="text/customscript"-->
+        <script type="text/customscript" src="https://apis.google.com/js/platform.js?onload=renderBadge" async defer></script>
+        
+        <!-- type added by mlveda type="text/customInlineScript" -->
+        <script type="text/customInlineScript">
+        var mlgooglemarchantcentergetURL = window.location.hostname;
+        if(mlgooglemarchantcentergetURL == "denalielectronics.com"){
+        window.renderBadge = function() {
+        var ratingBadgeContainer = document.createElement("div");
+        document.body.appendChild(ratingBadgeContainer);
+        window.gapi.load('ratingbadge', function() {
+        window.gapi.ratingbadge.render(ratingBadgeContainer, {"merchant_id": 133829675});
+        });
+        }
+        }
+        else{}
+        </script>
+        <!-- type added by mlveda -->
   
     <script type="text/customInlineScript">
     $m(".swym-wishlist").click(function(){
