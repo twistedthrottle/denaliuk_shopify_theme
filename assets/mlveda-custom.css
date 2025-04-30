@@ -2,8 +2,12 @@
 .klaviyo-form.klaviyo-form.klaviyo-form {
     z-index: -9 !important;
 }
-
 /* Added on 27/1/25  end */
+/* Added by mlveda on 30/4/25 start */
+.BeaconFabButtonFrame{
+    bottom: 60px !important;
+}
+/* Added by mlveda on 30/4/25 end */
 /* Added by mlveda on 1/4/25 start */
   /* Header menu related css start */
   .header__wrapper.full-width-false .header__linklist-images-wrapper.mlv-header__linklist-images-wrapper {
