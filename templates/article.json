@@ -1,1 +1,69 @@
-{"sections":{"main":{"type":"main-article","blocks":{"header":{"type":"header","settings":{"show_date":true,"show_author":false}},"image":{"type":"image","settings":{}},"content":{"type":"content","settings":{}},"info":{"type":"info","settings":{"show_tags":false,"show_social":true}}},"block_order":["header","image","content","info"],"settings":{"show_sidebar":false}}},"order":["main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "show_date": true,
+            "show_author": false
+          }
+        },
+        "image": {
+          "type": "image",
+          "settings": {}
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        },
+        "info": {
+          "type": "info",
+          "settings": {
+            "show_tags": false,
+            "show_social": true
+          }
+        }
+      },
+      "block_order": [
+        "header",
+        "image",
+        "content",
+        "info"
+      ],
+      "settings": {
+        "show_sidebar": false
+      }
+    },
+    "174602629125e143e6": {
+      "type": "apps",
+      "blocks": {
+        "zt_related_products_blogs_product_in_blog_block_4ajMnt": {
+          "type": "shopify://apps/zt-related-products-blogs/blocks/product-in-blog-block/bbfae592-56a1-4796-9f35-2b209316bac2",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "zt_related_products_blogs_product_in_blog_block_4ajMnt"
+      ],
+      "settings": {
+        "full_width": false,
+        "section_padding": "both"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "174602629125e143e6"
+  ]
+}
