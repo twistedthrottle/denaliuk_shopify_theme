@@ -216,6 +216,22 @@
         "full_width": true,
         "section_padding": "both"
       }
+    },
+    "17460262489e2df3eb": {
+      "type": "apps",
+      "blocks": {
+        "zt_related_products_blogs_blog_in_product_block_ArxQwG": {
+          "type": "shopify://apps/zt-related-products-blogs/blocks/blog-in-product-block/bbfae592-56a1-4796-9f35-2b209316bac2",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "zt_related_products_blogs_blog_in_product_block_ArxQwG"
+      ],
+      "settings": {
+        "full_width": false,
+        "section_padding": "both"
+      }
     }
   },
   "order": [
@@ -227,6 +243,7 @@
     "recently-viewed",
     "eb20f6df-12b6-41d0-8df2-5d92b7f37d42",
     "cbbf981b-b65a-4ec6-b608-e7ba16669cb1",
-    "17024653299b1f7f19"
+    "17024653299b1f7f19",
+    "17460262489e2df3eb"
   ]
 }
