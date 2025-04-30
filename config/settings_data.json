@@ -842,6 +842,11 @@
           "style_colors_cta_button": "#000000",
           "style_colors_text": "#000000"
         }
+      },
+      "8240171100960749205": {
+        "type": "shopify://apps/easy-google-customer-reviews/blocks/badge/c3a60531-bb0d-4e8f-aa0a-2e29639d1559",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
